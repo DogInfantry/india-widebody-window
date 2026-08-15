@@ -1,7 +1,7 @@
 # Project state
 
 **Last updated:** 2026-08-15
-**Current phase:** Phase 1a complete (pipeline green, 15 tests pass), Phase 1b next
+**Current phase:** Phase 1 complete (pipeline green, 18 tests pass), Phase 2 next
 **Full plan:** `C:\Users\Anklesh\.claude\plans\c-users-anklesh-downloads-compass-artif-refactored-journal.md`
 
 This file is the single place to look when resuming. It survives context loss.
@@ -15,7 +15,7 @@ Dated snapshots live in `memory/`.
 |---|---|---|---|
 | 0 | Scaffold, git, state files | **Done** | Repo initialised, files committed |
 | 1a | Core loaders + data dictionary + tests | **Done** | 15 tests pass, every verified figure reproduces |
-| 1b | Eurostat, IOCL ATF, timeboxed BTS and UK CAA | Next | Both-ends reconciliation possible, or documented as single-sided |
+| 1b | Eurostat reconciliation, timeboxed sources resolved | **Done** | DGCA and Eurostat agree to 2.6%. BTS and IOCL dropped, documented |
 | 2 | Analysis modules + chart builders | Not started | All figures exported to `docs/assets/charts/*.json` |
 | 3 | Scrollytelling page | Not started | Renders at 1280px and 375px, console clean |
 | 4 | Docs + gap analyzer | Not started | Coverage at or above 90%. **Blocked on `jd.txt`** |
@@ -154,12 +154,26 @@ Extracted from the posting PDF into `jd.txt`, 5,920 characters.
 
 ## Next actions
 
-Phase 1b:
+Phase 2, in order:
 
-1. `load_eurostat_avia_par()` for the European end of India-Europe routes
-2. `load_atf_price()` from IOCL for the scenario fuel lever
-3. `load_bts_t100()` and `load_uk_caa()`, one attempt each, fail soft and document
-4. Extend `tests/test_pipeline.py`, update `data_dictionary.md` section 8, commit
+1. `charts.py` first, because everything else exports through it. Bain template,
+   `mekko()` adapted from Vizro, `waterfall()` on native `go.Waterfall`, `sankey()`,
+   `slope()`, `triangulation()`, `profit_pool_curve()`, `kpi_card()`
+2. `benchmarking.py`. Cheapest real module: the stage length gap and carrier shares are
+   already computed and tested
+3. `market_sizing.py`. Needs `assumptions.csv` populated first for the revenue methods.
+   The passenger-based methods can run without it
+4. `profit_pools.py`. Margins are modeled, and every chart carrying them says so
+5. `scenario.py`
+6. Export all figures to `docs/assets/charts/*.json`, commit
 
-Then Phase 2: `market_sizing.py`, `benchmarking.py`, `profit_pools.py`, `scenario.py`,
-`charts.py` with the Vizro-derived `mekko()`, and chart JSON export to `docs/assets/charts/`.
+### Findings banked for the storyline
+
+- **Gulf is 4.2x India's entire direct Europe market.** 36.9M India to Gulf against 8.8M
+  India to Europe, 2024, DGCA. This is the scale of the prize in one line.
+- **The both-ends reconciliation is itself an exhibit.** Two agencies, opposite ends, 2.6%
+  apart. It converts "we triangulated" from a claim into a chart.
+- **The Rome dispute is a second exhibit.** Cross-checking found an apparent gap in a
+  national statistics series. Reported with both figures, resolved by neither.
+- **Delhi's largest European route is London at 1.40M**, then Istanbul 523k, Paris 495k,
+  Frankfurt 490k, Amsterdam 349k.
