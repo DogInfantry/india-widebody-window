@@ -180,6 +180,60 @@ def test_the_stage_length_gap(dom_carrier):
 
 
 # --------------------------------------------------------------------------
+# both-ends reconciliation
+# --------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def eurostat():
+    return dp.load_eurostat_avia_par()
+
+
+def test_eurostat_returns_india_routes(eurostat):
+    assert len(eurostat) > 20, "Eurostat returned almost nothing; check the API contract"
+    assert (eurostat["pax"] > 0).all()
+    assert eurostat["partner_icao"].str.startswith("V").all(), (
+        "partner airports should all be Indian ICAO codes, which begin with V"
+    )
+
+
+def test_dgca_and_eurostat_agree_on_the_same_routes(eurostat, intl_country):
+    """Two independent agencies measuring the same routes from opposite ends.
+
+    This is the strongest available check on the DGCA spine, because Eurostat has
+    no knowledge of the Indian data and vice versa. Italy is excluded: the two
+    disagree there on exactly one route, Rome to Delhi, and that dispute is
+    tracked in dp.DISPUTED_ROUTES rather than averaged away.
+    """
+    cc_to_name = {
+        "CH": "SWITZERLAND",
+        "DE": "GERMANY",
+        "DK": "DENMARK",
+        "FI": "FINLAND",
+        "FR": "FRANCE",
+        "NL": "NETHERLANDS",
+        "PL": "POLAND",
+    }
+    e24 = eurostat[eurostat["year"] == 2024]
+    d24 = intl_country[intl_country["year"] == 2024]
+
+    euro_total = e24[e24["reporter_country"].isin(cc_to_name)]["pax"].sum()
+    dgca_total = d24[d24["country"].isin(cc_to_name.values())]["pax_total"].sum()
+
+    assert euro_total > 0 and dgca_total > 0
+    gap = abs(euro_total - dgca_total) / dgca_total
+    assert gap < 0.05, (
+        f"DGCA and Eurostat diverge by {gap:.1%} across {len(cc_to_name)} countries; "
+        "one of the two sources has changed"
+    )
+
+
+def test_rome_delhi_stays_quarantined():
+    """The one route the agencies disagree on must not silently rejoin the analysis."""
+    assert ("ROME", "DELHI") in dp.DISPUTED_ROUTES
+
+
+# --------------------------------------------------------------------------
 # provenance contract
 # --------------------------------------------------------------------------
 

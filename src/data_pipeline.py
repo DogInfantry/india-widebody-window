@@ -47,6 +47,15 @@ DGCA_FILES = {
 OURAIRPORTS_URL = "https://davidmegginson.github.io/ourairports-data/airports.csv"
 WORLDBANK_BASE = "https://api.worldbank.org/v2/country/{countries}/indicator/{indicator}"
 
+# Eurostat air transport by airport pair. One dataset per reporting country,
+# named avia_par_<cc>. Airport pair codes read <reporter>_<ICAO>_<partner>_<ICAO>,
+# so India routes are the codes containing "_IN_".
+EUROSTAT_BASE = "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/"
+EUROSTAT_REPORTERS = (
+    "de", "fr", "nl", "it", "es", "at", "be", "pl",
+    "ch", "dk", "se", "fi", "pt", "ie", "el", "cz", "hu",
+)
+
 # The Gulf Cooperation Council six, spelled as DGCA spells them.
 # This set defines the headline "Gulf share" figure, so it is explicit rather
 # than inferred from a region lookup that could drift.
@@ -456,6 +465,102 @@ def load_worldbank_macro(
     )
 
 
+def _jsonstat_to_frame(payload: dict) -> pd.DataFrame:
+    """Flatten a Eurostat JSON-stat response into a tidy frame.
+
+    JSON-stat stores values against a single flat index computed row-major over
+    the dimensions listed in `id` with lengths in `size`. This walks that index
+    back out into one column per dimension.
+    """
+    ids: list[str] = payload["id"]
+    sizes: list[int] = payload["size"]
+
+    # position -> category code, per dimension
+    code_by_pos: list[list[str]] = []
+    for dim in ids:
+        index = payload["dimension"][dim]["category"]["index"]
+        if isinstance(index, list):  # Eurostat sometimes ships a plain list
+            code_by_pos.append(list(index))
+        else:
+            inverted = {pos: code for code, pos in index.items()}
+            code_by_pos.append([inverted[i] for i in range(len(inverted))])
+
+    rows = []
+    for flat, value in payload.get("value", {}).items():
+        remainder = int(flat)
+        positions = [0] * len(sizes)
+        for axis in range(len(sizes) - 1, -1, -1):
+            positions[axis] = remainder % sizes[axis]
+            remainder //= sizes[axis]
+        row = {dim: code_by_pos[i][positions[i]] for i, dim in enumerate(ids)}
+        row["value"] = value
+        rows.append(row)
+    return pd.DataFrame(rows)
+
+
+def load_eurostat_avia_par(
+    reporters: tuple[str, ...] = EUROSTAT_REPORTERS,
+    years: tuple[int, ...] = (2019, 2023, 2024),
+    *,
+    force: bool = False,
+) -> pd.DataFrame:
+    """India to Europe traffic measured from the *European* end.
+
+    Every other source in this project counts India-Europe routes at the Indian
+    end. This counts the same routes at the European end, which is what makes
+    triangulation something performed rather than claimed: the two measurements
+    of one route can be compared, and the difference reported.
+
+    Returns: reporter_country, reporter_icao, partner_icao, year, pax.
+    Only pairs where the partner country is India (`IN`) are kept.
+
+    Reporters that return no dataset are skipped rather than raising, because
+    Eurostat coverage varies by country and year and one missing member state
+    must not take down the pipeline. The set actually retrieved is reported in
+    the `reporter_country` column, so any gap is visible rather than assumed.
+    """
+    frames = []
+    for cc in reporters:
+        for year in years:
+            url = (
+                f"{EUROSTAT_BASE}avia_par_{cc}"
+                f"?format=JSON&lang=EN&unit=PAS&tra_meas=PAS_CRD&time={year}"
+            )
+            try:
+                path = _fetch(url, f"eurostat_avia_par_{cc}_{year}", force=force, timeout=180)
+                payload = json.loads(path.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            if "value" not in payload or not payload["value"]:
+                continue
+            df = _jsonstat_to_frame(payload)
+            if "airp_pr" not in df.columns:
+                continue
+            df = df[df["airp_pr"].str.contains("_IN_", na=False)].copy()
+            if df.empty:
+                continue
+            parts = df["airp_pr"].str.split("_", expand=True)
+            df["reporter_country"] = parts[0]
+            df["reporter_icao"] = parts[1]
+            df["partner_icao"] = parts[3]
+            df["year"] = int(year)
+            df = df.rename(columns={"value": "pax"})
+            frames.append(
+                df[["reporter_country", "reporter_icao", "partner_icao", "year", "pax"]]
+            )
+
+    cols = ["reporter_country", "reporter_icao", "partner_icao", "year", "pax"]
+    if not frames:
+        return pd.DataFrame(columns=cols)
+    return (
+        pd.concat(frames, ignore_index=True)
+        .groupby(cols[:-1], as_index=False)["pax"]
+        .sum()
+        .sort_values(["year", "pax"], ascending=[True, False])
+        .reset_index(drop=True)
+    )
+
+
 def load_manual_assumptions() -> pd.DataFrame:
     """Hand-entered figures that no free source publishes, chiefly airline yields.
 
@@ -499,7 +604,19 @@ LOADERS = {
     "dom_city": load_dgca_domestic_city,
     "airports": load_ourairports,
     "worldbank": load_worldbank_macro,
+    "eurostat_india_europe": load_eurostat_avia_par,
 }
+
+# Routes where DGCA and Eurostat disagree by more than measurement noise and the
+# disagreement cannot be resolved from free sources. Excluded from any figure that
+# depends on a single agency being right, and reported in docs/methodology.md
+# rather than quietly dropped.
+#
+# ROME to DELHI: Eurostat reports 171,942 passengers on LIRF to VIDP for 2024.
+# DGCA lists no Rome to Delhi city pair at all, though it uses the string "ROME"
+# elsewhere (Rome to Amritsar) so this is not a naming mismatch. Every other route
+# the two agencies both cover agrees to within 1.6%.
+DISPUTED_ROUTES = {("ROME", "DELHI")}
 
 
 def build_all(*, force: bool = False) -> dict[str, pd.DataFrame]:

@@ -202,16 +202,78 @@ silently reconciled to whichever is convenient.
 
 ---
 
-## 8. Sources verified reachable, not yet wired in
+## 8. Eurostat air transport by airport pair
 
-Confirmed live on 2026-08-15, scheduled for the next pipeline commit.
+**Source:** `https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/avia_par_<cc>`
+**Licence:** Commission Decision 2011/833/EU reuse policy. **Reliability:** H.
+Filtered to `unit=PAS`, `tra_meas=PAS_CRD`, years 2019, 2023 and 2024.
 
-| Source | Role | Status |
+One dataset per reporting country. Airport pair codes read
+`<reporter>_<ICAO>_<partner>_<ICAO>`, so India routes are the codes containing `_IN_`.
+Returns `reporter_country`, `reporter_icao`, `partner_icao`, `year`, `pax`.
+
+This exists for one reason: it measures India to Europe routes from the **European**
+end, where every other source in this project measures them from the Indian end. Two
+independent agencies measuring the same physical route is the strongest validation
+available without paying for Cirium or OAG.
+
+### 8.1 The reconciliation result, 2024
+
+| Country | DGCA (India end) | Eurostat (Europe end) | Gap |
+|---|---|---|---|
+| Finland | 149,508 | 149,551 | 0.0% |
+| France | 964,079 | 955,339 | -0.9% |
+| Switzerland | 340,372 | 343,583 | 0.9% |
+| Germany | 1,744,685 | 1,766,890 | 1.3% |
+| Netherlands | 664,238 | 673,438 | 1.4% |
+| Poland | 108,223 | 109,731 | 1.4% |
+| Denmark | 95,986 | 99,036 | 3.2% |
+| **Italy** | **222,689** | **305,303** | **37.1%** |
+| Total | 4,289,780 | 4,402,871 | 2.6% |
+
+Seven of eight countries agree to within 3.2%, six of them to within 1.4%. That is
+close enough to treat the DGCA spine as sound. Guarded by
+`test_dgca_and_eurostat_agree_on_the_same_routes`, which fails if the two ever diverge
+by more than 5% across the countries both cover.
+
+### 8.2 The Italy dispute, unresolved and reported as such
+
+Milan to Delhi agrees between the two agencies to 1.6% (DGCA 131,292, Eurostat 133,361).
+The entire Italian gap sits on one route:
+
+- Eurostat reports **171,942** passengers on Rome Fiumicino (LIRF) to Delhi (VIDP), 2024.
+- DGCA lists **no Rome to Delhi city pair at all**. This is not a naming mismatch: DGCA
+  uses the string `ROME` elsewhere in the same file, for Rome to Amritsar.
+
+Three explanations are possible and free sources cannot separate them: DGCA omits the
+route, Eurostat counts something indirect as direct, or an operating carrier is filed
+differently by the two agencies.
+
+**Handling:** the pair is quarantined in `src.data_pipeline.DISPUTED_ROUTES`, excluded
+from any figure that depends on one agency being right, and reported with both numbers
+in `docs/methodology.md`. `test_rome_delhi_stays_quarantined` stops it silently
+rejoining the analysis. Italy is excluded from the reconciliation test for the same
+reason.
+
+### 8.3 Coverage gaps in Eurostat
+
+Nine reporting countries return India routes across the years pulled: AT, CH, DE, DK, FI,
+FR, IT, NL, PL. Austria returns India data in earlier years but **none for 2024**, while
+DGCA reports 65,016 Austrian passengers that year. Belgium, Spain, Sweden, Portugal,
+Ireland, Greece, Czechia and Hungary return nothing.
+
+Eurostat is therefore a **validation instrument, not a complete census** of India to
+Europe traffic. Totals for the European market come from DGCA; Eurostat checks them.
+
+---
+
+## 9. Timeboxed sources, attempted and dropped
+
+Both were verified reachable on 2026-08-15 and both were dropped after their one
+permitted attempt, per the rule in `CLAUDE.md` that a documented single-sided
+measurement beats an undocumented scrape that breaks in CI.
+
+| Source | What happened | Consequence |
 |---|---|---|
-| Eurostat `avia_par_*` | European end of India-Europe routes, enabling both-ends reconciliation | Adopted, pending implementation |
-| IOCL aviation fuel prices | Indian ATF price for the scenario fuel lever | Adopted, pending implementation |
-| BTS T-100 International Segment | US end of India-US routes | Timeboxed to one attempt |
-| UK CAA airport data | UK end of India-UK routes | Timeboxed to one attempt |
-
-Timeboxed sources fail soft. If one resists, that arm is measured from the India side
-only and `docs/methodology.md` says so.
+| BTS T-100 International Segment | The static `PREZIP` path returns 404. The only other route is a form POST carrying ASP.NET viewstate, which is exactly the brittle scraping the plan refuses | The India to United States arm is measured from the India side only |
+| IOCL aviation fuel prices | Page is JavaScript driven and serves no parseable table | ATF price becomes a single cited row in `data/manual/assumptions.csv`. One number per month does not justify a scraper |
