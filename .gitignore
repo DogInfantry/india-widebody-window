@@ -16,6 +16,10 @@ data/raw/*
 !data/raw/.gitkeep
 !data/raw/MANIFEST.md
 
+# Claude Code plugin scratch data (healthcare Contracts Analyzer sqlite, etc).
+# Project-level .claude config stays tracked, only the data cache is excluded.
+.claude/data/
+
 # OS
 Thumbs.db
 .DS_Store
