@@ -138,6 +138,17 @@ GULF_CARRIERS = {
     "FLYNAS",
 }
 
+# Lifecycle of a hand-entered number. Only VERIFIED may drive a published figure.
+#   DRAFT_UNVERIFIED  transcribed but not yet checked against a primary source
+#   VERIFIED          checked against the cited source by a human
+#   NOT_AVAILABLE     no free source exists; must be modelled and labelled modelled
+ASSUMPTION_STATUSES = ("VERIFIED", "DRAFT_UNVERIFIED", "NOT_AVAILABLE")
+
+
+class UnverifiedAssumption(RuntimeError):
+    """Raised when analysis code reaches for a number nobody has checked yet."""
+
+
 INDIAN_CARRIERS = {
     "INDIGO",
     "AIR INDIA",
@@ -581,6 +592,8 @@ def load_manual_assumptions() -> pd.DataFrame:
         "pull_date",
         "page_ref",
         "reliability",
+        "status",
+        "note",
     ]
     path = MANUAL / "assumptions.csv"
     if not path.exists():
@@ -589,7 +602,40 @@ def load_manual_assumptions() -> pd.DataFrame:
     missing = [c for c in cols if c not in df.columns]
     if missing:
         raise ValueError(f"assumptions.csv is missing required provenance columns: {missing}")
+    bad = set(df["status"].dropna().unique()) - set(ASSUMPTION_STATUSES)
+    if bad:
+        raise ValueError(f"assumptions.csv has unknown status values: {sorted(bad)}")
     return df
+
+
+def assumption(key: str, *, allow_unverified: bool = False) -> float:
+    """Return one assumption's value, refusing anything not yet verified.
+
+    This is the only sanctioned way for analysis modules to read a hand-entered
+    number, and it is deliberately strict. A yield transcribed from a secondary
+    summary that nobody has checked must not be able to reach a published chart
+    just because some caller forgot to look at the status column.
+
+    Raises `UnverifiedAssumption` for a DRAFT_UNVERIFIED or NOT_AVAILABLE row, so
+    the failure is loud at the point of use rather than a plausible wrong number
+    on a page. Pass `allow_unverified=True` only in exploratory work, never in
+    anything that writes to docs/assets/charts/.
+    """
+    df = load_manual_assumptions()
+    row = df[df["key"] == key]
+    if row.empty:
+        raise KeyError(f"no assumption named {key!r} in data/manual/assumptions.csv")
+    record = row.iloc[0]
+    value = pd.to_numeric(record["value"], errors="coerce")
+
+    if record["status"] != "VERIFIED" and not allow_unverified:
+        raise UnverifiedAssumption(
+            f"{key!r} has status {record['status']!r} and cannot drive a published figure. "
+            f"Source: {record['source_name']}. Note: {record['note']}"
+        )
+    if pd.isna(value):
+        raise UnverifiedAssumption(f"{key!r} has no value recorded")
+    return float(value)
 
 
 # --------------------------------------------------------------------------

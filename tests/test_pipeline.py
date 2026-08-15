@@ -239,10 +239,60 @@ def test_rome_delhi_stays_quarantined():
 
 
 def test_manual_assumptions_carry_provenance():
-    """Every hand-entered number must be citable. Empty is allowed, unsourced is not."""
+    """Every hand-entered number must be citable and carry a lifecycle status."""
     df = dp.load_manual_assumptions()
-    required = {"key", "value", "source_name", "source_url", "pull_date", "reliability"}
+    required = {"key", "value", "source_name", "pull_date", "reliability", "status", "note"}
     assert required <= set(df.columns)
     if len(df):
-        assert df[list(required)].notna().all().all(), "a manual assumption is missing provenance"
+        assert df["key"].notna().all() and df["key"].is_unique
         assert df["reliability"].isin(["H", "M", "L"]).all()
+        assert df["status"].isin(dp.ASSUMPTION_STATUSES).all()
+        # A row that claims a value must say where it came from.
+        valued = df[df["value"].notna()]
+        assert valued["source_name"].notna().all(), "a numeric assumption has no source"
+        assert valued["pull_date"].notna().all(), "a numeric assumption has no pull date"
+
+
+def test_unverified_assumptions_cannot_reach_a_chart():
+    """The gate that makes verification structural rather than a promise.
+
+    Every row is currently DRAFT_UNVERIFIED or NOT_AVAILABLE, so every call must
+    raise. When a row is verified by a human this test keeps guarding the rest.
+    """
+    df = dp.load_manual_assumptions()
+    if not len(df):
+        pytest.skip("no assumptions recorded yet")
+
+    for key in df.loc[df["status"] != "VERIFIED", "key"]:
+        with pytest.raises((dp.UnverifiedAssumption, KeyError)):
+            dp.assumption(key)
+
+    # Verified rows, once they exist, must actually return a number.
+    for key in df.loc[df["status"] == "VERIFIED", "key"]:
+        assert isinstance(dp.assumption(key), float)
+
+
+def test_unknown_status_is_rejected(tmp_path, monkeypatch):
+    """A typo in the status column must fail loudly, not silently pass the gate."""
+    import pandas as pd
+
+    bad = tmp_path / "assumptions.csv"
+    pd.DataFrame(
+        [
+            {
+                "key": "x",
+                "value": 1.0,
+                "unit": "u",
+                "source_name": "s",
+                "source_url": "http://example.invalid",
+                "pull_date": "2026-08-15",
+                "page_ref": "p1",
+                "reliability": "H",
+                "status": "verifed",  # deliberate typo
+                "note": "n",
+            }
+        ]
+    ).to_csv(bad, index=False)
+    monkeypatch.setattr(dp, "MANUAL", tmp_path)
+    with pytest.raises(ValueError, match="unknown status"):
+        dp.load_manual_assumptions()
