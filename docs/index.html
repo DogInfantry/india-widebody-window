@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>India's Wide-Body Window</title>
+<meta name="description" content="Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them?"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/style.css"/>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
+<script src="https://unpkg.com/scrollama"></script>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Commercial aviation &middot; India and the Gulf</p>
+    <h1>India's Wide-Body Window</h1>
+    <p class="question">Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them?</p>
+
+    <div class="answer">
+      <span class="answer-label">The answer</span>
+      <p>Reclaim the Gulf corridor first. It carries half of India's international traffic and is four times the size of the entire direct Europe market, yet Indian carriers fly it with short-haul aircraft and cede the connecting passenger to Dubai, Doha and Abu Dhabi. Long-haul to the West is the second move, not the first.</p>
+    </div>
+
+    <div class="kpi-row" id="kpis"></div>
+  </div>
+</header>
+
+<section class="scrolly">
+  <div class="wrap scrolly-inner">
+    <div class="steps">
+
+      <div class="step" data-chart="domestic_share">
+        <h2>The base is already won</h2>
+        <p>IndiGo carries roughly two thirds of every domestic passenger in India. That position generates the cash and the feed network any long-haul expansion has to be built on.</p>
+        <p>Domestic is not the problem. It is the platform.</p>
+      </div>
+
+      <div class="step" data-chart="corridor_scale">
+        <h2>The prize is the Gulf, by a distance</h2>
+        <p>Half of India's international traffic touches a Gulf point. The corridor is four times the size of India's entire direct market to Europe, and larger than Europe, North America, East Asia, Africa and Oceania combined.</p>
+        <p>Any conversation that starts with London and New York has already missed where the volume is.</p>
+      </div>
+
+      <div class="step" data-chart="gateway_flows">
+        <h2>And the passenger vanishes there</h2>
+        <p>India's own statistics record the first foreign point and nothing beyond it. A passenger flying Delhi to Dubai to London is counted as a passenger to the United Arab Emirates.</p>
+        <p>That blind spot is not a data problem to apologise for. It is the finding. What the Gulf hubs do with those passengers after they land is where the margin goes, and India cannot see it.</p>
+        <p class="aside">Kochi sends more passengers to Gulf hubs than to the entire rest of the world combined.</p>
+      </div>
+
+      <div class="step" data-chart="who_carries_india">
+        <h2>Foreign carriers fly the majority of India's own market</h2>
+        <p>Indian carriers account for fewer than half of India's international passengers. Gulf carriers alone take a quarter.</p>
+        <p>This is a market where the home team is the minority shareholder.</p>
+      </div>
+
+      <div class="step" data-chart="stage_length_gap">
+        <h2>The gap the wide-bodies exist to close</h2>
+        <p>In 2025 IndiGo carried more international passengers than Air India while flying barely half the distance per passenger. Its international network averages under 2,700 km, which is the Gulf and Southeast Asia. Air India's averages over 5,300 km.</p>
+        <p>Neither airline is doing anything wrong. They are simply in different businesses, and the wide-body order is IndiGo buying its way into the second one.</p>
+      </div>
+
+      <div class="step" data-chart="market_sizing">
+        <h2>The market being bought into</h2>
+        <p>Two methods, one extrapolating India's own traffic history and one fitting air travel against income across peer countries, put the 2030 international market between 106 and 109 million passengers, up from 72 million.</p>
+        <p>A third method, counting the seats the announced order books can actually fly, is withheld. Its inputs have not been verified against a primary source, and a sizing band built partly on unchecked numbers is worse than one that says which leg is missing.</p>
+      </div>
+
+      <div class="step" data-chart="load_factor_slope">
+        <h2>Demand is not the constraint</h2>
+        <p>Domestic load factors have recovered past their pre-pandemic level. The aircraft that exist are full. The question is what the next hundred fly, and where.</p>
+      </div>
+
+    </div>
+
+    <div class="sticky-graphic">
+      <div id="chart" class="chart"></div>
+      <p class="chart-fallback" id="chart-fallback" hidden>Charts load from <code>assets/charts/</code>. If you are viewing this file directly from disk, your browser may block those requests. Serve it with <code>python -m http.server 8000 --directory docs</code>.</p>
+    </div>
+  </div>
+</section>
+
+<section class="proof">
+  <div class="wrap">
+    <h2>Two statistics agencies, opposite ends of the same routes</h2>
+    <p class="lede">Every figure above rests on Indian government data. Before relying on it, the same routes were measured from the European end using Eurostat, which has no knowledge of the Indian series. Across the seven countries both agencies cover cleanly they agree to 2.6 per cent.</p>
+
+    <table class="recon">
+      <thead>
+        <tr><th>Country</th><th>DGCA, India end</th><th>Eurostat, Europe end</th><th>Gap</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Finland</td><td>149,508</td><td>149,551</td><td class="good">0.0%</td></tr>
+        <tr><td>France</td><td>964,079</td><td>955,339</td><td class="good">-0.9%</td></tr>
+        <tr><td>Switzerland</td><td>340,372</td><td>343,583</td><td class="good">0.9%</td></tr>
+        <tr><td>Germany</td><td>1,744,685</td><td>1,766,890</td><td class="good">1.3%</td></tr>
+        <tr><td>Netherlands</td><td>664,238</td><td>673,438</td><td class="good">1.4%</td></tr>
+        <tr><td>Poland</td><td>108,223</td><td>109,731</td><td class="good">1.4%</td></tr>
+        <tr><td>Denmark</td><td>95,986</td><td>99,036</td><td class="good">3.2%</td></tr>
+        <tr class="flagged"><td>Italy</td><td>222,689</td><td>305,303</td><td class="bad">37.1%</td></tr>
+        <tr class="total"><td>Total</td><td>4,289,780</td><td>4,402,871</td><td>2.6%</td></tr>
+      </tbody>
+    </table>
+
+    <div class="callout">
+      <h3>The cross-check found something</h3>
+      <p>Italy is the one outlier, and the entire gap is a single route. Milan to Delhi agrees between the two agencies to 1.6 per cent. Eurostat reports 171,942 passengers on Rome Fiumicino to Delhi in 2024; DGCA lists no Rome to Delhi pair at all. It is not a naming mismatch, since DGCA uses "ROME" elsewhere in the same file for Rome to Amritsar.</p>
+      <p>No free source settles which agency is right. The route is therefore quarantined, excluded from every figure that would depend on one of them being correct, and reported here with both numbers rather than resolved to whichever was more convenient.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="method">
+  <div class="wrap">
+    <h2>Method and sources</h2>
+
+    <div class="method-grid">
+      <div>
+        <h3>Where the numbers come from</h3>
+        <ul>
+          <li><strong>DGCA traffic statistics</strong>, via the ODbL mirror at <code>github.com/Vonter/india-aviation-traffic</code>. Five datasets, fresh to May 2026.</li>
+          <li><strong>Eurostat</strong> air transport by airport pair, for the European end of India-Europe routes.</li>
+          <li><strong>World Bank Open Data</strong> for income, population and air travel propensity across twelve peer countries.</li>
+          <li><strong>OurAirports</strong> (CC0) for airport reference data.</li>
+        </ul>
+        <p class="small">Every figure on this page is recomputed from those sources by <code>scripts/refresh.py</code>. None are typed in by hand.</p>
+      </div>
+
+      <div>
+        <h3>What this data cannot tell you</h3>
+        <ul>
+          <li><strong>Sector, not origin-destination.</strong> DGCA counts the India to foreign point leg. A Delhi to Dubai to London passenger appears under the UAE. This is why the Gulf reads 51 per cent here against roughly 40 per cent in IATA's true O-D figures, and that gap is the connecting traffic.</li>
+          <li><strong>Yields are not published.</strong> DGCA publishes no fares and Air India is unlisted, so it files nothing. Every revenue figure is therefore gated: the code refuses to use an assumption until it has been checked against a primary source.</li>
+          <li><strong>Two sources were dropped</strong> after one attempt each rather than scraped unreliably: BTS T-100 and Indian Oil's fuel prices. The United States arm is measured from the India side only, and it says so.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="units-note">
+      <h3>One trap worth naming</h3>
+      <p>DGCA publishes distance columns in thousands while passenger counts are raw, and the files say so nowhere. Taken at face value the average domestic passenger flies 0.98 km. The correction was confirmed three ways before it was applied: the scale reproduces India's published 163.8bn domestic RPK; computed load factor matches DGCA's own published column to 0.25 percentage points; and the aircraft-kilometre and passenger-kilometre columns independently give 588 and 589 km per departure for the same month.</p>
+    </div>
+
+    <p class="colophon">
+      Built as a portfolio case study in the style of Bain Capability Network Advanced Manufacturing &amp; Services commercial aviation work.
+      Analysis in Python, charts in Plotly, no PowerPoint and no Excel anywhere in the pipeline.
+      Mekko builder adapted from <a href="https://github.com/mckinsey/vizro">Vizro</a> under Apache-2.0; see <code>NOTICE</code>.
+    </p>
+  </div>
+</footer>
+
+<script src="assets/scrolly.js"></script>
+</body>
+</html>

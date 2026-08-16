@@ -1,0 +1,295 @@
+/* India's Wide-Body Window
+   Bain visual identity. One red per view, generous whitespace, minimal chrome.
+   The red is a signal, not a decoration: if everything is emphasised, nothing is. */
+
+:root {
+  --red: #CC0000;
+  --accent: #EE3224;
+  --ink: #1A1A1A;
+  --grey: #999999;
+  --light: #E6E6E6;
+  --paper: #FFFFFF;
+  --wash: #FAFAFA;
+
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --wrap: 1180px;
+  --gutter: 32px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+}
+
+.wrap {
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; margin: 0 0 0.5em; }
+p { margin: 0 0 1em; }
+code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.88em;
+  background: var(--wash);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+a { color: var(--red); text-decoration: none; border-bottom: 1px solid var(--light); }
+a:hover { border-bottom-color: var(--red); }
+
+/* ---------------------------------------------------------------- hero */
+
+.hero {
+  padding: 100px 0 72px;
+  border-bottom: 1px solid var(--light);
+}
+
+.eyebrow {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 6.5vw, 76px);
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.question {
+  font-size: clamp(19px, 2.4vw, 25px);
+  color: var(--ink);
+  max-width: 30ch;
+  font-weight: 500;
+  margin-bottom: 44px;
+}
+
+.answer {
+  border-left: 4px solid var(--red);
+  padding: 4px 0 4px 24px;
+  max-width: 68ch;
+  margin-bottom: 56px;
+}
+
+.answer-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.answer p { font-size: 19px; margin: 0; }
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1px;
+  background: var(--light);
+  border: 1px solid var(--light);
+}
+
+.kpi { background: var(--paper); padding: 26px 22px; }
+
+.kpi .num {
+  display: block;
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--red);
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.kpi .lbl { display: block; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+.kpi .note { display: block; font-size: 13px; color: var(--grey); line-height: 1.45; }
+
+/* ------------------------------------------------------------- scrolly */
+
+.scrolly { padding: 0 0 40px; }
+
+.scrolly-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 40%) minmax(0, 60%);
+  gap: 56px;
+  align-items: start;
+}
+
+.steps { padding: 40px 0; }
+
+.step {
+  min-height: 78vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 0;
+  opacity: 0.32;
+  transition: opacity 0.35s ease;
+  border-left: 3px solid transparent;
+  padding-left: 22px;
+}
+
+.step.is-active { opacity: 1; border-left-color: var(--red); }
+
+.step h2 { font-size: 27px; font-weight: 600; }
+.step p { color: #333; }
+
+.step .aside {
+  font-size: 15px;
+  color: var(--grey);
+  border-top: 1px solid var(--light);
+  padding-top: 12px;
+  margin-top: 6px;
+}
+
+.sticky-graphic {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.chart { width: 100%; height: 74vh; }
+
+.chart-fallback {
+  font-size: 14px;
+  color: var(--grey);
+  border: 1px dashed var(--light);
+  padding: 20px;
+  border-radius: 4px;
+}
+
+/* --------------------------------------------------------------- proof */
+
+.proof {
+  background: var(--wash);
+  border-top: 1px solid var(--light);
+  border-bottom: 1px solid var(--light);
+  padding: 84px 0;
+}
+
+.proof h2 { font-size: 34px; font-weight: 700; max-width: 22ch; }
+
+.lede { font-size: 19px; max-width: 72ch; color: #333; margin-bottom: 40px; }
+
+.recon {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--paper);
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 40px;
+  font-size: 15px;
+}
+
+.recon th {
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey);
+  font-weight: 600;
+  padding: 14px 18px;
+  border-bottom: 2px solid var(--light);
+}
+
+.recon th:first-child, .recon td:first-child { text-align: left; }
+.recon td { text-align: right; padding: 12px 18px; border-bottom: 1px solid var(--light); }
+.recon td.good { color: var(--grey); }
+.recon tr.flagged td { background: #FFF6F6; }
+.recon td.bad { color: var(--red); font-weight: 600; }
+.recon tr.total td { font-weight: 700; border-top: 2px solid var(--ink); border-bottom: none; }
+
+.callout {
+  background: var(--paper);
+  border-left: 4px solid var(--red);
+  padding: 26px 30px;
+  max-width: 80ch;
+}
+
+.callout h3 { font-size: 19px; font-weight: 600; }
+.callout p:last-child { margin-bottom: 0; }
+
+/* -------------------------------------------------------------- method */
+
+.method { padding: 84px 0 100px; }
+.method h2 { font-size: 30px; font-weight: 700; margin-bottom: 36px; }
+.method h3 { font-size: 17px; font-weight: 600; margin-bottom: 14px; }
+
+.method-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.method ul { margin: 0 0 1em; padding-left: 20px; }
+.method li { margin-bottom: 12px; color: #333; }
+.method .small { font-size: 14px; color: var(--grey); }
+
+.units-note {
+  border-top: 1px solid var(--light);
+  padding-top: 32px;
+  max-width: 80ch;
+}
+
+.colophon {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--light);
+  font-size: 14px;
+  color: var(--grey);
+  max-width: 80ch;
+}
+
+/* -------------------------------------------------------------- mobile */
+
+@media (max-width: 900px) {
+  :root { --gutter: 20px; }
+  body { font-size: 16px; }
+
+  .hero { padding: 56px 0 44px; }
+
+  .scrolly-inner { grid-template-columns: 1fr; gap: 0; }
+
+  /* Sticky graphic sits above the prose on small screens, so the chart is
+     visible while its explanation scrolls underneath it. */
+  .sticky-graphic {
+    position: sticky;
+    top: 0;
+    height: 56vh;
+    background: var(--paper);
+    border-bottom: 1px solid var(--light);
+    z-index: 2;
+    order: -1;
+  }
+
+  .chart { height: 54vh; }
+  .step { min-height: auto; padding: 32px 0 32px 16px; opacity: 1; border-left-width: 2px; }
+  .step.is-active { border-left-color: var(--red); }
+  .step h2 { font-size: 22px; }
+
+  .recon { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
+  .recon th, .recon td { padding: 10px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .step { transition: none; }
+}

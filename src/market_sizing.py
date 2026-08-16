@@ -334,10 +334,13 @@ def fig_triangulation(target_year: int = TARGET_YEAR) -> go.Figure:
             "source verification"
         )
 
-    count = len(tri.available)
+    # The title deliberately does NOT say "independent methods". Trend and
+    # propensity share two DGCA bridging ratios, so that word would claim more
+    # than the model earns. State the range, let the methodology page explain
+    # what the methods do and do not share.
     title = (
-        f"{'Two' if count == 2 else count} independent methods put India's {target_year} "
-        f"international market between {lo:.0f}M and {hi:.0f}M passengers"
+        f"India's international market reaches {lo:.0f}M to {hi:.0f}M passengers by "
+        f"{target_year}, up from {tri.base_m:.0f}M"
     )
     return charts.finish(fig, title=title, subtitle=subtitle, source=SOURCE)
 
