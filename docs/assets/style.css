@@ -78,9 +78,12 @@ a:hover { border-bottom-color: var(--red); }
   margin-bottom: 44px;
 }
 
+/* The governing thought. Set apart by a hairline rule and type scale rather
+   than a thick coloured bar: the red eyebrow already carries the emphasis, and
+   a heavy side accent repeated across components reads as ornament. */
 .answer {
-  border-left: 4px solid var(--red);
-  padding: 4px 0 4px 24px;
+  border-top: 1px solid var(--ink);
+  padding: 22px 0 0;
   max-width: 68ch;
   margin-bottom: 56px;
 }
@@ -216,14 +219,16 @@ a:hover { border-bottom-color: var(--red); }
 .recon td.bad { color: var(--red); font-weight: 600; }
 .recon tr.total td { font-weight: 700; border-top: 2px solid var(--ink); border-bottom: none; }
 
+/* Sits on the grey proof band, so a plain white card with a hairline border
+   separates it. Emphasis comes from the heading colour, not from a side bar. */
 .callout {
   background: var(--paper);
-  border-left: 4px solid var(--red);
-  padding: 26px 30px;
+  border: 1px solid var(--light);
+  padding: 28px 32px;
   max-width: 80ch;
 }
 
-.callout h3 { font-size: 19px; font-weight: 600; }
+.callout h3 { font-size: 19px; font-weight: 600; color: var(--red); }
 .callout p:last-child { margin-bottom: 0; }
 
 /* -------------------------------------------------------------- method */
