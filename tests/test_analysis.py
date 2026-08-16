@@ -14,6 +14,7 @@ import pytest
 
 from src import benchmarking as bm
 from src import charts
+from src import market_sizing as ms
 
 
 # --------------------------------------------------------------------------
@@ -192,6 +193,61 @@ def test_mekko_rejects_empty_input():
         charts.mekko(
             pd.DataFrame(columns=["a", "b", "c"]), category="a", subcategory="b", values="c"
         )
+
+
+# --------------------------------------------------------------------------
+# market sizing
+# --------------------------------------------------------------------------
+
+
+def test_trend_uses_the_slower_growth_rate():
+    """The recovery CAGR is a rebound off a suppressed base, not a trend.
+
+    Using it would roughly double the 2030 answer, so the choice is guarded.
+    """
+    e = ms.estimate_trend()
+    a = e.assumptions
+    assert a["rate_used"] == min(a["pre_covid_cagr"], a["post_covid_cagr"])
+    assert a["post_covid_cagr"] > a["pre_covid_cagr"], (
+        "if the recovery is no longer the faster rate, revisit which one to use"
+    )
+
+
+def test_income_elasticity_is_economically_plausible():
+    slope, _, n = ms._propensity_curve()
+    assert 0.5 < slope < 2.0, f"income elasticity of {slope:.2f} is not credible for air travel"
+    assert n > 100, "too few peer observations to fit a curve on"
+
+
+def test_capacity_method_is_blocked_while_inputs_are_unverified():
+    """The gate must hold. An unverified fleet count cannot produce a sizing leg."""
+    e = ms.estimate_capacity()
+    assert not e.available
+    assert e.blocked_reason and "DRAFT_UNVERIFIED" in e.blocked_reason
+
+
+def test_band_is_a_range_not_an_average():
+    tri = ms.triangulate()
+    lo, hi = tri.band
+    values = [e.value_m for e in tri.available]
+    assert lo == min(values) and hi == max(values)
+    assert tri.is_provisional, "capacity is still blocked, so the band must say provisional"
+    # every estimate must exceed the base year, or growth has been modelled backwards
+    assert all(v > tri.base_m for v in values)
+
+
+def test_sizing_estimates_are_in_a_sane_range():
+    tri = ms.triangulate()
+    for e in tri.available:
+        assert 80 < e.value_m < 200, f"{e.method} gives {e.value_m:.0f}M, which is not credible"
+
+
+def test_sizing_figure_declares_it_is_provisional():
+    fig = ms.fig_triangulation()
+    text = (fig.layout.title.text or "").lower()
+    assert "withheld" in text or "provisional" in text, (
+        "a band missing a method must say so on the chart, not only in the logs"
+    )
 
 
 # --------------------------------------------------------------------------
