@@ -16,7 +16,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from src import benchmarking, charts, data_pipeline, market_sizing  # noqa: E402
+from src import benchmarking, charts, data_pipeline, market_sizing, scenario  # noqa: E402
 
 
 def build_kpis() -> list[dict]:
@@ -86,7 +86,7 @@ def main() -> int:
             print(f"  {name:<24} {len(df):>7,} rows")
 
     print("building figures")
-    for name in benchmarking.build_all() + market_sizing.build_all():
+    for name in benchmarking.build_all() + market_sizing.build_all() + scenario.build_all():
         print(f"  {name}")
 
     cards = build_kpis()

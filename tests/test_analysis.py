@@ -15,6 +15,7 @@ import pytest
 from src import benchmarking as bm
 from src import charts
 from src import market_sizing as ms
+from src import scenario as sc
 
 
 # --------------------------------------------------------------------------
@@ -248,6 +249,48 @@ def test_sizing_figure_declares_it_is_provisional():
     assert "withheld" in text or "provisional" in text, (
         "a band missing a method must say so on the chart, not only in the logs"
     )
+
+
+# --------------------------------------------------------------------------
+# scenarios
+# --------------------------------------------------------------------------
+
+
+def test_scenarios_are_strictly_ordered():
+    """Bear < Base < Bull.
+
+    Guards a bug that already happened: the bear rate was rolled over a window
+    as long as the block it searched, so exactly one stretch qualified and the
+    bear case came out identical to the base by construction.
+    """
+    rates = {s.name: s.cagr for s in sc.scenarios()}
+    assert rates["Bear"] < rates["Base"] < rates["Bull"], rates
+    assert rates["Bear"] != rates["Base"], "bear collapsed onto base again"
+
+
+def test_bull_is_capped_by_physical_capacity():
+    rates = {s.name: s.cagr for s in sc.scenarios()}
+    assert rates["Bull"] <= sc.BULL_CAP + 1e-9
+
+
+def test_every_scenario_grows_from_the_base_year():
+    t = sc.scenario_table().set_index("scenario")
+    assert (t["growth_vs_base_year_pct"] > 0).all()
+    assert t.loc["Bull", "pax_2030_m"] > t.loc["Base", "pax_2030_m"] > t.loc["Bear", "pax_2030_m"]
+
+
+def test_scenario_paths_start_at_the_observed_base():
+    paths = sc.scenario_paths()
+    start = paths[paths["year"] == ms.BASE_YEAR]
+    assert start["pax_m"].nunique() == 1, "all scenarios must start from the same actual value"
+    assert abs(start["pax_m"].iloc[0] - 72.2) < 1.0
+
+
+def test_scenario_figure_admits_the_missing_levers():
+    """The plan promised fuel and FX levers. They are absent, and the chart says so."""
+    fig = sc.fig_scenarios()
+    text = (fig.layout.title.text or "").lower()
+    assert "fuel" in text and "gated" in text
 
 
 # --------------------------------------------------------------------------
