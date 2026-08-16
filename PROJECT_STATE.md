@@ -24,7 +24,7 @@ Dated snapshots live in `memory/`.
 | 3 | Scrollytelling page | **Done** | Verified in browser. Scroll swap unverified, see below |
 | 4 | Docs + gap analyzer | **Done** | 82% coverage, honestly reported with three named gaps |
 | 5 | CI workflow + roadmap | **Done** | All four CI steps pass locally |
-| -- | `scenario.py` | **Done, partly** | Demand lever built (103/109/135M). Fuel and FX absent, not stubbed |
+| -- | `scenario.py` | **Done, partly** | Demand lever built (102/108/134M). Fuel and FX absent, not stubbed |
 | -- | `profit_pools.py` | **Blocked** | Margin anchor exists but is unverified. Deliberately not built |
 | -- | Push and enable Pages | **Awaiting approval** | Repo has no remote. Ask before `gh repo create` |
 

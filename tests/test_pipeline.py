@@ -261,6 +261,55 @@ def test_rome_delhi_stays_quarantined():
     assert ("ROME", "DELHI") in dp.DISPUTED_ROUTES
 
 
+def test_the_2019_uk_anomaly_is_corrected(intl_country):
+    """A corrupt DGCA observation must not creep back into the growth rates.
+
+    2019 Q3 United Kingdom was published at 1,162,094 against a 2015-18 Q3
+    median of 654,870. The same event inflated the London to Chennai city row to
+    17x its decade-long baseline. Because the pre-covid CAGR is fitted from 2015
+    to 2019, an inflated endpoint feeds the trend sizing and all three demand
+    scenarios, so this is not cosmetic.
+    """
+    uk = intl_country[
+        (intl_country["country"] == "UNITED KINGDOM") & (intl_country["quarter"] == 3)
+    ].set_index("year")["pax_total"]
+
+    baseline = uk.loc[[2015, 2016, 2017, 2018]].median()
+    assert uk[2019] < 1.3 * baseline, (
+        f"2019 Q3 UK is {uk[2019]:,.0f} against a {baseline:,.0f} baseline; "
+        "the anomaly correction is not being applied"
+    )
+    assert intl_country["anomaly_corrected"].sum() == len(dp.COUNTRY_ANOMALIES)
+
+
+def test_correcting_the_anomaly_reconciles_dgca_to_eurostat():
+    """The correction is justified by independent agreement, not by taste.
+
+    Uncorrected, DGCA and Eurostat disagree on the UK by 25.8%. Corrected, they
+    agree to 2.5%, which is the same level as every other route both cover. That
+    second source is the whole reason this row is treated as wrong rather than
+    merely surprising.
+    """
+    city = dp.load_dgca_intl_city()
+    london_2019 = city[
+        (city["year"] == 2019) & ((city["city1"] == "LONDON") | (city["city2"] == "LONDON"))
+    ]["pax_total"].sum()
+
+    eurostat_heathrow_2019 = 2_199_330  # avia_par_uk, PAS_CRD, India pairs
+    gap = abs(london_2019 - eurostat_heathrow_2019) / eurostat_heathrow_2019
+    assert gap < 0.06, f"DGCA London and Eurostat Heathrow diverge by {gap:.1%} after correction"
+
+
+def test_anomaly_corrections_preserve_direction_split():
+    """Scaling must keep the to/from ratio, which is real information."""
+    city = dp.load_dgca_intl_city()
+    row = city[city["anomaly_corrected"]]
+    assert len(row) == len(dp.CITY_ANOMALIES)
+    r = row.iloc[0]
+    assert r["pax_to_city2"] > 0 and r["pax_from_city2"] > 0
+    assert abs(r["pax_to_city2"] + r["pax_from_city2"] - r["pax_total"]) <= 1
+
+
 # --------------------------------------------------------------------------
 # provenance contract
 # --------------------------------------------------------------------------

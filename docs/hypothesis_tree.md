@@ -13,7 +13,7 @@ Deploy wide-bodies to the Gulf corridor first
 │   ├── 1.1 How big is India-Gulf against other corridors?
 │   │       36.9M vs 8.8M for all Europe. 4.2x. DGCA, 2024
 │   ├── 1.2 Is it growing or mature?
-│   │       Pre-covid CAGR 7.18% on total international; Gulf share stable near half
+│   │       Pre-covid CAGR 6.96% on total international; Gulf share stable near half
 │   └── 1.3 Is the traffic point-to-point or connecting?
 │           PARTIALLY ANSWERED. DGCA sector 51.2% vs IATA O-D ~40%.
 │           The gap bounds the connecting share; the exact split needs O-D data
@@ -39,7 +39,7 @@ Deploy wide-bodies to the Gulf corridor first
 │
 ├── 4. Can the corridor absorb 100 more aircraft?                      PARTIALLY ANSWERED
 │   ├── 4.1 Does demand grow enough by 2030?
-│   │       106M to 109M international passengers, from 72M. Two methods, band reported
+│   │       106M to 108M international passengers, from 72M. Two methods, band reported
 │   ├── 4.2 Do the seats on order exceed that demand?
 │   │       BLOCKED. Fleet and utilisation figures unverified; the capacity
 │   │       method refuses to run rather than guess

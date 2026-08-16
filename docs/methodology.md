@@ -79,6 +79,55 @@ silently rejoining the analysis.
 
 ---
 
+### The 2019 United Kingdom anomaly, found and corrected
+
+The UK is India's largest European market at 3.5M passengers, and Eurostat does not cover it
+because the UK left the EU. Eurostat does still hold pre-Brexit data, so the market was
+cross-checked for **2019** instead, and that check found a corrupt observation.
+
+DGCA reports **2019 Q3 United Kingdom at 1,162,094** passengers against a 2015-18 third
+quarter median of **654,870**, returning to 505,102 the very next quarter. The same event
+inflates the London to Chennai city row to **570,763** against a decade-long baseline of
+roughly 33,000 per quarter, seventeen times its own neighbours on either side.
+
+Two independent lines of evidence, which is the bar for treating a value as wrong rather
+than merely surprising:
+
+1. **Its own history.** Forty other quarters of the same route sit near 33,000.
+2. **A second agency.** Uncorrected, DGCA and Eurostat disagree on the UK by **25.8%**.
+   Corrected, they agree to **2.5%**, which is exactly the agreement level seen on every
+   other route the two agencies both cover.
+
+**Why it mattered.** The pre-covid CAGR is fitted from 2015 to 2019, so an inflated endpoint
+propagates into the trend leg of the market sizing and into all three demand scenarios.
+Correcting it moved the CAGR from **7.176% to 6.964%** and the sizing band from 106M to 109M
+down to **106M to 108M**. The core findings, which rest on 2024 and 2025 data, are unchanged.
+
+The corrections live in `src.data_pipeline.COUNTRY_ANOMALIES` and `CITY_ANOMALIES`, are
+flagged on every affected row by an `anomaly_corrected` column, and are guarded by four
+tests. Nothing is removed on suspicion.
+
+### How much of the analysis is actually cross-checked
+
+Stated plainly, because the reconciliation above could imply more coverage than exists.
+
+| | Passengers, 2024 | Share |
+|---|---|---|
+| Cross-checked against a second agency | 4.04M | **5.6%** |
+| Single-sourced on DGCA alone | 68.17M | 94.4% |
+
+This is not missing data. DGCA covers 100% of India's international traffic. It is that only
+the European portion has an independent agency publishing the same routes from the other
+end. The Gulf, which carries half the traffic and most of the argument, has **no equivalent
+open source**: GCC civil aviation authorities do not publish route-level statistics in
+machine-readable form.
+
+So the honest position is that the DGCA spine has been validated where validation was
+possible, and it passed. Extending that to the Gulf would need paid data (Cirium, OAG, or
+IATA DDS) and is named in `ROADMAP.md` rather than glossed over.
+
+---
+
 ## Limits, stated rather than buried
 
 **Yields are not published.** DGCA publishes no fares. Air India is unlisted and files no

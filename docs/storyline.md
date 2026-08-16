@@ -86,11 +86,11 @@ harder market.
 
 ## Sizing the prize
 
-India's international market reaches **106M to 109M passengers by 2030**, from 72M in 2024.
+India's international market reaches **106M to 108M passengers by 2030**, from 72M in 2024.
 
 The band comes from two methods reported as a range, never averaged, because the spread is
-the useful part. Trend extrapolation of DGCA's own history at the pre-covid rate of 7.18%
-gives 109M. An income propensity model fitted across twelve peer countries, putting the
+the useful part. Trend extrapolation of DGCA's own history at the pre-covid rate of 6.96%
+gives 108M. An income propensity model fitted across twelve peer countries, putting the
 income elasticity of air travel at 1.07 over 276 observations, gives 106M.
 
 A third method counting the seats the announced order books can actually fly is **withheld**.

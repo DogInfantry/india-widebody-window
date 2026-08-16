@@ -7,8 +7,8 @@ committed so the provenance of every published figure survives.
 
 | Dataset | Rows | Columns |
 |---|---|---|
-| intl_country | 2,421 | 10 |
-| intl_city | 15,318 | 9 |
+| intl_country | 2,421 | 11 |
+| intl_city | 15,318 | 10 |
 | intl_carrier | 10,329 | 10 |
 | dom_carrier | 3,631 | 22 |
 | dom_city | 65,166 | 11 |

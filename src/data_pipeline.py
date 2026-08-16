@@ -293,6 +293,28 @@ def _build_intl_country(*, force: bool = False) -> pd.DataFrame:
     df["pax_total"] = df["pax_to_india"] + df["pax_from_india"]
     df["region"] = df["country"].map(COUNTRY_REGION).fillna("Other")
     df["is_gulf"] = df["country"].isin(GULF6)
+    return _apply_country_anomalies(df)
+
+
+def _apply_country_anomalies(df: pd.DataFrame) -> pd.DataFrame:
+    """Same treatment as the city table, applied to the country table.
+
+    Kept separate because DGCA publishes the two independently and an error in
+    one does not imply an error in the other. Here it happens to appear in both,
+    which is itself evidence that the underlying event is a reporting fault
+    rather than a transcription slip in one file.
+    """
+    df = df.copy()
+    df["anomaly_corrected"] = False
+    for (year, quarter, country), meta in COUNTRY_ANOMALIES.items():
+        mask = (df["year"] == year) & (df["quarter"] == quarter) & (df["country"] == country)
+        if not mask.any():
+            continue
+        scale = meta["baseline"] / df.loc[mask, "pax_total"].iloc[0]
+        for col in ("pax_to_india", "pax_from_india", "pax_total"):
+            if col in df.columns:
+                df.loc[mask, col] = (df.loc[mask, col] * scale).round().astype("int64")
+        df.loc[mask, "anomaly_corrected"] = True
     return df
 
 
@@ -319,6 +341,38 @@ def _build_intl_city(*, force: bool = False) -> pd.DataFrame:
     for c in ("city1", "city2"):
         df[c] = df[c].astype(str).str.strip().str.upper()
     df["pax_total"] = df["pax_to_city2"] + df["pax_from_city2"]
+    return _apply_city_anomalies(df)
+
+
+def _apply_city_anomalies(df: pd.DataFrame) -> pd.DataFrame:
+    """Replace demonstrably corrupt city-pair observations with their baseline.
+
+    Not a silent fix. The substitution is recorded in `anomaly_corrected`, the
+    evidence for each entry lives in CITY_ANOMALIES, and the case is written up
+    in docs/methodology.md. Nothing here is removed on suspicion: each entry
+    needs a baseline argument and independent corroboration from a second
+    agency.
+    """
+    df = df.copy()
+    df["anomaly_corrected"] = False
+    for (year, quarter, city1, city2), meta in CITY_ANOMALIES.items():
+        mask = (
+            (df["year"] == year)
+            & (df["quarter"] == quarter)
+            & (df["city1"] == city1)
+            & (df["city2"] == city2)
+        )
+        if not mask.any():
+            continue
+        scale = meta["baseline"] / df.loc[mask, "pax_total"].iloc[0]
+        for col in ("pax_to_city2", "pax_from_city2", "pax_total"):
+            if col in df.columns:
+                # Scale both directions by the same factor so their ratio, which
+                # is real information, survives. Rounded because passengers are
+                # whole numbers and the column is an integer dtype.
+                scaled = (df.loc[mask, col] * scale).round().astype("int64")
+                df.loc[mask, col] = scaled
+        df.loc[mask, "anomaly_corrected"] = True
     return df
 
 
@@ -714,6 +768,47 @@ def loaders() -> dict:
 # the two agencies both cover agrees to within 1.6%.
 DISPUTED_ROUTES = {("ROME", "DELHI")}
 
+# Single observations in the DGCA city table that are demonstrably wrong rather
+# than merely disputed, and are therefore excluded from computation instead of
+# reported alongside an alternative. Each needs two independent lines of
+# evidence before it earns a place here.
+#
+# (2019, Q3, LONDON, CHENNAI) = 570,763
+#   1. Baseline. This route runs at roughly 33,000 passengers per quarter in
+#      every one of the forty other quarters from 2015 to 2025. The value is 17x
+#      its own neighbours, with 33,228 immediately before and 33,078 after.
+#   2. Independent agreement. Removing the excess brings DGCA's London total for
+#      2019 to 2,253,264 against Eurostat's Heathrow figure of 2,199,330, a 2.4%
+#      gap, which is exactly the agreement level seen on every other route the
+#      two agencies both cover. Left in, the two disagree by 25.8%.
+#
+# Excluding it moves the pre-covid CAGR from 7.176% to 6.951%, which changes the
+# trend leg of the market sizing. That is precisely why it cannot be ignored.
+# The same corrupt event appears in the country table, which is published
+# separately from the city table and is what drives every growth rate in the
+# project. 2019 Q3 United Kingdom reads 1,162,094 against a 2015-18 Q3 median of
+# 654,870, a 1.77x spike that returns to 505,102 the next quarter.
+#
+# This one matters more than the city row: the pre-covid CAGR is fitted from
+# 2015 to 2019, so an inflated 2019 endpoint propagates into the trend leg of
+# the market sizing and into all three demand scenarios.
+COUNTRY_ANOMALIES = {
+    (2019, 3, "UNITED KINGDOM"): {
+        "reported": 1_162_094,
+        "baseline": 654_870,
+        "reason": "1.77x the 2015-18 Q3 median, returning to normal the next quarter; "
+                  "the same event corrupts the London to Chennai city row",
+    },
+}
+
+CITY_ANOMALIES = {
+    (2019, 3, "LONDON", "CHENNAI"): {
+        "reported": 570_763,
+        "baseline": 33_162,
+        "reason": "17x its own decade-long quarterly baseline; removing it reconciles DGCA to Eurostat",
+    },
+}
+
 
 def build_all(*, force: bool = False) -> dict[str, pd.DataFrame]:
     """Run every loader, write parquet, write the raw manifest. Returns the frames."""
@@ -748,9 +843,6 @@ def _write_manifest(frames: dict[str, pd.DataFrame]) -> None:
     (RAW / "MANIFEST.md").write_text("\n".join(lines), encoding="utf-8")
 
 
-if __name__ == "__main__":
-    for _name, _df in build_all().items():
-        print(f"{_name:<14} {len(_df):>7,} rows  {_df.shape[1]:>2} cols")
 
 
 def load_dgca_intl_country(*, force: bool = False) -> pd.DataFrame:
@@ -793,3 +885,7 @@ def load_eurostat_avia_par(*, force: bool = False, **kwargs) -> pd.DataFrame:
     return _cached(
         "eurostat_india_europe", lambda: _build_eurostat(force=force, **kwargs), force=force
     )
+
+if __name__ == "__main__":
+    for _name, _df in build_all().items():
+        print(f"{_name:<14} {len(_df):>7,} rows  {_df.shape[1]:>2} cols")
