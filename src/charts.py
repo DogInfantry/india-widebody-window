@@ -42,7 +42,13 @@ PAPER = "#FFFFFF"
 # chart that needs splitting.
 MUTED = ["#4D4D4D", "#808080", "#B3B3B3", "#D9D9D9"]
 
-FONT = "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+# Charts use the sans, never the display serif. Axis ticks, data labels and
+# legends live at 11 to 13px where a serif loses legibility, and Plex Sans has
+# true tabular figures so numeric labels align down a column.
+FONT = "IBM Plex Sans, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+# The display face, used only for chart titles, which are set at 19px and are
+# the one place a figure carries a headline rather than a label.
+FONT_DISPLAY = "IBM Plex Serif, Georgia, 'Times New Roman', serif"
 
 _TEMPLATE_NAME = "bain"
 
@@ -55,7 +61,13 @@ def _register_template() -> None:
             plot_bgcolor=PAPER,
             colorway=[RED] + MUTED,
             margin=dict(l=72, r=32, t=96, b=72),
-            title=dict(font=dict(size=19, color=INK), x=0, xanchor="left", y=0.96, yanchor="top"),
+            title=dict(
+                font=dict(family=FONT_DISPLAY, size=19, color=INK),
+                x=0,
+                xanchor="left",
+                y=0.96,
+                yanchor="top",
+            ),
             xaxis=dict(
                 showgrid=False,
                 zeroline=False,

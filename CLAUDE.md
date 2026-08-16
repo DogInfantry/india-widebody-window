@@ -70,7 +70,23 @@ to module, to `docs/assets/charts/*.json`, to the page. No step is skipped.
 ### Palette
 
 `#CC0000` primary red, `#EE3224` accent, `#1A1A1A` ink, `#E6E6E6` and `#999999` neutrals.
-Inter or system sans. **One red element per chart**, everything else grey. Minimal gridlines.
+**One red element per chart**, everything else grey. Minimal gridlines.
+
+### Type
+
+**IBM Plex Serif for display, IBM Plex Sans for body and all chart labels.**
+
+Replaced Inter, which a design review flagged as the default face of AI-generated
+interfaces. The pairing is how published analysis is actually set: Bain Insights,
+McKinsey Quarterly and FT long-form all carry headlines in a serif and data in a sans. The
+two Plex faces are drawn as one superfamily so they share proportions, and Plex Sans has
+true tabular numerals, which the reconciliation table and the KPI cards need to align.
+
+Serif is confined to h1, h2, h3, the case question, the governing thought, and chart
+titles. Everything at 13px or below stays in the sans, where a serif loses legibility.
+`src/charts.py` holds `FONT` and `FONT_DISPLAY`; changing type means changing `style.css`
+and `charts.py` together, then re-running `scripts/refresh.py`, because the font is baked
+into every exported chart JSON.
 
 ### Dependency discipline
 
