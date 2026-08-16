@@ -89,8 +89,13 @@ raises `UnverifiedAssumption` rather than returning anything not marked `VERIFIE
 Consequences, visible on the site rather than hidden:
 
 - The **capacity leg of the market sizing is blocked**, and the chart says so
-- **Profit pools are built but unpopulated**
-- **Scenario analysis is not yet built**, because its fuel lever depends on the same gate
+- **Profit pools are not built.** The margin anchor now exists (IndiGo operating margin of
+  22.3% in FY2025 and 14.0% in FY2026, from published revenue and operating profit) but
+  those figures are still unverified, so the module waits rather than running on them
+- **Scenario analysis is built for demand only.** Base, bull and bear paths need nothing
+  but passenger counts, all of which are measured. The fuel and FX levers are **absent
+  rather than stubbed**: both price into revenue, revenue needs gated yields, and a lever
+  that raises on every call is inventory rather than analysis. The chart states the omission
 
 **World Bank air passenger data stops at 2023.** `IS.AIR.PSGR` has no values after 2023. It
 supports cross-country elasticity fitting over 2010 to 2023; it cannot size a current year.

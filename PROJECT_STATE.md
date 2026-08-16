@@ -1,7 +1,8 @@
 # Project state
 
 **Last updated:** 2026-08-15
-**Current phase:** Phases 0 to 5 complete except the revenue modules. 41 tests pass.
+**Current phase:** Phases 0 to 5 complete except the revenue modules. 46 tests pass,
+8 charts, 16 commits.
 Remaining work is gated on verifying four figures in `data/manual/assumptions.csv`,
 then pushing (which needs explicit approval).
 **Full plan:** `C:\Users\Anklesh\.claude\plans\c-users-anklesh-downloads-compass-artif-refactored-journal.md`
@@ -23,7 +24,8 @@ Dated snapshots live in `memory/`.
 | 3 | Scrollytelling page | **Done** | Verified in browser. Scroll swap unverified, see below |
 | 4 | Docs + gap analyzer | **Done** | 82% coverage, honestly reported with three named gaps |
 | 5 | CI workflow + roadmap | **Done** | All four CI steps pass locally |
-| -- | `profit_pools.py`, `scenario.py` | **Blocked** | Need verified yields. Deliberately not built |
+| -- | `scenario.py` | **Done, partly** | Demand lever built (103/109/135M). Fuel and FX absent, not stubbed |
+| -- | `profit_pools.py` | **Blocked** | Margin anchor exists but is unverified. Deliberately not built |
 | -- | Push and enable Pages | **Awaiting approval** | Repo has no remote. Ask before `gh repo create` |
 
 ---
@@ -163,8 +165,10 @@ Extracted from the posting PDF into `jd.txt`, 5,920 characters.
    CASK and CASK ex-fuel. The transcribed values are 5.33, 4.51, 4.73 and 3.20, and the
    reporting period is unconfirmed. Two attempts to read the primary press release failed
    (ECONNRESET, then a 60 second timeout). Flip `status` to `VERIFIED` once checked.
-2. **Then build** `profit_pools.py` and `scenario.py`. Both are blocked by the assumption
-   gate until step 1 is done, by design.
+2. **Then build** `profit_pools.py` and add the fuel and FX levers to `scenario.py`. Both
+   are blocked by the assumption gate until step 1 is done, by design. The profit pool
+   margin anchor already exists: IndiGo 22.3% (FY2025) and 14.0% (FY2026), derived from
+   published revenue and operating profit, so it needs no modelling once verified.
 3. **Eyeball the page.** `python -m http.server 8000 --directory docs`. Scroll-triggered
    chart swapping could not be verified in automation because IntersectionObserver does
    not fire in a non-compositing pane. The rendering path is proven; the scroll trigger is not.

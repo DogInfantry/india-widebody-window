@@ -8,11 +8,15 @@ The revenue half of the case is gated by `dp.assumption()`, which refuses any fi
 marked `VERIFIED` in `data/manual/assumptions.csv`. Unblocking all three needs the same
 handful of numbers checked against primary filings.
 
-- **Profit pools.** Builder exists in `src/charts.py`, unpopulated. Needs yield and CASK.
+- **Profit pools.** Chart builder exists in `src/charts.py`; the module does not. The margin
+  anchor is now available (IndiGo 22.3% in FY2025, 14.0% in FY2026, from published revenue
+  and operating profit) so this is close, but those two figures come from an aggregator
+  rather than a filing and are still `DRAFT_UNVERIFIED`.
 - **Capacity leg of the market sizing.** Currently withheld, and the chart says so. Needs
   wide-body order counts, seat configurations and utilisation.
-- **Scenario analysis.** Base, bull and bear over demand, fuel and FX. Its fuel lever needs
-  ATF price, which Indian Oil publishes only through a JavaScript page.
+- **Fuel and FX scenario levers.** The demand lever is built and unblocked. Fuel needs ATF
+  price, which Indian Oil publishes only through a JavaScript page, and FX needs the RBI
+  reference rate. Both are absent rather than stubbed.
 
 ## Open questions that would change the answer
 

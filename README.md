@@ -24,6 +24,10 @@ IndiGo is not losing long-haul. It has never been able to fly it. That gap is wh
 wide-body order exists to close, and it falls straight out of two published columns with no
 assumption in between.
 
+The consequence shows up in who flies the market. Indian carriers account for **45.3%** of
+India's international sector passengers. Gulf carriers alone take **25.5%**. In its own
+market, the home industry is the minority shareholder.
+
 ## Four things this repo does that a summary would not
 
 **1. It computes the headline instead of quoting it.**
@@ -81,7 +85,7 @@ python -m http.server 8000 --directory docs
 ```
 
 `scripts/refresh.py` is the single entry point and exactly what CI runs: it pulls every
-source, rebuilds all seven figures and recomputes the hero numbers from the parquet. No
+source, rebuilds all eight figures and recomputes the hero numbers from the parquet. No
 figure on the page is typed by hand.
 
 ## Layout
