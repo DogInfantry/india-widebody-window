@@ -1,7 +1,7 @@
 # Project state
 
 **Last updated:** 2026-08-15
-**Current phase:** Phase 1 complete (pipeline green, 18 tests pass), Phase 2 next
+**Current phase:** Phase 2a complete (charts + benchmarking, 35 tests pass), Phase 2b next
 **Full plan:** `C:\Users\Anklesh\.claude\plans\c-users-anklesh-downloads-compass-artif-refactored-journal.md`
 
 This file is the single place to look when resuming. It survives context loss.
@@ -16,7 +16,8 @@ Dated snapshots live in `memory/`.
 | 0 | Scaffold, git, state files | **Done** | Repo initialised, files committed |
 | 1a | Core loaders + data dictionary + tests | **Done** | 15 tests pass, every verified figure reproduces |
 | 1b | Eurostat reconciliation, timeboxed sources resolved | **Done** | DGCA and Eurostat agree to 2.6%. BTS and IOCL dropped, documented |
-| 2 | Analysis modules + chart builders | Not started | All figures exported to `docs/assets/charts/*.json` |
+| 2a | `charts.py` + `benchmarking.py` | **Done** | 6 figures exported, house rules enforced by tests |
+| 2b | `market_sizing.py`, `profit_pools.py`, `scenario.py` | Next | Sizing needs verified yields; passenger methods can run now |
 | 3 | Scrollytelling page | Not started | Renders at 1280px and 375px, console clean |
 | 4 | Docs + gap analyzer | Not started | Coverage at or above 90%. **Blocked on `jd.txt`** |
 | 5 | CI, acceptance, push | Not started | `scripts/refresh.py` runs clean, then ask before pushing |
