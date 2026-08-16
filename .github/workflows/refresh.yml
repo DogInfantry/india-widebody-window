@@ -1,0 +1,65 @@
+name: Refresh data and rebuild figures
+
+# Monthly, plus manual dispatch. DGCA publishes on a monthly cadence, so anything
+# more frequent would re-pull identical files and produce empty commits.
+on:
+  schedule:
+    - cron: "0 6 1 * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "scripts/**"
+      - "tests/**"
+      - "requirements.txt"
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          # Pinned below the local 3.14 deliberately: 3.12 has the widest wheel
+          # coverage for pandas, numpy and pyarrow, and nothing here needs newer.
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Tests
+        # Tests run before the refresh, against committed parquet. If the
+        # pipeline logic is broken there is no point pulling fresh data with it.
+        run: python -m pytest -q
+
+      - name: Refresh sources and rebuild figures
+        run: python scripts/refresh.py
+
+      - name: Regenerate coverage report
+        run: python -m src.gap_analyzer --write
+
+      - name: Tests again, against the newly pulled data
+        # The point of this second run. Upstream data changes shape without
+        # warning, and the guards on unit conversion, the Total pseudo-airlines
+        # and the DGCA/Eurostat reconciliation are what catch it. A failure here
+        # means the sources moved, and the job stops rather than committing
+        # figures built on data nothing has validated.
+        run: python -m pytest -q
+
+      - name: Commit if anything changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/processed data/raw/MANIFEST.md docs/assets/charts docs/coverage.md
+          if git diff --staged --quiet; then
+            echo "no change in the sources this month"
+          else
+            git commit -m "Monthly refresh: re-pull sources, rebuild figures"
+            git push
+          fi
