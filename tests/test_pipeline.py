@@ -35,6 +35,34 @@ def dom_carrier():
 
 
 # --------------------------------------------------------------------------
+# the suite must not depend on a third party being up
+# --------------------------------------------------------------------------
+
+
+def test_loaders_work_with_no_network(monkeypatch):
+    """Every loader must read the committed parquet without touching the network.
+
+    This guards a real CI failure. Before it, every loader fetched, so the suite
+    silently depended on DGCA, Eurostat and the World Bank all being reachable.
+    It passed locally only because data/raw/ held a same-day cache. In CI, where
+    that cache is gitignored and absent, the World Bank returned an intermittent
+    400 and the build went red for reasons that had nothing to do with the code.
+
+    A red build meaning "a third party hiccuped" is a build people learn to
+    ignore, which is worse than no build at all.
+    """
+
+    def explode(*args, **kwargs):
+        raise AssertionError("a loader tried to reach the network during tests")
+
+    monkeypatch.setattr(dp.requests, "get", explode)
+
+    for name, fn in dp.loaders().items():
+        df = fn()
+        assert len(df) > 0, f"{name} came back empty from parquet"
+
+
+# --------------------------------------------------------------------------
 # schema and shape
 # --------------------------------------------------------------------------
 

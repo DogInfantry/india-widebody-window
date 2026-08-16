@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import datetime as _dt
 import json
+import time
 from pathlib import Path
 
 import pandas as pd
@@ -175,22 +176,64 @@ def _today() -> str:
     return _dt.date.today().strftime("%Y%m%d")
 
 
-def _fetch(url: str, name: str, *, force: bool = False, timeout: int = 120) -> Path:
+def _fetch(
+    url: str, name: str, *, force: bool = False, timeout: int = 120, attempts: int = 4
+) -> Path:
     """Download `url` to data/raw/<name>_<YYYYMMDD> and return the path.
 
     Today's file is reused unless `force`, so re-running the pipeline in a
     session does not hammer the source. Older stamps are left in place: they are
     the provenance record for figures already published.
+
+    Retries on transient failures. The World Bank API in particular returns 400
+    intermittently for URLs that succeed on the next attempt: the same
+    twelve-country request has been observed failing in CI and succeeding
+    locally minutes apart, and a six-country request that worked earlier failing
+    later. That is upstream flakiness, not a malformed request, so a single
+    attempt turns a working pipeline into a coin flip.
     """
     RAW.mkdir(parents=True, exist_ok=True)
     suffix = ".json" if "format=json" in url else ".csv"
     path = RAW / f"{name}_{_today()}{suffix}"
     if path.exists() and not force:
         return path
-    resp = requests.get(url, timeout=timeout)
-    resp.raise_for_status()
-    path.write_bytes(resp.content)
-    return path
+
+    last: Exception | None = None
+    for attempt in range(attempts):
+        try:
+            resp = requests.get(url, timeout=timeout)
+            resp.raise_for_status()
+            path.write_bytes(resp.content)
+            return path
+        except requests.RequestException as exc:  # noqa: PERF203
+            last = exc
+            if attempt < attempts - 1:
+                time.sleep(2**attempt)
+    raise RuntimeError(f"{name}: failed after {attempts} attempts") from last
+
+
+def _processed(name: str) -> Path:
+    return PROCESSED / f"{name}.parquet"
+
+
+def _cached(name: str, build, *, force: bool) -> pd.DataFrame:
+    """Read the committed parquet unless a refresh was explicitly asked for.
+
+    This is what makes the test suite deterministic. Before it, every loader hit
+    the network, so `pytest` depended on DGCA, Eurostat and the World Bank all
+    being up. That passed locally only because `data/raw/` held a same-day cache;
+    in CI, where the cache is gitignored and absent, one flaky upstream turned
+    the build red. A red build that means "a third party hiccuped" is a build
+    people learn to ignore.
+
+    `data/processed/*.parquet` is committed precisely so the analysis is
+    reproducible without network access. Reading it here is not a shortcut, it
+    is the point.
+    """
+    path = _processed(name)
+    if not force and path.exists():
+        return pd.read_parquet(path)
+    return build()
 
 
 def _norm_year(s: pd.Series) -> pd.Series:
@@ -222,7 +265,7 @@ def _load_dgca(key: str, *, force: bool = False) -> pd.DataFrame:
     return pd.read_csv(path)
 
 
-def load_dgca_intl_country(*, force: bool = False) -> pd.DataFrame:
+def _build_intl_country(*, force: bool = False) -> pd.DataFrame:
     """India to country international traffic, quarterly.
 
     Columns: year, quarter, country, region, pax_to_india, pax_from_india,
@@ -253,7 +296,7 @@ def load_dgca_intl_country(*, force: bool = False) -> pd.DataFrame:
     return df
 
 
-def load_dgca_intl_city(*, force: bool = False) -> pd.DataFrame:
+def _build_intl_city(*, force: bool = False) -> pd.DataFrame:
     """International city-pair traffic, quarterly.
 
     DGCA is not consistent about which of city1 / city2 is the Indian point, so
@@ -279,7 +322,7 @@ def load_dgca_intl_city(*, force: bool = False) -> pd.DataFrame:
     return df
 
 
-def load_dgca_intl_carrier(*, force: bool = False) -> pd.DataFrame:
+def _build_intl_carrier(*, force: bool = False) -> pd.DataFrame:
     """International traffic by airline, unpivoted from quarterly to monthly.
 
     The source stores three months per quarterly row as column suffixes M1, M2
@@ -318,7 +361,7 @@ def load_dgca_intl_carrier(*, force: bool = False) -> pd.DataFrame:
     return out.sort_values(["year", "month", "airline"]).reset_index(drop=True)
 
 
-def load_dgca_domestic_carrier(*, force: bool = False) -> pd.DataFrame:
+def _build_dom_carrier(*, force: bool = False) -> pd.DataFrame:
     """Monthly airline operating statistics: passengers, ASK, RPK, load factor.
 
     This is the richest file in the set. It carries both `ScheduledDomestic` and
@@ -384,7 +427,7 @@ def load_dgca_domestic_carrier(*, force: bool = False) -> pd.DataFrame:
     return df
 
 
-def load_dgca_domestic_city(*, force: bool = False) -> pd.DataFrame:
+def _build_dom_city(*, force: bool = False) -> pd.DataFrame:
     """Domestic city-pair traffic, monthly."""
     df = _load_dgca("dom_city", force=force)
     df = df.rename(
@@ -410,7 +453,7 @@ def load_dgca_domestic_city(*, force: bool = False) -> pd.DataFrame:
 # --------------------------------------------------------------------------
 
 
-def load_ourairports(*, force: bool = False) -> pd.DataFrame:
+def _build_airports(*, force: bool = False) -> pd.DataFrame:
     """Airport reference data, CC0. Used for coordinates and great circle distance."""
     path = _fetch(OURAIRPORTS_URL, "ourairports", force=force)
     df = pd.read_csv(path, low_memory=False)
@@ -428,7 +471,7 @@ def load_ourairports(*, force: bool = False) -> pd.DataFrame:
     return df[df["type"].isin(["large_airport", "medium_airport"])].reset_index(drop=True)
 
 
-def load_worldbank_macro(
+def _build_worldbank(
     countries: str = "IND;ARE;QAT;SAU;OMN;KWT;BHR;CHN;USA;GBR;DEU;SGP",
     indicators: tuple[str, ...] = ("SP.POP.TOTL", "NY.GDP.PCAP.CD", "IS.AIR.PSGR"),
     start: int = 2000,
@@ -509,7 +552,7 @@ def _jsonstat_to_frame(payload: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
-def load_eurostat_avia_par(
+def _build_eurostat(
     reporters: tuple[str, ...] = EUROSTAT_REPORTERS,
     years: tuple[int, ...] = (2019, 2023, 2024),
     *,
@@ -642,16 +685,23 @@ def assumption(key: str, *, allow_unverified: bool = False) -> float:
 # build
 # --------------------------------------------------------------------------
 
-LOADERS = {
-    "intl_country": load_dgca_intl_country,
-    "intl_city": load_dgca_intl_city,
-    "intl_carrier": load_dgca_intl_carrier,
-    "dom_carrier": load_dgca_domestic_carrier,
-    "dom_city": load_dgca_domestic_city,
-    "airports": load_ourairports,
-    "worldbank": load_worldbank_macro,
-    "eurostat_india_europe": load_eurostat_avia_par,
-}
+def loaders() -> dict:
+    """Dataset name to loader, resolved at call time.
+
+    A module-level dict would be evaluated at import, before the cached wrappers
+    further down the file exist. Resolving here keeps the definition order free
+    and costs nothing.
+    """
+    return {
+        "intl_country": load_dgca_intl_country,
+        "intl_city": load_dgca_intl_city,
+        "intl_carrier": load_dgca_intl_carrier,
+        "dom_carrier": load_dgca_domestic_carrier,
+        "dom_city": load_dgca_domestic_city,
+        "airports": load_ourairports,
+        "worldbank": load_worldbank_macro,
+        "eurostat_india_europe": load_eurostat_avia_par,
+    }
 
 # Routes where DGCA and Eurostat disagree by more than measurement noise and the
 # disagreement cannot be resolved from free sources. Excluded from any figure that
@@ -669,8 +719,10 @@ def build_all(*, force: bool = False) -> dict[str, pd.DataFrame]:
     """Run every loader, write parquet, write the raw manifest. Returns the frames."""
     PROCESSED.mkdir(parents=True, exist_ok=True)
     out: dict[str, pd.DataFrame] = {}
-    for name, fn in LOADERS.items():
-        df = fn(force=force)
+    for name, fn in loaders().items():
+        # Always force: build_all exists to refresh from source, so reading the
+        # parquet it is about to overwrite would make it a no-op.
+        df = fn(force=True)
         df.to_parquet(PROCESSED / f"{name}.parquet", index=False)
         out[name] = df
     _write_manifest(out)
@@ -699,3 +751,45 @@ def _write_manifest(frames: dict[str, pd.DataFrame]) -> None:
 if __name__ == "__main__":
     for _name, _df in build_all().items():
         print(f"{_name:<14} {len(_df):>7,} rows  {_df.shape[1]:>2} cols")
+
+
+def load_dgca_intl_country(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_intl_country for the transformation and its caveats."""
+    return _cached("intl_country", lambda: _build_intl_country(force=force), force=force)
+
+
+def load_dgca_intl_city(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_intl_city for the transformation and its caveats."""
+    return _cached("intl_city", lambda: _build_intl_city(force=force), force=force)
+
+
+def load_dgca_intl_carrier(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_intl_carrier for the transformation and its caveats."""
+    return _cached("intl_carrier", lambda: _build_intl_carrier(force=force), force=force)
+
+
+def load_dgca_domestic_carrier(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_dom_carrier for the transformation and its caveats."""
+    return _cached("dom_carrier", lambda: _build_dom_carrier(force=force), force=force)
+
+
+def load_dgca_domestic_city(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_dom_city for the transformation and its caveats."""
+    return _cached("dom_city", lambda: _build_dom_city(force=force), force=force)
+
+
+def load_ourairports(*, force: bool = False) -> pd.DataFrame:
+    """Cached wrapper. See _build_airports for the transformation and its caveats."""
+    return _cached("airports", lambda: _build_airports(force=force), force=force)
+
+
+def load_worldbank_macro(*, force: bool = False, **kwargs) -> pd.DataFrame:
+    """Cached wrapper. See _build_worldbank for indicators and coverage limits."""
+    return _cached("worldbank", lambda: _build_worldbank(force=force, **kwargs), force=force)
+
+
+def load_eurostat_avia_par(*, force: bool = False, **kwargs) -> pd.DataFrame:
+    """Cached wrapper. See _build_eurostat for the reconciliation rationale."""
+    return _cached(
+        "eurostat_india_europe", lambda: _build_eurostat(force=force, **kwargs), force=force
+    )
