@@ -1,7 +1,9 @@
 # Project state
 
 **Last updated:** 2026-08-15
-**Current phase:** Phase 2a complete (charts + benchmarking, 35 tests pass), Phase 2b next
+**Current phase:** Phases 0 to 5 complete except the revenue modules. 41 tests pass.
+Remaining work is gated on verifying four figures in `data/manual/assumptions.csv`,
+then pushing (which needs explicit approval).
 **Full plan:** `C:\Users\Anklesh\.claude\plans\c-users-anklesh-downloads-compass-artif-refactored-journal.md`
 
 This file is the single place to look when resuming. It survives context loss.
@@ -17,10 +19,12 @@ Dated snapshots live in `memory/`.
 | 1a | Core loaders + data dictionary + tests | **Done** | 15 tests pass, every verified figure reproduces |
 | 1b | Eurostat reconciliation, timeboxed sources resolved | **Done** | DGCA and Eurostat agree to 2.6%. BTS and IOCL dropped, documented |
 | 2a | `charts.py` + `benchmarking.py` | **Done** | 6 figures exported, house rules enforced by tests |
-| 2b | `market_sizing.py`, `profit_pools.py`, `scenario.py` | Next | Sizing needs verified yields; passenger methods can run now |
-| 3 | Scrollytelling page | Not started | Renders at 1280px and 375px, console clean |
-| 4 | Docs + gap analyzer | Not started | Coverage at or above 90%. **Blocked on `jd.txt`** |
-| 5 | CI, acceptance, push | Not started | `scripts/refresh.py` runs clean, then ask before pushing |
+| 2b | `market_sizing.py` | **Done** | Two methods to a band; capacity leg correctly blocked |
+| 3 | Scrollytelling page | **Done** | Verified in browser. Scroll swap unverified, see below |
+| 4 | Docs + gap analyzer | **Done** | 82% coverage, honestly reported with three named gaps |
+| 5 | CI workflow + roadmap | **Done** | All four CI steps pass locally |
+| -- | `profit_pools.py`, `scenario.py` | **Blocked** | Need verified yields. Deliberately not built |
+| -- | Push and enable Pages | **Awaiting approval** | Repo has no remote. Ask before `gh repo create` |
 
 ---
 
@@ -153,9 +157,21 @@ Extracted from the posting PDF into `jd.txt`, 5,920 characters.
 
 ---
 
-## Next actions
+## What is left, in order
 
-Phase 2, in order:
+1. **Verify four figures** in `data/manual/assumptions.csv`: IndiGo yield per RPK, RASK,
+   CASK and CASK ex-fuel. The transcribed values are 5.33, 4.51, 4.73 and 3.20, and the
+   reporting period is unconfirmed. Two attempts to read the primary press release failed
+   (ECONNRESET, then a 60 second timeout). Flip `status` to `VERIFIED` once checked.
+2. **Then build** `profit_pools.py` and `scenario.py`. Both are blocked by the assumption
+   gate until step 1 is done, by design.
+3. **Eyeball the page.** `python -m http.server 8000 --directory docs`. Scroll-triggered
+   chart swapping could not be verified in automation because IntersectionObserver does
+   not fire in a non-compositing pane. The rendering path is proven; the scroll trigger is not.
+4. **Ask before pushing.** Repo has no remote and nothing has left the machine. Default name
+   `india-widebody-window`, Pages served from `/docs`.
+
+### Superseded: the original Phase 2 plan
 
 1. `charts.py` first, because everything else exports through it. Bain template,
    `mekko()` adapted from Vizro, `waterfall()` on native `go.Waterfall`, `sankey()`,
