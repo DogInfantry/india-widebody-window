@@ -86,6 +86,34 @@ def who_carries_india(year: int = INTL_COUNTRY_YEAR) -> pd.DataFrame:
     return out.sort_values("pax_total", ascending=False).reset_index(drop=True)
 
 
+def carrier_share_trend(start: int = 2015, end: int = LATEST_COMPLETE_YEAR) -> pd.DataFrame:
+    """Share of India's international traffic by carrier home region, per year.
+
+    Answers branch 2.3 of the hypothesis tree, which asked whether the Indian
+    carrier share is stable or eroding. Neither: it is climbing, from 37.0% in
+    2015 to 45.9% in 2025, while the Gulf carriers' share fell from 32.7% to
+    26.2%.
+
+    That finding contradicts the framing this case started with. Indian carriers
+    are not losing their home market, they have been taking it back for a
+    decade. What remains is a structural gap in equipment rather than a
+    competitive rout, which is a better argument for the wide-body order, not a
+    worse one.
+
+    2020 and 2021 are returned but should not be read as trend: repatriation
+    flights and air bubble arrangements put Indian carriers above 50% for two
+    years on a base of a fifth the usual traffic.
+    """
+    df = load_dgca_intl_carrier()
+    df = df[(df["year"] >= start) & (df["year"] <= end)]
+
+    totals = df.groupby(["year", "carrier_group"], as_index=False)["pax_total"].sum()
+    wide = totals.pivot(index="year", columns="carrier_group", values="pax_total").fillna(0.0)
+    share = 100 * wide.div(wide.sum(axis=1), axis=0)
+    share["total_pax"] = wide.sum(axis=1)
+    return share.reset_index()
+
+
 def corridor_scale(year: int = INTL_COUNTRY_YEAR) -> pd.DataFrame:
     """India's international traffic by destination region."""
     df = load_dgca_intl_country()
@@ -255,8 +283,66 @@ def fig_load_factor_slope(start: int = 2019, end: int = LATEST_COMPLETE_YEAR) ->
     )
 
 
+def fig_carrier_share_trend(start: int = 2015, end: int = LATEST_COMPLETE_YEAR) -> go.Figure:
+    d = carrier_share_trend(start, end)
+    # 2020 and 2021 are covid distortion, not trend: repatriation and air bubble
+    # flying put Indian carriers above 50% on a fifth of the usual traffic.
+    d = d[~d["year"].isin([2020, 2021])]
+
+    fig = go.Figure()
+    styles = {
+        "Indian": dict(color=charts.RED, width=3),
+        "Gulf": dict(color=charts.GREY, width=2),
+        "Other foreign": dict(color=charts.LIGHT, width=2),
+    }
+    for name, style in styles.items():
+        if name not in d.columns:
+            continue
+        fig.add_trace(
+            go.Scatter(
+                x=d["year"],
+                y=d[name],
+                mode="lines+markers",
+                name=name,
+                line=dict(color=style["color"], width=style["width"]),
+                marker=dict(size=6, color=style["color"]),
+                hovertemplate=name + " %{x}: %{y:.1f}%<extra></extra>",
+            )
+        )
+        last = d.iloc[-1]
+        fig.add_annotation(
+            x=last["year"],
+            y=last[name],
+            text=f"<b>{name}</b> {last[name]:.1f}%",
+            xanchor="left",
+            xshift=8,
+            showarrow=False,
+            font=dict(size=12, color=style["color"] if name == "Indian" else charts.GREY),
+        )
+
+    fig.update_layout(showlegend=False)
+    fig.update_xaxes(range=[start - 0.5, end + 3.5], dtick=2)
+    fig.update_yaxes(title_text="Share of India international passengers (%)", range=[0, 55])
+
+    first, last = d.iloc[0], d.iloc[-1]
+    gain = last["Indian"] - first["Indian"]
+    return charts.finish(
+        fig,
+        title=(
+            f"Indian carriers have taken {gain:.0f} points of share back since {int(first['year'])}, "
+            "and are closing on parity"
+        ),
+        subtitle=(
+            "Share of India international sector passengers by carrier home region. "
+            "2020 and 2021 omitted: repatriation flying distorts them beyond use"
+        ),
+        source=SOURCE_DGCA,
+    )
+
+
 FIGURES = {
     "stage_length_gap": fig_stage_length_gap,
+    "carrier_share_trend": fig_carrier_share_trend,
     "domestic_share": fig_domestic_share,
     "who_carries_india": fig_who_carries_india,
     "corridor_scale": fig_corridor_scale,

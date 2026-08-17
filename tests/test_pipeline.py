@@ -116,11 +116,51 @@ def test_norm_year_is_idempotent():
 
 
 def test_no_total_pseudo_airlines(intl_carrier, dom_carrier):
+    """Catches TOTAL anywhere in the name, not just as a prefix.
+
+    The prefix-only version of this test passed while `GRAND TOTAL` sat in the
+    2019 international carrier file being counted as a foreign airline worth
+    17.53M passengers, 21.7% of that year.
+    """
     for df in (intl_carrier, dom_carrier):
-        names = df["airline"].astype(str).str.lower()
-        assert not names.str.startswith("total").any(), (
-            "a 'Total *' row survived; every market share downstream is now halved"
+        names = df["airline"].astype(str).str.upper()
+        offenders = sorted(set(names[names.str.contains("TOTAL", na=False)]))
+        assert not offenders, f"pseudo-airline rows survived: {offenders}"
+
+
+def test_carrier_and_country_tables_reconcile(intl_carrier, intl_country):
+    """DGCA publishes these two independently, so they should agree.
+
+    This is the check that would have caught GRAND TOTAL immediately. With the
+    phantom row present, 2019 read 80.7M in the carrier table against 63.7M in
+    the country table, a 27% discrepancy sitting in plain sight.
+    """
+    for year in (2019, 2024, 2025):
+        a = intl_carrier[intl_carrier["year"] == year]["pax_total"].sum()
+        b = intl_country[intl_country["year"] == year]["pax_total"].sum()
+        gap = abs(a - b) / b
+        assert gap < 0.03, (
+            f"{year}: carrier table {a/1e6:.1f}M vs country table {b/1e6:.1f}M, {gap:.1%} apart"
         )
+
+
+def test_known_indian_and_gulf_carriers_are_classified(intl_carrier):
+    """Guards the name lists, which are the weakest link in the carrier split.
+
+    Every one of these was misfiled at some point: Jet Airways and Go Air as
+    foreign, Air Arabia Abu Dhabi under a hyphen the list spelled with a space,
+    and Qatar Airways under a misspelling present in the DGCA source itself.
+    """
+    groups = intl_carrier.groupby("airline")["carrier_group"].first()
+    for name in ("JET AIRWAYS", "GO AIR", "INDIGO", "AIR INDIA"):
+        if name in groups.index:
+            assert groups[name] == "Indian", f"{name} is filed as {groups[name]}"
+    for name in ("AIR ARABIA-ABU DHABI", "QATAR AIRWATYS", "EMIRATES AIRLINE"):
+        if name in groups.index:
+            assert groups[name] == "Gulf", f"{name} is filed as {groups[name]}"
+    # Vietjet is Vietnamese and must not be swept in by a naive "JET" match.
+    if "VIETJET AIR" in groups.index:
+        assert groups["VIETJET AIR"] != "Indian"
 
 
 # --------------------------------------------------------------------------

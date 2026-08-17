@@ -134,6 +134,8 @@ GULF_CARRIERS = {
     "KUWAIT AIRWAYS",
     "GULF AIR",
     "AIR ARABIA ABU DHABI",
+    "AIR ARABIA-ABU DHABI",  # DGCA uses a hyphen in some rows
+    "QATAR AIRWATYS",  # misspelling present in the DGCA source
     "SALAM AIR",
     "JAZEERA AIRWAYS",
     "FLYNAS",
@@ -164,7 +166,15 @@ INDIAN_CARRIERS = {
     "STAR AIR",
     "FLY91",
     "AIX CONNECT",
+    "JET AIRWAYS",  # Indian, ceased April 2019; material in the pre-covid years
+    "GO AIR",  # DGCA spells it with a space; "GOAIR" and "GO FIRST" also appear
 }
+
+# Deliberately NOT Indian despite matching a naive "JET" search: Vietjet Air is
+# Vietnamese. Recorded because the keyword sweep that found Jet Airways flagged
+# it too, and adding it would have quietly moved a foreign carrier onto the
+# Indian side of the headline share.
+_NOT_INDIAN_DESPITE_NAME = {"VIETJET AIR"}
 
 
 # --------------------------------------------------------------------------
@@ -251,8 +261,15 @@ def _drop_total_rows(df: pd.DataFrame, col: str = "airline") -> pd.DataFrame:
 
     DGCA files these as if they were carriers. Any groupby that keeps them
     double counts every passenger and halves every market share.
+
+    Matches "TOTAL" anywhere in the name, not just as a prefix. The original
+    prefix-only test missed `GRAND TOTAL`, which appears in the international
+    carrier file for 2019 alone and was being counted as a foreign airline worth
+    17.53M passengers, 21.7% of that year. It inflated the 2019 carrier total to
+    80.7M against the country table's 63.7M; removing it reconciles the two.
     """
-    return df[~df[col].astype(str).str.strip().str.lower().str.startswith("total")].copy()
+    names = df[col].astype(str).str.strip().str.upper()
+    return df[~names.str.contains("TOTAL", na=False)].copy()
 
 
 # --------------------------------------------------------------------------

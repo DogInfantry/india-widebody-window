@@ -1,6 +1,6 @@
 # Raw pull manifest
 
-Generated 2026-08-16 by `src.data_pipeline.build_all`.
+Generated 2026-08-17 by `src.data_pipeline.build_all`.
 
 `data/raw/` itself is gitignored because it is regenerable. This manifest is
 committed so the provenance of every published figure survives.
@@ -9,7 +9,7 @@ committed so the provenance of every published figure survives.
 |---|---|---|
 | intl_country | 2,421 | 11 |
 | intl_city | 15,318 | 10 |
-| intl_carrier | 10,329 | 10 |
+| intl_carrier | 10,320 | 10 |
 | dom_carrier | 3,631 | 22 |
 | dom_city | 65,166 | 11 |
 | airports | 5,273 | 8 |

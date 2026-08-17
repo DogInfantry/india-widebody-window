@@ -19,13 +19,15 @@ Deploy wide-bodies to the Gulf corridor first
 │           The gap bounds the connecting share; the exact split needs O-D data
 │           that no free source publishes
 │
-├── 2. Are Indian carriers actually losing it?                         ANSWERED: yes
+├── 2. Are Indian carriers actually losing it?                         ANSWERED: NO
 │   ├── 2.1 What share do Indian carriers hold?
-│   │       45.3% of India international sector pax. Foreign carriers 54.7%
+│   │       45.9% of India international sector pax, 2025. Everyone else 54.1%
 │   ├── 2.2 Which foreign carriers, specifically?
-│   │       Gulf carriers 25.5%. Emirates alone 5.57M passengers, 2024
+│   │       Gulf carriers 26.2%. Emirates alone 5.57M passengers, 2024
 │   └── 2.3 Is the share trend worsening or stable?
-│           OPEN. Needs a share time series, computable from existing data
+│           ANSWERED, AND IT REVERSES THE PREMISE. Neither: it is improving.
+│           Indian 37.0% (2015) -> 45.9% (2025). Gulf 32.7% -> 26.2%.
+│           Indian carriers are not losing, they are closing on parity
 │
 ├── 3. Is equipment the binding constraint?                            ANSWERED: yes
 │   ├── 3.1 Do Indian carriers fly short-haul internationally?

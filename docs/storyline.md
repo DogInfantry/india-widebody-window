@@ -31,11 +31,21 @@ expansion has to be built on, and it is already in hand.
 
 ## Complication
 
-India lost its international market without losing a fight over it.
+Indian carriers are winning their home market back, and it still is not enough.
 
-**Foreign carriers fly the majority.** Indian carriers account for **45.3%** of India's
-international sector passengers. Gulf carriers alone take **25.5%** (2024, DGCA). In its own
-market, the home industry is the minority shareholder.
+**The share trend is theirs.** Indian carriers have gone from **37.0%** of India's
+international sector passengers in 2015 to **45.9%** in 2025, while Gulf carriers fell from
+32.7% to **26.2%**. This is not an industry being routed. It is one closing on parity.
+
+That correction matters, because the obvious version of this case is that India is losing
+and needs rescuing. The data says otherwise, and a recommendation built on a false premise
+would be worth nothing.
+
+**But they are still the minority in their own market**, at 45.9% against 54.1% for everyone
+else, and the deficit sits precisely where aircraft range binds. The share Indian carriers
+have taken back is short-haul: Gulf and Southeast Asia, flyable with narrow-bodies. The
+segment they have not taken back is the one that needs an aircraft they have only just
+ordered.
 
 **The Gulf is where the volume is, by a distance.** Gulf destinations carry **36.9M**
 passengers to and from India, against **8.8M** for all of Europe combined. The corridor is

@@ -24,9 +24,15 @@ IndiGo is not losing long-haul. It has never been able to fly it. That gap is wh
 wide-body order exists to close, and it falls straight out of two published columns with no
 assumption in between.
 
-The consequence shows up in who flies the market. Indian carriers account for **45.3%** of
-India's international sector passengers. Gulf carriers alone take **25.5%**. In its own
-market, the home industry is the minority shareholder.
+The consequence shows up in who flies the market. Indian carriers account for **45.9%** of
+India's international sector passengers, against **26.2%** for Gulf carriers. In its own
+market, the home industry is still the minority shareholder.
+
+But the trend runs the other way, and that reversed the case's opening premise. Indian
+carriers held **37.0%** in 2015 and hold 45.9% now, while Gulf carriers fell from 32.7% to
+26.2%. They are not losing their home market, they are closing on parity. The deficit that
+remains sits exactly where aircraft range binds: the share taken back is short-haul, and
+long-haul needs the aircraft that have only just been ordered.
 
 ## Four things this repo does that a summary would not
 
