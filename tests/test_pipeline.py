@@ -369,23 +369,32 @@ def test_manual_assumptions_carry_provenance():
         assert valued["source_name"].notna().all(), "a numeric assumption has no source"
         assert valued["pull_date"].notna().all(), "a numeric assumption has no pull date"
 
+        # Anything cleared for use must carry a real citable source, not a landing page.
+        cleared = df[df["status"].isin(dp.USABLE_STATUSES)]
+        assert cleared["source_url"].notna().all(), "a cleared assumption has no source URL"
+        assert cleared["value"].notna().all(), "a cleared assumption has no value"
+        assert cleared["note"].notna().all(), "a cleared assumption has no note explaining it"
+
 
 def test_unverified_assumptions_cannot_reach_a_chart():
     """The gate that makes verification structural rather than a promise.
 
-    Every row is currently DRAFT_UNVERIFIED or NOT_AVAILABLE, so every call must
-    raise. When a row is verified by a human this test keeps guarding the rest.
+    Only VERIFIED and CORRECTED_VERIFIED are cleared. Every other state raises,
+    including UNVERIFIED_NO_PRIMARY, which is the interesting one: the value
+    exists and looks plausible, but the company publishes no such line item so it
+    can never be checked. That is exactly the case where a plausible number would
+    otherwise slide onto a chart.
     """
     df = dp.load_manual_assumptions()
     if not len(df):
         pytest.skip("no assumptions recorded yet")
 
-    for key in df.loc[df["status"] != "VERIFIED", "key"]:
+    for key in df.loc[~df["status"].isin(dp.USABLE_STATUSES), "key"]:
         with pytest.raises((dp.UnverifiedAssumption, KeyError)):
             dp.assumption(key)
 
-    # Verified rows, once they exist, must actually return a number.
-    for key in df.loc[df["status"] == "VERIFIED", "key"]:
+    # Cleared rows must actually return a number.
+    for key in df.loc[df["status"].isin(dp.USABLE_STATUSES), "key"]:
         assert isinstance(dp.assumption(key), float)
 
 

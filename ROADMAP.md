@@ -9,9 +9,10 @@ marked `VERIFIED` in `data/manual/assumptions.csv`. Unblocking all three needs t
 handful of numbers checked against primary filings.
 
 - **Profit pools.** Chart builder exists in `src/charts.py`; the module does not. The margin
-  anchor is now available (IndiGo 22.3% in FY2025, 14.0% in FY2026, from published revenue
-  and operating profit) so this is close, but those two figures come from an aggregator
-  rather than a filing and are still `DRAFT_UNVERIFIED`.
+  anchor is now real and primary-sourced: IndiGo EBITDAR margin **26.3% (FY2025) and 27.3%
+  (FY2026, ex-forex)**. An earlier claim that the margin halved to 14.0% was wrong and is
+  retracted in `docs/methodology.md`. What still blocks the module is the segment split, not
+  the total margin.
 - **Capacity leg of the market sizing.** Currently withheld, and the chart says so. Needs
   wide-body order counts, seat configurations and utilisation.
 - **Fuel and FX scenario levers.** The demand lever is built and unblocked. Fuel needs ATF

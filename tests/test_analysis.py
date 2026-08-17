@@ -221,10 +221,21 @@ def test_income_elasticity_is_economically_plausible():
 
 
 def test_capacity_method_is_blocked_while_inputs_are_unverified():
-    """The gate must hold. An unverified fleet count cannot produce a sizing leg."""
+    """The gate must hold. An unverified fleet count cannot produce a sizing leg.
+
+    Asserts on the status vocabulary rather than one literal state, because the
+    reason a row is not cleared varies: the Air India wide-body count is blocked
+    on a link that was wrong, the seat counts on values never transcribed, and
+    utilisation on having no source at all.
+    """
+    from src import data_pipeline as dp
+
     e = ms.estimate_capacity()
     assert not e.available
-    assert e.blocked_reason and "DRAFT_UNVERIFIED" in e.blocked_reason
+    assert e.blocked_reason
+    assert not any(ok in e.blocked_reason for ok in dp.USABLE_STATUSES), (
+        f"capacity was blocked citing a cleared status: {e.blocked_reason}"
+    )
 
 
 def test_band_is_a_range_not_an_average():

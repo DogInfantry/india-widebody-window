@@ -167,8 +167,11 @@ Extracted from the posting PDF into `jd.txt`, 5,920 characters.
    (ECONNRESET, then a 60 second timeout). Flip `status` to `VERIFIED` once checked.
 2. **Then build** `profit_pools.py` and add the fuel and FX levers to `scenario.py`. Both
    are blocked by the assumption gate until step 1 is done, by design. The profit pool
-   margin anchor already exists: IndiGo 22.3% (FY2025) and 14.0% (FY2026), derived from
-   published revenue and operating profit, so it needs no modelling once verified.
+   margin anchor is now primary-sourced: IndiGo EBITDAR margin 26.3% (FY2025) and 27.3%
+   (FY2026 ex-forex). The earlier 22.3% to 14.0% "halving" was wrong, came from an
+   aggregator convention the company does not publish, and is retracted in
+   `docs/methodology.md`. The real operating pressure is CASK 4.66 to 5.00 crossing above
+   RASK of 4.99.
 3. **Eyeball the page.** `python -m http.server 8000 --directory docs`. Scroll-triggered
    chart swapping could not be verified in automation because IntersectionObserver does
    not fire in a non-compositing pane. The rendering path is proven; the scroll trigger is not.

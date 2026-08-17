@@ -141,11 +141,31 @@ GULF_CARRIERS = {
     "FLYNAS",
 }
 
-# Lifecycle of a hand-entered number. Only VERIFIED may drive a published figure.
-#   DRAFT_UNVERIFIED  transcribed but not yet checked against a primary source
-#   VERIFIED          checked against the cited source by a human
-#   NOT_AVAILABLE     no free source exists; must be modelled and labelled modelled
-ASSUMPTION_STATUSES = ("VERIFIED", "DRAFT_UNVERIFIED", "NOT_AVAILABLE")
+# Lifecycle of a hand-entered number.
+#
+# This vocabulary came out of the first real verification pass, which found the
+# original three states far too blunt. "Unverified" was doing the work of at
+# least five different problems: no value yet, a value nobody has checked, a
+# value the company does not publish at all, a dead link, and a source that has
+# been superseded. Those need different actions, so they get different names.
+ASSUMPTION_STATUSES = (
+    # cleared to drive a published figure
+    "VERIFIED",  # checked against the primary source, value matched exactly
+    "CORRECTED_VERIFIED",  # checked against the primary source, original value was wrong
+    # not cleared, for distinct reasons
+    "DRAFT_UNVERIFIED",  # transcribed, nobody has checked it
+    "UNVERIFIED_NO_PRIMARY",  # the company publishes no such line item, so it cannot be checked
+    "VALUE_MISSING",  # source is good, value not yet transcribed
+    "VALUE_MISSING_LINK_FIXED",  # link was wrong and has been corrected; value still needed
+    "VALUE_MISSING_LINK_WEAK",  # link is an index or landing page, not a citable document
+    "VALUE_MISSING_NO_SOURCE",  # no source_url at all, so nothing to verify against
+    "VALUE_MISSING_SOURCE_STALE",  # source exists but has been superseded
+    "MODELED",  # genuinely modelled, no source expected, must be labelled on the chart
+    "NOT_AVAILABLE",  # a real figure exists but is not publicly disclosed
+)
+
+# Only these two may reach a chart. Everything else raises at the point of use.
+USABLE_STATUSES = ("VERIFIED", "CORRECTED_VERIFIED")
 
 
 class UnverifiedAssumption(RuntimeError):
@@ -719,6 +739,13 @@ def load_manual_assumptions() -> pd.DataFrame:
     bad = set(df["status"].dropna().unique()) - set(ASSUMPTION_STATUSES)
     if bad:
         raise ValueError(f"assumptions.csv has unknown status values: {sorted(bad)}")
+
+    # Accept both ISO and the M/D/YYYY a spreadsheet writes, and normalise to ISO.
+    # Fighting the editor over date formatting is a good way to have the file
+    # stop being edited.
+    df["pull_date"] = pd.to_datetime(df["pull_date"], errors="coerce", format="mixed").dt.strftime(
+        "%Y-%m-%d"
+    )
     return df
 
 
@@ -742,7 +769,7 @@ def assumption(key: str, *, allow_unverified: bool = False) -> float:
     record = row.iloc[0]
     value = pd.to_numeric(record["value"], errors="coerce")
 
-    if record["status"] != "VERIFIED" and not allow_unverified:
+    if record["status"] not in USABLE_STATUSES and not allow_unverified:
         raise UnverifiedAssumption(
             f"{key!r} has status {record['status']!r} and cannot drive a published figure. "
             f"Source: {record['source_name']}. Note: {record['note']}"

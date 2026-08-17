@@ -154,12 +154,61 @@ Numbers no free source publishes, chiefly airline yield in rupees per RPK. DGCA 
 no fares. IndiGo discloses yield in quarterly filings; Air India is unlisted and files
 nothing. Each row is transcribed by hand and carries its own provenance:
 
-`key, value, unit, source_name, source_url, pull_date, page_ref, reliability`
+`key, value, unit, source_name, source_url, pull_date, page_ref, reliability, status, note`
 
-`pull_date` is `YYYY-MM-DD`, `reliability` is one of `H`, `M`, `L`.
-`test_manual_assumptions_carry_provenance` fails the build if any row lacks a source.
+`reliability` is one of `H`, `M`, `L`. `pull_date` accepts ISO or `M/D/YYYY` and is
+normalised to `YYYY-MM-DD` on read, because fighting a spreadsheet over date formatting is a
+good way to have the file stop being maintained.
 
-**Status: not yet populated.** Pending review before these drive the revenue waterfall.
+### Status vocabulary
+
+Only **two** states are cleared to drive a published figure. `dp.assumption()` raises
+`UnverifiedAssumption` for every other state.
+
+| Status | Cleared | Meaning |
+|---|---|---|
+| `VERIFIED` | yes | Checked against the primary source, value matched exactly |
+| `CORRECTED_VERIFIED` | yes | Checked against primary; the original value was wrong and is now fixed |
+| `DRAFT_UNVERIFIED` | no | Transcribed, nobody has checked it |
+| `UNVERIFIED_NO_PRIMARY` | no | The company publishes no such line item, so it can never be checked |
+| `VALUE_MISSING` | no | Source is good, value not yet transcribed |
+| `VALUE_MISSING_LINK_FIXED` | no | Link was wrong and has been corrected; value still needed |
+| `VALUE_MISSING_LINK_WEAK` | no | Link is an index or landing page, not a citable document |
+| `VALUE_MISSING_NO_SOURCE` | no | No `source_url` at all, so nothing to verify against |
+| `VALUE_MISSING_SOURCE_STALE` | no | Source exists but has been superseded |
+| `MODELED` | no | Genuinely modelled, no source expected, must be labelled on the chart |
+| `NOT_AVAILABLE` | no | A real figure exists but is not publicly disclosed |
+
+This replaced an earlier three-state scheme after the first real verification pass, which
+showed that "unverified" was doing the work of at least five different problems needing five
+different actions: a missing value, an unchecked value, a value the company does not publish,
+a dead link, and a superseded source.
+
+`UNVERIFIED_NO_PRIMARY` is the state that earns its keep. It marks a value that exists and
+looks entirely plausible but can never be verified, because the figure is an aggregator's
+convention rather than something the company reports. That is exactly the case that produced
+the retracted margin claim in `docs/methodology.md`.
+
+### Current state: 6 of 18 rows cleared
+
+| Row | Value | Status |
+|---|---|---|
+| `indigo_yield_inr_per_rpk_fy2026` | ₹5.06 / RPK | `CORRECTED_VERIFIED` (was 5.33, matched no published period) |
+| `indigo_rask_inr_per_ask_fy2026` | ₹4.99 / ASK | `CORRECTED_VERIFIED` (was 4.51, which was actually Q4 FY25 **CASK**) |
+| `indigo_cask_inr_per_ask_fy2026` | ₹5.00 / ASK | `CORRECTED_VERIFIED` (was 4.73) |
+| `indigo_cask_exfuel_inr_per_ask_fy2026` | ₹3.52 / ASK | `CORRECTED_VERIFIED` (₹3.00 ex-forex; use that if running an FX lever) |
+| `indigo_revenue_fy2025_inr_cr` | ₹80,803 cr | `VERIFIED`, exact match |
+| `indigo_revenue_fy2026_inr_cr` | ₹84,962 cr | `VERIFIED`, exact match |
+
+The two operating-profit rows are `UNVERIFIED_NO_PRIMARY` and **must not be used**. Quote
+EBITDAR margin instead: 26.3% (FY2025), 27.3% (FY2026 ex-forex).
+
+Notable among the rows still open: Emirates passenger yield is now sourced directly rather
+than derived, at **38.1 fils (10.4 US cents) per RPKM** from the FY2025-26 results release,
+but the cell stays blank until `usd_inr_rate` is settled. That rate is
+`VALUE_MISSING_SOURCE_STALE`, because RBI stopped publishing its own USD/INR reference rate
+in 2018 and the benchmark is now the FBIL rate. ATF price has a machine-readable series on
+data.gov.in, so it need not be hand-transcribed after all.
 
 ---
 

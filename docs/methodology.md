@@ -138,9 +138,8 @@ raises `UnverifiedAssumption` rather than returning anything not marked `VERIFIE
 Consequences, visible on the site rather than hidden:
 
 - The **capacity leg of the market sizing is blocked**, and the chart says so
-- **Profit pools are not built.** The margin anchor now exists (IndiGo operating margin of
-  22.3% in FY2025 and 14.0% in FY2026, from published revenue and operating profit) but
-  those figures are still unverified, so the module waits rather than running on them
+- **Profit pools are not built**, and a claim about the margin anchor has been withdrawn.
+  See the retraction below.
 - **Scenario analysis is built for demand only.** Base, bull and bear paths need nothing
   but passenger counts, all of which are measured. The fuel and FX levers are **absent
   rather than stubbed**: both price into revenue, revenue needs gated yields, and a lever
@@ -169,6 +168,53 @@ sector versus origin-destination gap directly rather than bounding it. IATA DDS 
 the connect premium. Bilateral seat entitlement data would answer whether the corridor can
 legally absorb the capacity, which is the open question most likely to break the
 recommendation. All are paywalled and none are used here.
+
+---
+
+## Retraction: the IndiGo margin claim
+
+An earlier version of this project asserted that IndiGo's operating margin **halved from
+22.3% in FY2025 to 14.0% in FY2026**, and treated that as a finding: the squeezed margin
+from which wide-bodies would have to be funded. **That was wrong on both the number and the
+conclusion.** It is recorded here rather than quietly deleted, because a project that claims
+its numbers are traceable has to show what happened when one was not.
+
+**What went wrong.** The figures came from an aggregator's "operating profit" line, taken at
+face value. ₹18,050 cr is not a line item IndiGo publishes. It reconciles to a convention
+(roughly EBITDAR less other income) that the company itself does not report, so it could
+never have been verified against a primary source. Dividing one derived number by another
+and calling the result an operating margin was the error.
+
+**What the primary source actually says.** IndiGo's own reported figures:
+
+| | FY2025 | FY2026 |
+|---|---|---|
+| EBITDAR | ₹212,520 mn | ₹231,889 mn (excluding forex) |
+| EBITDAR margin | **26.3%** | **27.3%** |
+
+The margin **improved**. It did not halve.
+
+**What the apparent collapse actually was.** Non-operating. A Q4 net foreign exchange loss
+of roughly ₹48,230 mn as the rupee depreciated against USD-denominated lease liabilities,
+plus an exceptional provision of ₹2,499 mn for the new labour codes, taking IndiGo to a
+full-year net loss of about ₹23,936 mn. A currency translation on leases is not an operating
+squeeze, and presenting it as one would have put a false mechanism at the centre of the
+recommendation.
+
+**The real operating pressure, which is a genuine finding.** It sits in unit cost, not
+margin. CASK rose from ₹4.66 to **₹5.00** while RASK fell to **₹4.99**, so unit costs
+crossed above unit revenues. Non-fuel cost rose 27.8% while fuel cost fell 3.1%.
+
+One caution that matters for the scenario model: of the ₹0.52 rise in CASK ex-fuel (₹3.00 to
+₹3.52), only about ₹0.11 is genuine non-fuel inflation. The rest is forex. Anything running
+a separate FX lever must use the ex-forex figure of ₹3.00, or it double-counts the same
+currency move twice.
+
+**Two related corrections from the same verification pass.** The value recorded as RASK of
+₹4.51 was not RASK at all, it was IndiGo's Q4 FY2025 CASK, a cost mistaken for a revenue
+metric. And the yield of ₹5.33 matched no published period; the closest real figure is Q4
+FY2025 at ₹5.32. A cross-check I had described as corroborating those numbers was therefore
+comparing a yield against a cost, and proved nothing.
 
 ---
 
