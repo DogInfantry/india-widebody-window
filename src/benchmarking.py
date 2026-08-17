@@ -21,6 +21,7 @@ import plotly.graph_objects as go
 
 from . import charts
 from .data_pipeline import (
+    assumption,
     load_dgca_domestic_carrier,
     load_dgca_intl_carrier,
     load_dgca_intl_city,
@@ -47,6 +48,31 @@ GULF_POINTS = {
     "DUBAI", "ABU DHABI", "DOHA", "SHARJAH", "MUSCAT", "KUWAIT",
     "BAHRAIN", "DAMMAM", "RIYADH", "JEDDAH", "RAS AL KHAIMAH",
 }
+
+
+def _norm_point(name: str) -> str:
+    """Normalise a city name for set membership.
+
+    DGCA writes `ABUDHABI` with no space and `RAS AL-KHAIMAH` with a hyphen,
+    while the readable literals above use spaces. Exact matching therefore missed
+    Abu Dhabi entirely, and Abu Dhabi is 5.7M passengers a year: for a while the
+    Gulf-hub Sankey filed all of it under "Everywhere else, direct".
+
+    This is the same failure mode as the carrier-name variants recorded in
+    CLAUDE.md, where `AIR ARABIA-ABU DHABI` used a hyphen where the list had a
+    space. The lesson was learned for carriers and never carried across to city
+    points. Comparing on a normalised key fixes the whole class rather than the
+    two names that happened to be noticed.
+    """
+    return name.upper().replace(" ", "").replace("-", "")
+
+
+_GULF_KEYS = {_norm_point(p) for p in GULF_POINTS}
+
+
+def is_gulf_point(name: str) -> bool:
+    """True if a DGCA foreign point is a Gulf point, robust to spacing variants."""
+    return _norm_point(name) in _GULF_KEYS
 
 
 # --------------------------------------------------------------------------
@@ -147,7 +173,7 @@ def gateway_flows(year: int = INTL_COUNTRY_YEAR, *, top_gateways: int = 6) -> pd
         return flows
 
     flows["destination"] = [
-        "Gulf hub" if p in GULF_POINTS else "Everywhere else, direct"
+        "Gulf hub" if is_gulf_point(p) else "Everywhere else, direct"
         for p in flows["foreign_point"]
     ]
     keep = flows.groupby("gateway")["pax"].sum().nlargest(top_gateways).index
@@ -349,6 +375,75 @@ FIGURES = {
     "gateway_flows": fig_gateway_flows,
     "load_factor_slope": fig_load_factor_slope,
 }
+
+
+def bilateral_seat_usage(year: int = INTL_COUNTRY_YEAR, *, load_factor: float = 0.811) -> pd.DataFrame:
+    """Implied one-way seats per week by foreign point, for the bilateral question.
+
+    Branch 4.3 of the hypothesis tree asks whether bilateral seat rights permit
+    the deployment, and it is the most likely reason the recommendation fails.
+    India does not publish entitlements, so the entitlement side cannot be
+    computed. The USAGE side can, and it turns out to be enough.
+
+    Passengers are DGCA. Seats are inferred, and the inference is one line:
+    passengers over load factor, halved because DGCA reports both directions,
+    over 52 weeks. `load_factor` defaults to the all-India international figure;
+    it is exposed as an argument because the result is sensitive to it and a
+    reader should be able to move it.
+    """
+    city = load_dgca_intl_city()
+    city = city[city["year"] == year]
+    rows = []
+    for a, b, pax in zip(city["city1"], city["city2"], city["pax_total"]):
+        a_in, b_in = a in INDIAN_GATEWAYS, b in INDIAN_GATEWAYS
+        if a_in == b_in:
+            continue  # both Indian or neither, so not an India to foreign sector
+        rows.append((a if not a_in else b, pax))
+
+    df = pd.DataFrame(rows, columns=["foreign_point", "pax"])
+    df = df.groupby("foreign_point", as_index=False)["pax"].sum()
+
+    # Eight points carry freight and no passengers: Cologne, Leipzig, Liege and
+    # Luxembourg are cargo hubs, as are Guangzhou and Shenzhen on these sectors.
+    # A seats-per-week figure for them is not small, it is meaningless, so they
+    # are dropped rather than divided. (DGCA spells two of the others NOTTIMGHAM
+    # and TAIPAE, which is the same source-typo problem recorded for carriers.)
+    df = df[df["pax"] > 0].copy()
+
+    df["seats_per_week_one_way"] = df["pax"] / load_factor / 52 / 2
+    df["is_gulf"] = df["foreign_point"].map(is_gulf_point)
+    return df.sort_values("pax", ascending=False).reset_index(drop=True)
+
+
+def dubai_entitlement_check(year: int = INTL_COUNTRY_YEAR) -> dict:
+    """Cross-check the reported India-Dubai cap against DGCA's own passenger count.
+
+    The entitlement figure is secondary: India publishes no seat table, and the
+    Ministry of Civil Aviation's agreements page is not even reachable. So it is
+    checked the only way available, from the traffic end, exactly as DGCA was
+    checked against Eurostat and IndiGo's block hours were checked against DGCA.
+
+    Assumes the standard reciprocal structure, both sides holding the same
+    entitlement. That assumption is stated rather than buried, because the whole
+    check rests on it.
+    """
+    df = bilateral_seat_usage(year)
+    dubai = df[df["foreign_point"].str.replace(" ", "") == "DUBAI"]
+    implied = float(dubai["seats_per_week_one_way"].sum())
+    # allow_unverified is correct here and nowhere else in this module. The whole
+    # point of this function is to CHECK a figure that cannot be verified against
+    # a primary source, so gating it would make the check impossible to run. The
+    # result is a diagnostic, never a published figure.
+    one_side = assumption(
+        "india_dubai_weekly_seat_entitlement_one_side", allow_unverified=True
+    )
+    both_sides = 2 * one_side
+    return {
+        "implied_seats_per_week": round(implied),
+        "reported_entitlement_both_sides": round(both_sides),
+        "gap_pct": round(100 * (implied - both_sides) / both_sides, 1),
+        "utilisation_pct": round(100 * implied / both_sides, 1),
+    }
 
 
 def build_all() -> list[str]:

@@ -575,3 +575,65 @@ def test_fy2026_opens_below_breakeven():
     assert dp.assumption("indigo_cask_inr_per_ask_fy2026") > dp.assumption(
         "indigo_rask_inr_per_ask_fy2026"
     )
+
+
+# --------------------------------------------------------------------------
+# Gulf point matching, and the bilateral constraint
+# --------------------------------------------------------------------------
+
+
+def test_every_gulf_point_literal_matches_a_real_dgca_name():
+    """The bug this test exists for hid 5.0M passengers in a published chart.
+
+    GULF_POINTS held "ABU DHABI" and "RAS AL KHAIMAH"; DGCA writes "ABUDHABI"
+    and "RAS AL-KHAIMAH". Exact matching missed both, so the Gulf-hub Sankey
+    understated the corridor by 20%. Nothing failed, because a wrong bucket is
+    still a valid bucket. This asserts every literal actually resolves.
+    """
+    from src import data_pipeline as dp
+
+    city = dp.load_dgca_intl_city()
+    city = city[city["year"] == bm.INTL_COUNTRY_YEAR]
+    points = set(city["city1"]) | set(city["city2"])
+    keys = {bm._norm_point(p) for p in points}
+
+    unmatched = [g for g in bm.GULF_POINTS if bm._norm_point(g) not in keys]
+    assert not unmatched, f"GULF_POINTS entries that match no DGCA city: {unmatched}"
+
+
+def test_gulf_matching_survives_spacing_and_hyphen_variants():
+    for variant in ("ABUDHABI", "ABU DHABI", "abu dhabi", "RAS AL-KHAIMAH", "RAS AL KHAIMAH"):
+        assert bm.is_gulf_point(variant), f"{variant} should be a Gulf point"
+    for other in ("LONDON", "SINGAPORE", "NEW YORK"):
+        assert not bm.is_gulf_point(other)
+
+
+def test_abu_dhabi_is_counted_as_a_gulf_hub():
+    """Regression pin for the specific 5.7M that was misfiled."""
+    flows = bm.gateway_flows()
+    gulf = flows[flows["destination"] == "Gulf hub"]["pax"].sum()
+    assert gulf > 24_000_000, "Gulf hub flow collapsed, Abu Dhabi may be misfiled again"
+
+
+def test_bilateral_seat_usage_excludes_foreign_to_foreign_sectors():
+    """A sector with neither end in India is not an India bilateral."""
+    d = bm.bilateral_seat_usage()
+    assert not d.empty
+    assert (d["seats_per_week_one_way"] > 0).all()
+    assert "DUBAI" in set(d["foreign_point"])
+    # no Indian gateway should appear as a foreign point
+    assert not (set(d["foreign_point"]) & bm.INDIAN_GATEWAYS)
+
+
+def test_dubai_runs_close_to_its_reported_bilateral_entitlement():
+    """The corroboration, and the answer to hypothesis branch 4.3.
+
+    India publishes no entitlement table, so the reported cap is secondary. It is
+    checked from the traffic end instead. If these two diverge badly, either the
+    reported figure is wrong or the seat inference is.
+    """
+    c = bm.dubai_entitlement_check()
+    assert 70 < c["utilisation_pct"] < 110, (
+        f"implied usage is {c['utilisation_pct']}% of the reported entitlement, "
+        "which is too far off to corroborate either number"
+    )

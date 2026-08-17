@@ -32,9 +32,19 @@ Three assumption rows will not close, and are marked so rather than left looking
 
 ## Open questions that would change the answer
 
-- **Bilateral seat entitlements.** India-Gulf capacity is negotiated, not open. This is the
-  most likely reason the recommendation fails, and no free machine-readable source exists.
-  Branch 4.3 of the hypothesis tree.
+- **Bilateral seat entitlements.** Still the most likely reason the recommendation fails, but
+  no longer just a named gap. India publishes no entitlement table: the Ministry of Civil
+  Aviation lists its agreements and a *"Guidelines for publication/sharing of information
+  pertaining to Air Services Agreement"* but no seat figures, and the agreements page returns
+  403. Rajya Sabha Unstarred Question 827 of 27 July 2026 confirms the mechanism without
+  publishing a number.
+
+  So it was measured from the traffic end instead, with `benchmarking.dubai_entitlement_check`.
+  India-Dubai runs about **119,200 one-way seats a week against a reported two-sided
+  entitlement of 133,008, roughly 90% utilised**. Two independent routes to the same order of
+  magnitude, which corroborates the secondary entitlement figure and puts a number on the
+  headroom. What remains genuinely open is the entitlement for the other Gulf points, and
+  whether India renegotiates. Branch 4.3 of the hypothesis tree.
 - ~~**Carrier share trend.**~~ Answered, and it reversed the project's premise. Indian
   carriers' share went from 37.0% in 2015 to **45.9%** in 2025 while Gulf carriers fell 32.7%
   to 26.2%. The storyline was rewritten around the finding rather than against it.

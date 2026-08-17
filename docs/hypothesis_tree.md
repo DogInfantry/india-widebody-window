@@ -51,8 +51,17 @@ Deploy wide-bodies to the Gulf corridor first
 │   │       Was BLOCKED until the seat and utilisation figures were sourced
 │   │       from manufacturer manuals and IndiGo's annual report
 │   └── 4.3 Do bilateral seat rights permit it?
-│           OPEN, AND MATERIAL. India-Gulf capacity is negotiated, not open.
-│           A fleet that cannot be flown for want of rights is deployed wrongly.
+│           PARTLY ANSWERED, AND STILL THE BINDING RISK. India publishes no
+│           entitlement table, so this was checked from the traffic end.
+│           India-Dubai runs about 119,200 one-way seats a week against a
+│           reported two-sided entitlement of 133,008, roughly 90% utilised.
+│           So the single largest India-Gulf city pair has under 15% headroom
+│           before a treaty change is needed, and Emirates and flyDubai are
+│           reported to be at their half of it already.
+│           IMPLICATION: incremental wide-body capacity aimed at Dubai cannot
+│           be flown on existing rights. It has to go long-haul, or to Gulf
+│           points with slack, or wait on a renegotiation India has so far
+│           refused. That strengthens the deploy-long-haul recommendation.
 │           No free machine-readable source for bilateral entitlements
 │
 └── 5. Is the Gulf a better first move than the West?                  ANSWERED: yes

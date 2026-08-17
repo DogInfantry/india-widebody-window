@@ -128,6 +128,71 @@ IATA DDS) and is named in `ROADMAP.md` rather than glossed over.
 
 ---
 
+## A wrong bucket is still a valid bucket
+
+`GULF_POINTS` listed `ABU DHABI` and `RAS AL KHAIMAH`. DGCA writes `ABUDHABI` with no space
+and `RAS AL-KHAIMAH` with a hyphen. Exact string matching missed both, so **5.0 million
+passengers a year, 20% of the Gulf hub flow**, were filed under "Everywhere else, direct" in a
+chart whose entire argument is how much traffic disappears into a Gulf hub.
+
+Nothing failed. Every test passed throughout, because a wrong bucket is still a valid bucket:
+the shares summed to 100, the flows were positive, the Sankey rendered. This is the failure
+mode that unit tests are worst at, and it is the second time this exact mistake has appeared
+in this repo. The first was `AIR ARABIA-ABU DHABI`, recorded in the carrier-name notes. The
+lesson was learned for carriers and never carried across to city points.
+
+Fixed at the root rather than by patching two literals: `is_gulf_point()` compares on a key
+with spaces and hyphens stripped, so the whole class is closed. A test now asserts that every
+literal in `GULF_POINTS` resolves to a real DGCA city name, which would have caught it.
+
+Found, incidentally, while building the bilateral seat check below. Eight foreign points also
+turn out to carry freight and no passengers (Cologne, Leipzig, Liège, Luxembourg, Guangzhou
+and Shenzhen among them), and DGCA spells two others `NOTTIMGHAM` and `TAIPAE`.
+
+---
+
+## Bilateral seat rights, measured from the only end that is open
+
+Branch 4.3 of the hypothesis tree asks whether bilateral seat rights permit the deployment. It
+is the most likely reason the recommendation fails, and it is the hardest thing in this project
+to source.
+
+**India does not publish entitlements.** The Ministry of Civil Aviation posts a *List of Air
+Services Agreements* and, tellingly, a *Guidelines for publication/sharing of information
+pertaining to Air Services Agreement*, but no seat table, and the agreements page returns 403.
+Rajya Sabha Unstarred Question 827 of 27 July 2026 confirms the mechanism, that ASAs set
+mutually agreed capacity limits and foreign carriers need a designated point of call, without
+publishing a single number. The widely quoted 66,504 seats per week for India to Dubai comes
+from trade press and an Observer Research Foundation report. It is `UNVERIFIED_NO_PRIMARY` and
+labelled as such.
+
+**So it was checked from the traffic end**, the same move used for DGCA against Eurostat and
+IndiGo's block hours against DGCA. Passengers over load factor, halved because DGCA reports
+both directions, over 52 weeks:
+
+| | One-way seats per week |
+|---|---|
+| India-Dubai, implied by DGCA 2024 traffic | ~119,200 |
+| Reported entitlement, two sides at 66,504 | 133,008 |
+| **Utilisation** | **~90%** |
+
+Two independent routes land in the same place. That corroborates the secondary figure and puts
+a number on the headroom: **under 15% left on India's largest international city pair**, with
+Emirates and flyDubai reported to be at their half already.
+
+**The implication runs toward the recommendation, not against it.** Wide-body capacity aimed at
+Dubai largely cannot be flown on existing rights. It has to go long-haul, or to Gulf points with
+slack, or wait on a renegotiation India has so far declined.
+
+Two cautions. The check assumes the standard reciprocal structure, both sides holding equal
+entitlement, and it uses the all-India international load factor of 81.1% rather than a
+Dubai-specific one. At a more realistic 85% the implied figure falls further below the cap. And
+66,504 is **one emirate and one side**: India-UAE as a whole runs roughly 255,000 one-way seats
+a week across Dubai, Abu Dhabi and Sharjah, which hold separate MoUs. Quoting the Dubai number
+as the India-UAE cap would be wrong by a factor of about four.
+
+---
+
 ## Aircraft utilisation, and a number that did not survive being checked
 
 The capacity sizing leg needs one figure: hours flown per aircraft per day. It is reported on
