@@ -4,16 +4,53 @@ Answer first. Everything below supports the recommendation, nothing sets up to i
 
 ---
 
+## The brief
+
+**Client.** IndiGo (InterGlobe Aviation), network and fleet strategy.
+
+**The decision.** IndiGo holds **60 A350-900s on firm order** and **40 purchase rights it has
+not converted**. Air India holds **80 wide-bodies** on firm order against it. The question is
+not whether to fly long-haul, which is already committed, but **where the first tranche goes,
+in what sequence, and what to do with the purchase rights**. Both order-book figures are
+verified against Airbus, Boeing and Air India primary releases; the purchase rights are
+recorded separately from the firm order, because a purchase right is not capacity.
+
+**Timeframe.** Deployment decisions through 2030, which is the horizon the market sizing runs
+to and roughly the span over which the firm order is delivered.
+
+**Success metrics, all of them measurable in this repo rather than asserted.**
+
+| Metric | Where it stands today |
+|---|---|
+| International stage length against Air India | 2,643 km against 5,316 km, 2025 |
+| Share of India's international sector passengers, Indian carriers | 45.9%, up from 37.0% in 2015 |
+| Unit revenue against unit cost | RASK 4.99 against CASK 5.00, FY2026. Currently inverted |
+| Share of corridor revenue, not just passengers | Gulf is 52% of passengers and 31% of revenue |
+
+**What this deliberately is not.** A financing case. Whether to fund the aircraft through
+sale-leaseback, JOLCO or operating lease changes who owns the metal, not where it should fly,
+and the lease-rate data that would settle it is paywalled trade press. It is named in
+`docs/recommendation.md` as out of scope rather than glossed over.
+
+---
+
 ## Recommendation
 
-**Indian carriers should deploy the incoming wide-body fleet to reclaim the India-Gulf
-corridor before defending long-haul to the West.**
+**Deploy the incoming wide-body fleet to reclaim the India-Gulf corridor before defending
+long-haul to the West.**
 
 The Gulf is half of India's international traffic and four times the size of the entire
 direct Europe market. Indian carriers fly it with short-haul aircraft and hand the
 connecting passenger to Dubai, Doha and Abu Dhabi. Europe and North America are the second
 move, not the first, because they are smaller, already contested, and reachable only after
 the fleet can fly the distance.
+
+**The binding qualification, found late and stated here rather than buried.** India-Dubai
+already runs at roughly **90% of its reported bilateral entitlement**, so incremental capacity
+aimed at the single largest Gulf city pair cannot be flown on existing rights. That does not
+overturn the recommendation, it sequences it: the Gulf-first move has to go to points with
+slack, or wait on a renegotiation India has so far refused. See branch 4.3 of the hypothesis
+tree.
 
 ---
 

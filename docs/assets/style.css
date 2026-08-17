@@ -124,6 +124,37 @@ a:hover { border-bottom-color: var(--red); }
   margin: 0;
 }
 
+/* Who is deciding, and what. Set as a definition list rather than prose because
+   a reader scanning for "is this a real decision or a market study" should find
+   the answer without reading a paragraph. Deliberately quiet: it is scaffolding
+   for the argument above it, not a competing headline, so no red and no rules. */
+/* Four fields, so the min track is sized to fit all four on one row at the wrap
+   width and fall to two rather than stranding one on a line of its own. */
+.brief {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 26px 40px;
+  margin: 0 0 52px;
+}
+
+.brief div { margin: 0; }
+
+.brief dt {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--grey);
+  margin-bottom: 6px;
+}
+
+.brief dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+
 .kpi-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
@@ -188,6 +219,39 @@ a:hover { border-bottom-color: var(--red); }
   padding-top: 12px;
   margin-top: 6px;
 }
+
+/* Pivot callouts: where the evidence turned the analysis against itself.
+   Deliberately not styled as a warning. These are the strongest content on the
+   page, so they read as an annotation in the margin of the argument rather than
+   as an erratum bolted onto it. The accent, not the primary red, because the red
+   belongs to the chart the reader is looking at while this sits beside it. */
+.pivot {
+  margin-top: 18px;
+  padding: 14px 0 14px 16px;
+  border-left: 2px solid var(--accent);
+  background: var(--wash);
+  padding-right: 16px;
+}
+
+.pivot-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+.pivot p {
+  font-size: 15px;
+  line-height: 1.55;
+  color: #333;
+  margin: 0;
+}
+
+.pivot a { color: var(--ink); text-decoration-color: var(--grey); }
+.pivot a:hover { color: var(--accent); }
 
 .sticky-graphic {
   position: sticky;
@@ -259,6 +323,52 @@ a:hover { border-bottom-color: var(--red); }
 .callout h3 { font-size: 19px; font-weight: 600; color: var(--red); }
 .callout p:last-child { margin-bottom: 0; }
 
+/* ------------------------------------------------------------- pivots */
+
+/* Sits on paper, between the grey proof band and the grey-free method footer,
+   so it reads as its own chapter rather than a continuation of the sources. */
+.pivots { padding: 84px 0; }
+.pivots h2 { font-size: 34px; font-weight: 700; max-width: 26ch; }
+
+.pivot-list {
+  list-style: none;
+  counter-reset: pivot;
+  padding: 0;
+  margin: 0 0 48px;
+}
+
+.pivot-list li {
+  counter-increment: pivot;
+  position: relative;
+  padding: 0 0 34px 76px;
+  margin-bottom: 34px;
+  border-bottom: 1px solid var(--light);
+  max-width: 88ch;
+}
+
+.pivot-list li:last-child { border-bottom: none; }
+
+/* The numeral is the only red in this section. Set large and in the display
+   face so the five read as a sequence at a glance, which is the point: the
+   count matters as much as any single entry. */
+.pivot-list li::before {
+  content: counter(pivot);
+  position: absolute;
+  left: 0;
+  top: -6px;
+  font-family: var(--serif);
+  font-size: 46px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+}
+
+.pivot-list h3 { font-size: 21px; font-weight: 600; margin-bottom: 14px; max-width: 44ch; }
+.pivot-list p { font-size: 16px; color: #333; margin-bottom: 10px; }
+.pivot-list p:last-child { margin-bottom: 0; }
+.pivot-list strong { color: var(--ink); font-weight: 600; }
+
 /* -------------------------------------------------------------- method */
 
 .method { padding: 84px 0 100px; }
@@ -275,6 +385,28 @@ a:hover { border-bottom-color: var(--red); }
 .method ul { margin: 0 0 1em; padding-left: 20px; }
 .method li { margin-bottom: 12px; color: #333; }
 .method .small { font-size: 14px; color: var(--grey); }
+
+.written {
+  border-top: 1px solid var(--light);
+  padding-top: 32px;
+  margin-bottom: 48px;
+  max-width: 88ch;
+}
+
+.doclinks { list-style: none; padding: 0; margin: 24px 0 0; }
+
+.doclinks li {
+  display: grid;
+  grid-template-columns: minmax(0, 15em) minmax(0, 1fr);
+  gap: 4px 24px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--light);
+  margin: 0;
+}
+
+.doclinks a { font-weight: 600; border-bottom: none; }
+.doclinks a:hover { color: var(--red); }
+.doclinks span { font-size: 14px; color: var(--grey); line-height: 1.45; }
 
 .units-note {
   border-top: 1px solid var(--light);
@@ -320,6 +452,19 @@ a:hover { border-bottom-color: var(--red); }
 
   .recon { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
   .recon th, .recon td { padding: 10px 12px; }
+
+  .pivots { padding: 56px 0; }
+  .pivots h2 { font-size: 26px; }
+
+  /* The numeral moves above the heading rather than beside it. At 76px of left
+     padding on a 320px screen the text column collapses to nothing. */
+  .pivot-list li { padding: 0 0 28px; margin-bottom: 28px; }
+  .pivot-list li::before { position: static; display: block; font-size: 34px; margin-bottom: 6px; }
+  .pivot-list h3 { font-size: 19px; }
+
+  .brief { gap: 20px; margin-bottom: 36px; }
+
+  .doclinks li { grid-template-columns: 1fr; gap: 2px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
