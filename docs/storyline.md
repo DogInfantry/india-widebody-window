@@ -36,21 +36,34 @@ and the lease-rate data that would settle it is paywalled trade press. It is nam
 
 ## Recommendation
 
-**Deploy the incoming wide-body fleet to reclaim the India-Gulf corridor before defending
-long-haul to the West.**
+**Compete with the Gulf hubs. Do not fly more aircraft to them.**
 
-The Gulf is half of India's international traffic and four times the size of the entire
-direct Europe market. Indian carriers fly it with short-haul aircraft and hand the
-connecting passenger to Dubai, Doha and Abu Dhabi. Europe and North America are the second
-move, not the first, because they are smaller, already contested, and reachable only after
-the fleet can fly the distance.
+The Gulf is half of India's international traffic and four times the entire direct Europe
+market, and about **8.1M passengers a year are not going to the Gulf at all**. They are going
+to Europe and North America and paying a Gulf carrier for it, a contested pool worth
+**INR 27,500 to 53,900 crore**, a third to two thirds of IndiGo's annual revenue.
 
-**The binding qualification, found late and stated here rather than buried.** India-Dubai
-already runs at roughly **90% of its reported bilateral entitlement**, so incremental capacity
-aimed at the single largest Gulf city pair cannot be flown on existing rights. That does not
-overturn the recommendation, it sequences it: the Gulf-first move has to go to points with
-slack, or wait on a renegotiation India has so far refused. See branch 4.3 of the hypothesis
-tree.
+The instrument is not more Gulf flying. It is long-haul direct service from Indian gateways
+that makes the Gulf connection unnecessary. **Europe first, North America second, Gulf capacity
+roughly flat.**
+
+Three lines of evidence say the aircraft cannot go to Gulf airports even though the traffic is
+there:
+
+- **No room.** India-Dubai runs at **89.6%** of its reported bilateral entitlement, leaving
+  about 0.72M seats a year against a 36.9M corridor. Growing it is a treaty negotiation India
+  has refused since 2014.
+- **Worst unit economics on the map.** Scaling IndiGo's published unit cost across corridors,
+  the Gulf has the least room of any to absorb a yield decline, because short sectors keep cost
+  per seat kilometre high. Europe can take about a fifth off the fare and still clear.
+- **An order book sized for a longer network.** The 140 firm wide-bodies would add **78%** to
+  Indian carriers' international capacity when holding share needs roughly half that. It clears
+  only if the average sector lengthens about **27%**.
+
+The corridor stays the centre of the case. The aircraft point elsewhere. This is a change of
+answer, and it is recorded as pivot 1 in `docs/pivot_log.md` rather than presented as though it
+had always been the view. The full option menu, roadmap, risk register and leading indicators
+are in `docs/recommendation.md`.
 
 ---
 

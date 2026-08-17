@@ -11,17 +11,17 @@ to fit an adjacent artifact. A coverage figure engineered upward is worthless.
 
 | Requirement | Evidence | Status |
 |---|---|---|
-| **Go to market strategy**<br><sub>Where to deploy incoming wide-body capacity, sized three ways</sub> | `docs/storyline.md`<br>`src/market_sizing.py` | yes |
+| **Go to market strategy**<br><sub>A named client, five costed options, a phased roadmap and the risks that would break it</sub> | `docs/recommendation.md`<br>`docs/storyline.md`<br>`src/options.py` | yes |
 | **Industry analysis**<br><sub>India international market by corridor, carrier and stage length</sub> | `src/benchmarking.py`<br>`docs/assets/charts/corridor_scale.json` | yes |
 | **Competitive benchmarking**<br><sub>Indian carriers against Gulf carriers on share, load factor and stage length</sub> | `src/benchmarking.py`<br>`docs/assets/charts/stage_length_gap.json` | yes |
-| **Model building**<br><sub>Reimagined in Python. Repo rule forbids Excel as output or intermediate</sub> | `src/market_sizing.py`<br>`src/data_pipeline.py` | yes |
+| **Model building**<br><sub>Reimagined in Python, repo rule forbids Excel. Capacity absorption, corridor breakeven and a sensitivity on every modelled knob</sub> | `src/fleet_gap.py`<br>`src/options.py`<br>`src/market_sizing.py` | yes |
 | **Survey analysis**<br><sub>NOT EVIDENCED. No survey data exists and fabricating one would be dishonest</sub> | _none_ | **gap** |
 | **Ad hoc investigation**<br><sub>The Rome to Delhi discrepancy: found by cross-check, investigated, left unresolved and quarantined</sub> | `data/data_dictionary.md` | yes |
-| **Judgement where data is thin**<br><sub>Assumption status gate, disputed route quarantine, provisional sizing band</sub> | `data/manual/assumptions.csv`<br>`src/data_pipeline.py` | yes |
+| **Judgement where data is thin**<br><sub>Assumption status gate, disputed route quarantine, an unverifiable O-D share bounded rather than asserted, and six documented changes of mind</sub> | `data/manual/assumptions.csv`<br>`src/data_pipeline.py`<br>`docs/pivot_log.md` | yes |
 | **Secondary research**<br><sub>Every field sourced, dated and reliability graded; conflicts flagged not resolved</sub> | `data/data_dictionary.md`<br>`NOTICE` | yes |
 | **Storylining**<br><sub>SCQA structure, answer-first titles enforced by test</sub> | `docs/storyline.md`<br>`docs/index.html` | yes |
 | **Global best practice baselining**<br><sub>Gulf carriers as the benchmark holding a quarter of India's own market</sub> | `src/benchmarking.py`<br>`docs/assets/charts/who_carries_india.json` | yes |
-| **Drives complex analysis** | `src/market_sizing.py`<br>`src/benchmarking.py`<br>`tests/test_analysis.py` | yes |
+| **Drives complex analysis** | `src/fleet_gap.py`<br>`src/options.py`<br>`src/market_sizing.py`<br>`tests/test_analysis.py` | yes |
 | **Middle East orientation**<br><sub>The India-Gulf corridor is the spine of the case, not a footnote</sub> | `docs/assets/charts/gateway_flows.json`<br>`docs/storyline.md` | yes |
 | **Open ended problem solving**<br><sub>Case decomposed into a MECE issue tree before any analysis</sub> | `docs/hypothesis_tree.md` | yes |
 | **Client development support**<br><sub>A documented second case option, showing breadth beyond the flagship</sub> | `docs/alternative_b_datacenters.md` | yes |

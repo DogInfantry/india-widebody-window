@@ -59,8 +59,8 @@ REQUIREMENTS: tuple[Requirement, ...] = (
     Requirement(
         "go-to-market strategies",
         "Go to market strategy",
-        ("docs/storyline.md", "src/market_sizing.py"),
-        "Where to deploy incoming wide-body capacity, sized three ways",
+        ("docs/recommendation.md", "docs/storyline.md", "src/options.py"),
+        "A named client, five costed options, a phased roadmap and the risks that would break it",
     ),
     Requirement(
         "industry analysis",
@@ -77,8 +77,8 @@ REQUIREMENTS: tuple[Requirement, ...] = (
     Requirement(
         "excel models",
         "Model building",
-        ("src/market_sizing.py", "src/data_pipeline.py"),
-        "Reimagined in Python. Repo rule forbids Excel as output or intermediate",
+        ("src/fleet_gap.py", "src/options.py", "src/market_sizing.py"),
+        "Reimagined in Python, repo rule forbids Excel. Capacity absorption, corridor breakeven and a sensitivity on every modelled knob",
     ),
     Requirement(
         "survey analysis",
@@ -95,8 +95,8 @@ REQUIREMENTS: tuple[Requirement, ...] = (
     Requirement(
         "business judgment to derive answers in \nsituations where data is not easily available",
         "Judgement where data is thin",
-        ("data/manual/assumptions.csv", "src/data_pipeline.py"),
-        "Assumption status gate, disputed route quarantine, provisional sizing band",
+        ("data/manual/assumptions.csv", "src/data_pipeline.py", "docs/pivot_log.md"),
+        "Assumption status gate, disputed route quarantine, an unverifiable O-D share bounded rather than asserted, and six documented changes of mind",
     ),
     Requirement(
         "secondary research",
@@ -119,7 +119,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
     Requirement(
         "driving the analysis on complex cases",
         "Drives complex analysis",
-        ("src/market_sizing.py", "src/benchmarking.py", "tests/test_analysis.py"),
+        ("src/fleet_gap.py", "src/options.py", "src/market_sizing.py", "tests/test_analysis.py"),
         "",
     ),
     Requirement(

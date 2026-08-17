@@ -1,19 +1,70 @@
 # How this analysis changed
 
-Five times, evidence turned the work against what it had been assuming. Once it reversed the
-premise of the whole case. Once it forced a published claim to be withdrawn. Once it found a
-wrong answer that every test in the repo had passed.
+Six times, evidence turned the work against what it had been assuming. Once it changed the
+recommendation. Once it reversed the premise of the whole case. Once it forced a published
+claim to be withdrawn. Once it found a wrong answer that every test in the repo had passed.
 
 They are recorded here for one reason: a case that arrives in a straight line was either
 trivial or is hiding something. Each entry names what was believed, what the evidence said,
 what changed as a result, and the commit where it happened, so any of it can be checked.
 
-Ordered by how much each changed the answer, not by date. All five landed between
-2026-08-16 and 2026-08-17.
+Ordered by how much each changed the answer, not by date.
 
 ---
 
-## Pivot 1. "India is losing its own market" became "India is winning it, just not in long-haul"
+## Pivot 1. "Gulf first" became "compete with the Gulf hubs, do not fly to them"
+
+`fe43dd5` *Ask what each corridor must earn to cover its cost, and find the Gulf tightest*
+and `3ac7729` *Measure the order book in ASK, and find it is sized for a longer network*
+
+**What was believed, and it was this project's headline.** Reclaim the India-Gulf corridor
+first, defend long-haul second. The corridor is half of India's international traffic and four
+times the entire direct Europe market, so that is where the wide-bodies should go.
+
+**What the evidence said.** The traffic is there. The aircraft cannot be. Three independent
+lines, none of which existed when the headline was written, say so:
+
+1. **There is no room to fly them.** India-Dubai already runs at **89.6%** of its reported
+   bilateral entitlement. The headroom is about 13,800 one-way seats a week, roughly 0.72M
+   seats a year, against a corridor carrying 36.9M passengers. Growing it is a treaty
+   negotiation India has refused since 2014, not a commercial decision.
+2. **The unit economics are the worst on the map.** Scaling IndiGo's published unit cost across
+   the corridors, the Gulf has the **least** room of any to absorb a yield decline, because
+   sectors that short keep cost per seat kilometre high. Europe could take about a fifth off
+   the fare and still clear its cost. The Gulf does not clear its cost today.
+3. **The order book is sized for a longer network.** The 140 firm wide-bodies would add **78%**
+   to Indian carriers' international capacity. Holding share needs about half that. The book
+   clears only if the average sector lengthens roughly **27%**, or if share reaches 58%.
+   Pointing them at 2,200 km Gulf sectors leaves most of that capacity doing nothing the
+   existing narrow-bodies could not.
+
+**What changed.** The recommendation, and with it the headline of the site. The Gulf corridor
+stays the strategic centre of the case, because that is where the traffic and the contested
+revenue are. The aircraft point somewhere else.
+
+The reconciliation is in the traffic split. Of 36.9M Gulf passengers, roughly **28.9M are
+genuinely point-to-point**, the diaspora and labour corridor that Kochi feeds, already served
+by narrow-bodies that suit it. About **8.1M are connecting** onward to Europe and North
+America on a Gulf carrier, and that traffic is worth INR 27,500 to 53,900 crore. It is won by
+flying past the Gulf, not to it. Which is a long-haul move.
+
+**Why it is the first entry.** It is the only one that changed the answer rather than the
+evidence behind it. It also matters that the case did not need rescuing to survive it: every
+supporting exhibit stands unchanged, and the new recommendation uses more of them than the old
+one did.
+
+**What it should have caught earlier.** Branch 4.3 of the hypothesis tree already said
+incremental Gulf capacity "has to go long-haul, or to Gulf points with slack, or wait on a
+renegotiation India has so far refused". That conclusion sat in the tree and never propagated
+to the storyline or the headline. The analysis was ahead of the write-up for a while, which is
+its own lesson.
+
+**Where it lives.** `docs/recommendation.md`, `src/options.py::corridor_economics`,
+`src/fleet_gap.py::absorption_summary`, `benchmarking.dubai_entitlement_check`.
+
+---
+
+## Pivot 2. "India is losing its own market" became "India is winning it, just not in long-haul"
 
 `9c473a9` *Find three carrier classification bugs; one reverses the premise*
 
@@ -43,7 +94,7 @@ and the `carrier_share_trend` exhibit.
 
 ---
 
-## Pivot 2. A wrong answer that passed all 72 tests
+## Pivot 3. A wrong answer that passed all 72 tests
 
 `f9359d0` *Quantify the bilateral constraint, and fix a bucket bug it exposed*
 
@@ -76,7 +127,7 @@ bug was found by going looking for a bilateral seat number, not by any test.
 
 ---
 
-## Pivot 3. A published margin claim, withdrawn
+## Pivot 4. A published margin claim, withdrawn
 
 `9f76662` *Adopt the verification vocabulary, and retract the IndiGo margin claim*
 
@@ -112,7 +163,7 @@ chart, and it has blocked real work since.
 
 ---
 
-## Pivot 4. Verifying the gated numbers made the recommendation harder to argue
+## Pivot 5. Verifying the gated numbers made the recommendation harder to argue
 
 `9866c76` *Close the capacity sizing leg from primary manufacturer manuals*
 and `c124d6e` *Weight the capacity leg by variant instead of one seat count for every tail*
@@ -143,7 +194,7 @@ test that used to assert the leg was blocked.
 
 ---
 
-## Pivot 5. A widely quoted utilisation figure that did not survive arithmetic
+## Pivot 6. A widely quoted utilisation figure that did not survive arithmetic
 
 `edc18d1` *Close the active-fleet utilisation row, and retire a number that failed its check*
 

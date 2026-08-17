@@ -323,6 +323,30 @@ a:hover { border-bottom-color: var(--red); }
 .callout h3 { font-size: 19px; font-weight: 600; color: var(--red); }
 .callout p:last-child { margin-bottom: 0; }
 
+/* --------------------------------------------------- recommendation */
+
+/* On the wash, like the proof band, because both are "here is the evidence
+   behind the claim" sections rather than narrative. The scrolly between them
+   stays on paper. */
+.reco {
+  background: var(--wash);
+  border-top: 1px solid var(--light);
+  padding: 84px 0;
+}
+
+.reco h2 { font-size: 34px; font-weight: 700; max-width: 24ch; }
+.reco h3 { font-size: 20px; font-weight: 600; margin: 44px 0 8px; }
+.reco > .wrap > p { max-width: 80ch; }
+
+/* The option and risk tables carry sentences, not figures, so they cannot use
+   the reconciliation table's right-aligned tabular treatment. */
+.options { font-size: 14px; margin-bottom: 20px; }
+.options th, .options td { text-align: left; vertical-align: top; }
+.options td { padding: 13px 18px; }
+.options th { text-align: left; }
+.options tr.chosen td { background: #FFF6F6; }
+.options tr.chosen td:first-child { box-shadow: inset 3px 0 0 var(--red); }
+
 /* ------------------------------------------------------------- pivots */
 
 /* Sits on paper, between the grey proof band and the grey-free method footer,
@@ -452,6 +476,17 @@ a:hover { border-bottom-color: var(--red); }
 
   .recon { font-size: 13px; display: block; overflow-x: auto; white-space: nowrap; }
   .recon th, .recon td { padding: 10px 12px; }
+
+  /* The option and risk tables carry sentences, not figures, so they must NOT
+     inherit the reconciliation table's nowrap. Left alone, one cell of prose
+     stretched to 839px and the table to 1300px on a 335px screen. They still
+     scroll, because four columns will not fit either way, but each cell wraps
+     so the scroll is short rather than a paragraph wide. */
+  .options { white-space: normal; min-width: 620px; font-size: 13px; }
+  .options td { padding: 10px 12px; }
+  .reco { padding: 56px 0; }
+  .reco h2 { font-size: 26px; }
+  .reco h3 { font-size: 18px; margin-top: 32px; }
 
   .pivots { padding: 56px 0; }
   .pivots h2 { font-size: 26px; }

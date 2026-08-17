@@ -64,16 +64,34 @@ Deploy wide-bodies to the Gulf corridor first
 │           refused. That strengthens the deploy-long-haul recommendation.
 │           No free machine-readable source for bilateral entitlements
 │
-└── 5. Is the Gulf a better first move than the West?                  ANSWERED: yes
+└── 5. Is the Gulf a better first move than the West?         ANSWERED, AND IT REVERSED
     ├── 5.1 Relative market size?
-    │       Gulf 36.9M vs Europe 8.8M vs North America 2.5M
+    │       Gulf 36.9M vs Europe 8.8M vs North America 2.5M. The Gulf wins
+    │       on size and that was never in doubt
     ├── 5.2 Relative competitive intensity?
     │       Europe and North America are served by mature incumbent networks;
     │       Gulf point-to-point demand is diaspora-anchored and needs no hub
-    └── 5.3 Where does the margin sit?
-            BLOCKED. Profit pools need yields. DGCA publishes no fares and
-            Air India is unlisted. Gated until figures are verified
+    ├── 5.3 Where does the margin sit?
+    │       ANSWERED, was blocked. Gulf 52% of passengers, 31% of revenue.
+    │       Long-haul corridors carry higher modelled margin
+    └── 5.4 Can the aircraft actually be deployed there?       THE DECIDING BRANCH
+            NO, and this is what turned the answer. Three independent lines:
+            (a) India-Dubai runs at 89.6% of its bilateral entitlement, leaving
+                ~0.72M seats/year against a 36.9M corridor (branch 4.3)
+            (b) the Gulf has the LEAST yield headroom of any corridor, and does
+                not cover its own cost at IndiGo's realised yield
+            (c) the order book adds 78% to international ASK where holding share
+                needs ~half that, clearing only if sectors lengthen ~27%
+            So the corridor is the prize and the aircraft cannot serve it. The
+            8.1M connecting passengers inside it are won by flying PAST the Gulf.
+            Recommendation restated: compete with the hubs, do not fly to them
 ```
+
+**Branch 5 is where this tree earned its keep.** The question was posed as Gulf against West
+and answered "Gulf" on size for most of the project. Adding 5.4, which asks whether the
+aircraft can physically and economically be deployed rather than whether the traffic is there,
+inverted it. A tree that only asks where the demand is will always answer "the biggest
+corridor".
 
 ## What the tree says about sequencing
 
