@@ -22,6 +22,7 @@ from src import (  # noqa: E402
     data_pipeline,
     fleet_gap,
     market_sizing,
+    options,
     profit_pools,
     scenario,
 )
@@ -100,6 +101,7 @@ def main() -> int:
         + profit_pools.build_all()
         + scenario.build_all()
         + fleet_gap.build_all()
+        + options.build_all()
     ):
         print(f"  {name}")
 

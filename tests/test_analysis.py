@@ -16,6 +16,7 @@ from src import benchmarking as bm
 from src import charts
 from src import fleet_gap as fg
 from src import market_sizing as ms
+from src import options as opt
 from src import profit_pools as pp
 from src import scenario as sc
 
@@ -86,7 +87,7 @@ def test_gateway_flows_are_well_formed():
 # nothing else in the suite would notice: the export test only checks that the
 # files exist, not that they obey the palette or carry a takeaway. That is how a
 # module gets added and quietly skips every rule the repo claims to enforce.
-PUBLISHING_MODULES = (bm, pp, fg, ms, sc)
+PUBLISHING_MODULES = (bm, pp, fg, ms, opt, sc)
 
 
 @pytest.fixture(scope="module")
@@ -874,3 +875,140 @@ def test_fleet_gap_and_the_sizing_leg_do_not_contradict_each_other():
     # them consistent rather than contradictory
     assert (book_pax / market_growth) < 1.0
     assert (book_pax / market_growth) / fg.current_share() > 1.0
+
+
+# --------------------------------------------------------------------------
+# options: which way to add capacity, and what each needs to be true
+# --------------------------------------------------------------------------
+
+
+def test_unit_cost_falls_with_sector_length():
+    """The shape the whole module rests on. If this inverts, the elasticity sign is wrong."""
+    stages = [1_000, 2_500, 5_000, 10_000]
+    casks = [opt.cask_at_stage(d) for d in stages]
+    assert casks == sorted(casks, reverse=True)
+    # and it must pass through the published figure at the published sector
+    ref = opt.reference()
+    assert opt.cask_at_stage(ref.stage_km) == pytest.approx(ref.cask)
+
+
+def test_the_cost_reference_is_the_system_network_not_the_international_one():
+    """CASK is a system figure, so its sector length must be the system one.
+
+    Anchoring at IndiGo's 2,643 km international stage would price its domestic
+    flying as long-haul and shift every corridor's cost down with it.
+    """
+    ref = opt.reference()
+    intl = bm.carrier_operating_summary(2025, international=True).set_index("airline")
+    assert ref.stage_km < intl.loc["IndiGo", "stage_length_km"]
+    assert 900 < ref.stage_km < 1_500
+
+
+def test_the_gulf_has_the_least_yield_headroom():
+    """The finding, and it cuts against the headline recommendation.
+
+    Short sectors keep unit cost high, so the Gulf can absorb the least yield
+    erosion of any corridor. That does not overturn "Gulf first", but it does mean
+    the Gulf case rests on volume, bilateral position and the connect premium
+    rather than on unit economics, and the write-up has to say so.
+    """
+    df = opt.corridor_economics().set_index("region")
+    assert df["yield_headroom_pct"].idxmin() == "Gulf"
+    assert df.loc["Gulf", "yield_headroom_pct"] < df.loc["Europe", "yield_headroom_pct"]
+    assert df.loc["Gulf", "yield_headroom_pct"] < df.loc["North America", "yield_headroom_pct"]
+
+
+def test_the_finding_survives_the_one_knob():
+    """Turning the elasticity across its plausible range must not flip the ordering.
+
+    Mirrors the equivalent guard on the profit pool's margin knob. If the answer
+    only holds at one exponent, it is the exponent talking, not the data.
+    """
+    s = opt.sensitivity()
+    assert s["gulf_is_tightest"].all(), (
+        "the Gulf stops being the tightest corridor somewhere in the plausible "
+        "elasticity range, so the finding is an artefact of the knob"
+    )
+    # headroom must widen with distance at every setting
+    for e in s["elasticity"]:
+        df = opt.corridor_economics(elasticity=float(e))
+        assert df.sort_values("stage_km")["yield_headroom_pct"].is_monotonic_increasing
+
+
+def test_sensitivity_does_not_mutate_the_module_constant():
+    """The knob is passed as an argument, never swapped in and out of a global.
+
+    `profit_pools.sensitivity` mutates a module global and restores it in a
+    finally block, which works but is one exception away from leaving the repo in
+    a state where every later figure is built on the wrong number. This one takes
+    a parameter instead, and this test pins that difference.
+    """
+    before = opt.CASK_STAGE_ELASTICITY
+    opt.sensitivity()
+    assert opt.CASK_STAGE_ELASTICITY == before
+
+
+def test_narrowbody_reach_excludes_north_america_and_includes_europe():
+    """Computed from the verified A321XLR range against computed stage lengths."""
+    df = opt.corridor_economics().set_index("region")
+    assert not df.loc["North America", "reachable_by_narrowbody"]
+    assert not df.loc["Oceania", "reachable_by_narrowbody"]
+    assert df.loc["Europe", "reachable_by_narrowbody"]
+    assert df.loc["Gulf", "reachable_by_narrowbody"]
+
+
+def test_value_at_stake_is_a_band_never_a_point():
+    """Bounded by the only two yields this project has verified.
+
+    The width of the band must be exactly the ratio of those two yields and
+    nothing else, which is what makes it a bound rather than an estimate.
+    Tolerance is 1e-4 because the reported figures are rounded to whole crore.
+    """
+    from src import data_pipeline as dp
+
+    v = opt.value_at_stake()
+    assert v["revenue_ceiling_inr_cr"] > v["revenue_floor_inr_cr"]
+    lo = dp.assumption("indigo_yield_inr_per_rpk_fy2026")
+    hi = dp.assumption("gulf_carrier_yield_inr_per_rpk")
+    assert hi > lo, "the band has inverted, so one of the two yields has changed basis"
+    assert v["revenue_ceiling_inr_cr"] / v["revenue_floor_inr_cr"] == pytest.approx(hi / lo, rel=1e-4)
+
+
+def test_the_connect_gap_is_the_difference_between_two_measures():
+    """Sector share is computed from DGCA; the O-D share can never be verified."""
+    g = opt.connect_gap()
+    assert g["gap_pts"] == pytest.approx(g["sector_share_pct"] - g["od_share_pct"], abs=0.05)
+    assert 8 < g["gap_pts"] < 15, "the connect gap has moved outside the range the case argues"
+
+
+def test_the_od_share_cannot_reach_a_published_figure_through_the_gate():
+    """`gulf_od_share_pct` must stay refused unless a caller opts in explicitly.
+
+    It was carried as a hard number on the live page with no row here at all,
+    which is how it escaped the gate for the life of the project. Now it is gated,
+    and this asserts the gate bites. INVERT THIS, do not delete it, if IATA ever
+    publishes a free origin-destination table.
+    """
+    from src import data_pipeline as dp
+
+    with pytest.raises(dp.UnverifiedAssumption):
+        dp.assumption("gulf_od_share_pct")
+    assert dp.assumption("gulf_od_share_pct", allow_unverified=True) > 0
+
+
+def test_options_and_profit_pools_agree_on_the_corridor_ordering():
+    """Two unrelated models, one shape. That is the point of building both.
+
+    `profit_pools` models margin rising with stage length off an EBITDAR anchor.
+    `options` derives cost headroom from published unit costs and a cost
+    elasticity. They share no input beyond the corridor stage lengths, so
+    agreeing on the ordering is corroboration rather than arithmetic.
+    """
+    pool = pp.profit_pool().set_index("region")["margin_pct"]
+    head = opt.corridor_economics().set_index("region")["yield_headroom_pct"]
+    common = sorted(set(pool.index) & set(head.index))
+    assert len(common) >= 6
+
+    assert pool.loc[common].rank().corr(head.loc[common].rank()) > 0.95, (
+        "the two corridor models have stopped agreeing, so one of them has changed basis"
+    )
