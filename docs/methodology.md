@@ -128,6 +128,43 @@ IATA DDS) and is named in `ROADMAP.md` rather than glossed over.
 
 ---
 
+## Aircraft utilisation, and a number that did not survive being checked
+
+The capacity sizing leg needs one figure: hours flown per aircraft per day. It is reported on
+an **owned-fleet** basis at **10.06**, and the basis is named on the chart rather than left to
+the reader, because the two possible bases differ by enough to move the leg by a third.
+
+**The figure has an independent cross-check, which is rare here.** IndiGo's FY26 annual report
+gives 1,619,570 block hours (1,220,966 domestic plus 398,604 international) across 441 aircraft
+at period end. DGCA's `aircraft_hours` gives 1,614,608 for the same carrier and the same year.
+Two agencies, opposite ends, **0.31% apart**. That is the second both-ends check in this
+project after DGCA against Eurostat.
+
+**A number carried in the project notes did not survive.** Working notes recorded a "reported
+~13 hours/day" against the DGCA-derived figure, and explained the gap as grounded aircraft.
+The explanation was the right shape and the arithmetic was never done. Doing it:
+
+| Grounded | Active | Hours/aircraft/day |
+|---|---|---|
+| 0 | 441 | 10.06 |
+| 40 | 401 | 11.07 |
+| 60 | 381 | 11.65 |
+| **100** | **341** | **13.01** |
+
+13 hours/day requires **100 of 441 aircraft grounded**. IndiGo does not disclose its grounded
+count: the annual report confirms the situation and an IAE compensation plan in note 41 without
+quantifying it, and the June 2026 analyst presentation labels an AOG bar with no number. Trade
+coverage puts the 31 March 2026 figure in the 40s, which yields 11.07. The ~13 is most likely
+stale, from FY2024 when groundings genuinely ran near 70 to 80.
+
+So the plausible active-fleet range is roughly **10.5 to 11.7**, not 13, and the honest band is
+much narrower than first assumed. The capacity leg runs on the owned-fleet figure alone, which
+is the conservative end. The active row is closed as `NOT_AVAILABLE` rather than filled with a
+round number nobody sourced, and it records which documents were searched so the next person
+does not repeat the search.
+
+---
+
 ## The profit pool, and everything modelled inside it
 
 `src/profit_pools.py` is the most heavily modelled module in this repo, so it states its own
