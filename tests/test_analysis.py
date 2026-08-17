@@ -381,11 +381,23 @@ def test_scenario_paths_start_at_the_observed_base():
     assert abs(start["pax_m"].iloc[0] - 72.2) < 1.0
 
 
-def test_scenario_figure_admits_the_missing_levers():
-    """The plan promised fuel and FX levers. They are absent, and the chart says so."""
-    fig = sc.fig_scenarios()
-    text = (fig.layout.title.text or "").lower()
-    assert "fuel" in text and "gated" in text
+def test_scenario_figure_points_at_the_levers_it_does_not_carry():
+    """Inverted when the fuel and FX levers were built.
+
+    This asserted the chart admits the levers are missing. They are no longer
+    missing, but they still do not belong on the demand paths, so the chart must
+    now say where they DID go instead of claiming they are absent. A chart that
+    keeps apologising for something already delivered is as stale as one that
+    hides a gap.
+    """
+    text = (sc.fig_scenarios().layout.title.text or "").lower()
+    assert "fuel" in text and "separately" in text
+    assert "gated" not in text, "the demand chart still claims the levers are blocked"
+
+
+def test_all_three_lever_families_are_built():
+    """The plan promised demand, fuel and FX. Pin that all three now exist."""
+    assert {"scenarios", "cask_bridge", "fuel_fx_sensitivity"} <= set(sc.FIGURES)
 
 
 # --------------------------------------------------------------------------
@@ -494,3 +506,72 @@ def test_every_chart_the_page_asks_for_has_been_exported():
 
     have = {p.stem for p in (root / "docs" / "assets" / "charts").glob("*.json")}
     assert wanted <= have, f"page asks for charts that were never exported: {sorted(wanted - have)}"
+
+
+# --------------------------------------------------------------------------
+# fuel and FX levers
+# --------------------------------------------------------------------------
+
+
+def test_unit_cost_decomposition_reconciles_to_published_cask():
+    """Three parts, each a difference of verified rows, must sum to the total."""
+    from src import data_pipeline as dp
+
+    u = sc.unit_economics()
+    assert abs(u["inr_per_ask"].sum() - dp.assumption("indigo_cask_inr_per_ask_fy2026")) < 1e-9
+    assert abs(u["share_pct"].sum() - 100) < 1e-9
+    assert (u["inr_per_ask"] > 0).all()
+
+
+def test_cask_bridge_closes_exactly():
+    """A bridge that does not close is a bar chart with arrows on it."""
+    from src import data_pipeline as dp
+
+    b = sc.cask_bridge().set_index("step")["inr_per_ask"]
+    walked = b["FY2025 CASK"] + b["Fuel"] + b["Real non-fuel"] + b["Currency"]
+    assert abs(walked - b["FY2026 CASK"]) < 1e-9, f"bridge lands at {walked}, not {b['FY2026 CASK']}"
+    assert abs(b["FY2025 CASK"] - dp.assumption("indigo_cask_fy2025_inr_per_ask")) < 1e-9
+
+
+def test_currency_exceeds_the_net_cask_increase():
+    """The finding. Fuel fell, so currency is larger than the whole net rise."""
+    b = sc.cask_bridge().set_index("step")["inr_per_ask"]
+    net = b["FY2026 CASK"] - b["FY2025 CASK"]
+    assert b["Fuel"] < 0, "fuel is supposed to have fallen; if it rose the story changes"
+    assert b["Currency"] > net > 0
+    assert abs(b["Real non-fuel"]) < abs(b["Currency"]), (
+        "real cost inflation should be small against the currency effect"
+    )
+
+
+def test_dollar_exposure_is_a_band_not_a_point():
+    """DGCA publishes no fuel split by sector type, so a midpoint would be invented."""
+    e = sc.dollar_exposure()
+    assert e["floor_inr_per_ask"] < e["ceiling_inr_per_ask"]
+    assert 0 < e["floor_pct_of_cask"] < e["ceiling_pct_of_cask"] < 100
+
+
+def test_fx_bites_harder_than_fuel_at_the_same_move():
+    """Titles claim it, so it has to hold. More of unit cost is dollar linked at
+    the ceiling than is fuel, so an equal percentage move in the rupee costs more."""
+    s = sc.fuel_fx_sensitivity().set_index("move_pct")
+    assert s.loc[10.0, "cask_fx_shock_ceiling"] > s.loc[10.0, "cask_fuel_shock"]
+    assert s.loc[-10.0, "cask_fx_shock_ceiling"] < s.loc[-10.0, "cask_fuel_shock"]
+
+
+def test_unshocked_case_reproduces_actual_cask():
+    """A zero shock must return the published number, or the lever has an offset."""
+    from src import data_pipeline as dp
+
+    z = sc.cost_under_shock()
+    cask = dp.assumption("indigo_cask_inr_per_ask_fy2026")
+    assert (z["cask_inr_per_ask"].sub(cask).abs() < 1e-9).all()
+
+
+def test_fy2026_opens_below_breakeven():
+    """CASK 5.00 against RASK 4.99. If this inverts, several titles are wrong."""
+    from src import data_pipeline as dp
+
+    assert dp.assumption("indigo_cask_inr_per_ask_fy2026") > dp.assumption(
+        "indigo_rask_inr_per_ask_fy2026"
+    )
