@@ -96,17 +96,23 @@ harder market.
 
 ## Sizing the prize
 
-India's international market reaches **106M to 108M passengers by 2030**, from 72M in 2024.
+India's international market reaches **91M to 108M passengers by 2030**, from 72M in 2024.
 
-The band comes from two methods reported as a range, never averaged, because the spread is
+The band comes from three methods reported as a range, never averaged, because the spread is
 the useful part. Trend extrapolation of DGCA's own history at the pre-covid rate of 6.96%
 gives 108M. An income propensity model fitted across twelve peer countries, putting the
-income elasticity of air travel at 1.07 over 276 observations, gives 106M.
+income elasticity of air travel at 1.07 over 276 observations, gives 106M. A capacity method,
+counting the seats the announced order books can actually fly, gives 91M.
 
-A third method counting the seats the announced order books can actually fly is **withheld**.
-Its inputs have not been verified against a primary source, and the code refuses to use
-them. A band built partly on unchecked numbers is worse than one that says which leg is
-missing.
+That third leg was **withheld** for most of this project's life, because its inputs had not
+been verified against a primary source and the code refused to use them. It was unblocked by
+finding the sources, not by relaxing the rule: seat counts from Airbus and Boeing airport
+planning manuals, at published two-class layouts and weighted by variant rather than counting
+every tail as an A350-900, and utilisation from IndiGo's own block hours.
+
+Note which direction that moved the answer. The new leg is the **low** one, so verifying the
+gated numbers widened the band downward and made the recommendation harder to argue, not
+easier. A gate that only ever unlocks good news is not a gate.
 
 ---
 

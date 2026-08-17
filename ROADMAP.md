@@ -2,30 +2,42 @@
 
 What is deliberately unfinished, and why. Nothing here is a placeholder.
 
-## Blocked on source verification
+## Cleared, and how
 
-The revenue half of the case is gated by `dp.assumption()`, which refuses any figure not
-marked `VERIFIED` in `data/manual/assumptions.csv`. Unblocking all three needs the same
-handful of numbers checked against primary filings.
+Everything that once sat under "blocked on source verification" is built. Recorded here
+rather than deleted, because every one was unblocked by finding a primary source and none by
+relaxing the gate.
 
-- **Profit pools.** Chart builder exists in `src/charts.py`; the module does not. The margin
-  anchor is now real and primary-sourced: IndiGo EBITDAR margin **26.3% (FY2025) and 27.3%
-  (FY2026, ex-forex)**. An earlier claim that the margin halved to 14.0% was wrong and is
-  retracted in `docs/methodology.md`. What still blocks the module is the segment split, not
-  the total margin.
-- **Capacity leg of the market sizing.** Currently withheld, and the chart says so. Needs
-  wide-body order counts, seat configurations and utilisation.
-- **Fuel and FX scenario levers.** The demand lever is built and unblocked. Fuel needs ATF
-  price, which Indian Oil publishes only through a JavaScript page, and FX needs the RBI
-  reference rate. Both are absent rather than stubbed.
+- **Profit pools.** `src/profit_pools.py` exists. Passengers and reference stage lengths are
+  computed; the margin axis is modelled, labelled `MODELLED` on the chart face, and anchored
+  to IndiGo's FY2026 EBITDAR margin ex forex. The finding: the Gulf is 52% of India's
+  international passengers and 31% of its revenue.
+- **Capacity leg of the market sizing.** Runs. Seat counts came from Airbus and Boeing airport
+  planning manuals at published two-class layouts, weighted by variant. The band went from
+  106M to 108M on two methods to 91M to 108M on three.
+- **Fuel and FX scenario levers.** Built. They did not need the gated yields after all, they
+  needed a unit cost decomposition, which IndiGo publishes. The finding: currency added +0.41
+  to FY2026 CASK against a net rise of +0.34, because fuel fell.
+
+## Terminal, not pending
+
+Three assumption rows will not close, and are marked so rather than left looking like work:
+
+- `air_india_yield_inr_per_rpk` is `NOT_AVAILABLE`. Air India is unlisted and files nothing.
+- `gulf_hub_connect_premium_pct` is `MODELED`. Nobody publishes it.
+- `aircraft_utilisation_hours_per_day_active` is `NOT_AVAILABLE`. IndiGo's grounded-aircraft
+  count is absent from both the FY26 annual report and the June 2026 analyst presentation.
+  Searching for it did retire a bad number: the "~13 hours/day" this project used to carry
+  requires 100 of 441 aircraft grounded, and the real range is about 10.5 to 11.7.
 
 ## Open questions that would change the answer
 
 - **Bilateral seat entitlements.** India-Gulf capacity is negotiated, not open. This is the
   most likely reason the recommendation fails, and no free machine-readable source exists.
   Branch 4.3 of the hypothesis tree.
-- **Carrier share trend.** Whether Indian carriers' 45.3% share is stable or eroding. The
-  data to compute it is already in the pipeline; the series has not been built.
+- ~~**Carrier share trend.**~~ Answered, and it reversed the project's premise. Indian
+  carriers' share went from 37.0% in 2015 to **45.9%** in 2025 while Gulf carriers fell 32.7%
+  to 26.2%. The storyline was rewritten around the finding rather than against it.
 - **The Rome to Delhi dispute.** Quarantined pending a source that can settle whether DGCA
   omits the route or Eurostat over-reports it.
 

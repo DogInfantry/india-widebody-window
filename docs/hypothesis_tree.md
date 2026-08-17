@@ -41,10 +41,15 @@ Deploy wide-bodies to the Gulf corridor first
 │
 ├── 4. Can the corridor absorb 100 more aircraft?                      PARTIALLY ANSWERED
 │   ├── 4.1 Does demand grow enough by 2030?
-│   │       106M to 108M international passengers, from 72M. Two methods, band reported
+│   │       91M to 108M international passengers, from 72M. Three methods, band reported
 │   ├── 4.2 Do the seats on order exceed that demand?
-│   │       BLOCKED. Fleet and utilisation figures unverified; the capacity
-│   │       method refuses to run rather than guess
+│   │       NO, AND THAT IS THE ANSWER. 140 wide-bodies on firm order carry
+│   │       46,546 seats at published two-class layouts, weighted by variant.
+│   │       Flown at the owned-fleet utilisation of 10.06 hours/day they add
+│   │       enough for 91M, the LOW leg of the band. The order book is sized
+│   │       below even the trend case, so it does not overshoot demand.
+│   │       Was BLOCKED until the seat and utilisation figures were sourced
+│   │       from manufacturer manuals and IndiGo's annual report
 │   └── 4.3 Do bilateral seat rights permit it?
 │           OPEN, AND MATERIAL. India-Gulf capacity is negotiated, not open.
 │           A fleet that cannot be flown for want of rights is deployed wrongly.

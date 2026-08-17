@@ -226,13 +226,29 @@ raises `UnverifiedAssumption` rather than returning anything not marked `VERIFIE
 
 Consequences, visible on the site rather than hidden:
 
-- The **capacity leg of the market sizing is blocked**, and the chart says so
-- **Profit pools are not built**, and a claim about the margin anchor has been withdrawn.
-  See the retraction below.
-- **Scenario analysis is built for demand only.** Base, bull and bear paths need nothing
-  but passenger counts, all of which are measured. The fuel and FX levers are **absent
-  rather than stubbed**: both price into revenue, revenue needs gated yields, and a lever
-  that raises on every call is inventory rather than analysis. The chart states the omission
+All three consequences below have since been resolved, and they are kept here rather than
+deleted because how a gate closes is worth as much as the gate. Each was unblocked by finding
+a primary source, never by relaxing the rule:
+
+- The **capacity leg of the market sizing was blocked** and the chart said so. It now runs.
+  Seat counts came from the manufacturers' own airport planning manuals (Airbus `AC_A350`,
+  Boeing `D6-58333` and `D6-86073`), and utilisation from IndiGo's annual report block hours
+  cross-checked against DGCA. The band went from 106M to 108M on two methods to **91M to
+  108M on three**, and the new leg is the low one, so closing the gap made the answer more
+  conservative rather than more flattering.
+- **Profit pools are now built**, in `src/profit_pools.py`, with the margin axis modelled and
+  labelled as such. The withdrawn margin claim stands withdrawn; see the retraction below.
+- **Scenario analysis now carries all three levers.** Demand was always built. Fuel and FX
+  were called absent rather than stubbed, on the reasoning that both price into revenue and
+  revenue needs gated yields. That reasoning was half wrong, and the wrong half is the useful
+  part: they do not need a **yield**, they need a **unit cost decomposition**, which IndiGo
+  publishes. Once CASK was split into fuel, dollar-linked and rupee components, both levers
+  followed and reconcile to the published CASK to the paisa.
+
+What remains genuinely gated is narrower than it was. Air India's yield is `NOT_AVAILABLE`
+because the company is unlisted and files nothing; the Gulf hub connect premium is `MODELED`
+because nobody publishes it; IndiGo's grounded-aircraft count is `NOT_AVAILABLE` after two
+primary documents were searched. All three are terminal states, not pending work.
 
 **World Bank air passenger data stops at 2023.** `IS.AIR.PSGR` has no values after 2023. It
 supports cross-country elasticity fitting over 2010 to 2023; it cannot size a current year.
