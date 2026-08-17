@@ -220,22 +220,33 @@ def test_income_elasticity_is_economically_plausible():
     assert n > 100, "too few peer observations to fit a curve on"
 
 
-def test_capacity_method_is_blocked_while_inputs_are_unverified():
-    """The gate must hold. An unverified fleet count cannot produce a sizing leg.
+def test_capacity_leg_runs_now_that_every_input_is_verified():
+    """All four capacity inputs are cleared, so the leg must produce a number.
 
-    Asserts on the status vocabulary rather than one literal state, because the
-    reason a row is not cleared varies: the Air India wide-body count is blocked
-    on a link that was wrong, the seat counts on values never transcribed, and
-    utilisation on having no source at all.
+    This test used to assert the opposite. It was inverted deliberately when the
+    last input (utilisation) was sourced: the gate opening is the event worth
+    guarding, because a silent regression to blocked would quietly drop a whole
+    leg out of the band and nobody would see a failure.
+    """
+    e = ms.estimate_capacity()
+    assert e.available, f"capacity leg went back to blocked: {e.blocked_reason}"
+    assert e.blocked_reason is None
+    # sanity, not a golden value: the leg must clear the base year and stay in
+    # the same order of magnitude as the other two legs.
+    assert 80 < e.value_m < 200
+
+
+def test_assumption_gate_still_bites_on_unverified_rows():
+    """The gate itself must keep working after the capacity rows were cleared.
+
+    Clearing rows is exactly when a broken gate stops being visible, so this
+    pins the mechanism to a row that is still, and may permanently remain,
+    unverifiable: Air India files no results, so its yield has no primary source.
     """
     from src import data_pipeline as dp
 
-    e = ms.estimate_capacity()
-    assert not e.available
-    assert e.blocked_reason
-    assert not any(ok in e.blocked_reason for ok in dp.USABLE_STATUSES), (
-        f"capacity was blocked citing a cleared status: {e.blocked_reason}"
-    )
+    with pytest.raises(dp.UnverifiedAssumption):
+        dp.assumption("air_india_yield_inr_per_rpk")
 
 
 def test_band_is_a_range_not_an_average():
@@ -243,7 +254,8 @@ def test_band_is_a_range_not_an_average():
     lo, hi = tri.band
     values = [e.value_m for e in tri.available]
     assert lo == min(values) and hi == max(values)
-    assert tri.is_provisional, "capacity is still blocked, so the band must say provisional"
+    assert not tri.is_provisional, "all three legs are live, so the band is no longer provisional"
+    assert len(values) == 3, "the band must now carry all three methods"
     # every estimate must exceed the base year, or growth has been modelled backwards
     assert all(v > tri.base_m for v in values)
 
@@ -254,11 +266,18 @@ def test_sizing_estimates_are_in_a_sane_range():
         assert 80 < e.value_m < 200, f"{e.method} gives {e.value_m:.0f}M, which is not credible"
 
 
-def test_sizing_figure_declares_it_is_provisional():
+def test_sizing_figure_no_longer_claims_to_be_provisional():
+    """The inverse of the old test, and the reason it had to be inverted.
+
+    A chart that still says provisional after the missing leg landed is lying in
+    the safe direction, which is still lying. The provisional wording must
+    disappear exactly when the third method starts contributing.
+    """
     fig = ms.fig_triangulation()
     text = (fig.layout.title.text or "").lower()
-    assert "withheld" in text or "provisional" in text, (
-        "a band missing a method must say so on the chart, not only in the logs"
+    assert not ms.triangulate().is_provisional
+    assert "withheld" not in text and "provisional" not in text, (
+        f"band is complete but the chart still hedges: {text}"
     )
 
 
