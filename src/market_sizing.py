@@ -425,9 +425,21 @@ def fig_triangulation(target_year: int = TARGET_YEAR) -> go.Figure:
     return charts.finish(fig, title=title, subtitle=subtitle, source=SOURCE)
 
 
+# Published under the same contract as every other analysis module. This was a
+# bare call inside build_all, which meant the chart existed but was invisible to
+# anything enumerating what the repo publishes, including the house-rule fixture
+# in the test suite.
+FIGURES = {
+    "market_sizing": fig_triangulation,
+}
+
+
 def build_all() -> list[str]:
-    charts.export(fig_triangulation(), "market_sizing")
-    return ["market_sizing"]
+    written = []
+    for name, builder in FIGURES.items():
+        charts.export(builder(), name)
+        written.append(name)
+    return written
 
 
 if __name__ == "__main__":

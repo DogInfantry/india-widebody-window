@@ -14,6 +14,7 @@ import pytest
 
 from src import benchmarking as bm
 from src import charts
+from src import fleet_gap as fg
 from src import market_sizing as ms
 from src import profit_pools as pp
 from src import scenario as sc
@@ -80,6 +81,14 @@ def test_gateway_flows_are_well_formed():
 # --------------------------------------------------------------------------
 
 
+# Every module that publishes figures belongs here. A new analysis module whose
+# charts are not in this tuple ships with NO house-rule coverage at all, and
+# nothing else in the suite would notice: the export test only checks that the
+# files exist, not that they obey the palette or carry a takeaway. That is how a
+# module gets added and quietly skips every rule the repo claims to enforce.
+PUBLISHING_MODULES = (bm, pp, fg, ms, sc)
+
+
 @pytest.fixture(scope="module")
 def built():
     """Every figure that publishes through a FIGURES map.
@@ -91,9 +100,37 @@ def built():
     """
     return {
         name: builder()
-        for module in (bm, pp)
+        for module in PUBLISHING_MODULES
         for name, builder in module.FIGURES.items()
     }
+
+
+def test_every_publishing_module_is_covered_by_the_house_rules():
+    """The fixture above must not fall behind the codebase.
+
+    Written because it already had. `market_sizing` and `scenario` publish
+    figures and were never in the fixture, so for the whole life of the project
+    their charts were exempt from the one-red and takeaway-title rules that every
+    other chart was held to. Discovering that by reading the fixture is luck;
+    this makes it a failure.
+    """
+    import importlib
+    import pkgutil
+
+    import src
+
+    publishing = set()
+    for mod in pkgutil.iter_modules(src.__path__):
+        module = importlib.import_module(f"src.{mod.name}")
+        if isinstance(getattr(module, "FIGURES", None), dict):
+            publishing.add(mod.name)
+
+    covered = {m.__name__.rsplit(".", 1)[-1] for m in PUBLISHING_MODULES}
+    missing = publishing - covered
+    assert not missing, (
+        f"these modules publish figures but are not in PUBLISHING_MODULES, so their "
+        f"charts are exempt from every house rule: {sorted(missing)}"
+    )
 
 
 def test_every_figure_states_a_takeaway_not_a_topic(built):
@@ -637,3 +674,203 @@ def test_dubai_runs_close_to_its_reported_bilateral_entitlement():
         f"implied usage is {c['utilisation_pct']}% of the reported entitlement, "
         "which is too far off to corroborate either number"
     )
+
+
+# --------------------------------------------------------------------------
+# fleet gap: what the order book can fly against what the market asks for
+# --------------------------------------------------------------------------
+
+
+def test_baseline_is_measured_not_modelled():
+    """Every field on the baseline must reproduce from DGCA columns directly."""
+    b = fg.baseline()
+    ops = fg._international_operating(b.year)
+
+    assert b.pax == pytest.approx(ops["pax"].sum())
+    assert b.ask == pytest.approx(ops["ask"].sum())
+    assert b.stage_km == pytest.approx(ops["rpk"].sum() / ops["pax"].sum())
+    # sanity, not tautology: these are the published findings
+    assert 3_000 < b.stage_km < 4_000
+    assert 0.75 < b.load_factor < 0.90
+
+
+def test_block_speed_is_computed_and_rises_with_stage_length():
+    """Block speed comes from aircraft_km over aircraft_hours, never assumed.
+
+    Taxi, climb and descent are a larger share of a short sector, so a long-haul
+    network must block faster than a short-haul one. Air India averages 5,316 km
+    and IndiGo 2,643 km, so Air India must come out faster. If this inverts, the
+    two columns are not measuring what this module thinks they are.
+    """
+    ops = fg._international_operating(fg.LATEST_COMPLETE_YEAR).set_index("airline")
+    ai, indigo = ops.loc["Air India"], ops.loc["IndiGo"]
+
+    assert ai["stage_km"] > indigo["stage_km"]
+    assert ai["block_speed_kmh"] > indigo["block_speed_kmh"]
+    # a jet transport blocks somewhere in this range or a column is misread
+    for airline, row in ops.iterrows():
+        assert 500 < row["block_speed_kmh"] < 950, f"{airline} blocks at {row['block_speed_kmh']:.0f} km/h"
+
+
+def test_order_book_ask_reconciles_to_the_capacity_sizing_leg():
+    """Two modules, two routes, one quantity. They must not drift apart.
+
+    `market_sizing.estimate_capacity` multiplies seats by cycles per year and a
+    load factor to get passengers. `fleet_gap.order_book_ask` multiplies the same
+    seats by block speed and utilisation to get kilometres. Cycles times sector
+    length IS kilometres, so the two are the same number wearing different units:
+
+        ask == (added_pax / load_factor) * block_hours * block_speed
+
+    This is the drift guard. If someone changes the seat table, the utilisation
+    row or the block-hours constant in one module only, this fails rather than
+    the site quietly carrying two different capacity stories.
+
+    Tolerance is 1e-4 rather than exact for one reason worth naming: the sizing
+    leg publishes `observed_intl_load_factor` rounded to four decimal places, and
+    the reconciliation runs back through that published figure deliberately, so
+    it checks what the module actually reports rather than an internal it happens
+    to share. The residual is that rounding and nothing else, about 0.002%.
+    """
+    cap = ms.estimate_capacity()
+    assert cap.available, f"capacity leg is blocked: {cap.blocked_reason}"
+
+    base_pax = float(ms._annual_international()[ms.BASE_YEAR])
+    added_pax = cap.value_m * 1e6 - base_pax
+
+    book = fg.order_book_ask()
+    implied = (
+        added_pax
+        / cap.assumptions["observed_intl_load_factor"]
+        * cap.assumptions["assumed_block_hours"]
+        * book["block_speed_kmh"]
+    )
+    assert book["ask"] == pytest.approx(implied, rel=1e-4)
+
+
+def test_the_sizing_leg_assumes_a_long_haul_sector_without_saying_so():
+    """Surfaced by the reconciliation above, and worth pinning.
+
+    7.5 block hours at the wide-body block speed is a sector of roughly 5,200 km,
+    which is Air India's network, not IndiGo's 2,643 km one. The capacity leg has
+    always assumed these aircraft fly long-haul. That is a defensible assumption
+    and it is now an explicit one.
+    """
+    book = fg.order_book_ask()
+    assert 4_500 < book["implied_sector_km"] < 6_000
+    assert book["implied_sector_km"] > fg.baseline().stage_km
+
+
+def test_order_book_seats_come_from_the_shared_variant_table():
+    """One seat total in the repo, not two."""
+    seats, _ = ms._widebody_seats()
+    assert fg.order_book_ask()["seats"] == pytest.approx(seats)
+
+
+def test_demand_path_is_calibrated_to_the_observed_baseline():
+    """The model must start from what happened, not from where the curve says.
+
+    Without the calibration the first modelled year lands about 2.6% below the
+    observed 36.4M, which would show a capacity surplus before a single aircraft
+    arrived. An artefact of anchoring, not a finding.
+    """
+    b = fg.baseline()
+    path = fg.indian_carrier_pax_path().set_index("year")
+    assert path.loc[b.year, "pax"] == pytest.approx(b.pax, rel=1e-9)
+    # and the gap must therefore open at exactly zero
+    first = fg.gap_path().iloc[0]
+    assert first["year"] == b.year
+    assert first["gap_bn"] == pytest.approx(0.0, abs=1e-6)
+
+
+def test_the_order_book_exceeds_what_holding_share_requires():
+    """The finding this module exists to produce.
+
+    If this ever falls below 1.0 the recommendation changes completely: the
+    aircraft would be needed just to carry existing traffic, and the argument
+    about flying it further would be unnecessary.
+    """
+    s = fg.absorption_summary()
+    assert s["book_vs_growth_ratio"] > 1.0, (
+        "the order book no longer exceeds the capacity needed to hold share, "
+        "so the case for lengthening the network is no longer the binding one"
+    )
+    assert s["surplus_bn"] > 0
+    assert s["stage_uplift_pct"] > 0
+    assert s["share_pct_to_absorb"] > 100 * fg.current_share()
+
+
+def test_absorption_frontier_trades_share_against_sector_length():
+    """Carry more of the market, or carry it further. The curve must slope down."""
+    df = fg.absorption_frontier()
+    assert df["required_stage_km"].is_monotonic_decreasing
+    # the frontier is the ASK identity, so every point must reproduce it
+    base = fg.baseline()
+    available = base.ask + fg.order_book_ask()["ask"]
+    for _, row in df.iterrows():
+        assert fg.ask_required(
+            row["pax_m"] * 1e6, row["required_stage_km"], base.load_factor
+        ) == pytest.approx(available, rel=1e-9)
+
+
+def test_delivery_slip_only_moves_when_capacity_lands():
+    """Later deliveries must never mean more capacity in any year."""
+    band = fg.gap_band()
+    wide = band.pivot(index="year", columns="first_delivery_year", values="ask_available_bn")
+    starts = sorted(wide.columns)
+    for earlier, later in zip(starts, starts[1:]):
+        assert (wide[earlier] >= wide[later] - 1e-9).all(), (
+            f"deliveries from {later} produce more capacity than from {earlier}"
+        )
+    # and the total book delivered is identical, only the timing differs
+    assert band.groupby("first_delivery_year")["ask_needed_bn"].nunique().nunique() == 1
+
+
+def test_the_gap_is_worst_in_the_bridge_years():
+    """The shape that motivates phasing: a gap opens, then deliveries close it."""
+    path = fg.gap_path(first_delivery_year=2028).set_index("year")
+    peak_year = int(path["gap_bn"].idxmax())
+    assert 2026 <= peak_year <= 2028, f"gap peaks in {peak_year}, not the bridge era"
+    # it must actually close by the target year, or the order book is undersized
+    assert path["gap_bn"].iloc[-1] < path["gap_bn"].max()
+
+
+def test_delivery_start_year_is_never_asserted_as_fact():
+    """No primary source gives one, so the module must not carry one as a default fact.
+
+    The Airbus release confirming the 60 firm A350s states no delivery schedule,
+    and one attempt to source it found nothing. It may appear as a scenario input
+    and must be visible as such on the chart.
+    """
+    text = (fg.fig_fleet_gap().layout.title.text or "").lower()
+    assert "scenario input" in text or "never asserted" in text
+
+
+def test_fleet_gap_and_the_sizing_leg_do_not_contradict_each_other():
+    """Two statements that look opposed, pinned so they stay reconciled.
+
+    Branch 4.2 of the hypothesis tree says the order book does not overshoot
+    demand. This module says it is roughly twice what holding share requires.
+    Both hold because they divide by different denominators: the whole market's
+    growth in one case, Indian carriers' share of that growth in the other.
+
+    If the ratio between them ever stops tracking the carrier share, one of the
+    two has silently changed basis.
+    """
+    cap = ms.estimate_capacity()
+    base_pax = float(ms._annual_international()[ms.BASE_YEAR])
+    book_pax = cap.value_m * 1e6 - base_pax
+
+    # the whole market's growth to the trend case
+    trend = ms.estimate_trend()
+    market_growth = trend.value_m * 1e6 - base_pax
+    assert book_pax < market_growth, "the book now overshoots the whole market, 4.2 has changed"
+
+    # and the same book against one carrier group's share of that growth
+    s = fg.absorption_summary()
+    assert s["book_vs_growth_ratio"] > 1.0
+
+    # the two ratios must differ by roughly the carrier share, which is what makes
+    # them consistent rather than contradictory
+    assert (book_pax / market_growth) < 1.0
+    assert (book_pax / market_growth) / fg.current_share() > 1.0

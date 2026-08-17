@@ -20,6 +20,7 @@ from src import (  # noqa: E402
     benchmarking,
     charts,
     data_pipeline,
+    fleet_gap,
     market_sizing,
     profit_pools,
     scenario,
@@ -98,6 +99,7 @@ def main() -> int:
         + market_sizing.build_all()
         + profit_pools.build_all()
         + scenario.build_all()
+        + fleet_gap.build_all()
     ):
         print(f"  {name}")
 
