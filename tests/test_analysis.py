@@ -15,6 +15,7 @@ import pytest
 from src import benchmarking as bm
 from src import charts
 from src import market_sizing as ms
+from src import profit_pools as pp
 from src import scenario as sc
 
 
@@ -81,7 +82,18 @@ def test_gateway_flows_are_well_formed():
 
 @pytest.fixture(scope="module")
 def built():
-    return {name: builder() for name, builder in bm.FIGURES.items()}
+    """Every figure that publishes through a FIGURES map.
+
+    The house rules are properties of the chart template, not of one module, so
+    the fixture spans modules. Profit pools especially: it is the most heavily
+    modelled module in the repo, which makes it the one most worth holding to the
+    same title and palette discipline as everything else.
+    """
+    return {
+        name: builder()
+        for module in (bm, pp)
+        for name, builder in module.FIGURES.items()
+    }
 
 
 def test_every_figure_states_a_takeaway_not_a_topic(built):
@@ -387,3 +399,98 @@ def test_exported_json_is_loadable(tmp_path, monkeypatch):
     payload = json.loads(path.read_text(encoding="utf-8"))
     assert "data" in payload and "layout" in payload
     assert payload["data"], "figure exported with no traces"
+
+
+# --------------------------------------------------------------------------
+# profit pools, the most heavily modelled module in the repo
+# --------------------------------------------------------------------------
+
+
+def test_gulf_share_falls_when_weighted_by_distance():
+    """The finding the module exists for. If it inverts, the case changed."""
+    gap = pp.gulf_share_gap()
+    assert gap["pax_share_pct"] > 50, "Gulf should still be over half of passengers"
+    assert gap["revenue_share_pct"] < gap["pax_share_pct"], (
+        "distance weighting must reduce the Gulf's share, or the stage lengths are wrong"
+    )
+    assert gap["gap_pts"] > 10, "the gap is the argument; under 10 points it stops carrying it"
+
+
+def test_reference_distances_are_physically_sane():
+    """Great circle from Delhi, so these are checkable against an atlas."""
+    d = pp.corridor_stage_lengths().set_index("region")["stage_km"]
+    assert 2_000 < d["Gulf"] < 2_500, f"Delhi to Dubai came out at {d['Gulf']} km"
+    assert 11_000 < d["North America"] < 12_500, f"Delhi to New York at {d['North America']} km"
+    assert d["Gulf"] < d["Southeast Asia"] < d["Europe"] < d["North America"]
+
+
+def test_modelled_margins_are_anchored_to_the_verified_ebitdar_margin():
+    """The anchor must survive the margin model, or the model is unanchored."""
+    from src import data_pipeline as dp
+
+    df = pp.profit_pool()
+    anchor = 100 * (
+        dp.assumption("indigo_operating_profit_fy2026_inr_cr")
+        / dp.assumption("indigo_revenue_fy2026_inr_cr")
+    )
+    weighted = (df["margin_pct"] * df["revenue_inr_cr"]).sum() / df["revenue_inr_cr"].sum()
+    assert abs(weighted - anchor) < 1e-6, (
+        f"revenue-weighted margin {weighted:.3f} drifted from the anchor {anchor:.3f}"
+    )
+    assert (df["margin_pct"] > 0).all(), "a negative modelled margin needs an argument, not a knob"
+
+
+def test_the_finding_survives_the_margin_knob():
+    """A conclusion that only holds at one setting of a modelled parameter is not a
+    conclusion. The Gulf's profit share must stay well under its passenger share
+    across the whole plausible range."""
+    s = pp.sensitivity()
+    assert len(s) == 3
+    assert (s["gulf_profit_share_pct"] < 40).all(), (
+        "Gulf profit share should stay far below its 52 percent passenger share"
+    )
+    # turning the knob must actually move something, or it is not the knob
+    assert s["gulf_profit_share_pct"].nunique() > 1
+
+
+def test_sensitivity_restores_the_module_constant():
+    """sensitivity() mutates a module global. It must put it back."""
+    before = pp.MARGIN_STAGE_SENSITIVITY
+    pp.sensitivity()
+    assert pp.MARGIN_STAGE_SENSITIVITY == before
+
+
+def test_profit_pool_charts_carry_the_modelled_badge():
+    """House rule: modelled numbers are labelled on the chart face."""
+    for name, builder in pp.FIGURES.items():
+        fig = builder()
+        assert any("MODELLED" in (a.text or "") for a in fig.layout.annotations), (
+            f"{name} carries modelled numbers without the badge"
+        )
+
+
+def test_excluded_residual_region_is_not_silently_dropped():
+    """'Other' is excluded deliberately; the module must say so, not just omit it."""
+    assert "Other" in pp.EXCLUDED_REGIONS
+    assert "Other" not in set(pp.profit_pool()["region"])
+    assert "Excludes" in pp.gulf_share_gap()["note"]
+
+
+def test_every_chart_the_page_asks_for_has_been_exported():
+    """The page and the pipeline are a contract, and nothing enforced it.
+
+    `docs/index.html` names charts by `data-chart`; `scripts/refresh.py` writes
+    them. A step referencing a chart nobody builds renders as an empty box on the
+    live site, which is exactly the failure a reader would notice first and a test
+    run would not.
+    """
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    html = (root / "docs" / "index.html").read_text(encoding="utf-8")
+    wanted = set(re.findall(r'data-chart="([^"]+)"', html))
+    assert wanted, "no data-chart attributes found, the selector has changed"
+
+    have = {p.stem for p in (root / "docs" / "assets" / "charts").glob("*.json")}
+    assert wanted <= have, f"page asks for charts that were never exported: {sorted(wanted - have)}"

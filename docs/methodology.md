@@ -128,6 +128,58 @@ IATA DDS) and is named in `ROADMAP.md` rather than glossed over.
 
 ---
 
+## The profit pool, and everything modelled inside it
+
+`src/profit_pools.py` is the most heavily modelled module in this repo, so it states its own
+seams rather than leaving them to be found.
+
+| Quantity | Status | Basis |
+|---|---|---|
+| Passengers per corridor | **Computed** | DGCA international country table, 2024, both directions summed |
+| Corridor stage length | **Computed, but a reference** | Great circle from Delhi to one named hub per corridor, from committed OurAirports coordinates |
+| Revenue per corridor | **Proxy** | Passengers x reference distance x IndiGo's verified FY2026 yield of 5.06 INR per RPK |
+| Margin per corridor | **Modelled** | Linear in stage length, anchored to a published margin |
+
+**Why the stage length is a reference and not a traffic-weighted mean.** A weighted mean needs
+every DGCA city name matched to airport coordinates. DGCA writes city names, not IATA codes,
+and matching them against OurAirports municipalities resolves 78% of foreign points and 62% of
+Indian ones, roughly half the traffic once both ends must match. Publishing a weighted mean
+that is quietly wrong for the unmatched half would be worse than publishing a labelled
+reference distance, so each corridor names its hub (Gulf: Dubai, Europe: London, North America:
+New York, and so on) and the reader can check any of them in a minute.
+
+**The direction of the revenue error is known and is stated on the chart.** Yield per RPK
+normally falls as stage length rises. Holding it constant therefore *overstates* long-haul
+revenue, which means the Gulf-versus-long-haul gap the pool reports is a floor, not a ceiling.
+An error whose sign is known is worth more than one that is merely small.
+
+**The margin model has exactly one knob**, `MARGIN_STAGE_SENSITIVITY`, the spread in margin
+points between the shortest and longest corridor. Margins are spread linearly across it, then
+shifted so the *revenue-weighted* mean equals the anchor. Linear because no available evidence
+justifies a richer shape, and a richer shape would imply precision this data does not have.
+`profit_pools.sensitivity()` publishes the result at 6, 12 and 18 points: the Gulf's profit
+share moves only between 29% and 25% across that whole range, against a 52% passenger share. A
+conclusion that survives its own sensitivity is worth stating; one that does not is not.
+
+**The anchor is quoted twice on purpose.** The revenue-weighted mean margin is pinned to
+IndiGo's FY2026 EBITDAR margin **excluding forex, 27.3%**, because forex on USD lease
+liabilities is a real loss but not an operating one, and attributing a treasury outcome to a
+route would be wrong. But IndiGo **reported 17.8%** for the same year, and the chart says so.
+Quoting only the ex-forex figure would repeat, with the sign flipped, the error retracted
+below: that retraction was for reading a non-operating collapse as an operating one, and the
+symmetric mistake is presenting an operating improvement as the whole story.
+
+**One chart deliberately survives rejecting all of this.** `pax_vs_revenue_share` compares
+share of passengers against share of revenue and contains no margin assumption at all. If a
+reader throws out the margin model entirely, that chart still stands and still carries the
+argument.
+
+**The DGCA residual "Other" is excluded**, not silently dropped. It spans Central Asia to South
+America, so no single hub represents it. The exclusion is recorded in `EXCLUDED_REGIONS`,
+returned in the note on `gulf_share_gap()`, and covered by a test.
+
+---
+
 ## Limits, stated rather than buried
 
 **Yields are not published.** DGCA publishes no fares. Air India is unlisted and files no
