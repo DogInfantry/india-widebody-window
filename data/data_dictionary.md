@@ -154,6 +154,19 @@ Numbers no free source publishes, chiefly airline yield in rupees per RPK. DGCA 
 no fares. IndiGo discloses yield in quarterly filings; Air India is unlisted and files
 nothing. Each row is transcribed by hand and carries its own provenance:
 
+A second class of row has since joined it: numbers that **are** published, but only inside a
+PDF that no API exposes. The wide-body seat counts come from the manufacturers' own airport
+planning manuals (Airbus `AC_A350`, Boeing `D6-58333` and `D6-86073`), and every one is
+recorded on a **two-class** basis so the variants stay comparable. Never mix in a one-class
+figure: Boeing publishes the 787-9 at 290 two-class and 406 all-economy, a 40 percent spread.
+
+`aircraft_utilisation_hours_per_day` is the one manual row with an independent cross-check.
+IndiGo's FY26 annual report gives 1,619,570 block hours over 441 aircraft; DGCA's
+`aircraft_hours` gives 1,614,608 for the same carrier and year, **0.31 percent apart**. That
+is the second both-ends check in this repo after DGCA against Eurostat, and it is the reason
+the row is graded `H`. The row is on an **owned-fleet** basis, which is not the ~13 hours that
+circulates: that figure is active-fleet and implies roughly 100 grounded aircraft.
+
 `key, value, unit, source_name, source_url, pull_date, page_ref, reliability, status, note`
 
 `reliability` is one of `H`, `M`, `L`. `pull_date` accepts ISO or `M/D/YYYY` and is

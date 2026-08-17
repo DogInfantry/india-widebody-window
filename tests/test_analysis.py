@@ -236,6 +236,59 @@ def test_capacity_leg_runs_now_that_every_input_is_verified():
     assert 80 < e.value_m < 200
 
 
+def test_widebody_seats_are_fleet_weighted_not_one_type_for_every_tail():
+    """Counting all 140 aircraft at A350-900 seating understates the order book.
+
+    The A350-1000 and the 777-9 are materially larger, so the weighted mean must
+    land above the A350-900 figure. Guards against a revert to the flat count,
+    which is an easy and invisible regression: it still produces a plausible
+    number.
+    """
+    from src import data_pipeline as dp
+
+    e = ms.estimate_capacity()
+    mean_seats = e.assumptions["mean_seats_per_widebody"]
+    assert mean_seats > dp.assumption("widebody_seats_a350_900"), (
+        "weighted mean is at or below the A350-900 count, so the mix is not being applied"
+    )
+    # every variant in the table must contribute, or a row has silently dropped
+    assert set(e.assumptions["widebody_seats_by_variant"]) == {
+        row[1] for row in ms._ORDER_BOOK
+    }
+
+
+def test_order_book_variant_table_reconciles_to_the_assumption_rows():
+    """The mix and the headline counts are maintained separately, so they drift.
+
+    This is the guard that catches it. Perturbing the table must block the leg
+    rather than quietly resize the fleet.
+    """
+    from src import data_pipeline as dp
+
+    booked = sum(row[2] for row in ms._ORDER_BOOK)
+    dp_total = dp.assumption("air_india_widebody_on_order") + dp.assumption(
+        "indigo_a350_on_order"
+    )
+    assert booked == dp_total
+
+    original = ms._ORDER_BOOK
+    try:
+        ms._ORDER_BOOK = original[:-1]  # drop the 777-9 line
+        blocked = ms.estimate_capacity()
+        assert not blocked.available
+        assert "order book mismatch" in blocked.blocked_reason
+    finally:
+        ms._ORDER_BOOK = original
+    assert ms.estimate_capacity().available, "guard did not restore cleanly"
+
+
+def test_capacity_assumptions_reach_the_chart_face():
+    """Stated assumptions belong on the chart, not in a footnote or the logs."""
+    text = ms.fig_triangulation().layout.title.text.lower()
+    assert "owned fleet" in text, "utilisation basis is missing from the chart face"
+    assert "variant assumed" in text, "assumed variants are missing from the chart face"
+
+
 def test_assumption_gate_still_bites_on_unverified_rows():
     """The gate itself must keep working after the capacity rows were cleared.
 

@@ -259,27 +259,83 @@ def estimate_propensity(target_year: int = TARGET_YEAR) -> Estimate:
 # --------------------------------------------------------------------------
 
 
+# The order book by variant, so seats are fleet-weighted rather than one type
+# applied to every tail. Counting all 140 wide-bodies at A350-900 seating
+# understates the book by about 5 percent, because the A350-1000 and the 777-9
+# are materially larger aircraft.
+#
+# The counts are the composition recorded in the `air_india_widebody_on_order`
+# and `indigo_a350_on_order` rows of assumptions.csv, both CORRECTED_VERIFIED
+# against primary Airbus, Boeing and Air India releases. Read those notes for the
+# sources; they are not restated here, so there is one copy to keep right.
+#
+# `variant_assumed` marks the two entries where the operator announced a type but
+# not a variant. Both are assumed to be the SMALLER variant, so the error runs
+# against our own argument rather than for it, and both are surfaced on the chart
+# face rather than buried here.
+_ORDER_BOOK = (
+    # operator,     variant,     count, seat_key,                   variant_assumed
+    ("IndiGo",      "A350-900",     60, "widebody_seats_a350_900",  False),
+    ("Air India",   "A350-1000",    34, "widebody_seats_a350_1000", False),
+    ("Air India",   "A350-900",      6, "widebody_seats_a350_900",  False),
+    ("Air India",   "A350-900",     10, "widebody_seats_a350_900",  True),
+    ("Air India",   "787-9",        20, "widebody_seats_b787_9",    True),
+    ("Air India",   "777-9",        10, "widebody_seats_b777_9",    False),
+)
+
+
+def _widebody_seats() -> tuple[float, dict]:
+    """Total seats on firm order, weighted by variant.
+
+    Raises the same exceptions as `assumption` so the caller's gate still works.
+    """
+    total = 0.0
+    by_variant: dict[str, float] = {}
+    for _operator, variant, count, seat_key, _assumed in _ORDER_BOOK:
+        seats = count * assumption(seat_key)
+        total += seats
+        by_variant[variant] = by_variant.get(variant, 0.0) + seats
+    return total, by_variant
+
+
 def estimate_capacity(target_year: int = TARGET_YEAR) -> Estimate:
     """Count the seats the announced order books can actually fly.
 
-    Blocked until the fleet and utilisation figures are verified. That is the
-    gate doing its job: this method would otherwise emit a confident number built
-    on four figures nobody has checked.
+    Gated on the fleet, seat and utilisation figures. The gate held for most of
+    this project's life and that was correct: the method would otherwise have
+    emitted a confident number built on figures nobody had checked.
+
+    Utilisation enters on an **owned-fleet** basis (10.06 hours/aircraft/day,
+    IndiGo block hours over aircraft at period end, cross-checked against DGCA to
+    0.31 percent). An active-fleet basis would be roughly 13 and would lift this
+    leg by about a third, which is why the basis is named here and on the chart
+    rather than left to the reader.
     """
     needed = (
         "air_india_widebody_on_order",
         "indigo_a350_on_order",
-        "widebody_seats_a350_900",
         "aircraft_utilisation_hours_per_day",
     )
     try:
         values = {k: assumption(k) for k in needed}
+        seats, seats_by_variant = _widebody_seats()
     except (UnverifiedAssumption, KeyError) as exc:
         return Estimate(method="Capacity", value_m=None, blocked_reason=str(exc))
 
-    seats = (values["air_india_widebody_on_order"] + values["indigo_a350_on_order"]) * values[
-        "widebody_seats_a350_900"
-    ]
+    # The variant table and the headline order-book rows are maintained
+    # separately, so they must be reconciled or the mix can silently drift out of
+    # step with a corrected order count.
+    booked = values["air_india_widebody_on_order"] + values["indigo_a350_on_order"]
+    in_table = sum(row[2] for row in _ORDER_BOOK)
+    if in_table != booked:
+        return Estimate(
+            method="Capacity",
+            value_m=None,
+            blocked_reason=(
+                f"order book mismatch: variant table holds {in_table:.0f} aircraft, "
+                f"assumptions.csv holds {booked:.0f}. Update _ORDER_BOOK."
+            ),
+        )
 
     dom = load_dgca_domestic_carrier()
     recent = dom[(dom["year"] == 2025) & (dom["service_type"] == "ScheduledInternational")]
@@ -295,6 +351,13 @@ def estimate_capacity(target_year: int = TARGET_YEAR) -> Estimate:
         value_m=(base + added) / 1e6,
         assumptions={
             **values,
+            "widebody_seats_total": round(seats),
+            "widebody_seats_by_variant": {k: round(v) for k, v in seats_by_variant.items()},
+            "mean_seats_per_widebody": round(seats / in_table, 1),
+            "utilisation_basis": "owned fleet",
+            "variants_assumed": [
+                f"{row[2]:.0f}x {row[1]} ({row[0]})" for row in _ORDER_BOOK if row[4]
+            ],
             "observed_intl_load_factor": round(load_factor, 4),
             "assumed_block_hours": block_hours,
         },
@@ -333,6 +396,23 @@ def fig_triangulation(target_year: int = TARGET_YEAR) -> go.Figure:
             f". {len(tri.blocked)} of {len(tri.estimates)} methods withheld pending "
             "source verification"
         )
+
+    # The capacity leg is the one that carries stated assumptions, and it is also
+    # the leg that sets the bottom of the band, so the assumptions belong on the
+    # chart face. Read them off the estimate rather than retyping them, or the
+    # caption drifts from the model the first time a variant changes.
+    cap = next((e for e in tri.available if e.method == "Capacity"), None)
+    if cap is not None:
+        assumed = cap.assumptions.get("variants_assumed") or []
+        subtitle += (
+            f". Capacity leg counts {cap.assumptions['widebody_seats_total']:,} seats on firm "
+            f"order at published two-class layouts, flown at "
+            f"{cap.assumptions['aircraft_utilisation_hours_per_day']} hours per aircraft per day "
+            f"({cap.assumptions['utilisation_basis']} basis; an active-fleet basis would be "
+            "materially higher)"
+        )
+        if assumed:
+            subtitle += f". Variant assumed for {' and '.join(assumed)}"
 
     # The title deliberately does NOT say "independent methods". Trend and
     # propensity share two DGCA bridging ratios, so that word would claim more
