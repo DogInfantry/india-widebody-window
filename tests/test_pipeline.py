@@ -422,3 +422,60 @@ def test_unknown_status_is_rejected(tmp_path, monkeypatch):
     monkeypatch.setattr(dp, "MANUAL", tmp_path)
     with pytest.raises(ValueError, match="unknown status"):
         dp.load_manual_assumptions()
+
+
+def test_the_data_dictionary_count_matches_the_actual_assumptions():
+    """The dictionary's headline count must not drift from the file it describes.
+
+    Written because it had, badly. The dictionary claimed "6 of 18 rows cleared"
+    long after the real figure was 25 of 30, called both operating-profit rows
+    unusable when they were CORRECTED_VERIFIED, and recorded Emirates yield as
+    blank pending an FX rate that had been settled. All three were fixed in code
+    and none of it reached the prose.
+
+    Provenance documentation that describes a state the repo left behind is worse
+    than none, because it is read as current.
+    """
+    import re
+    from pathlib import Path
+
+    from src.data_pipeline import USABLE_STATUSES, load_manual_assumptions
+
+    root = Path(__file__).resolve().parent.parent
+    text = (root / "data" / "data_dictionary.md").read_text(encoding="utf-8")
+
+    match = re.search(r"Current state: (\d+) of (\d+) rows cleared", text)
+    assert match, "the data dictionary no longer states a cleared count in the expected form"
+    claimed_cleared, claimed_total = int(match.group(1)), int(match.group(2))
+
+    df = load_manual_assumptions()
+    actual_total = len(df)
+    actual_cleared = int(df["status"].isin(USABLE_STATUSES).sum())
+
+    assert (claimed_cleared, claimed_total) == (actual_cleared, actual_total), (
+        f"data_dictionary.md claims {claimed_cleared} of {claimed_total} rows cleared, "
+        f"but assumptions.csv has {actual_cleared} of {actual_total}"
+    )
+
+
+def test_every_unusable_assumption_is_named_in_the_data_dictionary():
+    """A row that cannot drive a figure must be listed with the reason it cannot.
+
+    The point is not bookkeeping. `gulf_od_share_pct` reached the live site as a
+    hard number precisely because nothing forced it to appear in the provenance
+    documentation, so this makes the omission a failure rather than an oversight.
+    """
+    from pathlib import Path
+
+    from src.data_pipeline import USABLE_STATUSES, load_manual_assumptions
+
+    root = Path(__file__).resolve().parent.parent
+    text = (root / "data" / "data_dictionary.md").read_text(encoding="utf-8")
+
+    df = load_manual_assumptions()
+    unusable = df[~df["status"].isin(USABLE_STATUSES)]["key"].tolist()
+    missing = [k for k in unusable if k not in text]
+    assert not missing, (
+        f"these rows cannot drive a published figure and are not explained in "
+        f"data/data_dictionary.md: {missing}"
+    )

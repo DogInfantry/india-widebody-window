@@ -7,7 +7,8 @@ most change the answer rather than by what was easiest to compute.
 aircraft, and can the India-Gulf corridor absorb them?
 
 ```
-Deploy wide-bodies to the Gulf corridor first
+Compete with the Gulf hubs, do not fly more aircraft to them
+│   (opened as "deploy wide-bodies to the Gulf corridor first"; branch 5.4 reversed it)
 │
 ├── 1. Is the Gulf corridor large enough to matter?                    ANSWERED: yes
 │   ├── 1.1 How big is India-Gulf against other corridors?

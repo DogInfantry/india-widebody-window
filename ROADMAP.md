@@ -50,6 +50,31 @@ Three assumption rows will not close, and are marked so rather than left looking
   to 26.2%. The storyline was rewritten around the finding rather than against it.
 - **The Rome to Delhi dispute.** Quarantined pending a source that can settle whether DGCA
   omits the route or Eurostat over-reports it.
+- **Wide-body lease rates.** The largest single unresolved input in the recommendation, and
+  named as such in `docs/recommendation.md` rather than filled with a modelled figure. Whether
+  to damp-lease before the first owned delivery turns entirely on the rate, and transaction
+  rates are paywalled trade press (IBA, Cirium). No assumption row can clear, so the
+  lease-bridge option is presented with its economics explicitly unquantified.
+- **The origin-destination share.** `gulf_od_share_pct` is `UNVERIFIED_NO_PRIMARY` and cannot
+  clear: IATA sells the data. It carries the eleven point connect gap that the whole
+  recommendation rests on, so it is **the most likely reason the case is wrong**. It is read
+  only through `allow_unverified=True` in one diagnostic, and everything downstream is a band.
+
+## Answered since, and how the answers moved the recommendation
+
+- ~~**Where should the wide-bodies go?**~~ The answer changed. "Reclaim the Gulf corridor
+  first" became **"compete with the Gulf hubs, do not fly more aircraft to them"**, on three
+  lines of evidence: the Dubai bilateral at 89.6% utilised, the Gulf holding the least yield
+  headroom of any corridor, and an order book sized for a network about a quarter longer than
+  the one Indian carriers fly. Recorded as pivot 1 in `docs/pivot_log.md`.
+- ~~**Is the order book the right size?**~~ Answered by `src/fleet_gap.py`. It adds 78% to
+  Indian carriers' international ASK where holding share needs roughly half that. Absorbed
+  only if the average sector lengthens about 27% or share reaches 58%. Under bull demand it is
+  nearly right-sized; under bear it is badly oversized, which the scenario selector on the
+  absorption frontier shows directly.
+- ~~**Do the corridor economics work?**~~ Answered by `src/options.py`, and uncomfortably. The
+  Gulf has the least room of any corridor to absorb a yield decline and does not cover its own
+  cost at IndiGo's realised yield. Europe can take about a fifth off the fare and still clear.
 
 ## Coverage gaps that will not close
 

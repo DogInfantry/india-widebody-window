@@ -121,26 +121,38 @@ Where should the incoming wide-body capacity go, and can the Gulf corridor absor
 
 ## Answer
 
-**Reclaim the Gulf first, on three grounds.**
+**The corridor is the prize. The aircraft go somewhere else.**
 
-**Scale.** The corridor is 36.9M passengers and growing. Even a modest shift in carrier
-share moves more traffic than winning an entire secondary European market.
+**Scale, and it is not in dispute.** The Gulf is 36.9M passengers, four times India's entire
+direct Europe market. Nothing below weakens that. What changed is the conclusion drawn from
+it.
 
-**Structural advantage that expires.** India's Gulf traffic is anchored in the Indian
-diaspora and labour corridors, which are point-to-point demand, not connecting demand.
-Kochi already sends more passengers to Gulf hubs than to the entire rest of the world
-combined. That traffic does not need a hub; it needs the right aircraft on the route. It is
-the one segment where Gulf carriers hold no structural edge, only an equipment one.
+**But the traffic splits, and only one half is addressable with more Gulf flying.** Roughly
+**28.9M passengers are genuinely point-to-point**, the diaspora and labour corridor anchored
+in Kerala. Kochi already sends more passengers to Gulf hubs than to the entire rest of the
+world combined. That demand does not need a hub and it does not need a wide-body; it is
+already served by narrow-bodies that suit its sector length.
 
-**The connect premium is the prize, not the point-to-point fare.** The eleven point gap
-between sector and origin-destination measures is the passenger currently paying a Gulf
-carrier for a journey that begins in India. Wide-bodies on Gulf routes make Indian hubs
-viable for onward connection, which is the mechanism by which that premium moves.
+**The other 8.1M are the prize, and they are leaving from the same airports.** The eleven
+point gap between the sector and origin-destination measures is a passenger whose journey
+begins in India, ends in Europe or North America, and is sold by a Gulf carrier. Worth
+**INR 27,500 to 53,900 crore**. Winning them means offering the journey they actually want,
+which is a direct flight, not a better connection through Dubai.
 
-**Europe and North America are the second move.** They are one fifth the size, already
-served by incumbents with mature networks, and require the stage length Indian carriers are
-only now acquiring. Going there first spends scarce wide-body capacity on the smaller and
-harder market.
+**And Gulf capacity cannot grow anyway.** India-Dubai runs at **89.6%** of its reported
+bilateral entitlement, about 0.72M seats a year of headroom against a 36.9M corridor. Gulf
+sectors also have the **least yield headroom of any corridor** and do not cover their own
+cost at IndiGo's realised yield. Aircraft pointed there would be flying on rights that do not
+exist, at unit economics that do not work.
+
+**So Europe first, North America second.** Europe is reachable, has about a fifth of fare
+headroom before it stops covering cost, and is where the leaked traffic is actually going.
+North America has the most headroom of any corridor and cannot be reached by anything but a
+wide-body, but it is the smallest at 2.5M direct and carries the 777X delivery risk. It is a
+second move on the evidence, not a first.
+
+**This section used to argue the opposite** and is rewritten rather than quietly amended. See
+pivot 1 in `docs/pivot_log.md`.
 
 ---
 
@@ -170,17 +182,31 @@ easier. A gate that only ever unlocks good news is not a gate.
 
 Stated up front, because a recommendation that cannot be falsified is not analysis.
 
-- **If the stage length gap closes on its own.** If IndiGo's international network lengthens
-  materially without wide-body deliveries, the equipment constraint was not the binding one.
-- **If Gulf point-to-point demand is more price-elastic than assumed.** The diaspora
-  corridor is defensible only if the traffic is genuinely destination-Gulf. If a larger share
-  than the eleven point gap suggests is actually connecting, the Gulf is a thinner prize.
-- **If bilateral capacity rights bind before aircraft do.** India-Gulf seat entitlements are
-  negotiated, not open. A fleet that cannot be flown for want of rights is a fleet deployed
-  to the wrong corridor.
-- **If yields on Gulf routes do not support wide-body economics.** This is the open question
-  in the model. DGCA publishes no fares, Air India is unlisted and files nothing, so the
-  revenue side is gated until figures are verified against a primary source.
+**Two of the four questions this section used to list are now answered, and answering them
+is what changed the recommendation.** They are kept here, marked, rather than deleted:
+
+- ~~*If bilateral capacity rights bind before aircraft do.*~~ **They do.** India-Dubai runs
+  at 89.6% of its reported entitlement. This stopped being a risk and became a constraint.
+- ~~*If yields on Gulf routes do not support wide-body economics.*~~ **They do not.** Gulf
+  sectors have the least yield headroom of any corridor and do not cover their own cost at
+  IndiGo's realised yield.
+
+What remains genuinely open:
+
+- **If direct yields on Europe fall more than about a fifth** from today's realisation, the
+  recommended corridor stops covering its cost and the sequencing argument fails. That
+  headroom is the number to watch.
+- **If the average sector does not actually lengthen.** If the wide-bodies end up flying Gulf
+  and Southeast Asia rotations, the order book is roughly twice what the network needs.
+- **If the connecting share is smaller than the eleven point gap suggests.** The prize rests
+  on an origin-destination figure that cannot be verified, because IATA sells that data. This
+  is the most likely reason the case is wrong, and it is a data risk rather than a market one.
+- **If bilateral entitlements expand sharply.** Counter-intuitively this *weakens* the
+  recommendation, by letting Gulf carriers re-flood the corridor faster than Indian carriers
+  can build direct networks.
+
+The full option menu, roadmap, nine-row risk register and leading indicators are in
+`docs/recommendation.md`.
 
 ---
 

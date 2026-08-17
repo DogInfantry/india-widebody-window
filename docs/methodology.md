@@ -12,8 +12,12 @@ What was done, what it rests on, and what it cannot tell you.
 | **Issue tree** | `docs/hypothesis_tree.md`. Decomposed before analysis, so work was sequenced by what would most change the answer |
 | **Market sizing triangulation** | `src/market_sizing.py`. Three methods with different failure modes, reconciled to a band |
 | **Competitive benchmarking** | `src/benchmarking.py`. Share, load factor, and stage length as the differentiating metric |
-| **Profit pools** (Gadiesh & Gilbert, HBR 1998) | `src/charts.py::profit_pool_curve`. Built, not yet populated: blocked on yields |
-| **Hypothesis invalidation** | `docs/storyline.md` closes with what would change the recommendation. A recommendation that cannot be falsified is not analysis |
+| **Profit pools** (Gadiesh & Gilbert, HBR 1998) | `src/profit_pools.py`. Built and populated. Margin axis modelled and labelled on the chart face |
+| **Capacity absorption** | `src/fleet_gap.py`. What the order book can fly, in ASK, against what the market asks for |
+| **Breakeven analysis** | `src/options.py`. How far yield can fall before a corridor stops covering its cost, in place of an NPV whose inputs cannot be verified |
+| **Option evaluation** | `docs/recommendation.md`. Five options, each with what would have to be true, and the recommendation falling out of the breakeven table |
+| **Hypothesis invalidation** | `docs/storyline.md` and `docs/recommendation.md`. A recommendation that cannot be falsified is not analysis |
+| **Decision audit trail** | `docs/pivot_log.md`. Six documented changes of mind, each citing the commit it happened in |
 
 Framework structure draws on
 [DogInfantry/claude-skill-management-consultant-B1](https://github.com/DogInfantry/claude-skill-management-consultant-B1),
@@ -279,6 +283,104 @@ argument.
 **The DGCA residual "Other" is excluded**, not silently dropped. It spans Central Asia to South
 America, so no single hub represents it. The exclusion is recorded in `EXCLUDED_REGIONS`,
 returned in the note on `gulf_share_gap()`, and covered by a test.
+
+---
+
+## Capacity, measured in ASK rather than in aircraft
+
+`src/fleet_gap.py` asks whether the order book is enough, and answers in **available seat
+kilometres** rather than seats or aircraft. That choice carries the module. A seat is not a
+unit of capacity until you say how far and how often it flies, and this case turns entirely
+on how far: two carriers with identical fleets and identical load factors produce completely
+different ASK if one flies Dubai and the other New York. ASK is also the denominator of CASK
+and RASK, so the capacity side and the unit-economics side are denominated in the same thing.
+
+**Two figures that would normally be assumed are computed.** DGCA publishes `aircraft_km` and
+`aircraft_hours`, so block speed is a division, and `ask / aircraft_km` gives seats per
+departure:
+
+| Carrier, international 2025 | Block speed | Sector | Seats per departure |
+|---|---|---|---|
+| Air India | 698 km/h | 5,316 km | 254 |
+| IndiGo | 656 km/h | 2,643 km | 207 |
+
+Short sectors block slower, because taxi, climb and descent are a larger share of them. The
+data reproducing a known physical relationship is a reason to trust the columns, and a test
+pins the ordering.
+
+**One thing is modelled: the delivery schedule.** The Airbus release confirming IndiGo's 60
+firm A350s states no delivery timing, and one attempt to source it found none. So no start
+year is asserted anywhere in the module. It appears only as a scenario axis, run at 2027,
+2028 and 2029, and the headline figure does not need it at all.
+
+**A reconciliation worth naming.** The order-book ASK computed here is the same quantity the
+capacity sizing leg computes, reached from the other direction, and a test pins them together.
+What the equivalence exposed is that the `block_hours = 7.5` constant inside the sizing leg
+implies a sector of roughly 5,235 km. The capacity leg had always assumed the wide-bodies fly
+long-haul. It just never said so.
+
+---
+
+## Corridor breakeven, and why it is not an NPV
+
+`src/options.py` asks which way to add capacity. It deliberately does not build a discounted
+cash flow. A ten-year NPV per option needs a discount rate, an aircraft capital cost, a
+residual value and a corridor yield, and **not one of those can be verified against a primary
+source here**: Air India is unlisted, DGCA publishes no fares, and aircraft transaction prices
+are commercially confidential. Four unverifiable inputs stacked into one number produce a
+figure that looks precise and cannot be checked, on a site whose whole claim is that its
+numbers can be.
+
+So the question is asked from the other end. Unit cost falls as sectors lengthen, so IndiGo's
+published CASK is scaled across the corridors and the output is **how far yield could fall
+before each stops covering its own cost**.
+
+**Why headroom rather than a straight breakeven comparison.** The obvious exhibit is breakeven
+yield against IndiGo's achieved 5.06 INR per RPK. It is also wrong, in a way this project has
+already been caught by: yield per RPK falls with stage length, so holding it flat across an
+11,755 km sector flatters long-haul, which is exactly the caveat the profit pool carries.
+Modelling the yield decline as well would have added a second unverifiable knob. Reporting
+headroom needs none, and puts the unknown on the reader's side of the line as a tolerance to
+judge against.
+
+**The one knob** is `CASK_STAGE_ELASTICITY`, default -0.25, meaning a doubled sector cuts unit
+cost about 16%. It cannot be fitted from anything here, because IndiGo is the only Indian
+carrier that publishes CASK and one point fits no curve. It lives as a module constant beside
+`sensitivity()`, mirroring `MARGIN_STAGE_SENSITIVITY` in the profit pool, rather than in
+`assumptions.csv`: a modelled knob has no source to verify against, so the gate could only
+ever refuse it, and two copies of one number is the drift this project spends its effort
+avoiding.
+
+**One sensitivity stated before a reader finds it.** The result moves with the load factor
+chosen. International sectors run at 81.1% and IndiGo's system at 84.8%, because domestic
+flies fuller. International is the right basis for international corridors and is the one
+used, but it is also the less flattering: at the system load factor the Gulf comes out at
+roughly breakeven rather than about four points under. The ordering across corridors does not
+change either way, and neither does the conclusion the recommendation turns on.
+
+**It corroborates the profit pool from an unrelated direction.** The pool models margin
+*upward* from an EBITDAR anchor; this scales cost *downward* from a published CASK. They share
+nothing but the corridor distances and they rank the corridors identically. A test asserts the
+rank correlation stays above 0.95.
+
+---
+
+## The origin-destination share, and a gate that was missing
+
+The eleven point gap between DGCA's computed 51.2% Gulf sector share and the roughly 40%
+origin-destination figure is the connect leak, and it anchors the recommendation.
+
+**That 40% was carried as a hard number on the live site with no assumption row at all.** It
+appeared in two conflicts tables with no URL and no pull date, so `dp.assumption()` never saw
+it. By this project's own rule, that every hard number is either computed in-repo or carries a
+source and a pull date, it should have been gated from the start and was not.
+
+It now is, as `gulf_od_share_pct` with status `UNVERIFIED_NO_PRIMARY`. It can never clear:
+IATA sells origin-destination data and publishes no free table, so there is no primary
+document to check it against. It is read only through `allow_unverified=True`, in exactly one
+diagnostic function, the same pattern `dubai_entitlement_check` uses for the bilateral
+entitlement. Everything derived from it is reported as a band and labelled `MODELLED`, and a
+test asserts the gate bites.
 
 ---
 

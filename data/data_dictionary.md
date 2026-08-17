@@ -202,26 +202,42 @@ looks entirely plausible but can never be verified, because the figure is an agg
 convention rather than something the company reports. That is exactly the case that produced
 the retracted margin claim in `docs/methodology.md`.
 
-### Current state: 6 of 18 rows cleared
+### Current state: 25 of 30 rows cleared
 
-| Row | Value | Status |
+Twenty-five rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
+The five that do not are **terminal, not pending work**: each was chased to a primary source
+and the source does not exist.
+
+| Row | Status | Why it will never clear |
 |---|---|---|
-| `indigo_yield_inr_per_rpk_fy2026` | ₹5.06 / RPK | `CORRECTED_VERIFIED` (was 5.33, matched no published period) |
-| `indigo_rask_inr_per_ask_fy2026` | ₹4.99 / ASK | `CORRECTED_VERIFIED` (was 4.51, which was actually Q4 FY25 **CASK**) |
-| `indigo_cask_inr_per_ask_fy2026` | ₹5.00 / ASK | `CORRECTED_VERIFIED` (was 4.73) |
-| `indigo_cask_exfuel_inr_per_ask_fy2026` | ₹3.52 / ASK | `CORRECTED_VERIFIED` (₹3.00 ex-forex; use that if running an FX lever) |
-| `indigo_revenue_fy2025_inr_cr` | ₹80,803 cr | `VERIFIED`, exact match |
-| `indigo_revenue_fy2026_inr_cr` | ₹84,962 cr | `VERIFIED`, exact match |
+| `air_india_yield_inr_per_rpk` | `NOT_AVAILABLE` | Air India is unlisted and files no exchange results |
+| `aircraft_utilisation_hours_per_day_active` | `NOT_AVAILABLE` | The grounded-aircraft count is absent from both the FY26 annual report and the June 2026 analyst deck |
+| `india_dubai_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | India publishes no bilateral entitlement table. Corroborated from the traffic end instead |
+| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | IATA sells origin-destination data and publishes no free table |
+| `gulf_hub_connect_premium_pct` | `MODELED` | Nobody publishes it. Status is `MODELED` rather than `NOT_AVAILABLE` so it is not confused with a figure that exists but is undisclosed |
 
-The two operating-profit rows are `UNVERIFIED_NO_PRIMARY` and **must not be used**. Quote
-EBITDAR margin instead: 26.3% (FY2025), 27.3% (FY2026 ex-forex).
+The two `UNVERIFIED_NO_PRIMARY` rows are the ones to watch, because both carry weight. Each is
+read **only** through `assumption(key, allow_unverified=True)`, in exactly one diagnostic
+function apiece, and everything derived from either is reported as a band and labelled
+`MODELLED` on the chart face:
 
-Notable among the rows still open: Emirates passenger yield is now sourced directly rather
-than derived, at **38.1 fils (10.4 US cents) per RPKM** from the FY2025-26 results release,
-but the cell stays blank until `usd_inr_rate` is settled. That rate is
-`VALUE_MISSING_SOURCE_STALE`, because RBI stopped publishing its own USD/INR reference rate
-in 2018 and the benchmark is now the FBIL rate. ATF price has a machine-readable series on
-data.gov.in, so it need not be hand-transcribed after all.
+- `india_dubai_weekly_seat_entitlement_one_side` feeds `benchmarking.dubai_entitlement_check`,
+  which corroborates it from DGCA traffic and finds 89.6% utilisation.
+- `gulf_od_share_pct` feeds `options.connect_gap`. It carries the eleven point connect gap
+  the recommendation rests on, which makes it **the most likely reason the case is wrong**.
+
+A note on how this table used to read, kept because the drift is the lesson. It previously
+said "6 of 18 rows cleared", called both operating-profit rows unusable, and recorded Emirates
+yield as blank pending an unsettled FX rate. All three had been fixed in code and none of it
+reached this file. Cross-check the counts against `load_manual_assumptions()` rather than
+trusting the prose.
+
+**Two rows added most recently:**
+
+| Row | Value | Status | Note |
+|---|---|---|---|
+| `a321xlr_range_km` | 8,700 km | `VERIFIED` | Airbus product page. A product page is accepted for a **range** spec where it is refused for a seat count, because range has no configuration ambiguity. No seat row is recorded for the type: the airport planning manual 404ed, and breakeven is computed per ASK so the seat count is not needed |
+| `gulf_od_share_pct` | 40% | `UNVERIFIED_NO_PRIMARY` | Promoted into the gate after being found on the live site as a hard number with no row at all |
 
 ---
 
