@@ -182,6 +182,14 @@ a:hover { border-bottom-color: var(--red); }
 .kpi .lbl { display: block; font-size: 15px; font-weight: 500; margin-bottom: 6px; }
 .kpi .note { display: block; font-size: 13px; color: var(--grey); line-height: 1.45; }
 
+.hero-links {
+  margin: 28px 0 0;
+  font-size: 15px;
+}
+
+.hero-links a { font-weight: 600; }
+.hero-links span { color: var(--grey); font-size: 14px; }
+
 /* ------------------------------------------------------------- scrolly */
 
 .scrolly { padding: 0 0 40px; }
@@ -505,4 +513,93 @@ a:hover { border-bottom-color: var(--red); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .step { transition: none; }
+}
+
+/* -------------------------------------------------------------- report */
+
+/* report.html reuses every rule above and only needs a linear layout in place
+   of the sticky scrolly, plus print rules. It holds no prose of its own: it
+   reads index.html at load and rebuilds the same content in reading order, so
+   there is one copy of the narrative and it cannot drift. */
+
+.report-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--light);
+  margin-bottom: 44px;
+}
+
+.report-bar button {
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--paper);
+  background: var(--red);
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.report-bar button:hover { background: var(--accent); }
+
+.report-cover { padding-bottom: 48px; border-bottom: 1px solid var(--light); }
+.report-cover h1 { font-size: clamp(36px, 5vw, 58px); font-weight: 700; margin-bottom: 18px; }
+.report-cover .question { max-width: 44ch; margin-bottom: 36px; }
+
+/* The steps carry the opacity and left rule that the scrolly uses to show which
+   one is active. In a linear document nothing is inactive, so both come off. */
+.report-step {
+  padding: 52px 0 16px;
+  border-top: 1px solid var(--light);
+  max-width: 84ch;
+  opacity: 1;
+  min-height: 0;
+}
+
+.report-step:first-child { border-top: none; }
+.report-step h2 { font-size: 26px; font-weight: 600; max-width: 30ch; }
+
+.report-chart {
+  width: 100%;
+  max-width: 900px;
+  margin: 24px 0 8px;
+}
+
+.report-block { padding: 56px 0 0; }
+.report-block.reco, .report-block.proof { background: none; border: none; }
+.report-block > h2 { font-size: 28px; }
+
+.loading { color: var(--grey); font-size: 15px; }
+
+@media print {
+  /* Chrome prints backgrounds off by default; the layout must survive that, so
+     nothing here relies on a fill to be legible. */
+  .report-bar { display: none; }
+
+  body { font-size: 11pt; line-height: 1.5; }
+  .wrap { max-width: none; padding: 0; }
+
+  .report-cover { page-break-after: always; }
+
+  /* Keep a step's argument with the exhibit that proves it. */
+  .report-step { page-break-inside: avoid; padding: 22pt 0 8pt; max-width: none; }
+  .report-step h2 { font-size: 15pt; page-break-after: avoid; }
+  .report-chart { page-break-inside: avoid; max-width: none; margin: 12pt 0; }
+
+  .report-block { page-break-before: always; padding: 0; }
+  .pivot-list li { page-break-inside: avoid; }
+  .callout, .pivot { page-break-inside: avoid; }
+
+  /* Four columns of prose do not fit a printed page at a readable size. */
+  .options { min-width: 0; font-size: 8.5pt; white-space: normal; }
+  .options td { padding: 5pt 7pt; }
+  .recon { font-size: 9pt; white-space: normal; display: table; }
+
+  /* A URL after every link turns the source list into unreadable noise; the
+     documents are named in the text and the repo is on the colophon. */
+  a { text-decoration: none; color: var(--ink); }
+  a[href^="http"]::after { content: ""; }
 }

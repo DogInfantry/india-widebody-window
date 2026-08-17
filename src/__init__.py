@@ -1,4 +1,4 @@
 """India's Wide-Body Window: analysis layer.
 
-See PROJECT_STATE.md for phase status and verified figures, CLAUDE.md for house rules.
+See CLAUDE.md for house rules, current state and the gotchas that cost real time.
 """

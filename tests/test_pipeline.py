@@ -8,7 +8,7 @@ already tried to produce a wrong headline number:
 - distance columns published in thousands, which put a 5 km average stage
   length on a chart before it was caught
 
-The figure assertions below are the numbers recorded in PROJECT_STATE.md. If the
+The figure assertions below are the numbers recorded in CLAUDE.md. If the
 pipeline stops reproducing them, the pipeline changed, and that needs a reason.
 """
 
@@ -197,7 +197,7 @@ def test_computed_load_factor_matches_published(dom_carrier):
 
 
 # --------------------------------------------------------------------------
-# headline figures (see PROJECT_STATE.md)
+# headline figures (see CLAUDE.md, 'Current state')
 # --------------------------------------------------------------------------
 
 

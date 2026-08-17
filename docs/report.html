@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>India's Wide-Body Window: report</title>
+<meta name="description" content="Print edition of the India's Wide-Body Window case: where should Indian carriers deploy their next 100 long-haul aircraft?"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="assets/style.css"/>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
+</head>
+<body class="report">
+
+<!-- This page holds no prose of its own. It reads index.html, pulls the same
+     steps and the same chart JSON, and lays them out linearly so the whole case
+     prints. Writing the narrative twice would have guaranteed the two drift
+     apart, and the drift would be invisible until someone printed it. -->
+
+<div class="wrap">
+  <div class="report-bar">
+    <a href="index.html">&larr; Back to the interactive version</a>
+    <button type="button" id="print">Save as PDF</button>
+  </div>
+
+  <header class="report-cover">
+    <p class="eyebrow">Commercial aviation &middot; India and the Gulf</p>
+    <h1>India's Wide-Body Window</h1>
+    <p class="question" id="r-question"></p>
+    <div class="answer">
+      <span class="answer-label">The answer</span>
+      <div id="r-answer"></div>
+    </div>
+    <dl class="brief" id="r-brief"></dl>
+  </header>
+
+  <main id="r-body">
+    <p class="loading">Assembling the report from the live analysis.</p>
+  </main>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var CHART_BASE = "assets/charts/";
+  var body = document.getElementById("r-body");
+
+  document.getElementById("print").addEventListener("click", function () {
+    window.print();
+  });
+
+  function fail(message) {
+    body.innerHTML = "";
+    var p = document.createElement("p");
+    p.className = "chart-fallback";
+    p.textContent =
+      message + " This page reads index.html and the chart JSON from the same " +
+      "directory, so it needs to be served over http rather than opened from disk.";
+    body.appendChild(p);
+  }
+
+  function renderChart(name, host) {
+    return fetch(CHART_BASE + name + ".json")
+      .then(function (r) {
+        if (!r.ok) throw new Error(name + ": HTTP " + r.status);
+        return r.json();
+      })
+      .then(function (fig) {
+        var layout = Object.assign({}, fig.layout, {
+          autosize: true,
+          height: 460,
+          margin: { l: 70, r: 30, t: 100, b: 96 }
+        });
+        return Plotly.newPlot(host, fig.data, layout, {
+          displayModeBar: false,
+          staticPlot: true,
+          responsive: false
+        });
+      })
+      .catch(function (err) {
+        host.innerHTML = "";
+        var note = document.createElement("p");
+        note.className = "chart-fallback";
+        note.textContent = "Chart unavailable: " + err.message;
+        host.appendChild(note);
+      });
+  }
+
+  fetch("index.html")
+    .then(function (r) {
+      if (!r.ok) throw new Error("index.html: HTTP " + r.status);
+      return r.text();
+    })
+    .then(function (html) {
+      var src = new DOMParser().parseFromString(html, "text/html");
+
+      var question = src.querySelector(".question");
+      if (question) document.getElementById("r-question").textContent = question.textContent;
+
+      var answer = src.querySelector(".answer p");
+      if (answer) document.getElementById("r-answer").innerHTML = "<p>" + answer.innerHTML + "</p>";
+
+      var brief = src.querySelector(".brief");
+      if (brief) document.getElementById("r-brief").innerHTML = brief.innerHTML;
+
+      body.innerHTML = "";
+      var pending = [];
+
+      // The narrative, one section per scrolly step, chart underneath its prose.
+      src.querySelectorAll(".step").forEach(function (step, i) {
+        var section = document.createElement("section");
+        section.className = "report-step";
+
+        var clone = step.cloneNode(true);
+        // The inline pivot callouts belong in the report; the chart hook does not.
+        clone.removeAttribute("data-chart");
+        while (clone.firstChild) section.appendChild(clone.firstChild);
+
+        var name = step.dataset.chart;
+        if (name) {
+          var host = document.createElement("div");
+          host.className = "report-chart";
+          host.id = "chart-" + i;
+          section.appendChild(host);
+          pending.push(renderChart(name, host));
+        }
+        body.appendChild(section);
+      });
+
+      // The evidence sections, carried across whole.
+      ["proof", "reco", "pivots"].forEach(function (cls) {
+        var found = src.querySelector("section." + cls);
+        if (!found) return;
+        var section = document.createElement("section");
+        section.className = "report-block " + cls;
+        section.innerHTML = found.querySelector(".wrap").innerHTML;
+        body.appendChild(section);
+      });
+
+      var method = src.querySelector("footer.method .wrap");
+      if (method) {
+        var foot = document.createElement("section");
+        foot.className = "report-block method";
+        foot.innerHTML = method.innerHTML;
+        body.appendChild(foot);
+      }
+
+      return Promise.all(pending);
+    })
+    .then(function () {
+      document.body.dataset.ready = "true";
+    })
+    .catch(function (err) {
+      fail("Could not assemble the report: " + err.message + ".");
+    });
+})();
+</script>
+</body>
+</html>

@@ -1012,3 +1012,89 @@ def test_options_and_profit_pools_agree_on_the_corridor_ordering():
     assert pool.loc[common].rank().corr(head.loc[common].rank()) > 0.95, (
         "the two corridor models have stopped agreeing, so one of them has changed basis"
     )
+
+
+def test_the_print_report_covers_every_chart_the_page_carries():
+    """`report.html` must not fall behind `index.html`.
+
+    The report holds no prose of its own: it fetches index.html at load and
+    rebuilds the same steps linearly, so the two cannot drift on content. What
+    CAN drift is the scaffolding, so this pins the contract that matters: the
+    report exists, it reads the same source, and every chart the page asks for is
+    exported and therefore renderable in both.
+    """
+    import re
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    report = root / "docs" / "report.html"
+    assert report.exists(), "report.html is gone, so there is no printable edition"
+
+    text = report.read_text(encoding="utf-8")
+    assert 'fetch("index.html")' in text, (
+        "report.html no longer reads index.html, so the narrative is now duplicated "
+        "and free to drift"
+    )
+    assert "assets/charts/" in text
+
+    html = (root / "docs" / "index.html").read_text(encoding="utf-8")
+    wanted = set(re.findall(r'data-chart="([^"]+)"', html))
+    have = {p.stem for p in (root / "docs" / "assets" / "charts").glob("*.json")}
+    assert wanted <= have
+
+    css = (root / "docs" / "assets" / "style.css").read_text(encoding="utf-8")
+    assert "@media print" in css, "the print stylesheet is gone, so Save as PDF loses its layout"
+
+
+def test_the_absorption_frontier_carries_a_working_scenario_selector():
+    """Interactivity without JavaScript, and without breaking the palette rule.
+
+    The site is static and figures ship as JSON, so a Plotly `restyle` button
+    carries its own state and needs nothing at runtime. It restyles one trace
+    rather than toggling three, because three scenario lines would be three red
+    elements in the figure even with two hidden, and a house rule that can be
+    dodged by hiding things is not a rule.
+    """
+    fig = fg.fig_absorption_frontier()
+    menus = fig.layout.updatemenus
+    assert menus, "the scenario selector is gone"
+
+    labels = [b.label.strip() for b in menus[0].buttons]
+    assert {"Base demand", "Bear demand", "Bull demand"} == set(labels)
+    assert labels[0] == "Base demand", "the default case must be the one shown first"
+
+    # every button must actually carry a different frontier
+    series = [tuple(b.args[0]["y"][0]) for b in menus[0].buttons]
+    assert len(set(series)) == len(series), "two scenario buttons draw the same line"
+
+    # weaker demand needs a longer sector to absorb the same aircraft
+    by_label = dict(zip(labels, series))
+    assert by_label["Bear demand"][0] > by_label["Base demand"][0] > by_label["Bull demand"][0]
+
+    # and the figure must still spend the red exactly once
+    reds = sum(
+        1
+        for t in fig.data
+        if getattr(getattr(t, "line", None), "color", None) == charts.RED
+    )
+    assert reds == 1, f"the selector introduced {reds} red traces"
+
+
+def test_the_order_book_is_only_right_sized_under_the_bull_case():
+    """A sensitivity worth pinning, because it is what the selector exists to show.
+
+    Under bull demand the market grows into the aircraft at close to today's
+    sector length. Under bear it does not, by a wide margin. The recommendation
+    to lengthen the network is therefore load-bearing in exactly the cases where
+    demand disappoints, which is the opposite of a convenient finding.
+    """
+    bear = fg.absorption_summary(scenario_name="Bear")
+    base = fg.absorption_summary(scenario_name="Base")
+    bull = fg.absorption_summary(scenario_name="Bull")
+
+    assert bear["stage_uplift_pct"] > base["stage_uplift_pct"] > bull["stage_uplift_pct"]
+    assert bull["stage_uplift_pct"] < 10, (
+        "the bull case no longer absorbs the book at close to today's network, "
+        "so the scenario selector no longer shows what it was built to show"
+    )
+    assert bear["stage_uplift_pct"] > 25

@@ -3,10 +3,16 @@
 **Where should Indian carriers deploy their next 100 long-haul aircraft, and can the
 India-Gulf corridor absorb them?**
 
-> **Reclaim the Gulf corridor first.** It carries half of India's international traffic and
-> is four times the size of the entire direct Europe market, yet Indian carriers fly it with
-> short-haul aircraft and cede the connecting passenger to Dubai, Doha and Abu Dhabi.
-> Long-haul to the West is the second move, not the first.
+> **Compete with the Gulf hubs. Do not fly more aircraft to them.** The corridor carries
+> half of India's international traffic and is four times the entire direct Europe market,
+> but about 8.1M of those passengers a year are going somewhere else entirely, and
+> India-Dubai already runs at 89.6% of its treaty limit. The wide-bodies win that traffic by
+> flying past the Gulf, not to it. Europe first, North America second.
+
+This was not the opening view. It was "reclaim the Gulf corridor first" until three separate
+lines of evidence said the aircraft cannot be deployed there. That change, and five others,
+are documented in [the pivot log](docs/pivot_log.md) rather than presented as though the
+answer had always been obvious.
 
 A commercial aviation market entry case, built in the style of Bain Capability Network
 Advanced Manufacturing & Services work. Python analysis layer, single-page scrollytelling
@@ -34,7 +40,7 @@ carriers held **37.0%** in 2015 and hold 45.9% now, while Gulf carriers fell fro
 remains sits exactly where aircraft range binds: the share taken back is short-haul, and
 long-haul needs the aircraft that have only just been ordered.
 
-## Four things this repo does that a summary would not
+## Five things this repo does that a summary would not
 
 **1. It computes the headline instead of quoting it.**
 Secondary sources put the Gulf at "around 40%" of India's international traffic. This repo
@@ -50,19 +56,28 @@ passengers on Rome to Delhi, DGCA lists no such pair. No free source settles it,
 route is **quarantined**, excluded from anything depending on one agency being right, and
 reported with both numbers.
 
-**3. It refuses to use numbers nobody has checked.**
-DGCA publishes no fares and Air India is unlisted, so yields must be hand-entered. Every
-such row carries a status, and `dp.assumption()` raises rather than returning a value that
-is not `VERIFIED`. The capacity leg of the market sizing is **blocked by this gate right
-now**, and the chart says so on its face. A band built partly on unchecked numbers is worse
-than one that names the missing leg.
+**3. It refuses to use numbers nobody has checked, and the gate has cost it.**
+DGCA publishes no fares and Air India is unlisted, so yields must be hand-entered. Every such
+row carries a status and `dp.assumption()` raises rather than returning anything not
+`VERIFIED`. The capacity leg of the market sizing sat **blocked** for most of this project's
+life. It was unblocked by finding the sources, never by relaxing the rule, and note which way
+that moved the answer: the new leg came in at 90.7M, the **low** end, so verifying the gated
+numbers widened the band downward and made the recommendation harder to argue.
 
-**4. It reports its own gaps.**
+**4. It publishes the six times it was wrong.**
+[The pivot log](docs/pivot_log.md) records every change of mind with the commit it happened
+in. A margin claim published on the site and withdrawn. A premise reversed. A bucket bug that
+misfiled 5.0M passengers a year **while all 72 tests passed**, because a wrong bucket is still
+a valid bucket. A widely quoted utilisation figure retired because it requires 100 of 441
+aircraft to be grounded. Four of the six were caught by cross-checking one source against
+another; none by the test suite.
+
+**5. It reports its own gaps.**
 `python -m src.gap_analyzer` maps the real job posting to artifacts and checks each exists.
-It currently reports **82%**, not 100%, because the posting asks for survey analysis and
-first-level team management and a solo repository cannot honestly evidence either. It also
-caught a requirement I had invented that appears nowhere in the posting, and that row was
-deleted rather than reworded.
+It reports **82%**, not 100%, because the posting asks for survey analysis, mentoring and
+first-level team management, and a solo repository cannot honestly evidence any of them. It
+also caught a requirement I had invented that appears nowhere in the posting, and that row
+was deleted rather than reworded.
 
 ## A trap worth naming
 
@@ -87,19 +102,26 @@ average international flight is 5 km.
 pip install -r requirements.txt
 python scripts/refresh.py
 python -m pytest -q
-python -m http.server 8000 --directory docs
 ```
 
 `scripts/refresh.py` is the single entry point and exactly what CI runs: it pulls every
-source, rebuilds all eight figures and recomputes the hero numbers from the parquet. No
-figure on the page is typed by hand.
+source, rebuilds all seventeen figures and recomputes the hero numbers from the parquet. No
+figure on the page is typed by hand. `--no-fetch` rebuilds from cached parquet without going
+to the network.
+
+To read the site locally, serve `docs/` with any static file server and open `index.html`.
+`report.html` is the same analysis laid out for printing, with a Save as PDF button.
 
 ## Layout
 
 ```
-src/data_pipeline.py   fetch, clean, cache; the two DGCA traps handled once, here
+src/data_pipeline.py   fetch, clean, cache; the three DGCA traps handled once, here
 src/benchmarking.py    carriers and corridors; stage length is the differentiating metric
 src/market_sizing.py   three methods reconciled to a band, never averaged
+src/fleet_gap.py       what the order book can fly, in ASK, against what the market needs
+src/options.py         what each corridor must earn to cover its cost, and the option menu
+src/profit_pools.py    corridor profit pool; the most heavily modelled module, every seam labelled
+src/scenario.py        demand paths, plus fuel and FX on unit economics
 src/charts.py          Bain palette builders; house rules enforced by tests
 src/gap_analyzer.py    job posting to artifact coverage, checked not assumed
 scripts/refresh.py     single entry point, and what CI calls
@@ -108,9 +130,11 @@ docs/                  the only copy of the site, served by GitHub Pages
 
 | Document | What it holds |
 |---|---|
-| [Storyline](docs/storyline.md) | SCQA, and what would change the recommendation |
+| [Storyline](docs/storyline.md) | The client brief, the recommendation, and the SCQA under it |
+| [Recommendation](docs/recommendation.md) | Five costed options, roadmap, risk register, leading indicators |
+| [Pivot log](docs/pivot_log.md) | The six times evidence turned the analysis, each citing its commit |
 | [Hypothesis tree](docs/hypothesis_tree.md) | The decomposition, including branches still open |
-| [Methodology](docs/methodology.md) | Frameworks, limits, and what the data cannot tell you |
+| [Methodology](docs/methodology.md) | Frameworks, limits, what the data cannot tell you, and the retraction |
 | [Data dictionary](data/data_dictionary.md) | Every field: source, pull date, reliability grade |
 | [Coverage](docs/coverage.md) | Job posting mapped to artifacts, gaps included |
 | [Alternative B](docs/alternative_b_datacenters.md) | The case that lost, and why |

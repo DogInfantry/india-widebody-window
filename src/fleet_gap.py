@@ -452,6 +452,50 @@ def fig_absorption_frontier(target_year: int = TARGET_YEAR) -> go.Figure:
         )
     )
 
+    # Demand-scenario selector, built with Plotly's own controls rather than any
+    # JavaScript of ours. The page is static and the figure is exported as JSON,
+    # so a `restyle` button carries its own state and needs nothing at runtime.
+    #
+    # It restyles ONE trace rather than toggling three, deliberately. Three
+    # scenario traces would be three red lines in the figure, which breaks the
+    # one-red-element rule even though only one is ever visible, and a house rule
+    # that can be dodged by hiding things is not a rule.
+    fig.update_layout(
+        updatemenus=[
+            dict(
+                type="buttons",
+                direction="right",
+                x=0,
+                xanchor="left",
+                y=1.02,
+                yanchor="bottom",
+                showactive=True,
+                bgcolor=charts.PAPER,
+                bordercolor=charts.LIGHT,
+                borderwidth=1,
+                font=dict(size=11, color=charts.INK),
+                pad=dict(l=0, r=0, t=0, b=6),
+                buttons=[
+                    dict(
+                        label=f"  {name} demand  ",
+                        method="restyle",
+                        args=[
+                            {
+                                "y": [
+                                    absorption_frontier(
+                                        target_year, scenario_name=name
+                                    )["required_stage_km"].tolist()
+                                ]
+                            },
+                            [0],
+                        ],
+                    )
+                    for name in ("Base", "Bear", "Bull")
+                ],
+            )
+        ]
+    )
+
     # Where Indian carriers actually are today. The distance between this marker
     # and the curve is the entire decision.
     fig.add_trace(
@@ -468,12 +512,16 @@ def fig_absorption_frontier(target_year: int = TARGET_YEAR) -> go.Figure:
         )
     )
 
+    # Paper-referenced, not data-referenced: the frontier moves when the scenario
+    # button is pressed, and a note pinned to a data point would end up pointing
+    # at nothing.
     fig.add_annotation(
-        x=df["share_pct"].iloc[len(df) // 2],
-        y=df["required_stage_km"].iloc[len(df) // 2],
-        text="<b>underemployed below</b><br>the line",
+        xref="paper",
+        yref="paper",
+        x=0.5,
+        y=0.06,
+        text="<b>Order book underemployed below the line</b>",
         showarrow=False,
-        yshift=-46,
         font=dict(size=11, color=charts.GREY),
     )
 
