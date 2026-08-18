@@ -227,32 +227,47 @@ reached the handoff, which the methodology route caught by counting the file):
 
 ## Active task
 
-**Building the client-facing delivery layer in `web/`.** P0 to P4b are committed and live.
-164 tests green, tree clean at commit time, no running servers.
+**APPROVED AND NOT STARTED: turn the delivery layer into a company case.**
+Full plan committed at `memory/plan-company-case.md`. Read it before touching `web/`.
 
-| Phase | State |
-|---|---|
-| P0 scaffold and prove deployment | Done, `85d3b89` |
-| P1 export layer and drift guards | Done, `fe79456` |
-| P2 `/` and `/dashboard` | Done, `705356d` and `d0ffa09` |
-| P3 `/frameworks`, the five-link chain | Done, `77737a9` |
-| P4a `/deck`, fifteen slides | Done |
-| P4b `/methodology`, the evidence ledger | Done |
-| P4c `/story`, scrollytelling | **NOT BUILT.** See next steps |
-| P5 polish and record | This entry, the pivot log and the CLAUDE.md sweep |
+**The audit that prompted it, in three numbers.** The Next.js app is *thinner* than the static
+site it replaced, which is why it reads as scattered rather than as a case:
 
-**Nothing is pushed.** Every deploy so far has been `vercel deploy --prod` from the CLI. The
-first push will also fire the git-connected build, which has never run against `web/`.
+| | `docs/index.html` | The app | Lost |
+|---|---|---|---|
+| Exhibits | **18** | 11, four partial | **8** |
+| Narrative steps with action titles | **22** | 0 | **22** |
+| Client mentions | client named in `storyline.md` | **none** | the whole frame |
+
+The eight dropped exhibits are `gateway_flows` (Sankey), `profit_pool` (Mekko), `fleet_gap`,
+`scenarios`, `value_at_stake`, `who_carries_india`, `load_factor_slope`, `domestic_share`.
+Three of them are the most distinctive forms in the project.
+
+**The framing was never missing from the repo, only from the delivery.** `docs/storyline.md`
+already holds the client (IndiGo, InterGlobe Aviation, network and fleet strategy), the
+decision (60 A350-900s firm plus 40 purchase rights), the timeframe, the SCQA and the success
+metrics. It even records **RASK 4.99 against CASK 5.00 for FY2026, a spread that is currently
+inverted**, which is arguably the sharpest number in the project and appears on no surface.
+
+**Six workstreams, in this order:** W1 restore the eight exhibits, W3 frame the case on `/`,
+W4 build `/company` and `src/financials.py`, W2 restore `/story` as the 22-step narrative,
+W5 polish the deck, W6 sweep the record. W1 and W3 are cheap because the content already
+exists.
+
+**The design contract is in the plan and is not optional**: one tabbed exhibit grammar reused
+everywhere (Exhibit / Evidence / How it was computed / What would break it), chart form chosen
+by the question rather than by habit, exactly one annotated point per exhibit, and an explicit
+list of things not to add.
+
+**Nothing is to be erased.** `docs/` stays byte-unchanged and the mirror keeps working.
 
 ---
 
 ## Next steps, in order
 
-1. **`/story`, or a decision not to build it.** The approved plan had a scrollytelling route.
-   It was not built, deliberately and provisionally: `/deck` already walks the argument one
-   exhibit at a time, and a fifth route re-telling it in a different scroll idiom risks being
-   duplication rather than delivery. **This is the user's call, not the assistant's**, and it
-   is recorded here rather than quietly dropped.
+1. **Execute `memory/plan-company-case.md`.** Approved, not started. `/story` IS being built:
+   the earlier recommendation to drop it was wrong, because the 22-step narrative was the
+   original site's spine and losing it is most of why the app reads thin.
 2. **The forwarding note.** Still unwritten and it is now the binding constraint. The user
    applied to the BCN AMS Associate role and has had no reply, and has a warm contact who
    could refer them. The artifact is finished; what is missing is a short note in the **user's
