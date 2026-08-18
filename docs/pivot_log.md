@@ -225,6 +225,41 @@ the second both-ends check in the repo, after DGCA against Eurostat.
 
 ---
 
+## Pivot 7. "No Next.js rebuild" became "no rebuild of the ANALYSIS, and a real delivery layer"
+
+`85d3b89` through `77737a9` *Build the client-facing delivery layer*
+
+**What was believed.** That an external review's proposal to rebuild this project as a Next.js
+application on Vercel should be refused outright. The reasoning was recorded and it was sound
+as far as it went: a rebuild is weeks of work producing zero new analysis, it rewrites every
+chart, and it breaks both the seven-package and the no-build-step decisions.
+
+**What the evidence said.** The refusal answered a question nobody had asked. The review was
+wrong that the *analysis* needed rebuilding, and right that the *delivery* was not
+client-facing. Deploying the same static page to a second host made that impossible to keep
+denying: the page was 85 paragraphs, three tables and eighteen chart slots, the deck was a
+re-layout of the same prose, there was no dashboard at all, and four frameworks were named in
+a citation table and never rendered.
+
+Conflating the two questions is what let the refusal stand for as long as it did. "Should the
+analysis be rebuilt" and "is the delivery client-facing" have different answers, and the same
+conflation had already happened once with Vercel hosting, which was refused for a month
+because it was heard as a rebuild proposal.
+
+**What changed.** `web/` is a Next.js static export and is now the canonical surface. The
+Python analysis layer is untouched and remains the only place a number is computed:
+`src/app_export.py` writes tidy JSON from the same module functions the Plotly figures call,
+and the scenario controls index a precomputed cube so no model arithmetic exists in
+TypeScript at all. `docs/` is byte-unchanged and still serves as the GitHub Pages mirror.
+
+The rejection of a rebuild stands. What was wrong was treating the delivery layer as part of
+what was being rejected.
+
+**Where it lives.** `web/`, `src/app_export.py`, `tests/test_app_export.py`, and
+`docs/external_review_response.md`, which now under-states the case and says so.
+
+---
+
 ## What these have in common
 
 Four of the five were found by cross-checking one source against another, or one number

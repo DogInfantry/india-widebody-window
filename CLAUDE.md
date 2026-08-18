@@ -69,6 +69,12 @@ CI has no `data/raw/` cache and a flaky upstream should not turn the build red.
 ### Key decisions and why
 - **Static site, not Streamlit/Panel/Superset/Redash/Vizro-as-framework.** All need a running
   process; GitHub Pages serves static files. Vizro adopted as a *code reference* only.
+- **The Next.js decision, as it actually stands (revised 2026-08-18, pivot 7).** No rebuild of
+  the ANALYSIS layer: `src/` is untouched and is still the only place a number is computed.
+  **A real Next.js delivery layer in `web/`, which is now canonical.** The original refusal
+  conflated the two questions, which is the same conflation that delayed Vercel hosting.
+  `web/` is a **static export**, so Vercel builds it from the repo root with no Root Directory
+  setting and the output stays a static artifact. Historic note follows.
 - **No Next.js REBUILD, but Vercel hosting is wanted.** Two separate questions and they were
   conflated for most of 2026-08-18. The rebuild is rejected: weeks of work, zero new analysis,
   rewrites 19 charts, breaks the seven-package and no-build-step decisions. **Hosting the same
@@ -103,9 +109,16 @@ below stays sans. `src/charts.py` holds `FONT` and `FONT_DISPLAY`. Changing type
 baked into every exported chart JSON.
 
 ### Dependency discipline
-`requirements.txt` is deliberately seven packages. Already rejected with reasons: duckdb,
-pyopensky, pdfplumber, vizro, dash, streamlit, panel, and (2026-08-18) the whole Next.js /
-Tremor / Recharts / Visx / Puppeteer stack. Do not reintroduce them.
+`requirements.txt` is **still deliberately seven packages** and the analysis layer takes no
+new ones. Already rejected with reasons: duckdb, pyopensky, pdfplumber, vizro, dash,
+streamlit, panel.
+
+**`web/` has its own npm dependencies and that is not a reversal of the above.** The Python
+side is untouched; the delivery layer is Next.js, React, Tailwind v4, Recharts. Tremor was
+considered and rejected: about 200KB against shadcn-style primitives at 50KB, and its opinions
+fight a palette and type system that tests already enforce. Puppeteer was rejected again: the
+PDFs render through local Chrome against the same print CSS, which needs no Node toolchain and
+no cold-starting function.
 Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro (Apache-2.0).
 
 ---
@@ -134,10 +147,13 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
-| `docs/pivot_log.md` | **NEW.** Six documented changes of mind, each citing its commit |
+| `docs/pivot_log.md` | Seven documented changes of mind, each citing its commit |
+| `web/` | **NEW.** The client-facing delivery layer. Next.js **static export**, five routes, Recharts. Canonical on Vercel |
+| `src/app_export.py` | **NEW.** Tidy JSON, exhibit data, the scenario cube and the evidence ledger for `web/`. Calls the SAME functions the charts do |
+| `tests/test_app_export.py` | **NEW.** Strict-JSON, determinism and stale-export drift guards |
 | `docs/{storyline,hypothesis_tree,methodology,coverage,alternative_b_datacenters}.md` | Written IP |
 | `data/data_dictionary.md` | Provenance contract. Every field, source, pull date, grade |
-| `data/manual/assumptions.csv` | Hand-entered numbers, 11-state status vocabulary. 30 rows |
+| `data/manual/assumptions.csv` | Hand-entered numbers, 11-state status vocabulary. 31 rows |
 | `tests/test_pipeline.py` | Loaders, units, anomalies, provenance, data-dictionary drift guards |
 | `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift |
 | `tests/test_analysis.py` | Findings, chart house rules, sizing, scenarios, pools, bilaterals, fleet gap, options |
@@ -154,7 +170,8 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 148 tests pass. 19 charts. Working tree clean.**
+**Done and green. 164 tests pass. 19 Plotly charts on the mirror, plus the React delivery
+layer. Working tree clean.**
 
 **Closed 2026-08-18, third block (`434f186`, pushed):** the Vercel deploy and the brief PDF
 page break, the two items that had been open. Plus `docs/external_review_response.md`, which
@@ -194,7 +211,9 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
 - **Options reference:** IndiGo system sector 1,172 km, CASK 5.00, yield 5.06,
   `CASK_STAGE_ELASTICITY = -0.25`
 
-**Assumptions: 25 of 30 cleared.** The five open rows are **terminal, not pending work**:
+**Assumptions: 25 of 31 cleared.** The six open rows are **terminal, not pending work**
+(this said 30 and five until 2026-08-18: an Abu Dhabi entitlement row was added and never
+reached the handoff, which the methodology route caught by counting the file):
 
 | Row | Status | Why it will not close |
 |---|---|---|
@@ -208,34 +227,49 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
 
 ## Active task
 
-**None in flight.** Both items that were open at the last handoff are closed: the Vercel
-deploy is live and canonical, and the brief PDF now prints one audience per sheet. 148 tests
-green, tree clean at commit time, no running servers.
+**Building the client-facing delivery layer in `web/`.** P0 to P4b are committed and live.
+164 tests green, tree clean at commit time, no running servers.
 
-`docs/external_review_response.md` answers the external review item by item, which was the
-third thing asked for in that session.
+| Phase | State |
+|---|---|
+| P0 scaffold and prove deployment | Done, `85d3b89` |
+| P1 export layer and drift guards | Done, `fe79456` |
+| P2 `/` and `/dashboard` | Done, `705356d` and `d0ffa09` |
+| P3 `/frameworks`, the five-link chain | Done, `77737a9` |
+| P4a `/deck`, fifteen slides | Done |
+| P4b `/methodology`, the evidence ledger | Done |
+| P4c `/story`, scrollytelling | **NOT BUILT.** See next steps |
+| P5 polish and record | This entry, the pivot log and the CLAUDE.md sweep |
+
+**Nothing is pushed.** Every deploy so far has been `vercel deploy --prod` from the CLI. The
+first push will also fire the git-connected build, which has never run against `web/`.
 
 ---
 
 ## Next steps, in order
 
-1. **The forwarding note.** Still unwritten and it is now the binding constraint. The user
+1. **`/story`, or a decision not to build it.** The approved plan had a scrollytelling route.
+   It was not built, deliberately and provisionally: `/deck` already walks the argument one
+   exhibit at a time, and a fifth route re-telling it in a different scroll idiom risks being
+   duplication rather than delivery. **This is the user's call, not the assistant's**, and it
+   is recorded here rather than quietly dropped.
+2. **The forwarding note.** Still unwritten and it is now the binding constraint. The user
    applied to the BCN AMS Associate role and has had no reply, and has a warm contact who
    could refer them. The artifact is finished; what is missing is a short note in the **user's
    own voice** to send that contact, with the `.vercel.app` link and the brief PDF attached.
    `docs/brief.html` and the PDFs exist precisely to make that forward cheap. Agreed in an
    earlier session and never delivered.
-2. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
+3. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
    option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.
-3. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
+4. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
    (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% utilisation is
    now load-bearing for the recommendation, so a second point would strengthen or break it.
-4. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
+5. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
    Europe already has via Eurostat. Would raise the 5.6% cross-checked share.
-5. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
-6. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource IDs
+6. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
+7. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource IDs
    `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`. Create
    `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no key, primary.
 
@@ -372,6 +406,27 @@ Every one of these cost real time or produced a wrong published number.
     **static export**, and the root `vercel.json` runs `npm --prefix web run build` and serves
     `web/out`. No Root Directory setting, no dashboard step, and the output stays a static
     artifact like everything else here.
+48. **`.vercelignore` follows gitignore semantics, so bare patterns match at ANY depth.** A
+    bare `data` excluded `web/public/data` and the Vercel build failed with
+    `Can't resolve '@/public/data/access.json'` while the local build passed. Every pattern in
+    that file is anchored with a leading slash now, with the reason written in it.
+49. **`json.dumps` writes bare `NaN`, which is not JSON.** pandas produces NaN freely: the
+    "Other" corridor has no hub, so no stage length and no yield headroom. The browser's
+    `JSON.parse` rejects it and the page renders nothing while every Python test passes.
+    `src/app_export.py` maps NaN to null and passes `allow_nan=False` so a leak is a build
+    failure.
+50. **`benchmarking.carrier_operating_summary()` returns DOMESTIC unless told otherwise.** The
+    capability exhibit plotted a 943 km domestic stage length while claiming to compare
+    international networks, where the real figures are 2,643 km against 5,316 km. The export
+    names both tables rather than defaulting to one. **Read the signature before trusting a
+    default.**
+51. **Recharts 3 widened the Tooltip `formatter` signature.** A parameter typed `number` is
+    contravariant with `ValueType` and fails type checking. Take the value untyped and coerce
+    inside.
+52. **A chart title that a CONTROL can falsify is worse than a topic title.** The dashboard's
+    shock panel asserted "currency costs more spread than fuel", which is false at zero shock
+    where both are zero. Action titles on interactive exhibits must be computed from the
+    current control position.
 47. **Tailwind v4 `@theme` declares `--font-sans` on `:root`, so the next/font class must go on
     `<html>`, not `<body>`.** A `var()` inside a custom property is resolved at the element
     that DECLARES it. With the font variables on `<body>`, `:root` could not see
