@@ -365,6 +365,19 @@ Every one of these cost real time or produced a wrong published number.
     Deliberate: the card and favicon are static assets, generated once and committed, so CI
     never needs the dependency and the seven-package discipline holds. Re-run it only if the
     hero numbers or the headline change.
+46. **Vercel's Root Directory cannot be set from the CLI, and `vercel link` from a subdirectory
+    does not set it either.** It writes `.vercel/repo.json` at the GIT ROOT with
+    `"directory": "."` every time. The project also had `Framework Preset: Flask` stuck on it
+    from the first failed deploy. **The build sidesteps all of it**: `web/` is a Next.js
+    **static export**, and the root `vercel.json` runs `npm --prefix web run build` and serves
+    `web/out`. No Root Directory setting, no dashboard step, and the output stays a static
+    artifact like everything else here.
+47. **Tailwind v4 `@theme` declares `--font-sans` on `:root`, so the next/font class must go on
+    `<html>`, not `<body>`.** A `var()` inside a custom property is resolved at the element
+    that DECLARES it. With the font variables on `<body>`, `:root` could not see
+    `--font-plex-sans`, the declaration was invalid, and every heading fell back to
+    `-apple-system` while the page still looked deliberate. Verify with
+    `getComputedStyle(h1).fontFamily`, never by eye.
 45. **A page-level class collided with a component class and voided every page break.**
     `docs/brief.html` shipped as `<body class="brief">`, and `.brief` was already the
     decision-list grid from `index.html`. The brief's body became a GRID CONTAINER, and Chrome

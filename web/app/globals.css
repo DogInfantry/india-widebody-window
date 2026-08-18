@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+/* The design system is not reinvented here. These tokens are the same values
+   `docs/assets/style.css` and `src/charts.py` already hold, ported once so the
+   app, the static mirror and every exported chart stay one system. Changing a
+   colour means changing all three, which is recorded in CLAUDE.md. */
+@theme {
+  --color-red: #cc0000;
+  --color-accent: #ee3224;
+  --color-ink: #1a1a1a;
+  --color-grey: #999999;
+  --color-light: #e6e6e6;
+  --color-paper: #ffffff;
+  --color-wash: #fafafa;
+
+  /* Serif for display, sans for body and every chart label. Confined to h1/h2/h3,
+     the case question, the governing thought and chart titles; anything at 13px
+     or below stays sans. Same rule as the static site. */
+  --font-serif: var(--font-plex-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-plex-sans), -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+
+  --spacing-gutter: 2rem;
+}
+
+:root {
+  --wrap: 1180px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+/* Tabular figures everywhere a number is compared to another number. Plex Sans
+   draws true tabular numerals, which is why the reconciliation table aligns. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

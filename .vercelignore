@@ -12,3 +12,6 @@ memory
 /jd.txt
 /NOTICE
 requirements.txt
+web/node_modules
+web/.next
+web/out
