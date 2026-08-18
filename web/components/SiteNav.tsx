@@ -15,6 +15,7 @@ const PAGES = [
   { href: "/", label: "The answer" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/frameworks", label: "How it was reached" },
+  { href: "/deck", label: "Deck" },
 ];
 
 export function SiteNav() {
