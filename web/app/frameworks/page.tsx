@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Exhibit } from "@/components/Exhibit";
+import { RegisteredExhibit } from "@/lib/exhibits";
 import {
   CarrierCapability,
   CaskBridge,
@@ -223,6 +224,8 @@ export default function Frameworks() {
           >
             <ShareTrend />
           </Exhibit>
+
+          <RegisteredExhibit id="entitlement_use" />
         </Section>
 
         <Section

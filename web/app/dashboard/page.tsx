@@ -19,6 +19,7 @@ import {
   ZAxis,
 } from "recharts";
 import { corridors, economicCorridors, scenarioCube } from "@/lib/data";
+import { AXIS, GREY, INK, LIGHT, RED, TOOLTIP } from "@/lib/chart-theme";
 
 // The Detail level. Two interaction patterns and no more, which is the cap
 // Vizro's method sets before a page stops being legible: cross-filter (click a
@@ -32,16 +33,6 @@ import { corridors, economicCorridors, scenarioCube } from "@/lib/data";
 // The shock control indexes a cube precomputed in Python. Nothing here does
 // model arithmetic, so this page cannot disagree with the report.
 
-const RED = "#CC0000";
-const GREY = "#999999";
-const LIGHT = "#E6E6E6";
-const INK = "#1A1A1A";
-const AXIS = { stroke: LIGHT, tick: { fill: GREY, fontSize: 12 }, tickLine: false } as const;
-const TOOLTIP = {
-  contentStyle: { border: `1px solid ${LIGHT}`, borderRadius: 0, fontSize: 13, boxShadow: "none" },
-  labelStyle: { color: INK, fontWeight: 600 },
-  cursor: { fill: "#FAFAFA" },
-} as const;
 
 const PLOTTABLE = corridors.filter((c) => c.region !== "Other");
 const MOVES = [...new Set(scenarioCube.fuel_fx.map((r) => r.move_pct))].sort((a, b) => a - b);

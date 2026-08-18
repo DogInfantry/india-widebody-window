@@ -14,28 +14,12 @@ import {
   YAxis,
 } from "recharts";
 import { corridors, economicCorridors, fleet } from "@/lib/data";
+import { AXIS, GREY, INK, LIGHT, RED, TOOLTIP } from "@/lib/chart-theme";
 
 // House rules, carried over from src/charts.py and enforced there by tests:
 // ONE red element per chart, everything else grey, minimal gridlines, sans
 // labels at every size. The red is the point of the exhibit, so it is applied
 // by a predicate rather than by a palette cycle.
-const RED = "#CC0000";
-const GREY = "#999999";
-const LIGHT = "#E6E6E6";
-const INK = "#1A1A1A";
-
-const AXIS = { stroke: LIGHT, tick: { fill: GREY, fontSize: 12 }, tickLine: false } as const;
-
-const TOOLTIP = {
-  contentStyle: {
-    border: `1px solid ${LIGHT}`,
-    borderRadius: 0,
-    fontSize: 13,
-    boxShadow: "none",
-  },
-  labelStyle: { color: INK, fontWeight: 600 },
-  cursor: { fill: "#FAFAFA" },
-} as const;
 
 /** Corridor scale. The Gulf is the red because the case is about whether the
  *  aircraft should follow it. */

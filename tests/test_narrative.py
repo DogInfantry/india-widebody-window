@@ -52,6 +52,7 @@ from pathlib import Path
 import pytest
 
 from src import benchmarking as bm
+from src import data_pipeline as dp
 from src import fleet_gap as fg
 from src import market_sizing as ms
 from src import options as opt
@@ -67,7 +68,37 @@ CORPUS_FILES = (
     ["README.md", "CLAUDE.md", "ROADMAP.md"]
     + [f"docs/{p.name}" for p in sorted((ROOT / "docs").glob("*.md"))]
     + [f"docs/{p.name}" for p in sorted((ROOT / "docs").glob("*.html"))]
+    # The delivery layer carries prose too, and for the whole life of the app it
+    # was exempt from this guard: a superseded figure typed into a React page
+    # would have been published and nothing here would have noticed. The same
+    # exemption once let `market_sizing` and `scenario` skip the chart house
+    # rules for the life of the project, which is gotcha 39.
+    + [
+        str(q.relative_to(ROOT)).replace("\\", "/")
+        for q in sorted((ROOT / "web").rglob("*.tsx"))
+        if "node_modules" not in q.parts and ".next" not in q.parts
+    ]
 )
+
+
+def _flatten(path: Path) -> str:
+    """One published file, flattened so line wrapping cannot hide a figure.
+
+    Factored out of the corpus fixture because the paired-margin guard has to
+    know WHICH file it found a violation in, and a single flattened blob cannot
+    say.
+    """
+    if not path.exists():
+        return ""
+    text = path.read_text(encoding="utf-8")
+    text = re.sub(
+        r"<!--\s*narrative-guard:\s*ignore.*?-->.*?<!--\s*/narrative-guard\s*-->",
+        " ",
+        text,
+        flags=re.S,
+    )
+    text = re.sub(r"<[^>]+>", " ", text)
+    return re.sub(r"\s+", " ", text)
 
 
 @pytest.fixture(scope="module")
@@ -234,6 +265,12 @@ CLAIMS: tuple[Claim, ...] = (
         must_not_appear=("33 million passengers",),
     ),
     Claim(
+        "FY2026 EBITDAR margin, as reported",
+        lambda: dp.assumption("indigo_ebitdar_margin_fy2026_reported_pct"),
+        "{:.1f}%",
+        must_appear=("17.8%", "17.8 per cent"),
+    ),
+    Claim(
         "Gulf passenger against revenue share",
         lambda: float(pp.profit_pool().set_index("region").loc["Gulf", "revenue_share_pct"]),
         "{:.0f}%",
@@ -270,6 +307,54 @@ def test_no_superseded_figure_is_still_published(claim, corpus):
         f"superseded value(s) {stale} are still in the written IP. Find and update "
         "them. If a figure legitimately appears as history, quote it inside a "
         "sentence that says so and narrow the must_not_appear pattern."
+    )
+
+
+def test_neither_fy2026_margin_is_ever_published_alone(corpus):
+    """27.3% and 17.8% travel together or not at all.
+
+    This project published a margin claim and had to retract it: an asserted
+    operating-margin halving that came from a convention IndiGo does not publish.
+    The retraction is in `docs/methodology.md` and must stay there.
+
+    **The symmetric error is just as easy and would be worse**, because it
+    flatters. IndiGo REPORTED 17.8% for FY2026; 27.3% is ex-forex. Quoting only
+    the ex-forex figure treats an operating improvement as the whole story, which
+    is the same mistake pointing the other way. Gotcha 19 says state both; this
+    is what makes the build fail if a surface does not.
+
+    **Run per file, with one named exception.** `docs/methodology.md` quotes
+    27.3% inside the retraction passage without 17.8% beside it. That is a real
+    violation, it predates this guard, and it is listed rather than exempted by
+    a looser rule so it stays visible. Fixing it means editing the passage and
+    deleting the entry below, which is the invert-the-gate discipline this
+    project already runs on: when a gate opens, remove the exception rather than
+    relax the test.
+    """
+    known_open = {"docs/methodology.md"}
+    window = 900  # characters, generous: the corpus is flattened so lines merge
+    offenders = {}
+
+    for rel in CORPUS_FILES:
+        text = _flatten(ROOT / rel)
+        for match in re.finditer(r"27\.3", text):
+            near = text[max(0, match.start() - window) : match.end() + window]
+            if "17.8" not in near:
+                offenders[rel] = near[:300]
+                break
+
+    new = set(offenders) - known_open
+    assert not new, (
+        "27.3% (FY2026 EBITDAR margin excluding forex) is published without "
+        "17.8% (as reported) anywhere near it, in: "
+        f"{sorted(new)}. Both must appear, and which is which must be stated. "
+        "See gotcha 19 in CLAUDE.md.\n"
+        + "\n".join(f"  {f}: ...{c}..." for f, c in offenders.items() if f in new)
+    )
+    closed = known_open - set(offenders)
+    assert not closed, (
+        f"{sorted(closed)} no longer violates the paired-margin rule. Remove it "
+        "from `known_open` so the guard covers it from now on."
     )
 
 

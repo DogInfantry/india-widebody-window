@@ -17,6 +17,9 @@ import marketJson from "@/public/data/market.json";
 import narrativeJson from "@/public/data/narrative.json";
 import evidenceJson from "@/public/data/evidence.json";
 import scenarioCubeJson from "@/public/data/scenario_cube.json";
+import briefJson from "@/public/data/brief.json";
+import storyJson from "@/public/data/story.json";
+import companyJson from "@/public/data/company.json";
 
 export type Kpi = { value: string; label: string; note: string | null };
 
@@ -60,6 +63,21 @@ export const narrative = narrativeJson;
  *  score, all counted from the repo by src/app_export.py on every build. */
 export const evidence = evidenceJson;
 export const scenarioCube = scenarioCubeJson;
+
+/** The case frame: client, decision, horizon, success metrics and the SCQA,
+ *  parsed out of docs/storyline.md by src/app_export.py. It was written and
+ *  test-guarded from early on and reached no delivery surface until now, which
+ *  is the single reason the app read as sector research rather than as a case. */
+export const brief = briefJson;
+
+/** The 22-step narrative, parsed out of docs/index.html so the scrolly spine and
+ *  the static site cannot diverge. Gotcha 43: index.html holds the prose and
+ *  every other surface re-lays it out. */
+export const story = storyJson;
+
+/** IndiGo's own P&L, unit economics and the scale of the commitment, computed in
+ *  src/financials.py from rows that already cleared the assumption gate. */
+export const company = companyJson;
 
 /** Corridors that have a hub, so an economics figure exists for them. "Other"
  *  is a residual bucket with no single stage length and must not be plotted on

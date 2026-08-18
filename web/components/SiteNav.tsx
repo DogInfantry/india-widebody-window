@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
 // site whose whole claim is that it can be checked.
 const PAGES = [
   { href: "/", label: "The answer" },
+  { href: "/story", label: "The argument" },
+  { href: "/company", label: "The client" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/frameworks", label: "How it was reached" },
   { href: "/deck", label: "Deck" },

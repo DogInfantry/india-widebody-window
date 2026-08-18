@@ -19,17 +19,8 @@ import {
   ZAxis,
 } from "recharts";
 import { carriers, corridors, market, narrative, scenarioCube } from "@/lib/data";
+import { AXIS, GREY, INK, LIGHT, RED, TOOLTIP } from "@/lib/chart-theme";
 
-const RED = "#CC0000";
-const GREY = "#999999";
-const LIGHT = "#E6E6E6";
-const INK = "#1A1A1A";
-const AXIS = { stroke: LIGHT, tick: { fill: GREY, fontSize: 12 }, tickLine: false } as const;
-const TOOLTIP = {
-  contentStyle: { border: `1px solid ${LIGHT}`, borderRadius: 0, fontSize: 13, boxShadow: "none" },
-  labelStyle: { color: INK, fontWeight: 600 },
-  cursor: { fill: "#FAFAFA" },
-} as const;
 
 /** 1. Market sizing. Three independent methods, reported as a band. The house
  *  rule is that the spread IS the output, so the average is never drawn. */
