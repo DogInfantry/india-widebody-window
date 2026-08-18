@@ -33,7 +33,7 @@ leg is what gets counted; the rest of the journey is invisible.
 
 This is why:
 
-- DGCA sector data puts the Gulf at **51.2%** of India's international traffic
+- DGCA sector data puts the Gulf at **50.9%** of India's international traffic
 - IATA true origin-destination figures put it near **40%**
 
 Both are correct measurements of different things. The roughly eleven point gap is
@@ -176,7 +176,7 @@ both directions, over 52 weeks:
 
 | | One-way seats per week |
 |---|---|
-| India-Dubai, implied by DGCA 2024 traffic | ~119,200 |
+| India-Dubai, implied by DGCA 2024 traffic | ~118,200 |
 | Reported entitlement, two sides at 66,504 | 133,008 |
 | **Utilisation** | **~90%** |
 
@@ -200,13 +200,13 @@ as the India-UAE cap would be wrong by a factor of about four.
 ## The Gulf is not uniformly capacity-capped, and saying so was a correction
 
 The bilateral section above measures India-Dubai from the traffic end and finds it
-at **89.6%** of its reported entitlement. That number was, for one commit, carried
+at **88.8%** of its reported entitlement. That number was, for one commit, carried
 as "there is no room in the Gulf" and used as the first leg of the recommendation.
 
 Generalising the check to a second point showed the claim was too strong. Abu
 Dhabi's entitlement could be found, from two independent secondary sources that
 agree on **50,000 weekly seats one side**, and the same traffic-end inference puts
-usage at about **58%**. Roughly 42,000 one-way seats a week are unused.
+usage at about **70%**. Roughly 30,000 one-way seats a week are unused.
 
 A third figure reconciles both. A trade report puts the India-Abu Dhabi market at
 about 77,050 weekly seats each way at the start of a September, which sits under a
@@ -216,8 +216,8 @@ those two numbers should have.
 
 **What survives the correction**, and it is the number the recommendation now
 rests on rather than the utilisation percentages: both points' remaining
-entitlement together is about 2.9M seats a year, and flown at the Gulf's own
-2,182 km sector it absorbs **roughly 5% of the order book**. The constraint on
+entitlement together is about 2.3M seats a year, and flown at the Gulf's own
+2,182 km sector it absorbs **roughly 4% of the order book**. The constraint on
 Gulf deployment is therefore economic first and legal second, which is the reverse
 of the original framing.
 
@@ -400,7 +400,7 @@ rank correlation stays above 0.95.
 
 ## The origin-destination share, and a gate that was missing
 
-The eleven point gap between DGCA's computed 51.2% Gulf sector share and the roughly 40%
+The eleven point gap between DGCA's computed 50.9% Gulf sector share and the roughly 40%
 origin-destination figure is the connect leak, and it anchors the recommendation.
 
 **That 40% was carried as a hard number on the live site with no assumption row at all.** It
@@ -414,6 +414,41 @@ document to check it against. It is read only through `allow_unverified=True`, i
 diagnostic function, the same pattern `dubai_entitlement_check` uses for the bilateral
 entitlement. Everything derived from it is reported as a band and labelled `MODELLED`, and a
 test asserts the gate bites.
+
+---
+
+## Data vintage, and why two years appear on one page
+
+Headline figures moved from **2024 to 2025 on 2026-08-18**, when it was noticed that the
+constant driving them still said 2024 while a complete 2025 series sat in the repo unused.
+The comment directly above that constant already said data ran complete through 2025, so this
+was drift rather than a decision.
+
+What moved, and none of it reverses anything:
+
+| | 2024 | 2025 |
+|---|---|---|
+| India international sector passengers | 72.2M | **78.0M** |
+| Gulf share | 51.2% | **50.9%** |
+| Gulf against direct Europe | 4.2x | **4.1x** |
+| Indian carrier share | 45.3% | **45.9%** |
+| 2030 sizing band | 91M to 108M | **96M to 109M** |
+| Demand scenarios | 102 / 108 / 134M | **104 / 109 / 131M** |
+
+The growth rates behind the band and the scenarios are **unchanged**, because they are fitted
+from history rather than from the base year. Only the level moved. The corridor ordering, the
+yield headroom by corridor, the profit pool split and the absorption arithmetic are all
+untouched.
+
+**Two dates still appear on the page, deliberately.** The Eurostat reconciliation runs on
+**2024**, because that is the last year both agencies publish complete, and it is labelled
+as such where it appears. It validates the DGCA source rather than any one year's numbers,
+so re-running it on a partial year would weaken it for no gain.
+
+**Why the base year matters more than it looks.** It is also the launch point for every
+projection to 2030, so moving it shortens the runway by a year and narrows the band. That is
+why both constants moved together: leaving the sizing base on 2024 while the corridor figures
+said 2025 would have put two different totals for the same market on the same page.
 
 ---
 
@@ -527,7 +562,7 @@ comparing a yield against a cost, and proved nothing.
 
 | Quantity | Competing figures | Why they differ |
 |---|---|---|
-| Gulf share of India international | 51.2% (DGCA sector, computed) vs ~40% (IATA O-D) | Sector counts the India-to-hub leg; O-D counts the real destination |
+| Gulf share of India international | 50.9% (DGCA sector, computed) vs ~40% (IATA O-D) | Sector counts the India-to-hub leg; O-D counts the real destination |
 | India total passengers | 180.4M (World Bank, carriers-carried, 2023), 211M (IATA, 2024), 406M (DGCA, airport-handled, 2025) | Three different things counted. The definition is stated every time |
 | Air India post-merger fleet | 198 / 205 / 218 | Varies by source date and by whether Vistara and Air India Express are consolidated |
 

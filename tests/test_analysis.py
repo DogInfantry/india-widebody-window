@@ -416,7 +416,13 @@ def test_scenario_paths_start_at_the_observed_base():
     paths = sc.scenario_paths()
     start = paths[paths["year"] == ms.BASE_YEAR]
     assert start["pax_m"].nunique() == 1, "all scenarios must start from the same actual value"
-    assert abs(start["pax_m"].iloc[0] - 72.2) < 1.0
+
+    # Compared against the observed series rather than a literal. The literal was
+    # 72.2, which pinned the test to a data vintage instead of to the property it
+    # is named for, and it was the only thing in the suite that broke when the
+    # base year moved from 2024 to 2025.
+    observed = float(ms._annual_international()[ms.BASE_YEAR]) / 1e6
+    assert abs(start["pax_m"].iloc[0] - observed) < 0.01
 
 
 def test_scenario_figure_points_at_the_levers_it_does_not_carry():

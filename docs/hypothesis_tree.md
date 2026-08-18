@@ -12,11 +12,11 @@ Compete with the Gulf hubs, do not fly more aircraft to them
 │
 ├── 1. Is the Gulf corridor large enough to matter?                    ANSWERED: yes
 │   ├── 1.1 How big is India-Gulf against other corridors?
-│   │       36.9M vs 8.8M for all Europe. 4.2x. DGCA, 2024
+│   │       39.7M vs 9.6M for all Europe. 4.1x. DGCA, 2025
 │   ├── 1.2 Is it growing or mature?
 │   │       Pre-covid CAGR 6.96% on total international; Gulf share stable near half
 │   └── 1.3 Is the traffic point-to-point or connecting?
-│           PARTIALLY ANSWERED. DGCA sector 51.2% vs IATA O-D ~40%.
+│           PARTIALLY ANSWERED. DGCA sector 50.9% vs IATA O-D ~40%.
 │           The gap bounds the connecting share; the exact split needs O-D data
 │           that no free source publishes
 │
@@ -24,7 +24,7 @@ Compete with the Gulf hubs, do not fly more aircraft to them
 │   ├── 2.1 What share do Indian carriers hold?
 │   │       45.9% of India international sector pax, 2025. Everyone else 54.1%
 │   ├── 2.2 Which foreign carriers, specifically?
-│   │       Gulf carriers 26.2%. Emirates alone 5.57M passengers, 2024
+│   │       Gulf carriers 26.2%. Emirates is the largest single foreign carrier
 │   └── 2.3 Is the share trend worsening or stable?
 │           ANSWERED, AND IT REVERSES THE PREMISE. Neither: it is improving.
 │           Indian 37.0% (2015) -> 45.9% (2025). Gulf 32.7% -> 26.2%.
@@ -42,19 +42,19 @@ Compete with the Gulf hubs, do not fly more aircraft to them
 │
 ├── 4. Can the corridor absorb 100 more aircraft?                      PARTIALLY ANSWERED
 │   ├── 4.1 Does demand grow enough by 2030?
-│   │       91M to 108M international passengers, from 72M. Three methods, band reported
+│   │       96M to 109M international passengers, from 78M. Three methods, band reported
 │   ├── 4.2 Do the seats on order exceed that demand?
 │   │       NO, AND THAT IS THE ANSWER. 140 wide-bodies on firm order carry
 │   │       46,546 seats at published two-class layouts, weighted by variant.
 │   │       Flown at the owned-fleet utilisation of 10.06 hours/day they add
-│   │       enough for 91M, the LOW leg of the band. The order book is sized
+│   │       enough for 96M, the LOW leg of the band. The order book is sized
 │   │       below even the trend case, so it does not overshoot demand.
 │   │       Was BLOCKED until the seat and utilisation figures were sourced
 │   │       from manufacturer manuals and IndiGo's annual report
 │   └── 4.3 Do bilateral seat rights permit it?
 │           PARTLY ANSWERED, AND STILL THE BINDING RISK. India publishes no
 │           entitlement table, so this was checked from the traffic end.
-│           India-Dubai runs about 119,200 one-way seats a week against a
+│           India-Dubai runs about 118,200 one-way seats a week against a
 │           reported two-sided entitlement of 133,008, roughly 90% utilised.
 │           So the single largest India-Gulf city pair has under 15% headroom
 │           before a treaty change is needed, and Emirates and flyDubai are
@@ -67,7 +67,7 @@ Compete with the Gulf hubs, do not fly more aircraft to them
 │
 └── 5. Is the Gulf a better first move than the West?         ANSWERED, AND IT REVERSED
     ├── 5.1 Relative market size?
-    │       Gulf 36.9M vs Europe 8.8M vs North America 2.5M. The Gulf wins
+    │       Gulf 39.7M vs Europe 9.6M vs North America 2.2M. The Gulf wins
     │       on size and that was never in doubt
     ├── 5.2 Relative competitive intensity?
     │       Europe and North America are served by mature incumbent networks;
@@ -77,14 +77,14 @@ Compete with the Gulf hubs, do not fly more aircraft to them
     │       Long-haul corridors carry higher modelled margin
     └── 5.4 Can the aircraft actually be deployed there?       THE DECIDING BRANCH
             NO, and this is what turned the answer. Three independent lines:
-            (a) India-Dubai runs at 89.6% of its bilateral entitlement, leaving
-                ~0.72M seats/year against a 36.9M corridor (branch 4.3)
+            (a) India-Dubai runs at 88.8% of its bilateral entitlement, leaving
+                ~0.77M seats/year against a 39.7M corridor (branch 4.3)
             (b) the Gulf has the LEAST yield headroom of any corridor, and does
                 not cover its own cost at IndiGo's realised yield
             (c) the order book adds 78% to international ASK where holding share
                 needs ~half that, clearing only if sectors lengthen ~27%
             So the corridor is the prize and the aircraft cannot serve it. The
-            8.1M connecting passengers inside it are won by flying PAST the Gulf.
+            8.5M connecting passengers inside it are won by flying PAST the Gulf.
             Recommendation restated: compete with the hubs, do not fly to them
 ```
 

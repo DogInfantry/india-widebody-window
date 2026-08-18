@@ -52,7 +52,7 @@ from .data_pipeline import (
 )
 
 TARGET_YEAR = 2030
-BASE_YEAR = 2024
+BASE_YEAR = 2025
 
 # Covid distorts any growth rate straddling it. Rates are fitted on the clean
 # pre-covid run and on the clean recovery, rather than fitted through a crater

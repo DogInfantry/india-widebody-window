@@ -32,7 +32,7 @@ from .data_pipeline import (
 # operating file runs into 2026 but the current year is partial, so annual
 # comparisons stop at the last complete year rather than quietly mixing them.
 LATEST_COMPLETE_YEAR = 2025
-INTL_COUNTRY_YEAR = 2024
+INTL_COUNTRY_YEAR = 2025
 
 SOURCE_DGCA = (
     "DGCA traffic statistics, via github.com/Vonter/india-aviation-traffic (ODbL). "

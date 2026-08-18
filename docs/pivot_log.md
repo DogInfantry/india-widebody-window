@@ -24,11 +24,11 @@ times the entire direct Europe market, so that is where the wide-bodies should g
 **What the evidence said.** The traffic is there. The aircraft cannot be. Three independent
 lines, none of which existed when the headline was written, say so:
 
-1. **The room that exists is trivial next to the aircraft.** India-Dubai runs at **89.6%**
+1. **The room that exists is trivial next to the aircraft.** India-Dubai runs at **88.8%**
    of its reported bilateral entitlement. This was first written as "there is no room in the
    Gulf", which was an overstatement: checking the second point found **Abu Dhabi at about
    58%**. What survives is the number that matters, that both points' remaining entitlement
-   absorbs only **about 5% of the order book** at the Gulf's own sector length. The
+   absorbs only **about 4% of the order book** at the Gulf's own sector length. The
    constraint is economic first and legal second.
 2. **The unit economics are the worst on the map.** Scaling IndiGo's published unit cost across
    the corridors, the Gulf has the **least** room of any to absorb a yield decline, because
@@ -44,10 +44,10 @@ lines, none of which existed when the headline was written, say so:
 stays the strategic centre of the case, because that is where the traffic and the contested
 revenue are. The aircraft point somewhere else.
 
-The reconciliation is in the traffic split. Of 36.9M Gulf passengers, roughly **28.9M are
+The reconciliation is in the traffic split. Of 39.7M Gulf passengers, roughly **31.2M are
 genuinely point-to-point**, the diaspora and labour corridor that Kochi feeds, already served
-by narrow-bodies that suit it. About **8.1M are connecting** onward to Europe and North
-America on a Gulf carrier, and that traffic is worth INR 27,500 to 53,900 crore. It is won by
+by narrow-bodies that suit it. About **8.5M are connecting** onward to Europe and North
+America on a Gulf carrier, and that traffic is worth INR 28,900 to 56,700 crore. It is won by
 flying past the Gulf, not to it. Which is a long-haul move.
 
 **Why it is the first entry.** It is the only one that changed the answer rather than the
@@ -176,7 +176,7 @@ Find the seat counts, unblock the method, move on.
 **What the evidence said.** The seat counts came from the Airbus and Boeing airport planning
 manuals at published two-class layouts, and the utilisation from IndiGo's own block hours. The
 leg then ran and produced **90.7M**, which is the **low** end of the band. Verifying the gated
-inputs widened the range downward, from 106M to 108M on two methods to **91M to 108M** on
+inputs widened the range downward, from 106M to 108M on two methods to **96M to 109M** on
 three.
 
 A second correction followed inside the same leg. Counting all 140 wide-bodies at A350-900

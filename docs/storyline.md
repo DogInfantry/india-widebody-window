@@ -39,9 +39,9 @@ and the lease-rate data that would settle it is paywalled trade press. It is nam
 **Compete with the Gulf hubs. Do not fly more aircraft to them.**
 
 The Gulf is half of India's international traffic and four times the entire direct Europe
-market, and about **8.1M passengers a year are not going to the Gulf at all**. They are going
+market, and about **8.5M passengers a year are not going to the Gulf at all**. They are going
 to Europe and North America and paying a Gulf carrier for it, a contested pool worth
-**INR 27,500 to 53,900 crore**, a third to two thirds of IndiGo's annual revenue.
+**INR 28,900 to 56,700 crore**, a third to two thirds of IndiGo's annual revenue.
 
 The instrument is not more Gulf flying. It is long-haul direct service from Indian gateways
 that makes the Gulf connection unnecessary. **Europe first, North America second, Gulf capacity
@@ -50,9 +50,9 @@ roughly flat.**
 Three lines of evidence say the aircraft cannot go to Gulf airports even though the traffic is
 there:
 
-- **Almost no usable room.** India-Dubai runs at **89.6%** of its reported bilateral
-  entitlement. Abu Dhabi has more slack at about 58%, so the Gulf is not uniformly capped, but
-  both points' remaining entitlement together absorbs only **about 5% of the order book**.
+- **Almost no usable room.** India-Dubai runs at **88.8%** of its reported bilateral
+  entitlement. Abu Dhabi has more slack at about 70%, so the Gulf is not uniformly capped, but
+  both points' remaining entitlement together absorbs only **about 4% of the order book**.
 - **Worst unit economics on the map.** Scaling IndiGo's published unit cost across corridors,
   the Gulf has the least room of any to absorb a yield decline, because short sectors keep cost
   per seat kilometre high. Europe can take about a fifth off the fare and still clear.
@@ -97,14 +97,14 @@ have taken back is short-haul: Gulf and Southeast Asia, flyable with narrow-bodi
 segment they have not taken back is the one that needs an aircraft they have only just
 ordered.
 
-**The Gulf is where the volume is, by a distance.** Gulf destinations carry **36.9M**
-passengers to and from India, against **8.8M** for all of Europe combined. The corridor is
-**4.2 times** India's entire direct European market and larger than Europe, North America,
+**The Gulf is where the volume is, by a distance.** Gulf destinations carry **39.7M**
+passengers to and from India, against **9.6M** for all of Europe combined. The corridor is
+**4.1 times** India's entire direct European market and larger than Europe, North America,
 East Asia, Africa and Oceania added together.
 
 **And India cannot see past it.** DGCA records the first foreign point and nothing beyond.
 A passenger flying Delhi to Dubai to London is counted as a passenger to the United Arab
-Emirates. That is why DGCA puts the Gulf at 51.2% of international traffic while IATA's
+Emirates. That is why DGCA puts the Gulf at 50.9% of international traffic while IATA's
 true origin-destination figures put it near 40%. The eleven point gap is the connecting
 traffic: passengers whose real destination is Europe or North America, flying on a Gulf
 carrier, through a Gulf hub, contributing a Gulf hub's margin.
@@ -123,25 +123,25 @@ Where should the incoming wide-body capacity go, and can the Gulf corridor absor
 
 **The corridor is the prize. The aircraft go somewhere else.**
 
-**Scale, and it is not in dispute.** The Gulf is 36.9M passengers, four times India's entire
+**Scale, and it is not in dispute.** The Gulf is 39.7M passengers, four times India's entire
 direct Europe market. Nothing below weakens that. What changed is the conclusion drawn from
 it.
 
 **But the traffic splits, and only one half is addressable with more Gulf flying.** Roughly
-**28.9M passengers are genuinely point-to-point**, the diaspora and labour corridor anchored
+**31.2M passengers are genuinely point-to-point**, the diaspora and labour corridor anchored
 in Kerala. Kochi already sends more passengers to Gulf hubs than to the entire rest of the
 world combined. That demand does not need a hub and it does not need a wide-body; it is
 already served by narrow-bodies that suit its sector length.
 
-**The other 8.1M are the prize, and they are leaving from the same airports.** The eleven
+**The other 8.5M are the prize, and they are leaving from the same airports.** The eleven
 point gap between the sector and origin-destination measures is a passenger whose journey
 begins in India, ends in Europe or North America, and is sold by a Gulf carrier. Worth
-**INR 27,500 to 53,900 crore**. Winning them means offering the journey they actually want,
+**INR 28,900 to 56,700 crore**. Winning them means offering the journey they actually want,
 which is a direct flight, not a better connection through Dubai.
 
-**And Gulf capacity can barely grow.** India-Dubai runs at **89.6%** of its reported
-bilateral entitlement. Abu Dhabi is looser at about 58%, so the corridor is not uniformly
-capped, but the two together leave room for only about **5% of the order book**. Gulf
+**And Gulf capacity can barely grow.** India-Dubai runs at **88.8%** of its reported
+bilateral entitlement. Abu Dhabi is looser at about 70%, so the corridor is not uniformly
+capped, but the two together leave room for only about **4% of the order book**. Gulf
 sectors also have the **least yield headroom of any corridor** and do not cover their own
 cost at IndiGo's realised yield. Aircraft pointed there would be flying on rights that do not
 exist, at unit economics that do not work.
@@ -149,7 +149,7 @@ exist, at unit economics that do not work.
 **So Europe first, North America second.** Europe is reachable, has about a fifth of fare
 headroom before it stops covering cost, and is where the leaked traffic is actually going.
 North America has the most headroom of any corridor and cannot be reached by anything but a
-wide-body, but it is the smallest at 2.5M direct and carries the 777X delivery risk. It is a
+wide-body, but it is the smallest at 2.2M direct and carries the 777X delivery risk. It is a
 second move on the evidence, not a first.
 
 **This section used to argue the opposite** and is rewritten rather than quietly amended. See
@@ -159,7 +159,7 @@ pivot 1 in `docs/pivot_log.md`.
 
 ## Sizing the prize
 
-India's international market reaches **91M to 108M passengers by 2030**, from 72M in 2024.
+India's international market reaches **96M to 109M passengers by 2030**, from 78M in 2025.
 
 The band comes from three methods reported as a range, never averaged, because the spread is
 the useful part. Trend extrapolation of DGCA's own history at the pre-covid rate of 6.96%
@@ -187,8 +187,8 @@ Stated up front, because a recommendation that cannot be falsified is not analys
 is what changed the recommendation.** They are kept here, marked, rather than deleted:
 
 - ~~*If bilateral capacity rights bind before aircraft do.*~~ **Partly.** India-Dubai runs at
-  89.6% of its reported entitlement, though Abu Dhabi sits nearer 58%. The two together leave
-  room for about 5% of the order book, so rights bind, but economics bind harder.
+  88.8% of its reported entitlement, though Abu Dhabi sits nearer 70%. The two together leave
+  room for about 4% of the order book, so rights bind, but economics bind harder.
 - ~~*If yields on Gulf routes do not support wide-body economics.*~~ **They do not.** Gulf
   sectors have the least yield headroom of any corridor and do not cover their own cost at
   IndiGo's realised yield.

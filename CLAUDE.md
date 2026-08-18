@@ -137,23 +137,27 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 105 tests pass. 17 charts. Working tree clean.**
+**Done and green. 110 tests pass. 17 charts. Working tree clean.**
+
+**Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
+2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
+publish complete, and is labelled as such on the page. See `docs/methodology.md`.
 
 **Pushed and live.** `origin/main` is at `b427d72`, CI green on freshly pulled data, Pages built. Working tree clean, nothing ahead or behind.
 
 **The findings, all computed from DGCA unless noted:**
-- India international sector pax 2024: **72.2M**, Gulf six **51.2%**, UAE alone 21.5M
-- The Gulf corridor is **4.2x** India's entire direct Europe market (36.9M vs 8.8M)
+- India international sector pax 2025: **78.0M**, Gulf six **50.9%**, 39.7M passengers
+- The Gulf corridor is **4.1x** India's entire direct Europe market (39.7M vs 9.6M)
 - IndiGo carried 16.7M international pax in 2025 to Air India's 10.7M, at **2,643 km**
   average stage length against **5,316 km**
 - **Premise reversed:** Indian carriers went 37.0% (2015) to **45.9%** (2025); Gulf 32.7% to 26.2%
 - DGCA and Eurostat agree to **2.6%** across seven countries measured from opposite ends
 - DGCA and IndiGo's own block hours agree to **0.31%** (1,614,608 vs 1,619,570, FY2026)
-- 2030 sizing band **91M to 108M** across three methods (capacity is the low leg at 90.7M)
-- Scenarios **102 / 108 / 134M**
+- 2030 sizing band **96M to 109M** across three methods (capacity is the low leg at 96.5M)
+- Scenarios **104 / 109 / 131M**
 - **Profit pool:** the Gulf is **52% of passengers but 31% of revenue**
 - **Cost bridge:** currency added **+0.41** to FY2026 CASK against a net rise of **+0.34**
-- **Bilateral:** India-Dubai ~119,215 one-way seats/week vs entitlement 133,008, **89.6% utilised**
+- **Bilateral:** India-Dubai ~118,159 one-way seats/week vs entitlement 133,008, **88.8% utilised**; Abu Dhabi **70.1%**, so the Gulf is NOT uniformly capped
 
 **New this session (2026-08-18):**
 - **Baseline capacity:** Indian carriers 2025, 36.4M pax, **153.8bn ASK**, 3,426 km blended
@@ -164,7 +168,7 @@ this file. Do not recreate it.
   Bear +35% / 62%, Base +27% / 58%, **Bull +2% / 47%**
 - **Yield headroom by corridor:** Gulf **-4.3%**, South Asia -1.9%, East Asia +8.9,
   SE Asia +11.2, Africa +16.9, Europe **+21.3**, Oceania +29.5, North America **+31.5**
-- **Value at stake:** 8.07M connecting pax, **INR 27,486 to 53,906 cr** (a third to two thirds
+- **Value at stake:** 8.49M connecting pax, **INR 28,916 to 56,712 cr** (a third to two thirds
   of IndiGo's revenue). Banded between IndiGo's 5.06 and Emirates' 9.924 INR/RPK
 - **Options reference:** IndiGo system sector 1,172 km, CASK 5.00, yield 5.06,
   `CASK_STAGE_ELASTICITY = -0.25`
@@ -199,7 +203,7 @@ which means a fresh source pull reproduces the committed chart JSON exactly.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.
 2. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
-   (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 89.6% utilisation is
+   (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% utilisation is
    now load-bearing for the recommendation, so a second point would strengthen or break it.
 3. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
    Europe already has via Eurostat. Would raise the 5.6% cross-checked share.

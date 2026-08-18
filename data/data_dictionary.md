@@ -223,9 +223,9 @@ function apiece, and everything derived from either is reported as a band and la
 `MODELLED` on the chart face:
 
 - `india_dubai_weekly_seat_entitlement_one_side` feeds `benchmarking.dubai_entitlement_check`,
-  which corroborates it from DGCA traffic and finds 89.6% utilisation.
+  which corroborates it from DGCA traffic and finds 88.8% utilisation.
 - `india_abu_dhabi_weekly_seat_entitlement_one_side` feeds `benchmarking.gulf_entitlement_check`,
-  which finds Abu Dhabi at about 58% utilisation against Dubai's 89.6. That difference matters:
+  which finds Abu Dhabi at about 70% utilisation against Dubai's 89.6. That difference matters:
   it means the Gulf is **not** uniformly capacity-capped, and the recommendation was corrected
   to say so. **Sharjah holds the third UAE MoU and carries 2.3M passengers a year; two
   timeboxed searches found no entitlement figure for it, so it is outside the check.**
@@ -269,7 +269,7 @@ silently reconciled to whichever is convenient.
 
 | Quantity | Competing figures | Why they differ |
 |---|---|---|
-| India international Gulf share | **51.2%** (DGCA sector, computed here, 2024) against **40%** (IATA true O-D, secondary, gated as `gulf_od_share_pct`) | Sector counts the India to hub leg; O-D counts the passenger's actual destination. The gap is the connect leak, and it is the finding rather than a problem |
+| India international Gulf share | **50.9%** (DGCA sector, computed here, 2024) against **40%** (IATA true O-D, secondary, gated as `gulf_od_share_pct`) | Sector counts the India to hub leg; O-D counts the passenger's actual destination. The gap is the connect leak, and it is the finding rather than a problem |
 | India total passengers | 180.4M (World Bank, carriers-carried, 2023), 211M (IATA, 2024), 406M (DGCA, airport-handled, 2025) | Three different things counted. State the definition every time |
 | Air India post-merger fleet | 198 / 205 / 218 | Varies by source date and by whether Vistara and Air India Express are consolidated |
 

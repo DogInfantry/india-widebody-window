@@ -5,8 +5,8 @@ India-Gulf corridor absorb them?**
 
 > **Compete with the Gulf hubs. Do not fly more aircraft to them.** The corridor carries
 > half of India's international traffic and is four times the entire direct Europe market,
-> but about 8.1M of those passengers a year are going somewhere else entirely, and what
-> treaty room remains in the Gulf would absorb about 5% of the aircraft on order. The
+> but about 8.5M of those passengers a year are going somewhere else entirely, and what
+> treaty room remains in the Gulf would absorb about 4% of the aircraft on order. The
 > wide-bodies win that traffic by flying past the Gulf, not to it. Europe first, North
 > America second.
 
@@ -45,7 +45,7 @@ long-haul needs the aircraft that have only just been ordered.
 
 **1. It computes the headline instead of quoting it.**
 Secondary sources put the Gulf at "around 40%" of India's international traffic. This repo
-computes **51.2%** from DGCA directly. Both are right: 51.2% is *sector* traffic, ~40% is
+computes **50.9%** from DGCA directly. Both are right: 50.9% is *sector* traffic, ~40% is
 true *origin-destination*. The eleven point gap is passengers connecting through a Gulf hub
 to somewhere else, and it is the case rather than a discrepancy to reconcile away.
 

@@ -14,7 +14,7 @@ relaxing the gate.
   international passengers and 31% of its revenue.
 - **Capacity leg of the market sizing.** Runs. Seat counts came from Airbus and Boeing airport
   planning manuals at published two-class layouts, weighted by variant. The band went from
-  106M to 108M on two methods to 91M to 108M on three.
+  106M to 108M on two methods to 96M to 109M on three.
 - **Fuel and FX scenario levers.** Built. They did not need the gated yields after all, they
   needed a unit cost decomposition, which IndiGo publishes. The finding: currency added +0.41
   to FY2026 CASK against a net rise of +0.34, because fuel fell.
@@ -40,14 +40,14 @@ Three assumption rows will not close, and are marked so rather than left looking
   publishing a number.
 
   So it was measured from the traffic end instead, with `benchmarking.dubai_entitlement_check`.
-  India-Dubai runs about **119,200 one-way seats a week against a reported two-sided
+  India-Dubai runs about **118,200 one-way seats a week against a reported two-sided
   entitlement of 133,008, roughly 90% utilised**. Two independent routes to the same order of
   magnitude, which corroborates the secondary entitlement figure and puts a number on the
   headroom.
 
   **Extended 2026-08-18 to a second point, and it corrected the claim.** Abu Dhabi's
   entitlement was found (50,000 weekly seats one side, two independent secondary sources
-  agreeing, a third reconciling from the traffic end) and it runs at about **58%**, not 90.
+  agreeing, a third reconciling from the traffic end) and it runs at about **70%**, not 90.
   The Gulf is not uniformly capped, and the recommendation was rewritten to say so. What
   survives is that both points' remaining entitlement absorbs only about **5% of the order
   book**, so the constraint is economic first and legal second.
@@ -75,7 +75,7 @@ Three assumption rows will not close, and are marked so rather than left looking
 
 - ~~**Where should the wide-bodies go?**~~ The answer changed. "Reclaim the Gulf corridor
   first" became **"compete with the Gulf hubs, do not fly more aircraft to them"**, on three
-  lines of evidence: the Dubai bilateral at 89.6% utilised, the Gulf holding the least yield
+  lines of evidence: the Dubai bilateral at 88.8% utilised, the Gulf holding the least yield
   headroom of any corridor, and an order book sized for a network about a quarter longer than
   the one Indian carriers fly. Recorded as pivot 1 in `docs/pivot_log.md`.
 - ~~**Is the order book the right size?**~~ Answered by `src/fleet_gap.py`. It adds 78% to

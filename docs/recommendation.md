@@ -4,11 +4,11 @@
 
 **Compete with the Gulf hubs. Do not fly more aircraft to them.**
 
-The Gulf corridor is the prize and it always was: 36.9M passengers, four times
-India's entire direct Europe market, and roughly 8.1M of those passengers a year
+The Gulf corridor is the prize and it always was: 39.7M passengers, four times
+India's entire direct Europe market, and roughly 8.5M of those passengers a year
 are not going to the Gulf at all. They are going to Europe and North America, and
 paying a Gulf carrier for the privilege. That contested traffic is worth between
-**INR 27,500 and 53,900 crore**, a third to two thirds of IndiGo's annual revenue.
+**INR 28,900 and 56,700 crore**, a third to two thirds of IndiGo's annual revenue.
 
 But the instrument is not more Gulf flying. It is **long-haul direct service from
 Indian gateways that makes the Gulf connection unnecessary**, and the wide-body
@@ -25,17 +25,17 @@ Three lines of evidence, none of which existed when that was written, now say th
 aircraft cannot go to Gulf airports even if the traffic is there.
 
 **1. The room that exists is trivial next to the aircraft.** India-Dubai runs at
-**89.6%** of its reported bilateral entitlement, about 13,800 one-way seats a week
+**88.8%** of its reported bilateral entitlement, about 14,800 one-way seats a week
 of headroom. Adding capacity to the single largest India-Gulf city pair is not a
 commercial decision, it is a treaty negotiation India has refused since 2014.
 
 This was originally stated as "there is no room in the Gulf", and that was an
-overstatement. Checking the second point found **Abu Dhabi at about 58%**, with
-roughly 42,000 one-way seats a week spare. The Gulf is not uniformly capped.
+overstatement. Checking the second point found **Abu Dhabi at about 70%**, with
+roughly 30,000 one-way seats a week spare. The Gulf is not uniformly capped.
 
 What survives the correction is the number that actually matters. Both points'
-remaining entitlement together is about 2.9M seats a year, and flown at the Gulf's
-own 2,182 km sector that absorbs **roughly 5% of the order book**. So the
+remaining entitlement together is about 2.3M seats a year, and flown at the Gulf's
+own 2,182 km sector that absorbs **roughly 4% of the order book**. So the
 constraint on Gulf deployment is **economic first and legal second**, which is the
 reverse of how this case first put it. Sharjah, the third UAE MoU, carries 2.3M
 passengers a year and publishes no entitlement figure at all, so the true Gulf
@@ -55,9 +55,9 @@ carriers take **58%** of the market. Pointing those aircraft at 2,200 km Gulf
 sectors leaves most of the capacity doing nothing the existing narrow-bodies could
 not do.
 
-**The reconciliation.** The Gulf traffic splits into roughly **28.9M genuinely
+**The reconciliation.** The Gulf traffic splits into roughly **31.2M genuinely
 point-to-point** passengers, the diaspora and labour corridor that Kochi and
-Kozhikode feed, and **8.1M connecting** passengers whose journey continues west.
+Kozhikode feed, and **8.5M connecting** passengers whose journey continues west.
 The first group is real, defensible and already served by narrow-bodies that are
 adequate for it. The second group is the prize, and it is won by flying past the
 Gulf, not to it.
@@ -96,10 +96,10 @@ is named as the largest single unresolved input in the recommendation.
 ## Roadmap
 
 **Phase 1, now to first delivery: prove the demand without the metal.**
-Europe direct is already 8.8M passengers. Establish which of those routes support
+Europe direct is already 9.6M passengers. Establish which of those routes support
 wide-body economics before the aircraft arrive, using the narrow-bodies and
 partners already flying. Hold Gulf capacity flat: what entitlement remains is
-about 5% of the order book, and the unit-cost case for using it is negative.
+about 4% of the order book, and the unit-cost case for using it is negative.
 
 **Phase 2, first delivery onward: Europe direct, from more than one gateway.**
 Every corridor inside 8,700 km is narrow-body reachable, so the wide-body's job is
@@ -109,7 +109,7 @@ Paris, Frankfurt and Amsterdam.
 
 **Phase 3, once Europe recapture is demonstrated: North America.**
 It has the most cost headroom of any corridor and cannot be reached by anything
-except a wide-body. It is also the smallest at 2.5M direct passengers, the most
+except a wide-body. It is also the smallest at 2.2M direct passengers, the most
 exposed to the airspace closures that lengthen the sector, and the place where
 777X delivery risk sits. It is a second move on the evidence, not a first.
 
@@ -135,7 +135,7 @@ Stated so the recommendation can be falsified rather than defended.
   Dhabi's existing 42% slack is the near-term version of the same risk.
 - **Deliveries slip less than about two years.** Beyond that the bridge question
   stops being optional, and the bridge cannot be priced with public data.
-- **The connect traffic is genuinely recapturable.** The 8.1M figure rests on an
+- **The connect traffic is genuinely recapturable.** The 8.5M figure rests on an
   origin-destination share that cannot be verified. If the true split is closer to
   DGCA's sector reading, the prize is smaller and the case thins.
 
