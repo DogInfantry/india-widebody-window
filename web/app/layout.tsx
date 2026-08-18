@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { IBM_Plex_Sans, IBM_Plex_Serif } from "next/font/google";
+import { SiteNav } from "@/components/SiteNav";
 import "./globals.css";
 
 // next/font self-hosts these, so the app drops the two Google Fonts round trips
@@ -50,7 +51,10 @@ export default function RootLayout({
     // --font-plex-sans, the declaration became invalid, and every heading
     // silently fell back to -apple-system.
     <html lang="en" className={`${plexSans.variable} ${plexSerif.variable}`}>
-      <body>{children}</body>
+      <body>
+        <SiteNav />
+        {children}
+      </body>
     </html>
   );
 }
