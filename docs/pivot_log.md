@@ -174,10 +174,9 @@ and `c124d6e` *Weight the capacity leg by variant instead of one seat count for 
 Find the seat counts, unblock the method, move on.
 
 **What the evidence said.** The seat counts came from the Airbus and Boeing airport planning
-manuals at published two-class layouts, and the utilisation from IndiGo's own block hours. The
-leg then ran and produced **90.7M**, which is the **low** end of the band. Verifying the gated
-inputs widened the range downward, from 106M to 108M on two methods to **96M to 109M** on
-three.
+manuals at published two-class layouts, and the utilisation from IndiGo's own block hours. The leg then ran and came in as the **low** end of the band, so verifying the gated
+inputs widened the range downward rather than upward. The band's current values live with
+the sizing chart; this entry is about what the gate did, not where the band now sits.
 
 A second correction followed inside the same leg. Counting all 140 wide-bodies at A350-900
 seating understated the order book by about 5%, because the A350-1000 and the 777-9 are

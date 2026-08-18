@@ -32,6 +32,15 @@ of an audit finding. That is recorded as a working agreement in `CLAUDE.md`.
 Deliberately partial. About fifteen claims, the ones the argument turns on, not
 every number in the repo. A guard that fails on incidental prose gets deleted the
 second time it cries wolf, and then it guards nothing.
+
+**The limit worth knowing.** `must_appear` is satisfied by ONE occurrence anywhere
+in the corpus, so a correct statement in one file will mask a stale one in
+another. `must_not_appear` is what actually finds those, and it only finds
+phrasings someone thought to write down. Two figures reached the live site past
+this guard's first version because the prose said "72 million" and "33 million"
+where the patterns said "72.2M" and nothing at all. **When a number moves, grep
+the corpus for how the prose actually words it, not for how the module prints
+it**, and add every wording found to `must_not_appear`.
 """
 
 from __future__ import annotations
@@ -46,6 +55,7 @@ from src import benchmarking as bm
 from src import fleet_gap as fg
 from src import market_sizing as ms
 from src import options as opt
+from src import scenario as sc
 from src import profit_pools as pp
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -108,8 +118,12 @@ CLAIMS: tuple[Claim, ...] = (
             lambda d: d[d.year == bm.INTL_COUNTRY_YEAR]["pax_total"].sum() / 1e6
         ),
         "{:.0f}M",
-        must_appear=("78.0M", "78M"),
-        must_not_appear=("72.2M", "72.2 million"),
+        must_appear=("78.0M", "78M", "78 million"),
+        # "72 million", with no decimal, is how the sizing step phrased it and is
+        # why this figure survived on the live site after four sweeps. Superseded
+        # patterns have to cover every phrasing the prose actually uses, not the
+        # one the module prints.
+        must_not_appear=("72.2M", "72.2 million", "72 million", "from 72M"),
     ),
     Claim(
         "Gulf share of international sectors",
@@ -136,8 +150,8 @@ CLAIMS: tuple[Claim, ...] = (
         "2030 sizing band",
         lambda: ms.triangulate().band[0],
         "{:.0f}M",
-        must_appear=("96M to 109M", "96 to 109"),
-        must_not_appear=("91M to 108M", "91 to 108"),
+        must_appear=("96M to 109M", "96 to 109", "96 and 109 million"),
+        must_not_appear=("91M to 108M", "91 to 108", "91 and 108 million"),
     ),
     Claim(
         "connecting passengers",
@@ -205,6 +219,19 @@ CLAIMS: tuple[Claim, ...] = (
         lambda: 100 * fg.order_book_ask()["ask"] / fg.baseline().ask,
         "{:.0f}%",
         must_appear=("78%", "78 per cent"),
+    ),
+    Claim(
+        "scenario spread",
+        lambda: (
+            sc.scenario_table().set_index("scenario").loc["Bull", "pax_2030_m"]
+            - sc.scenario_table().set_index("scenario").loc["Bear", "pax_2030_m"]
+        ),
+        "{:.0f}M",
+        must_appear=("27 million passengers", "27M"),
+        # Found on the LIVE site after five sweeps and after this guard's first
+        # version passed, because "33 million" matched no pattern anyone had
+        # thought to write down. The lesson is in the docstring.
+        must_not_appear=("33 million passengers",),
     ),
     Claim(
         "Gulf passenger against revenue share",
