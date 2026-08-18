@@ -72,9 +72,16 @@ are in `docs/recommendation.md`.
 India's domestic market is settled and Indian carriers won it.
 
 IndiGo carries **64.1%** of scheduled domestic passengers at an **86.1%** load factor
-(2025, DGCA). Air India follows at 15.7%, Air India Express at 11.3%. Load factors have
-recovered past their pre-pandemic level across every major carrier, so the aircraft that
-exist are full.
+(2025, DGCA). Air India follows at 15.7%, Air India Express at 11.3%. Every major carrier
+flies above **80%** full, so the aircraft that exist are full.
+
+<!-- narrative-guard: ignore, this passage quotes the withdrawn claim on purpose -->
+Note what that does *not* say. An earlier version of this passage claimed load factors had
+recovered past their pre-pandemic level across every major carrier, and the data contradicts
+it: measured 2019 against 2025, IndiGo went **87.8% to 86.1%** and SpiceJet **92.7% to 86.2%**,
+both down. Air India (80.1 to 82.3) and Air India Express (61.0 to 83.1) are up. The narrow
+claim carries the argument on its own, so the stronger one is withdrawn rather than defended.
+<!-- /narrative-guard -->
 
 Domestic is not the problem. It is the cash engine and the feed network that any long-haul
 expansion has to be built on, and it is already in hand.

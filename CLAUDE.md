@@ -288,45 +288,20 @@ hand:** `web/lib/exhibits.tsx` reads it from the `story` export, which is parsed
 
 ## Next steps, in order
 
-1. **Two `docs/` edits that W6 called for and this session deliberately did not make**, because
-   the standing instruction was that `docs/` stays byte-unchanged. Both are wanted:
-   - **`docs/pivot_log.md`, pivot 8:** the delivery-thinning audit. A delivery layer was built
-     that was thinner than the surface it replaced, and nothing caught it because the two had
-     no shared vocabulary. Cite `52aa12c`. Note that `evidence.json` counts pivots from this
-     file, so adding one moves the methodology page from "7 documented changes of mind" to 8
-     and requires `python -m src.app_export` plus a rebuild.
-   - **`docs/external_review_response.md`:** it currently records G1, "name the client", as
-     done. It was done in `storyline.md` and not in the delivery, which is the distinction the
-     audit turned on. Correct the entry rather than deleting it.
-2. **A load-factor claim that the data contradicts, found while building the slope exhibit.**
-   `docs/storyline.md` says "Load factors have recovered past their pre-pandemic level across
-   every major carrier". Computed from DGCA, 2019 to 2025: IndiGo **87.8 to 86.1** and SpiceJet
-   **92.7 to 86.2**, both DOWN. Air India (80.1 to 82.3) and Air India Express (61.0 to 83.1)
-   are up. The narrow claim the exhibit supports, that every carrier clears 80% so the aircraft
-   that exist are full, is true and is what the app's title and annotation say. **The app does
-   not repeat the stronger claim**; `docs/` still does, in `storyline.md` and in the
-   `load_factor_slope` step of `index.html`. Fix both, and add "recovered past their
-   pre-pandemic level" to `must_not_appear` when you do.
-3. **`docs/methodology.md` publishes 27.3% without 17.8% near it**, in the retraction passage.
-   Found by the new paired-margin guard, which lists it in `known_open` rather than exempting
-   it by a looser rule. Fixing it means editing the passage and deleting the entry, which is
-   the invert-the-gate discipline. The guard tells you to do exactly that when it passes.
-4. **Push.** Two commits are local and unpushed: `6cd5009` and `52aa12c`. The repo is public,
-   so ask first. Vercel redeploys `main` on push.
-5. **The forwarding note.** Still unwritten and still the binding constraint. The user applied
+1. **The forwarding note.** Still unwritten and now the binding constraint. The user applied
    to the BCN AMS Associate role, has had no reply, and has a warm contact who could refer
    them. What is missing is a short note in the **user's own voice** with the `.vercel.app`
    link and the brief PDF attached. `docs/brief.html` and the PDFs exist to make that forward
    cheap. Agreed in an earlier session and never delivered.
-6. **Wide-body lease rates.** The largest named unresolved input: the damp-lease bridge option
+2. **Wide-body lease rates.** The largest named unresolved input: the damp-lease bridge option
    in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled.
-7. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
+3. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
    (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% is load-bearing.
-8. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
+4. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
    Europe already has via Eurostat. Would raise the 5.6% cross-checked share.
-9. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
-10. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource
+5. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
+6. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource
     IDs `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`.
     Create `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no
     key, primary.

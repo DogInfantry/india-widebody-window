@@ -95,6 +95,10 @@
   {
    "n": "7",
    "title": "\"No Next.js rebuild\" became \"no rebuild of the ANALYSIS, and a real delivery layer\""
+  },
+  {
+   "n": "8",
+   "title": "A delivery layer was built that was thinner than the surface it replaced"
   }
  ]
 }

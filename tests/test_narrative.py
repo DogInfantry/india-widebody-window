@@ -265,6 +265,24 @@ CLAIMS: tuple[Claim, ...] = (
         must_not_appear=("33 million passengers",),
     ),
     Claim(
+        "IndiGo domestic load factor",
+        lambda: float(
+            bm.carrier_operating_summary(bm.LATEST_COMPLETE_YEAR)
+            .set_index("airline")
+            .loc["IndiGo", "load_factor_pct"]
+        ),
+        "{:.1f}%",
+        must_appear=("86.1%",),
+        # The stronger claim the data contradicts. IndiGo went 87.8 to 86.1 and
+        # SpiceJet 92.7 to 86.2 measured 2019 against 2025, so "every major
+        # carrier" is false for the two largest. The narrow claim, that everyone
+        # clears 80%, is true and is what the prose says now.
+        must_not_appear=(
+            "recovered past their pre-pandemic level",
+            "recovered past its pre-pandemic level",
+        ),
+    ),
+    Claim(
         "FY2026 EBITDAR margin, as reported",
         lambda: dp.assumption("indigo_ebitdar_margin_fy2026_reported_pct"),
         "{:.1f}%",
@@ -323,15 +341,15 @@ def test_neither_fy2026_margin_is_ever_published_alone(corpus):
     is the same mistake pointing the other way. Gotcha 19 says state both; this
     is what makes the build fail if a surface does not.
 
-    **Run per file, with one named exception.** `docs/methodology.md` quotes
-    27.3% inside the retraction passage without 17.8% beside it. That is a real
-    violation, it predates this guard, and it is listed rather than exempted by
-    a looser rule so it stays visible. Fixing it means editing the passage and
-    deleting the entry below, which is the invert-the-gate discipline this
-    project already runs on: when a gate opens, remove the exception rather than
-    relax the test.
+    **Run per file, and the exception list is empty.** It was not: when this
+    guard was first written `docs/methodology.md` quoted 27.3% inside the
+    retraction passage with no 17.8% beside it, and it was listed here rather
+    than exempted by a looser rule so that it stayed visible. The passage now
+    carries both rows and the entry is gone, which is the invert-the-gate
+    discipline this project runs on. Leave the list empty; add to it only to
+    make an existing violation visible, never to let a new one through.
     """
-    known_open = {"docs/methodology.md"}
+    known_open: set[str] = set()
     window = 900  # characters, generous: the corpus is flattened so lines merge
     offenders = {}
 

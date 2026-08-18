@@ -421,8 +421,8 @@ export const EXHIBITS: Record<string, ExhibitSpec> = {
 
   load_factor_slope: {
     // Computed, and it argues against the obvious reading. Two of the four
-    // majors sit BELOW their 2019 load factor, so "recovered past pre-pandemic"
-    // is not what this data says, and the title must not repeat it.
+    // majors sit BELOW their 2019 load factor, so a full recovery to 2019
+    // levels is not what this data says, and the title must not imply it.
     title: `Every major carrier flies above 80% full, but the two largest sit below their ${carriers.load_factor_slope[0]?.start_year ?? 2019} load factor, not above it`,
     source: `Scheduled domestic passenger load factor, ${carriers.load_factor_slope[0]?.start_year ?? 2019} against ${carriers.load_factor_slope[0]?.end_year ?? lastYear.year}. ${DGCA}`,
     chart: <LoadFactorSlope />,
@@ -436,9 +436,9 @@ export const EXHIBITS: Record<string, ExhibitSpec> = {
     breaks: (
       <p>
         The conclusion the exhibit supports is narrow: the aircraft that exist are full, so
-        demand is not the constraint. It does <em>not</em> support the stronger claim that load
-        factors have recovered past their pre-pandemic level, which this data contradicts for
-        IndiGo and SpiceJet.
+        demand is not the constraint. It does <em>not</em> support the stronger claim that every
+        carrier is fuller than it was in 2019, which this data contradicts for IndiGo and
+        SpiceJet.
       </p>
     ),
   },

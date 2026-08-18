@@ -36,7 +36,7 @@ needed to hold share. The corridor is still the prize. It is won by flying past 
 
 | # | The gap as stated | Status |
 |---|---|---|
-| G1 | No named client or decision | **Done.** IndiGo named, the decision scoped to where the next 100 long-haul aircraft go. `docs/recommendation.md` |
+| G1 | No named client or decision | **Done, and this entry was wrong for one commit.** IndiGo and the decision were named in `docs/storyline.md` and `docs/recommendation.md`, which is what this row originally claimed. They were named nowhere in the **delivery layer**, and that is the distinction the review was actually making: a reader arriving at the site could not say whose decision it was. Closed properly in `52aa12c`, which puts the client, the decision, the horizon, the SCQA and the success metrics on `/`, adds `/company`, and parses all of it from `storyline.md` rather than retyping it. Recorded as pivot 8 |
 | G2 | No options with quantified trade-offs | **Done.** Five options, each with what would have to be true, in `options.py` |
 | G3 | No financial model | **Done differently.** Capacity absorption in ASK, corridor breakeven, yield headroom, value at stake. The NPV is refused, see below |
 | G4 | No roadmap, WWHTBT, risk register, leading indicators | **Done.** All four in `docs/recommendation.md`, the risk register nine rows |

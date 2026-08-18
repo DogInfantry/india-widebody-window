@@ -559,7 +559,7 @@ export function FleetGap() {
  *  bar chart hides it.
  *
  *  Read the direction before the level. Two of these four sit BELOW their 2019
- *  load factor, which is not what "recovered past pre-pandemic" would predict,
+ *  load factor, which is not what a full recovery to 2019 levels would predict,
  *  and the title says what the data says. */
 export function LoadFactorSlope() {
   const rows = carriers.load_factor_slope;

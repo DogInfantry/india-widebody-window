@@ -1,8 +1,9 @@
 # How this analysis changed
 
-Six times, evidence turned the work against what it had been assuming. Once it changed the
+Eight times, evidence turned the work against what it had been assuming. Once it changed the
 recommendation. Once it reversed the premise of the whole case. Once it forced a published
 claim to be withdrawn. Once it found a wrong answer that every test in the repo had passed.
+Twice, most recently, the thing that was wrong was not a number at all but the delivery.
 
 They are recorded here for one reason: a case that arrives in a straight line was either
 trivial or is hiding something. Each entry names what was believed, what the evidence said,
@@ -260,10 +261,59 @@ what was being rejected.
 
 ---
 
+## Pivot 8. A delivery layer was built that was thinner than the surface it replaced
+
+`52aa12c` *Restore the exhibits, frame the case, and give the client a page*
+
+**What was believed.** That the Next.js app in `web/` was the case, delivered better. It was
+faster, it was properly typed, every number in it came through `src/app_export.py` from the
+same module functions the Plotly figures call, and it shipped without a single failing test.
+
+**What the evidence said.** Counted against the site it replaced, it carried **11 exhibits
+against 18**, **none of the 22 narrative steps**, and **did not name the client anywhere**.
+Three of the eight dropped exhibits were the most distinctive forms in the whole project: the
+Sankey where the passenger disappears into a Gulf hub, the Mekko where volume and margin pull
+apart, and the load-factor slope. Two more, `cargo_asymmetry` and `fuel_fx_sensitivity`,
+looked present because a private copy of each was inlined in the dashboard or the deck, which
+is part of why the count was wrong and nobody noticed.
+
+**Why nothing caught it.** The two surfaces had no shared vocabulary. `docs/index.html` keys
+every exhibit with a `data-chart` id and the React app keyed nothing, so there was no
+question a test could ask. This is the same shape as pivot 3 and as gotcha 39: a whole surface
+sitting outside a rule that everything else obeys, passing because nothing was looking. The
+narrative guard in `tests/test_narrative.py` had never covered `web/` either, so a superseded
+figure typed into a React page would have published silently.
+
+**The part that is worth more than the count.** The client frame was never missing from the
+repo. `docs/storyline.md` had held the client, the decision, the horizon, the SCQA and four
+success metrics since early on. One of those metrics is **RASK 4.99 against CASK 5.00 for
+FY2026, a spread that is inverted**, which is arguably the sharpest number in the project. The
+analysis was IndiGo-anchored from the first commit. Only the delivery was not, and that is the
+whole reason the app read as sector research.
+
+**What changed.** The app is keyed by the same `data-chart` ids the static site uses and
+`tests/test_delivery.py` counts one against the other, so parity is a failing build rather
+than something a person has to notice. Twenty exhibits, one tabbed grammar everywhere, the
+narrative restored on `/story` by parsing `docs/index.html` rather than retyping it, and a
+`/company` page built on the new `src/financials.py`. `CORPUS_FILES` now globs `web/**/*.tsx`.
+
+**A recommendation reversed along with it.** `/story` had been dropped from the app on the
+argument that a deck and a dashboard covered the same ground. They did not. The action titles
+*were* the argument, and losing all of them is most of why the app read thin.
+
+---
+
 ## What these have in common
 
-Four of the five were found by cross-checking one source against another, or one number
+Four of the first five were found by cross-checking one source against another, or one number
 against its own arithmetic. None were found by inspection, and none by the test suite.
+
+Pivot 8 is the exception that sharpens the rule. It was not found by a cross-check, because
+there was nothing to cross-check against: the delivery layer and the analysis site had no
+shared key, so no comparison existed to fail. It was found by counting one surface against
+the other by hand. **The fix was not to count more carefully. It was to give the two surfaces
+a shared vocabulary so a machine could count them**, which is what `data-chart` ids and
+`tests/test_delivery.py` now do.
 
 That is the argument for the reconciliation work on this site being an exhibit rather than an
 appendix. DGCA against Eurostat, DGCA against IndiGo's block hours, implied seats against a

@@ -534,9 +534,19 @@ and calling the result an operating margin was the error.
 | | FY2025 | FY2026 |
 |---|---|---|
 | EBITDAR | ₹212,520 mn | ₹231,889 mn (excluding forex) |
-| EBITDAR margin | **26.3%** | **27.3%** |
+| EBITDAR margin, excluding forex | **26.3%** | **27.3%** |
+| EBITDAR margin, **as IndiGo reported it** | **26.3%** | **17.8%** |
 
-The margin **improved**. It did not halve.
+On the operating basis the margin **improved**. It did not halve.
+
+**Both rows belong in this table, and the second one was missing from it until
+`3d8c0e6`.** IndiGo's own financial highlights report 17.8% for FY2026, against 27.3%
+excluding forex, a gap of about nine and a half points of revenue. The ex-forex figure is the
+right anchor for a corridor profit pool, because a currency translation on lease liabilities is
+not a route outcome, and that is why the pool uses it. But a retraction passage that corrects
+an overstated collapse by quoting only the flattering number has replaced one error with its
+mirror image. `tests/test_narrative.py` now fails the build if 27.3% appears anywhere without
+17.8% beside it.
 
 **What the apparent collapse actually was.** Non-operating. A Q4 net foreign exchange loss
 of roughly ₹48,230 mn as the rupee depreciated against USD-denominated lease liabilities,

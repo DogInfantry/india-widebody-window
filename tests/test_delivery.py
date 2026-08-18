@@ -160,19 +160,52 @@ def test_the_app_reads_the_narrative_rather_than_restating_it(registry):
     assert "story.find((s) => s.chart === id)" in registry
 
 
-def test_docs_is_byte_unchanged():
-    """Nothing was erased. The mirror keeps working and the PDFs stay valid."""
-    diff = subprocess.run(
-        ["git", "diff", "--stat", "HEAD", "--", "docs/"],
-        cwd=ROOT,
-        capture_output=True,
-        text=True,
-        check=True,
-    )
-    assert not diff.stdout.strip(), (
-        "docs/ has uncommitted changes. The static site is the reproducible "
-        f"mirror and must stay byte-identical:\n{diff.stdout}"
-    )
+def test_the_mirror_still_resolves_every_chart_it_asks_for():
+    """Nothing was erased. The static site keeps working alongside the app.
+
+    This started life as "docs/ has no uncommitted changes", which was the right
+    guard for one session and the wrong one to keep: it fails during any normal
+    edit to the written IP, before the commit. The durable question is whether
+    the mirror is still whole, so that is what it asks now.
+    """
+    charts = {p.stem for p in (ROOT / "docs" / "assets" / "charts").glob("*.json")}
+    referenced = set(re.findall(r'data-chart="([^"]+)"', INDEX.read_text(encoding="utf-8")))
+    missing = referenced - charts
+    assert not missing, f"docs/index.html asks for charts that do not exist: {sorted(missing)}"
+
+    for page in ("index.html", "report.html", "deck.html", "brief.html"):
+        assert (ROOT / "docs" / page).exists(), f"docs/{page} was removed"
+
+
+def test_the_app_never_writes_step_prose_of_its_own():
+    """Gotcha 43, extended to the React surface.
+
+    `docs/index.html` holds the narrative and every other surface re-lays it out.
+    The way this breaks is someone pasting a step's paragraph into a page because
+    it was quicker than threading the export through, and it would render
+    perfectly while creating a fourth copy of the argument to drift.
+    """
+    # Paragraphs, not headings. Two surfaces can legitimately reach the same
+    # action title for the same exhibit, and one of them does: /frameworks
+    # extends "The cost problem is a currency problem" with a clause. Prose is
+    # the thing that must exist in exactly one place.
+    html = INDEX.read_text(encoding="utf-8")
+    steps = re.findall(r'<div class="step" data-chart="[^"]+">(.*?)\n      </div>', html, re.S)
+    paras = [
+        re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", m)).strip()
+        for step in steps
+        for m in re.findall(r"<p[^>]*>(.*?)</p>", step, re.S)
+    ]
+    fingerprints = [p[:70] for p in paras if len(p) > 70]
+    assert len(fingerprints) > 20, "no step prose parsed; the guard proves nothing"
+
+    for page in (WEB / "app").rglob("page.tsx"):
+        source = page.read_text(encoding="utf-8")
+        for fingerprint in fingerprints:
+            assert fingerprint not in source, (
+                f"{page.relative_to(WEB)} hard-codes step prose starting {fingerprint!r}. "
+                "Read it from the `story` export instead."
+            )
 
 
 def _deck_slides() -> list[str]:
