@@ -24,10 +24,12 @@ times the entire direct Europe market, so that is where the wide-bodies should g
 **What the evidence said.** The traffic is there. The aircraft cannot be. Three independent
 lines, none of which existed when the headline was written, say so:
 
-1. **There is no room to fly them.** India-Dubai already runs at **89.6%** of its reported
-   bilateral entitlement. The headroom is about 13,800 one-way seats a week, roughly 0.72M
-   seats a year, against a corridor carrying 36.9M passengers. Growing it is a treaty
-   negotiation India has refused since 2014, not a commercial decision.
+1. **The room that exists is trivial next to the aircraft.** India-Dubai runs at **89.6%**
+   of its reported bilateral entitlement. This was first written as "there is no room in the
+   Gulf", which was an overstatement: checking the second point found **Abu Dhabi at about
+   58%**. What survives is the number that matters, that both points' remaining entitlement
+   absorbs only **about 5% of the order book** at the Gulf's own sector length. The
+   constraint is economic first and legal second.
 2. **The unit economics are the worst on the map.** Scaling IndiGo's published unit cost across
    the corridors, the Gulf has the **least** room of any to absorb a yield decline, because
    sectors that short keep cost per seat kilometre high. Europe could take about a fifth off

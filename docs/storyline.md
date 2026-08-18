@@ -50,9 +50,9 @@ roughly flat.**
 Three lines of evidence say the aircraft cannot go to Gulf airports even though the traffic is
 there:
 
-- **No room.** India-Dubai runs at **89.6%** of its reported bilateral entitlement, leaving
-  about 0.72M seats a year against a 36.9M corridor. Growing it is a treaty negotiation India
-  has refused since 2014.
+- **Almost no usable room.** India-Dubai runs at **89.6%** of its reported bilateral
+  entitlement. Abu Dhabi has more slack at about 58%, so the Gulf is not uniformly capped, but
+  both points' remaining entitlement together absorbs only **about 5% of the order book**.
 - **Worst unit economics on the map.** Scaling IndiGo's published unit cost across corridors,
   the Gulf has the least room of any to absorb a yield decline, because short sectors keep cost
   per seat kilometre high. Europe can take about a fifth off the fare and still clear.
@@ -139,8 +139,9 @@ begins in India, ends in Europe or North America, and is sold by a Gulf carrier.
 **INR 27,500 to 53,900 crore**. Winning them means offering the journey they actually want,
 which is a direct flight, not a better connection through Dubai.
 
-**And Gulf capacity cannot grow anyway.** India-Dubai runs at **89.6%** of its reported
-bilateral entitlement, about 0.72M seats a year of headroom against a 36.9M corridor. Gulf
+**And Gulf capacity can barely grow.** India-Dubai runs at **89.6%** of its reported
+bilateral entitlement. Abu Dhabi is looser at about 58%, so the corridor is not uniformly
+capped, but the two together leave room for only about **5% of the order book**. Gulf
 sectors also have the **least yield headroom of any corridor** and do not cover their own
 cost at IndiGo's realised yield. Aircraft pointed there would be flying on rights that do not
 exist, at unit economics that do not work.
@@ -185,8 +186,9 @@ Stated up front, because a recommendation that cannot be falsified is not analys
 **Two of the four questions this section used to list are now answered, and answering them
 is what changed the recommendation.** They are kept here, marked, rather than deleted:
 
-- ~~*If bilateral capacity rights bind before aircraft do.*~~ **They do.** India-Dubai runs
-  at 89.6% of its reported entitlement. This stopped being a risk and became a constraint.
+- ~~*If bilateral capacity rights bind before aircraft do.*~~ **Partly.** India-Dubai runs at
+  89.6% of its reported entitlement, though Abu Dhabi sits nearer 58%. The two together leave
+  room for about 5% of the order book, so rights bind, but economics bind harder.
 - ~~*If yields on Gulf routes do not support wide-body economics.*~~ **They do not.** Gulf
   sectors have the least yield headroom of any corridor and do not cover their own cost at
   IndiGo's realised yield.

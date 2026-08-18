@@ -5,9 +5,10 @@ India-Gulf corridor absorb them?**
 
 > **Compete with the Gulf hubs. Do not fly more aircraft to them.** The corridor carries
 > half of India's international traffic and is four times the entire direct Europe market,
-> but about 8.1M of those passengers a year are going somewhere else entirely, and
-> India-Dubai already runs at 89.6% of its treaty limit. The wide-bodies win that traffic by
-> flying past the Gulf, not to it. Europe first, North America second.
+> but about 8.1M of those passengers a year are going somewhere else entirely, and what
+> treaty room remains in the Gulf would absorb about 5% of the aircraft on order. The
+> wide-bodies win that traffic by flying past the Gulf, not to it. Europe first, North
+> America second.
 
 This was not the opening view. It was "reclaim the Gulf corridor first" until three separate
 lines of evidence said the aircraft cannot be deployed there. That change, and five others,

@@ -197,6 +197,39 @@ as the India-UAE cap would be wrong by a factor of about four.
 
 ---
 
+## The Gulf is not uniformly capacity-capped, and saying so was a correction
+
+The bilateral section above measures India-Dubai from the traffic end and finds it
+at **89.6%** of its reported entitlement. That number was, for one commit, carried
+as "there is no room in the Gulf" and used as the first leg of the recommendation.
+
+Generalising the check to a second point showed the claim was too strong. Abu
+Dhabi's entitlement could be found, from two independent secondary sources that
+agree on **50,000 weekly seats one side**, and the same traffic-end inference puts
+usage at about **58%**. Roughly 42,000 one-way seats a week are unused.
+
+A third figure reconciles both. A trade report puts the India-Abu Dhabi market at
+about 77,050 weekly seats each way at the start of a September, which sits under a
+two-sided entitlement of 100,000 and above this project's DGCA-derived annual
+average of 57,600. A seasonal peak above a yearly mean is exactly the relationship
+those two numbers should have.
+
+**What survives the correction**, and it is the number the recommendation now
+rests on rather than the utilisation percentages: both points' remaining
+entitlement together is about 2.9M seats a year, and flown at the Gulf's own
+2,182 km sector it absorbs **roughly 5% of the order book**. The constraint on
+Gulf deployment is therefore economic first and legal second, which is the reverse
+of the original framing.
+
+**Two limits, stated.** Sharjah holds the third UAE MoU and carries 2.3M
+passengers a year; two timeboxed searches found no entitlement figure and none is
+estimated, so the true Gulf headroom is larger than 5%. And the remaining eight
+Gulf points have no findable entitlement either. This is a floor on Gulf headroom,
+not a measurement of it, which is why the argument is built on the order book's
+size rather than on the corridor being full.
+
+---
+
 ## Aircraft utilisation, and a number that did not survive being checked
 
 The capacity sizing leg needs one figure: hours flown per aircraft per day. It is reported on

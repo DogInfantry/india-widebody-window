@@ -1098,3 +1098,76 @@ def test_the_order_book_is_only_right_sized_under_the_bull_case():
         "so the scenario selector no longer shows what it was built to show"
     )
     assert bear["stage_uplift_pct"] > 25
+
+
+# --------------------------------------------------------------------------
+# bilateral entitlements beyond Dubai
+# --------------------------------------------------------------------------
+
+
+def test_the_gulf_is_not_uniformly_capacity_capped():
+    """The correction. Dubai is nearly full; Abu Dhabi is not.
+
+    The recommendation originally leaned on "there is no room in the Gulf".
+    Generalising the Dubai check to the second point showed that was an
+    overstatement: only the largest city pair is close to its entitlement.
+    """
+    df = bm.gulf_entitlement_check().set_index("foreign_point")
+    assert {"DUBAI", "ABUDHABI"} <= set(df.index)
+
+    assert df.loc["DUBAI", "utilisation_pct"] > 85, "Dubai is no longer close to its cap"
+    assert df.loc["ABUDHABI", "utilisation_pct"] < 80, (
+        "Abu Dhabi has filled up, which would restore the simpler 'no room' argument"
+    )
+    assert df.loc["DUBAI", "utilisation_pct"] > df.loc["ABUDHABI", "utilisation_pct"]
+    assert (df["headroom_seats_per_week"] > 0).all()
+
+
+def test_the_two_entitlement_checks_do_not_drift():
+    """`dubai_entitlement_check` predates the general one and must still agree."""
+    single = bm.dubai_entitlement_check()
+    general = bm.gulf_entitlement_check().set_index("foreign_point").loc["DUBAI"]
+
+    assert single["implied_seats_per_week"] == general["implied_seats_per_week"]
+    assert single["reported_entitlement_both_sides"] == general["reported_entitlement_both_sides"]
+    assert single["utilisation_pct"] == general["utilisation_pct"]
+
+
+def test_remaining_gulf_entitlement_barely_dents_the_order_book():
+    """Why the recommendation survives the correction above.
+
+    Abu Dhabi has real headroom. Flown at the Gulf's own sector length it still
+    absorbs only a few per cent of the aircraft on order, so the constraint on
+    Gulf deployment is economic first and legal second. If this ever exceeded
+    about a quarter, the "fly them somewhere else" argument would need rebuilding.
+    """
+    h = fg.gulf_headroom_against_order_book()
+    assert 0 < h["pct_of_order_book_absorbed"] < 25, (
+        f"remaining Gulf entitlement now absorbs {h['pct_of_order_book_absorbed']}% of the "
+        "order book, so the capacity argument needs revisiting"
+    )
+    assert h["headroom_ask_bn"] < h["order_book_ask_bn"]
+
+
+def test_the_headroom_calculation_uses_the_published_bilateral_year():
+    """A year-mixing bug, caught once and pinned.
+
+    The first version defaulted to `fleet_gap.LATEST_COMPLETE_YEAR` (2025) while
+    every published bilateral figure is computed on `INTL_COUNTRY_YEAR` (2024).
+    It silently priced one year's traffic against another year's headline.
+    """
+    assert fg.gulf_headroom_against_order_book()["year"] == bm.INTL_COUNTRY_YEAR
+
+
+def test_the_abu_dhabi_entitlement_stays_gated():
+    """Secondary, like the Dubai row, and readable only on purpose.
+
+    India publishes no entitlement table for any Gulf point. INVERT THIS, do not
+    delete it, if the Ministry of Civil Aviation ever publishes one.
+    """
+    from src import data_pipeline as dp
+
+    key = "india_abu_dhabi_weekly_seat_entitlement_one_side"
+    with pytest.raises(dp.UnverifiedAssumption):
+        dp.assumption(key)
+    assert dp.assumption(key, allow_unverified=True) == 50_000

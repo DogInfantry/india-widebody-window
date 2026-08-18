@@ -202,10 +202,10 @@ looks entirely plausible but can never be verified, because the figure is an agg
 convention rather than something the company reports. That is exactly the case that produced
 the retracted margin claim in `docs/methodology.md`.
 
-### Current state: 25 of 30 rows cleared
+### Current state: 25 of 31 rows cleared
 
 Twenty-five rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
-The five that do not are **terminal, not pending work**: each was chased to a primary source
+The six that do not are **terminal, not pending work**: each was chased to a primary source
 and the source does not exist.
 
 | Row | Status | Why it will never clear |
@@ -213,6 +213,7 @@ and the source does not exist.
 | `air_india_yield_inr_per_rpk` | `NOT_AVAILABLE` | Air India is unlisted and files no exchange results |
 | `aircraft_utilisation_hours_per_day_active` | `NOT_AVAILABLE` | The grounded-aircraft count is absent from both the FY26 annual report and the June 2026 analyst deck |
 | `india_dubai_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | India publishes no bilateral entitlement table. Corroborated from the traffic end instead |
+| `india_abu_dhabi_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | Same reason. Better corroborated than the Dubai row: two independent secondary sources give 50,000 one side, and a third figure from the traffic end reconciles with both |
 | `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | IATA sells origin-destination data and publishes no free table |
 | `gulf_hub_connect_premium_pct` | `MODELED` | Nobody publishes it. Status is `MODELED` rather than `NOT_AVAILABLE` so it is not confused with a figure that exists but is undisclosed |
 
@@ -223,6 +224,11 @@ function apiece, and everything derived from either is reported as a band and la
 
 - `india_dubai_weekly_seat_entitlement_one_side` feeds `benchmarking.dubai_entitlement_check`,
   which corroborates it from DGCA traffic and finds 89.6% utilisation.
+- `india_abu_dhabi_weekly_seat_entitlement_one_side` feeds `benchmarking.gulf_entitlement_check`,
+  which finds Abu Dhabi at about 58% utilisation against Dubai's 89.6. That difference matters:
+  it means the Gulf is **not** uniformly capacity-capped, and the recommendation was corrected
+  to say so. **Sharjah holds the third UAE MoU and carries 2.3M passengers a year; two
+  timeboxed searches found no entitlement figure for it, so it is outside the check.**
 - `gulf_od_share_pct` feeds `options.connect_gap`. It carries the eleven point connect gap
   the recommendation rests on, which makes it **the most likely reason the case is wrong**.
 

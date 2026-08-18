@@ -367,6 +367,55 @@ def absorption_summary(target_year: int = TARGET_YEAR, *, scenario_name: str = "
     }
 
 
+def gulf_headroom_against_order_book(year: int | None = None) -> dict:
+    """How much of the order book the remaining Gulf entitlement could absorb.
+
+    Written to check a claim this project made and had to soften. The
+    recommendation originally said Gulf capacity cannot grow because the
+    bilaterals are full. Generalising the entitlement check found that only Dubai
+    is full: Abu Dhabi runs at about 58%, with roughly 42,000 one-way seats a week
+    spare.
+
+    So "there is no room" was wrong. What is right, and is the number this
+    function exists to produce, is that the room there is comes nowhere near the
+    aircraft. Flown at the Gulf's own sector length, every remaining entitled seat
+    at Abu Dhabi absorbs about 4% of the order book. The constraint on Gulf
+    deployment is therefore economic first and legal second, which is the reverse
+    of how the case first stated it.
+
+    Covers only the points with a findable entitlement, so it is a floor on the
+    Gulf's total headroom rather than the whole of it. Sharjah, which holds the
+    third UAE MoU and carries 2.3M passengers a year, is not in it.
+    """
+    from .benchmarking import INTL_COUNTRY_YEAR, gulf_entitlement_check
+    from .profit_pools import corridor_stage_lengths
+
+    # Defaults to the year the bilateral analysis is published on, NOT this
+    # module's LATEST_COMPLETE_YEAR. The two constants differ, and the first
+    # version of this function took the wrong one, silently pricing 2025 traffic
+    # against a headline computed on 2024. The entitlement side must match the
+    # basis every other bilateral figure on the site uses.
+    year = INTL_COUNTRY_YEAR if year is None else year
+    check = gulf_entitlement_check(year)
+    stage = float(corridor_stage_lengths().set_index("region").loc["Gulf", "stage_km"])
+    book = order_book_ask()
+    base = baseline()
+
+    seats_per_year = float(check["headroom_seats_per_week"].sum()) * 52
+    headroom_ask = seats_per_year * stage
+    return {
+        "year": year,
+        "points_checked": check["foreign_point"].tolist(),
+        "headroom_seats_per_week": int(check["headroom_seats_per_week"].sum()),
+        "headroom_seats_per_year_m": round(seats_per_year / 1e6, 2),
+        "gulf_stage_km": round(stage),
+        "headroom_ask_bn": round(headroom_ask / 1e9, 1),
+        "order_book_ask_bn": round(book["ask"] / 1e9, 1),
+        "pct_of_order_book_absorbed": round(100 * headroom_ask / book["ask"], 1),
+        "pax_it_could_carry_m": round(seats_per_year * base.load_factor / 1e6, 2),
+    }
+
+
 # --------------------------------------------------------------------------
 # the gap by year
 # --------------------------------------------------------------------------

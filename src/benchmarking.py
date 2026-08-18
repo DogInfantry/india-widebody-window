@@ -415,6 +415,60 @@ def bilateral_seat_usage(year: int = INTL_COUNTRY_YEAR, *, load_factor: float = 
     return df.sort_values("pax", ascending=False).reset_index(drop=True)
 
 
+# The Gulf points whose bilateral entitlement could be found at all. Both are
+# secondary and both say so: India publishes no entitlement table, so these are
+# the only two of eleven Gulf points that can be checked from the entitlement end.
+#
+# Sharjah is the notable absence. It holds the third separate UAE MoU and carries
+# 2.3M passengers a year, and two timeboxed searches produced no seat figure, so
+# it is left out rather than estimated. Doha, Jeddah, Muscat, Kuwait, Bahrain,
+# Riyadh, Dammam and Ras Al-Khaimah are outside this check for the same reason.
+_ENTITLEMENT_ROWS = {
+    "DUBAI": "india_dubai_weekly_seat_entitlement_one_side",
+    "ABUDHABI": "india_abu_dhabi_weekly_seat_entitlement_one_side",
+}
+
+
+def gulf_entitlement_check(year: int = INTL_COUNTRY_YEAR) -> pd.DataFrame:
+    """Implied seat usage against reported entitlement, for every point with one.
+
+    Generalises the Dubai check, and generalising it changed the answer. Dubai
+    runs at 89.6% of its reported entitlement and Abu Dhabi at about 58%, so
+    **the Gulf is not uniformly capacity-capped**. Any claim that it is, which
+    this project made for one commit, is wrong.
+
+    What survives is narrower and still holds: the single largest India-Gulf city
+    pair has under 15% headroom, and the point that does have room is one whose
+    sectors do not cover their own unit cost (see `options.corridor_economics`).
+    So the constraint on Gulf deployment is partly legal and partly economic
+    rather than purely legal, and the recommendation says so.
+
+    Both entitlements are read with `allow_unverified=True`, which is correct here
+    and almost nowhere else: the entire purpose is to CHECK figures that cannot be
+    verified against a primary source, so gating them would make the check
+    impossible to run. Results are diagnostics, never published point figures.
+    """
+    usage = bilateral_seat_usage(year)
+    usage = usage.assign(_key=usage["foreign_point"].str.replace(" ", "").str.replace("-", ""))
+
+    rows = []
+    for point, key in _ENTITLEMENT_ROWS.items():
+        implied = float(usage.loc[usage["_key"] == point, "seats_per_week_one_way"].sum())
+        if implied == 0:
+            raise KeyError(f"{point!r} has no traffic in {year}; the DGCA spelling may have changed")
+        both_sides = 2 * assumption(key, allow_unverified=True)
+        rows.append(
+            {
+                "foreign_point": point,
+                "implied_seats_per_week": round(implied),
+                "reported_entitlement_both_sides": round(both_sides),
+                "utilisation_pct": round(100 * implied / both_sides, 1),
+                "headroom_seats_per_week": round(both_sides - implied),
+            }
+        )
+    return pd.DataFrame(rows).sort_values("utilisation_pct", ascending=False).reset_index(drop=True)
+
+
 def dubai_entitlement_check(year: int = INTL_COUNTRY_YEAR) -> dict:
     """Cross-check the reported India-Dubai cap against DGCA's own passenger count.
 

@@ -24,11 +24,22 @@ This project's headline was "reclaim the Gulf corridor first, long-haul second".
 Three lines of evidence, none of which existed when that was written, now say the
 aircraft cannot go to Gulf airports even if the traffic is there.
 
-**1. There is no room to fly them.** India-Dubai already runs at **89.6%** of its
-reported bilateral entitlement. The headroom is about **13,800 one-way seats a
-week**, roughly 0.72M seats a year, against a corridor carrying 36.9M passengers.
-Adding wide-body capacity to the single largest India-Gulf city pair is not a
-commercial decision, it is a treaty negotiation India has so far refused.
+**1. The room that exists is trivial next to the aircraft.** India-Dubai runs at
+**89.6%** of its reported bilateral entitlement, about 13,800 one-way seats a week
+of headroom. Adding capacity to the single largest India-Gulf city pair is not a
+commercial decision, it is a treaty negotiation India has refused since 2014.
+
+This was originally stated as "there is no room in the Gulf", and that was an
+overstatement. Checking the second point found **Abu Dhabi at about 58%**, with
+roughly 42,000 one-way seats a week spare. The Gulf is not uniformly capped.
+
+What survives the correction is the number that actually matters. Both points'
+remaining entitlement together is about 2.9M seats a year, and flown at the Gulf's
+own 2,182 km sector that absorbs **roughly 5% of the order book**. So the
+constraint on Gulf deployment is **economic first and legal second**, which is the
+reverse of how this case first put it. Sharjah, the third UAE MoU, carries 2.3M
+passengers a year and publishes no entitlement figure at all, so the true Gulf
+headroom is somewhat larger than 5% and nowhere near enough to change the answer.
 
 **2. The unit economics are the worst on the map.** Scale IndiGo's published unit
 cost across the corridors and the Gulf has the **least** room of any of them to
@@ -52,7 +63,7 @@ adequate for it. The second group is the prize, and it is won by flying past the
 Gulf, not to it.
 
 So the corridor stays the strategic centre of the case. The aircraft point
-somewhere else. Recorded as pivot 6 in [the pivot log](pivot_log.md).
+somewhere else. Recorded as pivot 1 in [the pivot log](pivot_log.md).
 
 ---
 
@@ -87,8 +98,8 @@ is named as the largest single unresolved input in the recommendation.
 **Phase 1, now to first delivery: prove the demand without the metal.**
 Europe direct is already 8.8M passengers. Establish which of those routes support
 wide-body economics before the aircraft arrive, using the narrow-bodies and
-partners already flying. Hold Gulf capacity flat: there is no entitlement to grow
-it with and no unit-cost case for doing so.
+partners already flying. Hold Gulf capacity flat: what entitlement remains is
+about 5% of the order book, and the unit-cost case for using it is negative.
 
 **Phase 2, first delivery onward: Europe direct, from more than one gateway.**
 Every corridor inside 8,700 km is narrow-body reachable, so the wide-body's job is
@@ -120,7 +131,8 @@ Stated so the recommendation can be falsified rather than defended.
   needs and the capital is stranded.
 - **Bilateral entitlements do not expand sharply.** Counter-intuitively, an
   India-UAE expansion would *weaken* this recommendation, by letting Gulf carriers
-  re-flood the corridor faster than Indian carriers can build direct networks.
+  re-flood the corridor faster than Indian carriers can build direct networks. Abu
+  Dhabi's existing 42% slack is the near-term version of the same risk.
 - **Deliveries slip less than about two years.** Beyond that the bridge question
   stops being optional, and the bridge cannot be priced with public data.
 - **The connect traffic is genuinely recapturable.** The 8.1M figure rests on an
