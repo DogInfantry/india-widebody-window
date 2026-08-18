@@ -1,0 +1,105 @@
+{
+ "options": [
+  {
+   "Capital": "High",
+   "Option": "Own wide-bodies on long-haul (recommended)",
+   "Time to capacity": "2027 at the earliest",
+   "What would have to be true": "Deliveries arrive on a schedule no primary source states, and Europe direct yields hold within about a fifth of today's realisation"
+  },
+  {
+   "Capital": "High",
+   "Option": "Own wide-bodies on Gulf routes",
+   "Time to capacity": "2027 at the earliest",
+   "What would have to be true": "A bilateral renegotiation India has refused for a decade, and unit economics that are currently negative turn positive"
+  },
+  {
+   "Capital": "Low, recurring",
+   "Option": "Lease or damp-lease bridge",
+   "Time to capacity": "Immediate",
+   "What would have to be true": "Lease rates leave headroom over the corridor's own cost. Not quantifiable here: transaction rates are paywalled trade press and no assumption row can clear"
+  },
+  {
+   "Capital": "Medium",
+   "Option": "A321XLR on thin routes",
+   "Time to capacity": "Near term",
+   "What would have to be true": "The corridor sits inside 8,700 km, which covers Europe and excludes North America (computed), and demand is thin enough to suit a narrow-body"
+  },
+  {
+   "Capital": "None",
+   "Option": "Codeshare or joint venture",
+   "Time to capacity": "Immediate",
+   "What would have to be true": "A partner hub is worth more than the margin ceded, which reverses the recapture logic the rest of this case rests on"
+  },
+  {
+   "Capital": "None",
+   "Option": "Do nothing",
+   "Time to capacity": "n/a",
+   "What would have to be true": "The connect gap stays with the Gulf carriers and the order book already placed is deployed at today's sector length"
+  }
+ ],
+ "risks": [
+  {
+   "Impact": "High",
+   "Leading indicator": "Airbus quarterly deliveries; any IndiGo fleet-plan disclosure",
+   "Likelihood": "High",
+   "Risk": "Delivery slip",
+   "What would falsify it": "A published Airbus delivery schedule for the IndiGo book, which does not currently exist"
+  },
+  {
+   "Impact": "High",
+   "Leading indicator": "FBIL daily reference rate. Currency added +0.41 to FY2026 CASK, more than the entire net rise",
+   "Likelihood": "High",
+   "Risk": "Rupee depreciation",
+   "What would falsify it": "A sustained period of USD/INR stability"
+  },
+  {
+   "Impact": "High",
+   "Leading indicator": "Published fares on India-Europe versus India-Gulf-Europe itineraries",
+   "Likelihood": "Medium",
+   "Risk": "Gulf carriers cut fares on direct-competing routes",
+   "What would falsify it": "Gulf capacity discipline as their own fleets tighten"
+  },
+  {
+   "Impact": "Medium",
+   "Leading indicator": "Ministry of Civil Aviation announcements; Rajya Sabha questions on air services agreements",
+   "Likelihood": "Medium",
+   "Risk": "Bilateral expansion re-floods the Gulf corridor",
+   "What would falsify it": "India holding its refusal, as it has since 2014"
+  },
+  {
+   "Impact": "Medium",
+   "Leading indicator": "IOCL monthly ATF price, international and domestic bases separately",
+   "Likelihood": "Medium",
+   "Risk": "ATF spike",
+   "What would falsify it": "Brent stability"
+  },
+  {
+   "Impact": "High",
+   "Leading indicator": "IndiGo quarterly yield disclosure, which is published",
+   "Likelihood": "Medium",
+   "Risk": "Europe direct yields fall past the headroom",
+   "What would falsify it": "Yields holding within a fifth of today's realisation"
+  },
+  {
+   "Impact": "Medium",
+   "Leading indicator": "DGCA licence issuance; announced MRO capacity",
+   "Likelihood": "Medium",
+   "Risk": "Crew and MRO cannot absorb wide-body induction",
+   "What would falsify it": "Type-rated pilot numbers, which nobody publishes"
+  },
+  {
+   "Impact": "Medium",
+   "Leading indicator": "Route-level great circle against filed flight time",
+   "Likelihood": "Medium",
+   "Risk": "Airspace closure lengthens sectors",
+   "What would falsify it": "Reopening of Pakistan or Russian overflight"
+  },
+  {
+   "Impact": "High",
+   "Leading indicator": "Any free O-D release; a second agency covering India-Gulf",
+   "Likelihood": "Medium",
+   "Risk": "The connect prize is smaller than modelled",
+   "What would falsify it": "A published origin-destination table, which IATA sells rather than publishes"
+  }
+ ]
+}

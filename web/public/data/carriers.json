@@ -1,5 +1,5 @@
 {
- "operating_summary": [
+ "domestic_summary": [
   {
    "airline": "IndiGo",
    "ask": 117234284000.0,
@@ -89,6 +89,71 @@
    "rpk": 2659325.0,
    "share_pct": 0.006096,
    "stage_length_km": 261.076478
+  }
+ ],
+ "international_summary": [
+  {
+   "airline": "IndiGo",
+   "ask": 53751210000.0,
+   "load_factor_pct": 81.980776,
+   "pax": 16673953.0,
+   "rpk": 44065659000.0,
+   "share_pct": 45.808463,
+   "stage_length_km": 2642.784168
+  },
+  {
+   "airline": "Air India",
+   "ask": 70030124119.0,
+   "load_factor_pct": 81.394846,
+   "pax": 10721836.0,
+   "rpk": 57000911839.0,
+   "share_pct": 29.456172,
+   "stage_length_km": 5316.338717
+  },
+  {
+   "airline": "Air India Express",
+   "ask": 23317936450.0,
+   "load_factor_pct": 79.01902,
+   "pax": 6868515.0,
+   "rpk": 18425604972.0,
+   "share_pct": 18.869917,
+   "stage_length_km": 2682.618437
+  },
+  {
+   "airline": "SpiceJet",
+   "ask": 3755202505.0,
+   "load_factor_pct": 80.83964,
+   "pax": 1361139.0,
+   "rpk": 3035692182.0,
+   "share_pct": 3.739466,
+   "stage_length_km": 2230.258763
+  },
+  {
+   "airline": "Akasa Air",
+   "ask": 2924021436.0,
+   "load_factor_pct": 74.683742,
+   "pax": 773444.0,
+   "rpk": 2183768618.0,
+   "share_pct": 2.124888,
+   "stage_length_km": 2823.434687
+  },
+  {
+   "airline": "Fly91",
+   "ask": 253820.0,
+   "load_factor_pct": 79.308171,
+   "pax": 272.0,
+   "rpk": 201300.0,
+   "share_pct": 0.000747,
+   "stage_length_km": 740.073529
+  },
+  {
+   "airline": "Alliance Air",
+   "ask": 32340.0,
+   "load_factor_pct": 90.0,
+   "pax": 126.0,
+   "rpk": 29106.0,
+   "share_pct": 0.000346,
+   "stage_length_km": 231.0
   }
  ],
  "share_trend": [

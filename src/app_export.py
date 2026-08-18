@@ -26,6 +26,7 @@ on parquet.
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any
@@ -181,13 +182,69 @@ def kpi_band() -> list[dict]:
     ]
 
 
+_MD_LINK = re.compile(r"\[([^\]]+)\]\([^)]+\)")
+_MD_EMPH = re.compile(r"\*\*|\*|`")
+
+
+def _markdown_table(doc: Path, heading: str) -> list[dict]:
+    """Read one markdown table out of a written-IP file, by the heading above it.
+
+    The option menu and the nine-row risk register are **judgement**, not
+    computation: a likelihood of "High" is an argued position, and there is no
+    module that returns it. They are also already written, reviewed and shipped
+    in `docs/recommendation.md`.
+
+    So they are parsed rather than retyped. Retyping them into TypeScript would
+    have created a second copy of the argument that drifts silently from the one
+    a reader is pointed at, which is the exact failure `tests/test_narrative.py`
+    exists to catch on the prose side.
+    """
+    lines = doc.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, ln in enumerate(lines) if ln.strip() == heading)
+    rows: list[dict] = []
+    header: list[str] | None = None
+    for ln in lines[start + 1 :]:
+        if ln.startswith("#"):
+            break
+        if not ln.startswith("|"):
+            continue
+        cells = [c.strip() for c in ln.strip().strip("|").split("|")]
+        if set("".join(cells)) <= set("-: "):
+            continue  # the ---|--- separator
+        cells = [_MD_EMPH.sub("", _MD_LINK.sub(r"\1", c)) for c in cells]
+        if header is None:
+            header = cells
+        else:
+            rows.append(dict(zip(header, cells)))
+    if not rows:
+        raise ValueError(f"no table found under {heading!r} in {doc.name}")
+    return rows
+
+
+def narrative() -> dict:
+    reco = ROOT / "docs" / "recommendation.md"
+    return {
+        "options": _markdown_table(reco, "## The options, and what each needs to be true"),
+        "risks": _markdown_table(reco, "## Risk register"),
+    }
+
+
 DATASETS: dict[str, Any] = {
     "kpis": kpi_band,
+    "narrative": narrative,
     "corridors": corridor_spine,
     "carriers": lambda: {
         "who_carries_india": _clean(bm.who_carries_india()),
         "share_trend": _clean(bm.carrier_share_trend()),
-        "operating_summary": _clean(bm.carrier_operating_summary()),
+        # NAMED, not defaulted. `carrier_operating_summary()` returns DOMESTIC
+        # unless told otherwise, and a domestic stage length of 943 km read as
+        # an international one would have made the capability exhibit claim the
+        # opposite of what it shows: IndiGo's INTERNATIONAL stage is 2,643 km
+        # against Air India's 5,316 km, and that gap is the whole point.
+        "domestic_summary": _clean(bm.carrier_operating_summary()),
+        "international_summary": _clean(
+            bm.carrier_operating_summary(bm.LATEST_COMPLETE_YEAR, international=True)
+        ),
     },
     "market": lambda: {
         "triangulation": _clean(ms.triangulate()),

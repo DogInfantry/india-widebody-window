@@ -13,6 +13,8 @@ import carriersJson from "@/public/data/carriers.json";
 import fleetJson from "@/public/data/fleet.json";
 import economicsJson from "@/public/data/economics.json";
 import accessJson from "@/public/data/access.json";
+import marketJson from "@/public/data/market.json";
+import narrativeJson from "@/public/data/narrative.json";
 import scenarioCubeJson from "@/public/data/scenario_cube.json";
 
 export type Kpi = { value: string; label: string; note: string | null };
@@ -46,6 +48,12 @@ export const carriers = carriersJson;
 export const fleet = fleetJson;
 export const economics = economicsJson;
 export const access = accessJson;
+export const market = marketJson;
+
+/** The option menu and the nine-row risk register, parsed out of
+ *  docs/recommendation.md by src/app_export.py rather than retyped, so the app
+ *  and the written recommendation cannot disagree. */
+export const narrative = narrativeJson;
 export const scenarioCube = scenarioCubeJson;
 
 /** Corridors that have a hub, so an economics figure exists for them. "Other"
