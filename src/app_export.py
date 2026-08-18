@@ -116,7 +116,73 @@ def scenario_cube() -> dict:
     }
 
 
+def kpi_band() -> list[dict]:
+    """Six numbers that carry the whole argument, computed rather than typed.
+
+    Six because Vizro's dashboard method puts the readable range at five to nine
+    per view, and because six is what it takes to state the case: how big the
+    market is, how much of it touches the Gulf, who flies it today, what the
+    order book would add, whether the Gulf has room for it, and whether the
+    economics work there.
+
+    **The first four are the static site's band, in its order and wording**, so
+    `scripts/refresh.py` slices them off rather than keeping a second copy. Two
+    surfaces, one computation.
+    """
+    corridor = bm.corridor_scale().set_index("region")
+    carriers = bm.who_carries_india().set_index("carrier_group")
+    intl = bm.load_dgca_intl_country()
+    total = intl[intl["year"] == bm.INTL_COUNTRY_YEAR]["pax_total"].sum()
+    gulf, europe = corridor.loc["Gulf"], corridor.loc["Europe"]
+    stage = bm.carrier_operating_summary(
+        bm.LATEST_COMPLETE_YEAR, international=True
+    ).set_index("airline")
+
+    book = 100 * fg.order_book_ask()["ask"] / fg.baseline().ask
+    dubai = bm.dubai_entitlement_check()
+    econ = opt.corridor_economics().set_index("region")
+
+    from src import charts  # local: keeps the export importable without plotly loaded
+
+    return [
+        charts.kpi(
+            f"{total / 1e6:.0f}M",
+            "India international sector passengers",
+            note=f"{bm.INTL_COUNTRY_YEAR}, both directions, all carriers (DGCA)",
+        ),
+        charts.kpi(
+            f"{gulf['share_pct']:.0f}%",
+            "of that traffic touches a Gulf point",
+            note=f"{gulf['pax_total'] / 1e6:.1f}M passengers, "
+            f"{gulf['pax_total'] / europe['pax_total']:.1f}x the entire direct Europe market",
+        ),
+        charts.kpi(
+            f"{carriers.loc['Indian', 'share_pct']:.0f}%",
+            "is flown by Indian carriers",
+            note="Gulf carriers take a quarter of India's own international market",
+        ),
+        charts.kpi(
+            f"{stage.loc['Air India', 'stage_length_km'] / stage.loc['IndiGo', 'stage_length_km']:.1f}x",
+            "Air India's average international flight vs IndiGo's",
+            note=f"{stage.loc['Air India', 'stage_length_km']:,.0f} km against "
+            f"{stage.loc['IndiGo', 'stage_length_km']:,.0f} km, {bm.LATEST_COMPLETE_YEAR}",
+        ),
+        charts.kpi(
+            f"+{book:.0f}%",
+            "is what the firm order book would add to international capacity",
+            note="46,546 seats converted to ASK at computed block speed and sector length",
+        ),
+        charts.kpi(
+            f"{dubai['utilisation_pct']:.1f}%",
+            "of the India-Dubai seat entitlement is already used",
+            note=f"Gulf yield headroom {econ.loc['Gulf', 'yield_headroom_pct']:+.1f}% against "
+            f"Europe {econ.loc['Europe', 'yield_headroom_pct']:+.1f}%",
+        ),
+    ]
+
+
 DATASETS: dict[str, Any] = {
+    "kpis": kpi_band,
     "corridors": corridor_spine,
     "carriers": lambda: {
         "who_carries_india": _clean(bm.who_carries_india()),

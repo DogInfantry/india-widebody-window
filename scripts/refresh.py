@@ -31,49 +31,15 @@ from src import (  # noqa: E402
 
 
 def build_kpis() -> list[dict]:
-    """The three hero numbers, computed rather than typed.
+    """The static site's four hero cards.
 
-    Every one of these is recomputed from the parquet on each refresh, so the
-    page cannot drift away from the data behind it. A hardcoded hero number is
-    the easiest thing in a project like this to leave stale.
+    The computation lives in `src/app_export.kpi_band()`, which returns six: the
+    four below plus the two the delivery app adds. Slicing here rather than
+    keeping a second copy is what stops the two surfaces disagreeing about a
+    hero number, which is the easiest thing in a project like this to leave
+    stale.
     """
-    corridor = benchmarking.corridor_scale()
-    carriers = benchmarking.who_carries_india()
-    intl = benchmarking.load_dgca_intl_country()
-    total = intl[intl["year"] == benchmarking.INTL_COUNTRY_YEAR]["pax_total"].sum()
-
-    gulf = corridor.set_index("region").loc["Gulf"]
-    europe = corridor.set_index("region").loc["Europe"]
-    indian = carriers.set_index("carrier_group").loc["Indian", "share_pct"]
-
-    stage = benchmarking.carrier_operating_summary(
-        benchmarking.LATEST_COMPLETE_YEAR, international=True
-    ).set_index("airline")
-
-    return [
-        charts.kpi(
-            f"{total / 1e6:.0f}M",
-            "India international sector passengers",
-            note=f"{benchmarking.INTL_COUNTRY_YEAR}, both directions, all carriers (DGCA)",
-        ),
-        charts.kpi(
-            f"{gulf['share_pct']:.0f}%",
-            "of that traffic touches a Gulf point",
-            note=f"{gulf['pax_total'] / 1e6:.1f}M passengers, "
-            f"{gulf['pax_total'] / europe['pax_total']:.1f}x the entire direct Europe market",
-        ),
-        charts.kpi(
-            f"{indian:.0f}%",
-            "is flown by Indian carriers",
-            note="Gulf carriers take a quarter of India's own international market",
-        ),
-        charts.kpi(
-            f"{stage.loc['Air India', 'stage_length_km'] / stage.loc['IndiGo', 'stage_length_km']:.1f}x",
-            "Air India's average international flight vs IndiGo's",
-            note=f"{stage.loc['Air India', 'stage_length_km']:,.0f} km against "
-            f"{stage.loc['IndiGo', 'stage_length_km']:,.0f} km, {benchmarking.LATEST_COMPLETE_YEAR}",
-        ),
-    ]
+    return app_export.kpi_band()[:4]
 
 
 def main() -> int:
