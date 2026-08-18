@@ -15,6 +15,7 @@ import economicsJson from "@/public/data/economics.json";
 import accessJson from "@/public/data/access.json";
 import marketJson from "@/public/data/market.json";
 import narrativeJson from "@/public/data/narrative.json";
+import evidenceJson from "@/public/data/evidence.json";
 import scenarioCubeJson from "@/public/data/scenario_cube.json";
 
 export type Kpi = { value: string; label: string; note: string | null };
@@ -54,6 +55,10 @@ export const market = marketJson;
  *  docs/recommendation.md by src/app_export.py rather than retyped, so the app
  *  and the written recommendation cannot disagree. */
 export const narrative = narrativeJson;
+
+/** The provenance ledger: assumption statuses, the pivot log and the coverage
+ *  score, all counted from the repo by src/app_export.py on every build. */
+export const evidence = evidenceJson;
 export const scenarioCube = scenarioCubeJson;
 
 /** Corridors that have a hub, so an economics figure exists for them. "Other"

@@ -1,0 +1,96 @@
+{
+ "assumptions": {
+  "by_status": [
+   {
+    "count": 16,
+    "status": "VERIFIED"
+   },
+   {
+    "count": 9,
+    "status": "CORRECTED_VERIFIED"
+   },
+   {
+    "count": 3,
+    "status": "UNVERIFIED_NO_PRIMARY"
+   },
+   {
+    "count": 2,
+    "status": "NOT_AVAILABLE"
+   },
+   {
+    "count": 1,
+    "status": "MODELED"
+   }
+  ],
+  "open": 6,
+  "open_rows": [
+   {
+    "key": "air_india_yield_inr_per_rpk",
+    "note": "Air India is unlisted and files no exchange results. Partial visibility only via Singapore Airlines 25.1 percent stake disclosures. Long haul yield must be proxied and the proxy labelled on the chart.",
+    "status": "NOT_AVAILABLE"
+   },
+   {
+    "key": "aircraft_utilisation_hours_per_day_active",
+    "note": "CLOSED AS NOT DISCLOSED, not left hanging. The figure exists inside IndiGo and would close this row in one line, but two primary documents were searched and neither publishes it. The Annual Report confirms the AOG situation and an IAE compe",
+    "status": "NOT_AVAILABLE"
+   },
+   {
+    "key": "india_dubai_weekly_seat_entitlement_one_side",
+    "note": "SECONDARY BY NECESSITY, not by laziness. India treats bilateral entitlements as restricted: the Ministry of Civil Aviation publishes a 'List of Air Services Agreements' and a 'Guidelines for publication/sharing of information pertaining to ",
+    "status": "UNVERIFIED_NO_PRIMARY"
+   },
+   {
+    "key": "gulf_hub_connect_premium_pct",
+    "note": "Unchanged - genuinely modeled, no source expected. Status set to MODELED rather than NOT_AVAILABLE so it is not confused with row 10, where a real figure exists but is not disclosed. Keep the modeled label on any chart.",
+    "status": "MODELED"
+   },
+   {
+    "key": "gulf_od_share_pct",
+    "note": "PROMOTED INTO THE GATE, and the reason matters. This figure was carried on the live page and in docs/storyline.md as a hard number ('roughly 40 percent') with no row here at all, which means dp.assumption() never saw it. It sat in the confl",
+    "status": "UNVERIFIED_NO_PRIMARY"
+   },
+   {
+    "key": "india_abu_dhabi_weekly_seat_entitlement_one_side",
+    "note": "SECONDARY BY NECESSITY, exactly as india_dubai_weekly_seat_entitlement_one_side, and for the same reason: India treats bilateral entitlements as restricted and publishes no seat table. BETTER CORROBORATED THAN THE DUBAI ROW, which rests on ",
+    "status": "UNVERIFIED_NO_PRIMARY"
+   }
+  ],
+  "total": 31,
+  "usable": 25,
+  "usable_statuses": [
+   "VERIFIED",
+   "CORRECTED_VERIFIED"
+  ]
+ },
+ "coverage": {
+  "evidenced": 14,
+  "pct": 82,
+  "total": 17
+ },
+ "pivots": [
+  {
+   "n": "1",
+   "title": "\"Gulf first\" became \"compete with the Gulf hubs, do not fly to them\""
+  },
+  {
+   "n": "2",
+   "title": "\"India is losing its own market\" became \"India is winning it, just not in long-haul\""
+  },
+  {
+   "n": "3",
+   "title": "A wrong answer that passed all 72 tests"
+  },
+  {
+   "n": "4",
+   "title": "A published margin claim, withdrawn"
+  },
+  {
+   "n": "5",
+   "title": "Verifying the gated numbers made the recommendation harder to argue"
+  },
+  {
+   "n": "6",
+   "title": "A widely quoted utilisation figure that did not survive arithmetic"
+  }
+ ]
+}

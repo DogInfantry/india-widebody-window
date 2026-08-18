@@ -8,14 +8,14 @@ import { usePathname } from "next/navigation";
 // interaction inside each exhibit. Keeping the tiers separate is what stops a
 // filter looking like a navigation choice.
 
-// Only routes that exist. /story, /deck and /methodology land in later phases;
-// linking to them early would ship a 404 on a page whose whole claim is that it
-// can be checked.
+// Only routes that exist. Linking to one that does not would ship a 404 on a
+// site whose whole claim is that it can be checked.
 const PAGES = [
   { href: "/", label: "The answer" },
   { href: "/dashboard", label: "Dashboard" },
   { href: "/frameworks", label: "How it was reached" },
   { href: "/deck", label: "Deck" },
+  { href: "/methodology", label: "Methodology" },
 ];
 
 export function SiteNav() {

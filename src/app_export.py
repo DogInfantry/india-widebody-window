@@ -221,6 +221,59 @@ def _markdown_table(doc: Path, heading: str) -> list[dict]:
     return rows
 
 
+def evidence() -> dict:
+    """What the provenance contract actually contains, counted rather than claimed.
+
+    The project's strongest claim is that its numbers can be checked. That claim
+    is worth nothing on a page unless the page shows the ledger: how many
+    hand-entered values cleared the gate, how many never will and why, and which
+    changes of mind are on the record.
+
+    `USABLE_STATUSES` is read from `data_pipeline` rather than restated, so if
+    the gate is ever widened this page widens with it instead of quietly
+    disagreeing.
+    """
+    from src import data_pipeline as dp
+
+    rows = pd.read_csv(ROOT / "data" / "manual" / "assumptions.csv")
+    usable = rows["status"].isin(dp.USABLE_STATUSES)
+
+    pivots = []
+    for line in (ROOT / "docs" / "pivot_log.md").read_text(encoding="utf-8").splitlines():
+        if line.startswith("## Pivot "):
+            head = line[3:].strip()
+            num, _, title = head.partition(". ")
+            pivots.append({"n": num.replace("Pivot ", ""), "title": _MD_EMPH.sub("", title)})
+
+    coverage_text = (ROOT / "docs" / "coverage.md").read_text(encoding="utf-8")
+    matched = re.search(r"\*\*(\d+) of (\d+) requirements evidenced \((\d+)%\)", coverage_text)
+
+    return {
+        "assumptions": {
+            "total": int(len(rows)),
+            "usable": int(usable.sum()),
+            "open": int((~usable).sum()),
+            "usable_statuses": list(dp.USABLE_STATUSES),
+            "by_status": [
+                {"status": s, "count": int(c)}
+                for s, c in rows["status"].value_counts().items()
+            ],
+            # Named, because "five open" is a number and these are the reasons.
+            "open_rows": _clean(
+                rows.loc[~usable, ["key", "status", "note"]].assign(
+                    note=lambda d: d["note"].str.slice(0, 240)
+                )
+            ),
+        },
+        "pivots": pivots,
+        "coverage": {
+            "evidenced": int(matched.group(1)) if matched else None,
+            "total": int(matched.group(2)) if matched else None,
+            "pct": int(matched.group(3)) if matched else None,
+        },
+    }
+
+
 def narrative() -> dict:
     reco = ROOT / "docs" / "recommendation.md"
     return {
@@ -232,6 +285,7 @@ def narrative() -> dict:
 DATASETS: dict[str, Any] = {
     "kpis": kpi_band,
     "narrative": narrative,
+    "evidence": evidence,
     "corridors": corridor_spine,
     "carriers": lambda: {
         "who_carries_india": _clean(bm.who_carries_india()),
