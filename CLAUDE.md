@@ -133,6 +133,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `src/market_sizing.py` | Three methods to a band. `_ORDER_BOOK` holds the wide-body variant mix |
 | `src/fleet_gap.py` | **NEW.** Order book in ASK vs what the market asks for. Block speed and seats/departure computed from DGCA. Absorption frontier + gap path |
 | `src/options.py` | **NEW.** Corridor breakeven, yield headroom, value at stake, option menu. Holds `CASK_STAGE_ELASTICITY`, the one knob |
+| `src/financials.py` | **NEW.** The client's own P&L, unit economics and capital scale. Gated rows only, no new sourcing. Holds the inverted RASK/CASK spread and the paired margin ladder |
 | `src/profit_pools.py` | Corridor profit pool. Heavily modelled; every seam labelled. Holds `MARGIN_STAGE_SENSITIVITY` |
 | `src/scenario.py` | Demand paths, plus fuel and FX on unit economics |
 | `src/cargo.py` | **NEW.** Belly freight by corridor. Physical units only, no revenue leg. Holds the non-correlation caveat |
@@ -148,9 +149,15 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
 | `docs/pivot_log.md` | Seven documented changes of mind, each citing its commit |
-| `web/` | **NEW.** The client-facing delivery layer. Next.js **static export**, five routes, Recharts. Canonical on Vercel |
+| `web/` | The client-facing delivery layer. Next.js **static export**, **seven routes**, Recharts. Canonical on Vercel |
+| `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 20 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
+| `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
+| `web/components/DriverTree.tsx` | The value-driver tree AS NAVIGATION. Every leaf links to the exhibit that proves it; a test asserts none dangle |
+| `web/lib/chart-theme.ts` | **NEW.** House-rule tokens in one place. They were copied into three chart files |
 | `src/app_export.py` | **NEW.** Tidy JSON, exhibit data, the scenario cube and the evidence ledger for `web/`. Calls the SAME functions the charts do |
 | `tests/test_app_export.py` | **NEW.** Strict-JSON, determinism and stale-export drift guards |
+| `tests/test_delivery.py` | **NEW.** Parity against `index.html`, the tab vocabulary, source lines, driver-tree targets, and `docs/` byte-unchanged |
+| `tests/test_financials.py` | **NEW.** The two ways the client page could publish a lie: one margin without the other, and the forex level mistaken for the forex contribution |
 | `docs/{storyline,hypothesis_tree,methodology,coverage,alternative_b_datacenters}.md` | Written IP |
 | `data/data_dictionary.md` | Provenance contract. Every field, source, pull date, grade |
 | `data/manual/assumptions.csv` | Hand-entered numbers, 11-state status vocabulary. 31 rows |
@@ -170,12 +177,18 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 164 tests pass. 19 Plotly charts on the mirror, plus the React delivery
-layer. Working tree clean.**
+**Done and green. 190 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
+delivery layer across seven routes. Working tree clean, NOT pushed.**
+
+**Closed 2026-08-18, fourth block (`6cd5009`, `52aa12c`, local):** the whole of
+`memory/plan-company-case.md`, W1 through W5. The app is no longer thinner than the site it
+replaced and it now names its client. W6 is partly done: `CLAUDE.md` is swept here, and the
+two `docs/` edits it calls for are **deliberately not made**, because the instruction for this
+session was that `docs/` stays byte-unchanged. They are listed under Next steps.
 
 **Closed 2026-08-18, third block (`434f186`, pushed):** the Vercel deploy and the brief PDF
-page break, the two items that had been open. Plus `docs/external_review_response.md`, which
-answers the external review item by item. Nothing from the previous handoff is still open.
+page break. Plus `docs/external_review_response.md`, which answers the external review item by
+item.
 
 **Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
 2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
@@ -190,14 +203,33 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
   average stage length against **5,316 km**
 - **Premise reversed:** Indian carriers went 37.0% (2015) to **45.9%** (2025); Gulf 32.7% to 26.2%
 - DGCA and Eurostat agree to **2.6%** across seven countries measured from opposite ends
-- DGCA and IndiGo's own block hours agree to **0.31%** (1,614,608 vs 1,619,570, FY2026)
+- DGCA and IndiGo's own block hours agree to **0.31%** (1,614,608 vs 1,619,570, FY2026).
+  **That 0.31% is the SCHEDULED-only basis.** `financials.operations()` also computes the
+  like-for-like all-services figure, which is 1,619,570.6 against 1,619,570, a gap of **0.64
+  hours in 1.6 million**. The residual was never measurement error, it was a filter. The 0.31%
+  stays the published headline so no other surface has to move
 - 2030 sizing band **96M to 109M** across three methods (capacity is the low leg at 96.5M)
 - Scenarios **104 / 109 / 131M**
 - **Profit pool:** the Gulf is **52% of passengers but 31% of revenue**
 - **Cost bridge:** currency added **+0.41** to FY2026 CASK against a net rise of **+0.34**
 - **Bilateral:** India-Dubai ~118,159 one-way seats/week vs entitlement 133,008, **88.8% utilised**; Abu Dhabi **70.1%**, so the Gulf is NOT uniformly capped
 
-**New this session (2026-08-18):**
+**New in the fourth block (2026-08-18), all from `src/financials.py` and all from gated rows:**
+- **The inverted spread:** RASK **4.99** against CASK **5.00**, FY2026. Negative by **0.01**
+  INR per ASK, 0.2% of unit revenue. **Arguably the sharpest number in the project and it was
+  on no surface until now.** Read it beside the currency line: the rupee added **+0.41** in the
+  same year, **41x the gap**, so the inversion is a treasury outcome, not an operating collapse
+- **Margin ladder:** FY2026 **17.8% as reported** against **27.3% ex forex**, FY2025 26.3% on
+  both. `margin_ladder()` returns four rows so neither figure can be read without the other
+- **Cost stack:** CASK 4.66 to 5.00 (+0.34); ex-fuel 3.00 to 3.52 (+0.52); ex-fuel ex-forex
+  2.89 to 3.00 (**+0.11**, the only genuine non-fuel inflation)
+- **Capital scale, with NO aircraft price:** IndiGo's 60 A350-900s are 18,900 seats,
+  **48.4bn ASK**, worth **INR 24,172 cr** at FY2026 realised RASK. That is **28%** of the
+  FY2026 top line and **1.04x** a year of EBITDAR ex forex. A test fails if a price appears
+- **Competitive position:** Emirates **9.924** INR/RPK against IndiGo's 5.06, **1.96x**. Air
+  India is deliberately blank: unlisted, files nothing
+
+**New in the third block (2026-08-18):**
 - **Baseline capacity:** Indian carriers 2025, 36.4M pax, **153.8bn ASK**, 3,426 km blended
   sector, LF 81.1%. Wide-body block speed proxy **698 km/h** (Air India intl, computed)
 - **Order book:** 46,546 seats to **119.3bn ASK**, **+78%** on today's international capacity.
@@ -227,66 +259,77 @@ reached the handoff, which the methodology route caught by counting the file):
 
 ## Active task
 
-**APPROVED AND NOT STARTED: turn the delivery layer into a company case.**
-Full plan committed at `memory/plan-company-case.md`. Read it before touching `web/`.
+**None. `memory/plan-company-case.md` is executed, W1 through W5, and W6 is swept as far as
+this session's constraints allowed.** The plan file stays as the record of what was decided
+and why; do not re-run it.
 
-**The audit that prompted it, in three numbers.** The Next.js app is *thinner* than the static
-site it replaced, which is why it reads as scattered rather than as a case:
+**What it fixed, in the same three numbers the audit used:**
 
-| | `docs/index.html` | The app | Lost |
+| | `docs/index.html` | The app, before | The app, now |
 |---|---|---|---|
-| Exhibits | **18** | 11, four partial | **8** |
-| Narrative steps with action titles | **22** | 0 | **22** |
-| Client mentions | client named in `storyline.md` | **none** | the whole frame |
+| Exhibits | 18 | 11, four partial | **20** |
+| Narrative steps with action titles | 22 | 0 | **18 on `/story`, parsed from `index.html`** |
+| Client mentions | in `storyline.md` only | none | **`/`, `/company`, deck cover, all parsed** |
 
-The eight dropped exhibits are `gateway_flows` (Sankey), `profit_pool` (Mekko), `fleet_gap`,
-`scenarios`, `value_at_stake`, `who_carries_india`, `load_factor_slope`, `domestic_share`.
-Three of them are the most distinctive forms in the project.
+**The design contract, as built and as tested.** One tabbed exhibit grammar everywhere:
+**Exhibit / Evidence / How it was computed / What would break it**, a tab rendered only when
+it has content, four maximum, never nested. `tests/test_delivery.py` asserts the vocabulary,
+the cap, and that no page builds its own `<details>`. **The Evidence tab is never written by
+hand:** `web/lib/exhibits.tsx` reads it from the `story` export, which is parsed from
+`docs/index.html`, so gotcha 43 now binds the React surface too.
 
-**The framing was never missing from the repo, only from the delivery.** `docs/storyline.md`
-already holds the client (IndiGo, InterGlobe Aviation, network and fleet strategy), the
-decision (60 A350-900s firm plus 40 purchase rights), the timeframe, the SCQA and the success
-metrics. It even records **RASK 4.99 against CASK 5.00 for FY2026, a spread that is currently
-inverted**, which is arguably the sharpest number in the project and appears on no surface.
-
-**Six workstreams, in this order:** W1 restore the eight exhibits, W3 frame the case on `/`,
-W4 build `/company` and `src/financials.py`, W2 restore `/story` as the 22-step narrative,
-W5 polish the deck, W6 sweep the record. W1 and W3 are cheap because the content already
-exists.
-
-**The design contract is in the plan and is not optional**: one tabbed exhibit grammar reused
-everywhere (Exhibit / Evidence / How it was computed / What would break it), chart form chosen
-by the question rather than by habit, exactly one annotated point per exhibit, and an explicit
-list of things not to add.
-
-**Nothing is to be erased.** `docs/` stays byte-unchanged and the mirror keeps working.
+**Two reversals of earlier assistant recommendations, both recorded because they were wrong:**
+- `/story` was dropped from the app on the argument that a deck and a dashboard covered it.
+  They did not. The action titles WERE the argument.
+- The delivery layer was built without the client frame that `docs/storyline.md` had held all
+  along. The analysis was IndiGo-anchored from the first commit; only the delivery was not.
 
 ---
 
 ## Next steps, in order
 
-1. **Execute `memory/plan-company-case.md`.** Approved, not started. `/story` IS being built:
-   the earlier recommendation to drop it was wrong, because the 22-step narrative was the
-   original site's spine and losing it is most of why the app reads thin.
-2. **The forwarding note.** Still unwritten and it is now the binding constraint. The user
-   applied to the BCN AMS Associate role and has had no reply, and has a warm contact who
-   could refer them. The artifact is finished; what is missing is a short note in the **user's
-   own voice** to send that contact, with the `.vercel.app` link and the brief PDF attached.
-   `docs/brief.html` and the PDFs exist precisely to make that forward cheap. Agreed in an
-   earlier session and never delivered.
-3. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
-   option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
-   IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
-   option becomes comparable and the roadmap's Phase 1 gets a real answer.
-4. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
-   (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% utilisation is
-   now load-bearing for the recommendation, so a second point would strengthen or break it.
-5. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
+1. **Two `docs/` edits that W6 called for and this session deliberately did not make**, because
+   the standing instruction was that `docs/` stays byte-unchanged. Both are wanted:
+   - **`docs/pivot_log.md`, pivot 8:** the delivery-thinning audit. A delivery layer was built
+     that was thinner than the surface it replaced, and nothing caught it because the two had
+     no shared vocabulary. Cite `52aa12c`. Note that `evidence.json` counts pivots from this
+     file, so adding one moves the methodology page from "7 documented changes of mind" to 8
+     and requires `python -m src.app_export` plus a rebuild.
+   - **`docs/external_review_response.md`:** it currently records G1, "name the client", as
+     done. It was done in `storyline.md` and not in the delivery, which is the distinction the
+     audit turned on. Correct the entry rather than deleting it.
+2. **A load-factor claim that the data contradicts, found while building the slope exhibit.**
+   `docs/storyline.md` says "Load factors have recovered past their pre-pandemic level across
+   every major carrier". Computed from DGCA, 2019 to 2025: IndiGo **87.8 to 86.1** and SpiceJet
+   **92.7 to 86.2**, both DOWN. Air India (80.1 to 82.3) and Air India Express (61.0 to 83.1)
+   are up. The narrow claim the exhibit supports, that every carrier clears 80% so the aircraft
+   that exist are full, is true and is what the app's title and annotation say. **The app does
+   not repeat the stronger claim**; `docs/` still does, in `storyline.md` and in the
+   `load_factor_slope` step of `index.html`. Fix both, and add "recovered past their
+   pre-pandemic level" to `must_not_appear` when you do.
+3. **`docs/methodology.md` publishes 27.3% without 17.8% near it**, in the retraction passage.
+   Found by the new paired-margin guard, which lists it in `known_open` rather than exempting
+   it by a looser rule. Fixing it means editing the passage and deleting the entry, which is
+   the invert-the-gate discipline. The guard tells you to do exactly that when it passes.
+4. **Push.** Two commits are local and unpushed: `6cd5009` and `52aa12c`. The repo is public,
+   so ask first. Vercel redeploys `main` on push.
+5. **The forwarding note.** Still unwritten and still the binding constraint. The user applied
+   to the BCN AMS Associate role, has had no reply, and has a warm contact who could refer
+   them. What is missing is a short note in the **user's own voice** with the `.vercel.app`
+   link and the brief PDF attached. `docs/brief.html` and the PDFs exist to make that forward
+   cheap. Agreed in an earlier session and never delivered.
+6. **Wide-body lease rates.** The largest named unresolved input: the damp-lease bridge option
+   in `docs/recommendation.md` is presented with its economics explicitly unquantified.
+   IBA/Cirium transaction rates are paywalled.
+7. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
+   (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% is load-bearing.
+8. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
    Europe already has via Eurostat. Would raise the 5.6% cross-checked share.
-6. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
-7. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource IDs
-   `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`. Create
-   `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no key, primary.
+9. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
+10. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource
+    IDs `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`.
+    Create `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no
+    key, primary.
 
 ---
 
@@ -464,6 +507,44 @@ Every one of these cost real time or produced a wrong published number.
     side-by-side columns and nothing failed: right size, every word present. It is `.brief-doc`
     now and a test pins it. **Before debugging a break property, check what `display` the
     printing context actually has.**
+55. **A React surface can silently duplicate the analysis site and be COUNTED as parity.**
+    The app shipped 11 exhibits against 18 and nobody could tell, because the two surfaces had
+    no shared key. `web/lib/exhibits.tsx` is now keyed by the same `data-chart` ids
+    `docs/index.html` uses, and `tests/test_delivery.py` counts one against the other. **Add a
+    registry entry when you add a chart**, or parity silently regresses again.
+56. **Two exhibits lived only inside the dashboard and the deck as private copies.** That is
+    part of why the count was wrong: `cargo_asymmetry` and `fuel_fx_sensitivity` looked
+    present because a version of each was on screen somewhere. A chart that is an exhibit in
+    its own right belongs in the registry, not inlined in a page.
+57. **The narrative guard did not cover `web/` for the app's entire life.** Any superseded
+    figure typed into a React page would have published and nothing would have failed. This is
+    gotcha 39 in a different costume: a whole surface exempt from a rule everything else obeys.
+    `CORPUS_FILES` now globs `web/**/*.tsx`.
+58. **`financials.py` had to read the CASK bridge, not difference two assumption rows.**
+    FY2026 CASK ex-fuel minus FY2026 ex-fuel ex-forex is **0.52**, which is the forex LEVEL in
+    non-fuel cost. The year-on-year forex CONTRIBUTION is **0.41**, because 0.11 of the rise is
+    genuine inflation. Eleven paise apart; the first version computed one and its own docstring
+    quoted the other. Read `scenario.cask_bridge()`.
+59. **The published 0.31% block-hour reconciliation is SCHEDULED-only.** On the like-for-like
+    all-services basis, which is what IndiGo's own total includes, DGCA agrees to 0.64 hours in
+    1.6 million. Both are reported. Also: run it on the FINANCIAL year, April to March, or you
+    are comparing two different twelve-month windows.
+60. **A percentage that rounds to `0.000%` reads as a formatting bug, not as agreement.** The
+    operations exhibit shipped with that title for one edit. When a residual is that small,
+    state it in the underlying unit.
+61. **Recharts direct labels paint OUTSIDE the SVG if the chart margin does not reserve room.**
+    "what the market asks for" measures ~128px at 11.5px and the margin reserved 76. On a 375px
+    screen it pushed the page sideways. Measure the label, set the margin, and wrap every chart
+    panel in `overflow-x-auto` so a chart that still cannot fit scrolls in its own box rather
+    than scrolling the page.
+62. **An absolutely-positioned annotation anchored to the right edge of the widest element runs
+    off the container.** The Mekko's Gulf block finishes near 100%, so `left: x + w` put the
+    annotation past the edge. Anchor from whichever side has room.
+63. **`carrier_operating_summary` is the DGCA operating table, not a domestic-only one**,
+    despite `load_dgca_domestic_carrier` being its loader's name. It carries
+    `ScheduledDomestic`, `ScheduledInternational` and `NonScheduledInternational` rows behind
+    `is_scheduled` and `is_international`. `load_dgca_intl_carrier` has NO `aircraft_hours`
+    column at all.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
@@ -483,6 +564,17 @@ python -m src.options                            # corridor economics, sensitivi
 python -m src.profit_pools                       # the pool, the Gulf gap and the sensitivity
 python -m src.scenario                           # demand paths, unit economics and the CASK bridge
 python -m src.gap_analyzer --write               # regenerate docs/coverage.md
+python -m src.financials                         # the client's P&L, unit economics, capital scale
+python -m src.app_export                         # rewrite web/public/data/ ONLY
+```
+
+The delivery layer:
+
+```bash
+npm --prefix web install
+npm --prefix web run dev                         # or preview_start, config name `app`
+npm --prefix web run build                       # static export to web/out, what Vercel runs
+npx --prefix web tsc --noEmit                    # types only, much faster than a build
 ```
 
 Serve the site through `preview_start` (config name `site`), not a bare `http.server`.
@@ -503,6 +595,12 @@ Serve the site through `preview_start` (config name `site`), not a bare `http.se
   four figures still survived it, every one missed because the phrase wrapped across a line
   break. A passage that quotes a superseded figure ON PURPOSE opts out with
   `<!-- narrative-guard: ignore -->`, visibly, in the source.
+- **A new delivery surface inherits ZERO guards unless it is added to them.** `web/` was
+  outside the narrative corpus and outside any parity count for its whole life. When you build
+  a surface, add it to `CORPUS_FILES` and give it something countable to be checked against.
+- **Prose belongs in `docs/index.html` and every other surface re-lays it out.** That was
+  gotcha 43 for the report and the deck; the React app now obeys it too, by parsing steps in
+  `app_export.story()` rather than retyping them. **Never write step prose into `web/`.**
 - **When the answer changes, say so in `docs/pivot_log.md` rather than quietly amending.** Six
   entries so far, each citing its commit. Changing a recommendation also means sweeping
   `storyline.md`, `hypothesis_tree.md`, `index.html`, `README.md` and `methodology.md`: the
