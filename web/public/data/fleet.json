@@ -1,0 +1,347 @@
+{
+ "absorption_frontier": [
+  {
+   "pax_m": 44.396546,
+   "required_stage_km": 4988.247349,
+   "share": 0.4,
+   "share_pct": 40.0,
+   "stage_uplift_pct": 45.589182
+  },
+  {
+   "pax_m": 49.946114,
+   "required_stage_km": 4433.997644,
+   "share": 0.45,
+   "share_pct": 45.0,
+   "stage_uplift_pct": 29.412606
+  },
+  {
+   "pax_m": 55.495682,
+   "required_stage_km": 3990.597879,
+   "share": 0.5,
+   "share_pct": 50.0,
+   "stage_uplift_pct": 16.471346
+  },
+  {
+   "pax_m": 61.04525,
+   "required_stage_km": 3627.816254,
+   "share": 0.55,
+   "share_pct": 55.0,
+   "stage_uplift_pct": 5.883041
+  },
+  {
+   "pax_m": 66.594818,
+   "required_stage_km": 3325.498233,
+   "share": 0.6,
+   "share_pct": 60.0,
+   "stage_uplift_pct": -2.940545
+  },
+  {
+   "pax_m": 72.144386,
+   "required_stage_km": 3069.690676,
+   "share": 0.65,
+   "share_pct": 65.0,
+   "stage_uplift_pct": -10.406657
+  },
+  {
+   "pax_m": 77.693955,
+   "required_stage_km": 2850.427057,
+   "share": 0.7,
+   "share_pct": 70.0,
+   "stage_uplift_pct": -16.806182
+  }
+ ],
+ "absorption_summary": {
+  "ask_available_bn": 273.077417,
+  "ask_needed_holding_share_bn": 215.314836,
+  "book_vs_growth_ratio": 1.938674,
+  "pax_holding_share_m": 50.964346,
+  "scenario": "Base",
+  "share_held_pct": 45.917398,
+  "share_pct_to_absorb": 58.235673,
+  "stage_km_to_absorb": 4345.409452,
+  "stage_uplift_pct": 26.827032,
+  "surplus_bn": 57.762581,
+  "target_year": 2030,
+  "total_intl_pax_m": 110.991364
+ },
+ "baseline": {
+  "ask": 153778494510.0,
+  "load_factor": 0.810982,
+  "pax": 36398887.0,
+  "stage_km": 3426.248627,
+  "widebody_block_speed_kmh": 698.012677,
+  "year": 2025
+ },
+ "gap_band": [
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 153.778495,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2027,
+   "gap_bn": 0.0,
+   "pax_m": 36.398887,
+   "scenario": "Base",
+   "year": 2025
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 164.486885,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2027,
+   "gap_bn": 10.70839,
+   "pax_m": 38.933529,
+   "scenario": "Base",
+   "year": 2026
+  },
+  {
+   "ask_available_bn": 173.661648,
+   "ask_needed_bn": 175.940955,
+   "delivered_pct": 16.666667,
+   "first_delivery_year": 2027,
+   "gap_bn": 2.279307,
+   "pax_m": 41.644672,
+   "scenario": "Base",
+   "year": 2027
+  },
+  {
+   "ask_available_bn": 193.544802,
+   "ask_needed_bn": 188.192632,
+   "delivered_pct": 33.333333,
+   "first_delivery_year": 2027,
+   "gap_bn": -5.35217,
+   "pax_m": 44.544605,
+   "scenario": "Base",
+   "year": 2028
+  },
+  {
+   "ask_available_bn": 213.427956,
+   "ask_needed_bn": 201.297456,
+   "delivered_pct": 50.0,
+   "first_delivery_year": 2027,
+   "gap_bn": -12.1305,
+   "pax_m": 47.646476,
+   "scenario": "Base",
+   "year": 2029
+  },
+  {
+   "ask_available_bn": 233.311109,
+   "ask_needed_bn": 215.314836,
+   "delivered_pct": 66.666667,
+   "first_delivery_year": 2027,
+   "gap_bn": -17.996273,
+   "pax_m": 50.964346,
+   "scenario": "Base",
+   "year": 2030
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 153.778495,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2028,
+   "gap_bn": 0.0,
+   "pax_m": 36.398887,
+   "scenario": "Base",
+   "year": 2025
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 164.486885,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2028,
+   "gap_bn": 10.70839,
+   "pax_m": 38.933529,
+   "scenario": "Base",
+   "year": 2026
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 175.940955,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2028,
+   "gap_bn": 22.162461,
+   "pax_m": 41.644672,
+   "scenario": "Base",
+   "year": 2027
+  },
+  {
+   "ask_available_bn": 173.661648,
+   "ask_needed_bn": 188.192632,
+   "delivered_pct": 16.666667,
+   "first_delivery_year": 2028,
+   "gap_bn": 14.530983,
+   "pax_m": 44.544605,
+   "scenario": "Base",
+   "year": 2028
+  },
+  {
+   "ask_available_bn": 193.544802,
+   "ask_needed_bn": 201.297456,
+   "delivered_pct": 33.333333,
+   "first_delivery_year": 2028,
+   "gap_bn": 7.752654,
+   "pax_m": 47.646476,
+   "scenario": "Base",
+   "year": 2029
+  },
+  {
+   "ask_available_bn": 213.427956,
+   "ask_needed_bn": 215.314836,
+   "delivered_pct": 50.0,
+   "first_delivery_year": 2028,
+   "gap_bn": 1.886881,
+   "pax_m": 50.964346,
+   "scenario": "Base",
+   "year": 2030
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 153.778495,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2029,
+   "gap_bn": 0.0,
+   "pax_m": 36.398887,
+   "scenario": "Base",
+   "year": 2025
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 164.486885,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2029,
+   "gap_bn": 10.70839,
+   "pax_m": 38.933529,
+   "scenario": "Base",
+   "year": 2026
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 175.940955,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2029,
+   "gap_bn": 22.162461,
+   "pax_m": 41.644672,
+   "scenario": "Base",
+   "year": 2027
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 188.192632,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2029,
+   "gap_bn": 34.414137,
+   "pax_m": 44.544605,
+   "scenario": "Base",
+   "year": 2028
+  },
+  {
+   "ask_available_bn": 173.661648,
+   "ask_needed_bn": 201.297456,
+   "delivered_pct": 16.666667,
+   "first_delivery_year": 2029,
+   "gap_bn": 27.635807,
+   "pax_m": 47.646476,
+   "scenario": "Base",
+   "year": 2029
+  },
+  {
+   "ask_available_bn": 193.544802,
+   "ask_needed_bn": 215.314836,
+   "delivered_pct": 33.333333,
+   "first_delivery_year": 2029,
+   "gap_bn": 21.770034,
+   "pax_m": 50.964346,
+   "scenario": "Base",
+   "year": 2030
+  }
+ ],
+ "gap_path": [
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 153.778495,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2027,
+   "gap_bn": 0.0,
+   "pax_m": 36.398887,
+   "scenario": "Base",
+   "year": 2025
+  },
+  {
+   "ask_available_bn": 153.778495,
+   "ask_needed_bn": 164.486885,
+   "delivered_pct": 0.0,
+   "first_delivery_year": 2027,
+   "gap_bn": 10.70839,
+   "pax_m": 38.933529,
+   "scenario": "Base",
+   "year": 2026
+  },
+  {
+   "ask_available_bn": 173.661648,
+   "ask_needed_bn": 175.940955,
+   "delivered_pct": 16.666667,
+   "first_delivery_year": 2027,
+   "gap_bn": 2.279307,
+   "pax_m": 41.644672,
+   "scenario": "Base",
+   "year": 2027
+  },
+  {
+   "ask_available_bn": 193.544802,
+   "ask_needed_bn": 188.192632,
+   "delivered_pct": 33.333333,
+   "first_delivery_year": 2027,
+   "gap_bn": -5.35217,
+   "pax_m": 44.544605,
+   "scenario": "Base",
+   "year": 2028
+  },
+  {
+   "ask_available_bn": 213.427956,
+   "ask_needed_bn": 201.297456,
+   "delivered_pct": 50.0,
+   "first_delivery_year": 2027,
+   "gap_bn": -12.1305,
+   "pax_m": 47.646476,
+   "scenario": "Base",
+   "year": 2029
+  },
+  {
+   "ask_available_bn": 233.311109,
+   "ask_needed_bn": 215.314836,
+   "delivered_pct": 66.666667,
+   "first_delivery_year": 2027,
+   "gap_bn": -17.996273,
+   "pax_m": 50.964346,
+   "scenario": "Base",
+   "year": 2030
+  }
+ ],
+ "gulf_headroom": {
+  "gulf_stage_km": 2182,
+  "headroom_ask_bn": 5.1,
+  "headroom_seats_per_week": 44742,
+  "headroom_seats_per_year_m": 2.33,
+  "order_book_ask_bn": 119.3,
+  "pax_it_could_carry_m": 1.89,
+  "pct_of_order_book_absorbed": 4.3,
+  "points_checked": [
+   "DUBAI",
+   "ABUDHABI"
+  ],
+  "year": 2025
+ },
+ "order_book": {
+  "ask": 119298922269.46423,
+  "ask_bn": 119.298922,
+  "block_speed_kmh": 698.012677,
+  "implied_sector_km": 5235.095075,
+  "seats": 46546.0,
+  "seats_by_variant": {
+   "777-9": 4260,
+   "787-9": 5800,
+   "A350-1000": 12546,
+   "A350-900": 23940
+  },
+  "utilisation_hours_per_day": 10.06
+ }
+}

@@ -1,0 +1,89 @@
+{
+ "connect_gap": {
+  "connecting_pax_m": 8.49,
+  "gap_pts": 10.9,
+  "od_share_pct": 40.0,
+  "sector_share_pct": 50.9,
+  "total_intl_pax_m": 78.0
+ },
+ "option_menu": [
+  {
+   "capital_intensity": "High",
+   "corridors_reachable": "All",
+   "option": "Own wide-bodies",
+   "time_to_capacity": "2027 at the earliest",
+   "what_would_have_to_be_true": "Deliveries arrive on a schedule no primary source states, and the network lengthens enough to absorb them"
+  },
+  {
+   "capital_intensity": "Low, but recurring",
+   "corridors_reachable": "All",
+   "option": "Lease or damp-lease bridge",
+   "time_to_capacity": "Immediate",
+   "what_would_have_to_be_true": "Lease rates leave headroom over the corridor's own cost. Not quantifiable here: transaction rates are paywalled trade press and no row can clear"
+  },
+  {
+   "capital_intensity": "Medium",
+   "corridors_reachable": "Gulf, South Asia, East Asia, Southeast Asia, Africa, Europe",
+   "option": "A321XLR on thin routes",
+   "time_to_capacity": "Near term",
+   "what_would_have_to_be_true": "The corridor sits inside 8,700 km, which excludes North America, and thin demand suits a narrow-body's seat count"
+  },
+  {
+   "capital_intensity": "None",
+   "corridors_reachable": "All",
+   "option": "Codeshare or joint venture",
+   "time_to_capacity": "Immediate",
+   "what_would_have_to_be_true": "A partner hub is worth more than the margin ceded, which reverses the recapture logic the rest of this case rests on"
+  },
+  {
+   "capital_intensity": "None",
+   "corridors_reachable": "All",
+   "option": "Do nothing",
+   "time_to_capacity": "n/a",
+   "what_would_have_to_be_true": "The connect gap stays with the Gulf carriers, and the order book already placed is deployed at today's sector length"
+  }
+ ],
+ "reference": {
+  "carrier": "IndiGo",
+  "cask": 5.0,
+  "load_factor": 0.847917,
+  "stage_km": 1172.002856,
+  "year": 2025,
+  "yield_inr_per_rpk": 5.06
+ },
+ "sensitivity": [
+  {
+   "elasticity": -0.15,
+   "europe_headroom_pct": 6.3,
+   "gulf_headroom_pct": -11.0,
+   "gulf_is_tightest": true,
+   "north_america_headroom_pct": 13.8
+  },
+  {
+   "elasticity": -0.25,
+   "europe_headroom_pct": 21.3,
+   "gulf_headroom_pct": -4.3,
+   "gulf_is_tightest": true,
+   "north_america_headroom_pct": 31.5
+  },
+  {
+   "elasticity": -0.35,
+   "europe_headroom_pct": 33.9,
+   "gulf_headroom_pct": 2.0,
+   "gulf_is_tightest": true,
+   "north_america_headroom_pct": 45.6
+  }
+ ],
+ "value_at_stake": {
+  "as_multiple_of_indigo_revenue_ceiling": 0.67,
+  "as_multiple_of_indigo_revenue_floor": 0.34,
+  "connecting_pax_m": 8.49,
+  "gap_pts": 10.9,
+  "od_share_pct": 40.0,
+  "reference_stage_km": 6731.0,
+  "revenue_ceiling_inr_cr": 56712,
+  "revenue_floor_inr_cr": 28916,
+  "sector_share_pct": 50.9,
+  "total_intl_pax_m": 78.0
+ }
+}

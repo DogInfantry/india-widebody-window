@@ -1,0 +1,107 @@
+{
+ "capacity": {
+  "assumptions": {
+   "air_india_widebody_on_order": 80.0,
+   "aircraft_utilisation_hours_per_day": 10.06,
+   "assumed_block_hours": 7.5,
+   "indigo_a350_on_order": 60.0,
+   "mean_seats_per_widebody": 332.5,
+   "observed_intl_load_factor": 0.811,
+   "utilisation_basis": "owned fleet",
+   "variants_assumed": [
+    "10x A350-900 (Air India)",
+    "20x 787-9 (Air India)"
+   ],
+   "widebody_seats_by_variant": {
+    "777-9": 4260,
+    "787-9": 5800,
+    "A350-1000": 12546,
+    "A350-900": 23940
+   },
+   "widebody_seats_total": 46546
+  },
+  "blocked_reason": null,
+  "method": "Capacity",
+  "value_m": 96.460844
+ },
+ "propensity": {
+  "assumptions": {
+   "gdp_pc_2030_usd": 3530,
+   "income_elasticity": 1.07,
+   "india_gdp_pc_cagr": 0.0549,
+   "indian_carrier_share_of_india_intl": 0.4592,
+   "intl_share_of_indian_carrier_traffic": 0.1789,
+   "peer_observations": 276,
+   "trips_per_capita_2030": 0.175
+  },
+  "blocked_reason": null,
+  "method": "Propensity",
+  "value_m": 104.555821
+ },
+ "trend": {
+  "assumptions": {
+   "post_covid_cagr": 0.1822,
+   "pre_covid_cagr": 0.0696,
+   "rate_used": 0.0696,
+   "rationale": "slower of the two; the recovery rate is a rebound off a suppressed base"
+  },
+  "blocked_reason": null,
+  "method": "Trend",
+  "value_m": 109.184559
+ },
+ "triangulation": {
+  "base_m": 77.979936,
+  "estimates": [
+   {
+    "assumptions": {
+     "post_covid_cagr": 0.1822,
+     "pre_covid_cagr": 0.0696,
+     "rate_used": 0.0696,
+     "rationale": "slower of the two; the recovery rate is a rebound off a suppressed base"
+    },
+    "blocked_reason": null,
+    "method": "Trend",
+    "value_m": 109.184559
+   },
+   {
+    "assumptions": {
+     "gdp_pc_2030_usd": 3530,
+     "income_elasticity": 1.07,
+     "india_gdp_pc_cagr": 0.0549,
+     "indian_carrier_share_of_india_intl": 0.4592,
+     "intl_share_of_indian_carrier_traffic": 0.1789,
+     "peer_observations": 276,
+     "trips_per_capita_2030": 0.175
+    },
+    "blocked_reason": null,
+    "method": "Propensity",
+    "value_m": 104.555821
+   },
+   {
+    "assumptions": {
+     "air_india_widebody_on_order": 80.0,
+     "aircraft_utilisation_hours_per_day": 10.06,
+     "assumed_block_hours": 7.5,
+     "indigo_a350_on_order": 60.0,
+     "mean_seats_per_widebody": 332.5,
+     "observed_intl_load_factor": 0.811,
+     "utilisation_basis": "owned fleet",
+     "variants_assumed": [
+      "10x A350-900 (Air India)",
+      "20x 787-9 (Air India)"
+     ],
+     "widebody_seats_by_variant": {
+      "777-9": 4260,
+      "787-9": 5800,
+      "A350-1000": 12546,
+      "A350-900": 23940
+     },
+     "widebody_seats_total": 46546
+    },
+    "blocked_reason": null,
+    "method": "Capacity",
+    "value_m": 96.460844
+   }
+  ]
+ }
+}

@@ -1,0 +1,212 @@
+{
+ "cask_bridge": [
+  {
+   "inr_per_ask": 4.66,
+   "measure": "absolute",
+   "step": "FY2025 CASK"
+  },
+  {
+   "inr_per_ask": -0.18,
+   "measure": "relative",
+   "step": "Fuel"
+  },
+  {
+   "inr_per_ask": 0.11,
+   "measure": "relative",
+   "step": "Real non-fuel"
+  },
+  {
+   "inr_per_ask": 0.41,
+   "measure": "relative",
+   "step": "Currency"
+  },
+  {
+   "inr_per_ask": 5.0,
+   "measure": "total",
+   "step": "FY2026 CASK"
+  }
+ ],
+ "demand_paths": [
+  {
+   "pax_m": 77.979936,
+   "scenario": "Bear",
+   "year": 2025
+  },
+  {
+   "pax_m": 82.548857,
+   "scenario": "Bear",
+   "year": 2026
+  },
+  {
+   "pax_m": 87.385475,
+   "scenario": "Bear",
+   "year": 2027
+  },
+  {
+   "pax_m": 92.505475,
+   "scenario": "Bear",
+   "year": 2028
+  },
+  {
+   "pax_m": 97.925462,
+   "scenario": "Bear",
+   "year": 2029
+  },
+  {
+   "pax_m": 103.66301,
+   "scenario": "Bear",
+   "year": 2030
+  },
+  {
+   "pax_m": 77.979936,
+   "scenario": "Base",
+   "year": 2025
+  },
+  {
+   "pax_m": 83.410081,
+   "scenario": "Base",
+   "year": 2026
+  },
+  {
+   "pax_m": 89.218356,
+   "scenario": "Base",
+   "year": 2027
+  },
+  {
+   "pax_m": 95.43109,
+   "scenario": "Base",
+   "year": 2028
+  },
+  {
+   "pax_m": 102.076449,
+   "scenario": "Base",
+   "year": 2029
+  },
+  {
+   "pax_m": 109.184559,
+   "scenario": "Base",
+   "year": 2030
+  },
+  {
+   "pax_m": 77.979936,
+   "scenario": "Bull",
+   "year": 2025
+  },
+  {
+   "pax_m": 86.482923,
+   "scenario": "Bull",
+   "year": 2026
+  },
+  {
+   "pax_m": 95.913081,
+   "scenario": "Bull",
+   "year": 2027
+  },
+  {
+   "pax_m": 106.371511,
+   "scenario": "Bull",
+   "year": 2028
+  },
+  {
+   "pax_m": 117.970334,
+   "scenario": "Bull",
+   "year": 2029
+  },
+  {
+   "pax_m": 130.833902,
+   "scenario": "Bull",
+   "year": 2030
+  }
+ ],
+ "demand_table": [
+  {
+   "cagr_pct": 5.859098,
+   "growth_vs_base_year_pct": 32.93549,
+   "pax_2030_m": 103.66301,
+   "rationale": "slowest sustained 3 year stretch across both clean blocks, pre-covid and post-recovery",
+   "scenario": "Bear"
+  },
+  {
+   "cagr_pct": 6.963516,
+   "growth_vs_base_year_pct": 40.016221,
+   "pax_2030_m": 109.184559,
+   "rationale": "pre-covid CAGR 2015 to 2019",
+   "scenario": "Base"
+  },
+  {
+   "cagr_pct": 10.90407,
+   "growth_vs_base_year_pct": 67.77893,
+   "pax_2030_m": 130.833902,
+   "rationale": "part way to the post-covid recovery rate, capped at 12% because capacity cannot be added faster",
+   "scenario": "Bull"
+  }
+ ],
+ "dollar_exposure": {
+  "ceiling_inr_per_ask": 2.0,
+  "ceiling_pct_of_cask": 40.0,
+  "floor_inr_per_ask": 0.52,
+  "floor_pct_of_cask": 10.4
+ },
+ "fuel_fx": [
+  {
+   "cask_fuel_shock": 4.704,
+   "cask_fx_shock_ceiling": 4.6,
+   "fuel_shock_spread": 0.286,
+   "fx_shock_spread": 0.39,
+   "move_pct": -20.0,
+   "rask_actual": 4.99
+  },
+  {
+   "cask_fuel_shock": 4.852,
+   "cask_fx_shock_ceiling": 4.8,
+   "fuel_shock_spread": 0.138,
+   "fx_shock_spread": 0.19,
+   "move_pct": -10.0,
+   "rask_actual": 4.99
+  },
+  {
+   "cask_fuel_shock": 5.0,
+   "cask_fx_shock_ceiling": 5.0,
+   "fuel_shock_spread": -0.01,
+   "fx_shock_spread": -0.01,
+   "move_pct": 0.0,
+   "rask_actual": 4.99
+  },
+  {
+   "cask_fuel_shock": 5.148,
+   "cask_fx_shock_ceiling": 5.2,
+   "fuel_shock_spread": -0.158,
+   "fx_shock_spread": -0.21,
+   "move_pct": 10.0,
+   "rask_actual": 4.99
+  },
+  {
+   "cask_fuel_shock": 5.296,
+   "cask_fx_shock_ceiling": 5.4,
+   "fuel_shock_spread": -0.306,
+   "fx_shock_spread": -0.41,
+   "move_pct": 20.0,
+   "rask_actual": 4.99
+  }
+ ],
+ "unit_economics": [
+  {
+   "component": "Fuel",
+   "inr_per_ask": 1.48,
+   "note": "USD priced on international sectors, rupee priced domestically",
+   "share_pct": 29.6
+  },
+  {
+   "component": "Non-fuel, dollar linked",
+   "inr_per_ask": 0.52,
+   "note": "Leases and maintenance denominated in USD",
+   "share_pct": 10.4
+  },
+  {
+   "component": "Non-fuel, rupee",
+   "inr_per_ask": 3.0,
+   "note": "Wages, airport charges and domestic services",
+   "share_pct": 60.0
+  }
+ ]
+}

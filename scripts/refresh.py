@@ -17,6 +17,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src import (  # noqa: E402
+    app_export,
     benchmarking,
     cargo,
     charts,
@@ -106,6 +107,10 @@ def main() -> int:
         + cargo.build_all()
     ):
         print(f"  {name}")
+
+    print("exporting app data")
+    for path in app_export.write_all():
+        print(f"  {path.name}")
 
     cards = build_kpis()
     charts.export_kpis(cards)

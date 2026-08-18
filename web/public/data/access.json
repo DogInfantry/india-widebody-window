@@ -1,0 +1,658 @@
+{
+ "entitlements": [
+  {
+   "foreign_point": "DUBAI",
+   "headroom_seats_per_week": 14849,
+   "implied_seats_per_week": 118159,
+   "reported_entitlement_both_sides": 133008,
+   "utilisation_pct": 88.8
+  },
+  {
+   "foreign_point": "ABUDHABI",
+   "headroom_seats_per_week": 29893,
+   "implied_seats_per_week": 70107,
+   "reported_entitlement_both_sides": 100000,
+   "utilisation_pct": 70.1
+  }
+ ],
+ "gateway_flows": [
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "DELHI",
+   "pax": 15107383
+  },
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "MUMBAI",
+   "pax": 8048019
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "MUMBAI",
+   "pax": 7599497
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "DELHI",
+   "pax": 5984565
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "KOCHI",
+   "pax": 4239436
+  },
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "BENGALURU",
+   "pax": 3903841
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "HYDERABAD",
+   "pax": 3647757
+  },
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "CHENNAI",
+   "pax": 3487644
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "BENGALURU",
+   "pax": 2707051
+  },
+  {
+   "destination": "Gulf hub",
+   "gateway": "CHENNAI",
+   "pax": 2588095
+  },
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "HYDERABAD",
+   "pax": 1642062
+  },
+  {
+   "destination": "Everywhere else, direct",
+   "gateway": "KOCHI",
+   "pax": 1019111
+  }
+ ],
+ "seat_usage": [
+  {
+   "foreign_point": "DUBAI",
+   "is_gulf": true,
+   "pax": 9966019,
+   "seats_per_week_one_way": 118159.193304
+  },
+  {
+   "foreign_point": "ABUDHABI",
+   "is_gulf": true,
+   "pax": 5913071,
+   "seats_per_week_one_way": 70106.599165
+  },
+  {
+   "foreign_point": "SINGAPORE",
+   "is_gulf": false,
+   "pax": 4682342,
+   "seats_per_week_one_way": 55514.82026
+  },
+  {
+   "foreign_point": "DOHA",
+   "is_gulf": true,
+   "pax": 3853181,
+   "seats_per_week_one_way": 45684.115053
+  },
+  {
+   "foreign_point": "LONDON",
+   "is_gulf": false,
+   "pax": 3660653,
+   "seats_per_week_one_way": 43401.463056
+  },
+  {
+   "foreign_point": "KUALALUMPUR",
+   "is_gulf": false,
+   "pax": 2970698,
+   "seats_per_week_one_way": 35221.213127
+  },
+  {
+   "foreign_point": "BANGKOK",
+   "is_gulf": false,
+   "pax": 2895152,
+   "seats_per_week_one_way": 34325.524044
+  },
+  {
+   "foreign_point": "JEDDAH",
+   "is_gulf": true,
+   "pax": 2218538,
+   "seats_per_week_one_way": 26303.447785
+  },
+  {
+   "foreign_point": "SHARJAH",
+   "is_gulf": true,
+   "pax": 2196787,
+   "seats_per_week_one_way": 26045.563407
+  },
+  {
+   "foreign_point": "MUSCAT",
+   "is_gulf": true,
+   "pax": 2115409,
+   "seats_per_week_one_way": 25080.72892
+  },
+  {
+   "foreign_point": "COLOMBO",
+   "is_gulf": false,
+   "pax": 2078590,
+   "seats_per_week_one_way": 24644.195201
+  },
+  {
+   "foreign_point": "KUWAIT",
+   "is_gulf": true,
+   "pax": 1769159,
+   "seats_per_week_one_way": 20975.516931
+  },
+  {
+   "foreign_point": "HONG KONG",
+   "is_gulf": false,
+   "pax": 1390175,
+   "seats_per_week_one_way": 16482.203832
+  },
+  {
+   "foreign_point": "BAHRAIN",
+   "is_gulf": true,
+   "pax": 1337599,
+   "seats_per_week_one_way": 15858.851845
+  },
+  {
+   "foreign_point": "FRANKFURT",
+   "is_gulf": false,
+   "pax": 1244793,
+   "seats_per_week_one_way": 14758.524613
+  },
+  {
+   "foreign_point": "KATHMANDU",
+   "is_gulf": false,
+   "pax": 1175792,
+   "seats_per_week_one_way": 13940.434411
+  },
+  {
+   "foreign_point": "PHUKET",
+   "is_gulf": false,
+   "pax": 1133759,
+   "seats_per_week_one_way": 13442.082424
+  },
+  {
+   "foreign_point": "RIYADH",
+   "is_gulf": true,
+   "pax": 1094763,
+   "seats_per_week_one_way": 12979.737741
+  },
+  {
+   "foreign_point": "ISTANBUL",
+   "is_gulf": false,
+   "pax": 1048090,
+   "seats_per_week_one_way": 12426.372949
+  },
+  {
+   "foreign_point": "DAMMAM",
+   "is_gulf": true,
+   "pax": 980464,
+   "seats_per_week_one_way": 11624.585033
+  },
+  {
+   "foreign_point": "DON MUEANG, BANGKOK",
+   "is_gulf": false,
+   "pax": 966646,
+   "seats_per_week_one_way": 11460.755952
+  },
+  {
+   "foreign_point": "DHAKA",
+   "is_gulf": false,
+   "pax": 932310,
+   "seats_per_week_one_way": 11053.661197
+  },
+  {
+   "foreign_point": "PARIS",
+   "is_gulf": false,
+   "pax": 910318,
+   "seats_per_week_one_way": 10792.919473
+  },
+  {
+   "foreign_point": "AMSTERDAM",
+   "is_gulf": false,
+   "pax": 830955,
+   "seats_per_week_one_way": 9851.975244
+  },
+  {
+   "foreign_point": "ADDIS ABABA",
+   "is_gulf": false,
+   "pax": 679739,
+   "seats_per_week_one_way": 8059.126909
+  },
+  {
+   "foreign_point": "HO CHI MINH CITY",
+   "is_gulf": false,
+   "pax": 628218,
+   "seats_per_week_one_way": 7448.283221
+  },
+  {
+   "foreign_point": "MUNICH",
+   "is_gulf": false,
+   "pax": 608626,
+   "seats_per_week_one_way": 7215.996396
+  },
+  {
+   "foreign_point": "MALE",
+   "is_gulf": false,
+   "pax": 553857,
+   "seats_per_week_one_way": 6566.643745
+  },
+  {
+   "foreign_point": "NEW YORK",
+   "is_gulf": false,
+   "pax": 513483,
+   "seats_per_week_one_way": 6087.961206
+  },
+  {
+   "foreign_point": "TORONTO",
+   "is_gulf": false,
+   "pax": 488393,
+   "seats_per_week_one_way": 5790.48895
+  },
+  {
+   "foreign_point": "HANOI",
+   "is_gulf": false,
+   "pax": 474587,
+   "seats_per_week_one_way": 5626.802144
+  },
+  {
+   "foreign_point": "RAS AL-KHAIMAH",
+   "is_gulf": true,
+   "pax": 430079,
+   "seats_per_week_one_way": 5099.106042
+  },
+  {
+   "foreign_point": "ZURICH",
+   "is_gulf": false,
+   "pax": 374845,
+   "seats_per_week_one_way": 4444.240254
+  },
+  {
+   "foreign_point": "TOKYO",
+   "is_gulf": false,
+   "pax": 360614,
+   "seats_per_week_one_way": 4275.514559
+  },
+  {
+   "foreign_point": "NEWARK, NEW YORK",
+   "is_gulf": false,
+   "pax": 348253,
+   "seats_per_week_one_way": 4128.959973
+  },
+  {
+   "foreign_point": "SAN FRANCISCO",
+   "is_gulf": false,
+   "pax": 338791,
+   "seats_per_week_one_way": 4016.776534
+  },
+  {
+   "foreign_point": "PORT LOUIS,MAURITIUS",
+   "is_gulf": false,
+   "pax": 297218,
+   "seats_per_week_one_way": 3523.878403
+  },
+  {
+   "foreign_point": "DENPASAR",
+   "is_gulf": false,
+   "pax": 292887,
+   "seats_per_week_one_way": 3472.529166
+  },
+  {
+   "foreign_point": "NAIROBI",
+   "is_gulf": false,
+   "pax": 273214,
+   "seats_per_week_one_way": 3239.281988
+  },
+  {
+   "foreign_point": "ALMATY",
+   "is_gulf": false,
+   "pax": 243410,
+   "seats_per_week_one_way": 2885.919567
+  },
+  {
+   "foreign_point": "SYDNEY",
+   "is_gulf": false,
+   "pax": 241339,
+   "seats_per_week_one_way": 2861.365361
+  },
+  {
+   "foreign_point": "MELBOURNE",
+   "is_gulf": false,
+   "pax": 209344,
+   "seats_per_week_one_way": 2482.025989
+  },
+  {
+   "foreign_point": "MOSCOW",
+   "is_gulf": false,
+   "pax": 208400,
+   "seats_per_week_one_way": 2470.833729
+  },
+  {
+   "foreign_point": "TASHKENT",
+   "is_gulf": false,
+   "pax": 196963,
+   "seats_per_week_one_way": 2335.234279
+  },
+  {
+   "foreign_point": "ROME",
+   "is_gulf": false,
+   "pax": 177640,
+   "seats_per_week_one_way": 2106.136773
+  },
+  {
+   "foreign_point": "VANCOUVER",
+   "is_gulf": false,
+   "pax": 174547,
+   "seats_per_week_one_way": 2069.465522
+  },
+  {
+   "foreign_point": "MILAN",
+   "is_gulf": false,
+   "pax": 161849,
+   "seats_per_week_one_way": 1918.915394
+  },
+  {
+   "foreign_point": "SEOUL",
+   "is_gulf": false,
+   "pax": 160263,
+   "seats_per_week_one_way": 1900.111448
+  },
+  {
+   "foreign_point": "HELNSKI",
+   "is_gulf": false,
+   "pax": 143294,
+   "seats_per_week_one_way": 1698.923456
+  },
+  {
+   "foreign_point": "CHICAGO",
+   "is_gulf": false,
+   "pax": 138102,
+   "seats_per_week_one_way": 1637.366025
+  },
+  {
+   "foreign_point": "BAKU",
+   "is_gulf": false,
+   "pax": 136655,
+   "seats_per_week_one_way": 1620.210092
+  },
+  {
+   "foreign_point": "BIRMINGHAM",
+   "is_gulf": false,
+   "pax": 128413,
+   "seats_per_week_one_way": 1522.491226
+  },
+  {
+   "foreign_point": "KRABI",
+   "is_gulf": false,
+   "pax": 122828,
+   "seats_per_week_one_way": 1456.274305
+  },
+  {
+   "foreign_point": "MONTREAL",
+   "is_gulf": false,
+   "pax": 114277,
+   "seats_per_week_one_way": 1354.891871
+  },
+  {
+   "foreign_point": "TANGERANG",
+   "is_gulf": false,
+   "pax": 113659,
+   "seats_per_week_one_way": 1347.564735
+  },
+  {
+   "foreign_point": "TBILISI",
+   "is_gulf": false,
+   "pax": 112901,
+   "seats_per_week_one_way": 1338.577729
+  },
+  {
+   "foreign_point": "COPENHAGEN",
+   "is_gulf": false,
+   "pax": 107873,
+   "seats_per_week_one_way": 1278.964716
+  },
+  {
+   "foreign_point": "WARSAW",
+   "is_gulf": false,
+   "pax": 107279,
+   "seats_per_week_one_way": 1271.922128
+  },
+  {
+   "foreign_point": "LANGKAWI",
+   "is_gulf": false,
+   "pax": 99892,
+   "seats_per_week_one_way": 1184.340321
+  },
+  {
+   "foreign_point": "PARO",
+   "is_gulf": false,
+   "pax": 97236,
+   "seats_per_week_one_way": 1152.850232
+  },
+  {
+   "foreign_point": "PENANG",
+   "is_gulf": false,
+   "pax": 89101,
+   "seats_per_week_one_way": 1056.399981
+  },
+  {
+   "foreign_point": "CAIRO",
+   "is_gulf": false,
+   "pax": 82376,
+   "seats_per_week_one_way": 976.666983
+  },
+  {
+   "foreign_point": "MEDINA",
+   "is_gulf": false,
+   "pax": 73093,
+   "seats_per_week_one_way": 866.605805
+  },
+  {
+   "foreign_point": "VIENNA",
+   "is_gulf": false,
+   "pax": 72479,
+   "seats_per_week_one_way": 859.326093
+  },
+  {
+   "foreign_point": "FUJAIRAH",
+   "is_gulf": false,
+   "pax": 70776,
+   "seats_per_week_one_way": 839.134971
+  },
+  {
+   "foreign_point": "DAR ES SALAM",
+   "is_gulf": false,
+   "pax": 69968,
+   "seats_per_week_one_way": 829.555155
+  },
+  {
+   "foreign_point": "BAGHDAD",
+   "is_gulf": false,
+   "pax": 63956,
+   "seats_per_week_one_way": 758.275633
+  },
+  {
+   "foreign_point": "MANCHESTER",
+   "is_gulf": false,
+   "pax": 56842,
+   "seats_per_week_one_way": 673.93057
+  },
+  {
+   "foreign_point": "WASHINGTON, DC",
+   "is_gulf": false,
+   "pax": 55343,
+   "seats_per_week_one_way": 656.158114
+  },
+  {
+   "foreign_point": "TEHRAN",
+   "is_gulf": false,
+   "pax": 53024,
+   "seats_per_week_one_way": 628.663568
+  },
+  {
+   "foreign_point": "SEYCHELLES",
+   "is_gulf": false,
+   "pax": 44437,
+   "seats_per_week_one_way": 526.854311
+  },
+  {
+   "foreign_point": "RANGOON",
+   "is_gulf": false,
+   "pax": 38597,
+   "seats_per_week_one_way": 457.614057
+  },
+  {
+   "foreign_point": "JAFFNA",
+   "is_gulf": false,
+   "pax": 38010,
+   "seats_per_week_one_way": 450.654463
+  },
+  {
+   "foreign_point": "GUANGZHOU",
+   "is_gulf": false,
+   "pax": 37664,
+   "seats_per_week_one_way": 446.552215
+  },
+  {
+   "foreign_point": "NARITA",
+   "is_gulf": false,
+   "pax": 21022,
+   "seats_per_week_one_way": 249.241203
+  },
+  {
+   "foreign_point": "MANILA",
+   "is_gulf": false,
+   "pax": 20799,
+   "seats_per_week_one_way": 246.597268
+  },
+  {
+   "foreign_point": "TELAVIV",
+   "is_gulf": false,
+   "pax": 18700,
+   "seats_per_week_one_way": 221.711088
+  },
+  {
+   "foreign_point": "YEKATERINBURG",
+   "is_gulf": false,
+   "pax": 17286,
+   "seats_per_week_one_way": 204.94641
+  },
+  {
+   "foreign_point": "BANDAR SERI BEGAWAN",
+   "is_gulf": false,
+   "pax": 14883,
+   "seats_per_week_one_way": 176.455942
+  },
+  {
+   "foreign_point": "BISHKEK",
+   "is_gulf": false,
+   "pax": 14016,
+   "seats_per_week_one_way": 166.17661
+  },
+  {
+   "foreign_point": "SALALAH",
+   "is_gulf": false,
+   "pax": 13231,
+   "seats_per_week_one_way": 156.869487
+  },
+  {
+   "foreign_point": "SHANGHAI",
+   "is_gulf": false,
+   "pax": 10916,
+   "seats_per_week_one_way": 129.422366
+  },
+  {
+   "foreign_point": "ASHGABAT",
+   "is_gulf": false,
+   "pax": 8344,
+   "seats_per_week_one_way": 98.928199
+  },
+  {
+   "foreign_point": "AMMAN",
+   "is_gulf": false,
+   "pax": 8106,
+   "seats_per_week_one_way": 96.106421
+  },
+  {
+   "foreign_point": "HAA DHAALU ATOLL",
+   "is_gulf": false,
+   "pax": 6237,
+   "seats_per_week_one_way": 73.947169
+  },
+  {
+   "foreign_point": "PHNOM PENH",
+   "is_gulf": false,
+   "pax": 5665,
+   "seats_per_week_one_way": 67.165418
+  },
+  {
+   "foreign_point": "DA NANG",
+   "is_gulf": false,
+   "pax": 4940,
+   "seats_per_week_one_way": 58.569667
+  },
+  {
+   "foreign_point": "NOVOSIBIRSK",
+   "is_gulf": false,
+   "pax": 4939,
+   "seats_per_week_one_way": 58.557811
+  },
+  {
+   "foreign_point": "SIEM REAP",
+   "is_gulf": false,
+   "pax": 4892,
+   "seats_per_week_one_way": 58.000569
+  },
+  {
+   "foreign_point": "ADEN",
+   "is_gulf": false,
+   "pax": 4480,
+   "seats_per_week_one_way": 53.115811
+  },
+  {
+   "foreign_point": "NAJF",
+   "is_gulf": false,
+   "pax": 3900,
+   "seats_per_week_one_way": 46.239211
+  },
+  {
+   "foreign_point": "DUSHANBE",
+   "is_gulf": false,
+   "pax": 3316,
+   "seats_per_week_one_way": 39.315185
+  },
+  {
+   "foreign_point": "MINSK",
+   "is_gulf": false,
+   "pax": 3254,
+   "seats_per_week_one_way": 38.580101
+  },
+  {
+   "foreign_point": "KABUL",
+   "is_gulf": false,
+   "pax": 2216,
+   "seats_per_week_one_way": 26.273357
+  },
+  {
+   "foreign_point": "OSH",
+   "is_gulf": false,
+   "pax": 1670,
+   "seats_per_week_one_way": 19.799867
+  },
+  {
+   "foreign_point": "GELEPHU",
+   "is_gulf": false,
+   "pax": 27,
+   "seats_per_week_one_way": 0.320118
+  }
+ ]
+}

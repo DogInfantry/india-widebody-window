@@ -1,0 +1,190 @@
+{
+ "operating_summary": [
+  {
+   "airline": "IndiGo",
+   "ask": 117234284000.0,
+   "load_factor_pct": 86.081247,
+   "pax": 107032421.0,
+   "rpk": 100916734000.0,
+   "share_pct": 64.05096,
+   "stage_length_km": 942.86136
+  },
+  {
+   "airline": "Air India",
+   "ask": 34141871501.0,
+   "load_factor_pct": 82.339715,
+   "pax": 26173414.0,
+   "rpk": 28112319666.0,
+   "share_pct": 15.662846,
+   "stage_length_km": 1074.079204
+  },
+  {
+   "airline": "Air India Express",
+   "ask": 22895873385.0,
+   "load_factor_pct": 83.141081,
+   "pax": 18820084.0,
+   "rpk": 19035876702.0,
+   "share_pct": 11.262423,
+   "stage_length_km": 1011.466086
+  },
+  {
+   "airline": "Akasa Air",
+   "ask": 10990203690.0,
+   "load_factor_pct": 92.49015,
+   "pax": 8494062.0,
+   "rpk": 10164855887.0,
+   "share_pct": 5.083066,
+   "stage_length_km": 1196.7014
+  },
+  {
+   "airline": "SpiceJet",
+   "ask": 5390573680.0,
+   "load_factor_pct": 86.224444,
+   "pax": 4674305.0,
+   "rpk": 4647992201.0,
+   "share_pct": 2.797225,
+   "stage_length_km": 994.370757
+  },
+  {
+   "airline": "Star Air",
+   "ask": 654206904.0,
+   "load_factor_pct": 74.52602,
+   "pax": 840572.0,
+   "rpk": 487554365.0,
+   "share_pct": 0.50302,
+   "stage_length_km": 580.026892
+  },
+  {
+   "airline": "Alliance Air",
+   "ask": 423964316.0,
+   "load_factor_pct": 72.230028,
+   "pax": 730143.0,
+   "rpk": 306229544.0,
+   "share_pct": 0.436936,
+   "stage_length_km": 419.410368
+  },
+  {
+   "airline": "Fly91",
+   "ask": 165689011.0,
+   "load_factor_pct": 80.52176,
+   "pax": 296016.0,
+   "rpk": 133415707.0,
+   "share_pct": 0.177144,
+   "stage_length_km": 450.704377
+  },
+  {
+   "airline": "India One Air",
+   "ask": 13947507.0,
+   "load_factor_pct": 77.727296,
+   "pax": 33898.0,
+   "rpk": 10841020.0,
+   "share_pct": 0.020285,
+   "stage_length_km": 319.812968
+  },
+  {
+   "airline": "Flybig",
+   "ask": 10827938.0,
+   "load_factor_pct": 24.559847,
+   "pax": 10186.0,
+   "rpk": 2659325.0,
+   "share_pct": 0.006096,
+   "stage_length_km": 261.076478
+  }
+ ],
+ "share_trend": [
+  {
+   "Gulf": 32.743608,
+   "Indian": 36.994166,
+   "Other foreign": 30.262226,
+   "total_pax": 48640596,
+   "year": 2015
+  },
+  {
+   "Gulf": 32.265157,
+   "Indian": 37.091426,
+   "Other foreign": 30.643417,
+   "total_pax": 53673140,
+   "year": 2016
+  },
+  {
+   "Gulf": 29.800209,
+   "Indian": 38.634858,
+   "Other foreign": 31.564933,
+   "total_pax": 58941573,
+   "year": 2017
+  },
+  {
+   "Gulf": 27.712882,
+   "Indian": 39.924289,
+   "Other foreign": 32.362828,
+   "total_pax": 63210841,
+   "year": 2018
+  },
+  {
+   "Gulf": 28.3321,
+   "Indian": 38.138495,
+   "Other foreign": 33.529405,
+   "total_pax": 63206899,
+   "year": 2019
+  },
+  {
+   "Gulf": 22.669015,
+   "Indian": 52.919502,
+   "Other foreign": 24.411483,
+   "total_pax": 15621517,
+   "year": 2020
+  },
+  {
+   "Gulf": 35.658211,
+   "Indian": 51.088633,
+   "Other foreign": 13.253155,
+   "total_pax": 17004992,
+   "year": 2021
+  },
+  {
+   "Gulf": 30.873583,
+   "Indian": 44.401298,
+   "Other foreign": 24.725119,
+   "total_pax": 47131041,
+   "year": 2022
+  },
+  {
+   "Gulf": 27.450113,
+   "Indian": 44.469836,
+   "Other foreign": 28.080051,
+   "total_pax": 63836736,
+   "year": 2023
+  },
+  {
+   "Gulf": 26.958211,
+   "Indian": 45.284828,
+   "Other foreign": 27.756962,
+   "total_pax": 71851200,
+   "year": 2024
+  },
+  {
+   "Gulf": 26.161341,
+   "Indian": 45.917398,
+   "Other foreign": 27.921261,
+   "total_pax": 77953858,
+   "year": 2025
+  }
+ ],
+ "who_carries_india": [
+  {
+   "carrier_group": "Indian",
+   "pax_total": 35794383,
+   "share_pct": 45.917398
+  },
+  {
+   "carrier_group": "Other foreign",
+   "pax_total": 21765700,
+   "share_pct": 27.921261
+  },
+  {
+   "carrier_group": "Gulf",
+   "pax_total": 20393775,
+   "share_pct": 26.161341
+  }
+ ]
+}
