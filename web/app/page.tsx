@@ -19,8 +19,6 @@ const europe = corridors.find((c) => c.region === "Europe")!;
 
 const DOORS = [
   { href: "/dashboard", label: "Explore it", time: "Interactive" },
-  { href: "/frameworks", label: "How it was reached", time: "The analysis" },
-  { href: "/methodology", label: "Check it", time: "For the sceptic" },
 ];
 
 export default function Home() {
@@ -148,7 +146,7 @@ export default function Home() {
 
       <nav
         aria-label="Continue"
-        className="mt-20 grid gap-px border-t border-light bg-light sm:grid-cols-3"
+        className="mt-20 grid gap-px border-t border-light bg-light"
       >
         {DOORS.map((d) => (
           <Link
