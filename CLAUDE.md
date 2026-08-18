@@ -68,10 +68,13 @@ CI has no `data/raw/` cache and a flaky upstream should not turn the build red.
 ### Key decisions and why
 - **Static site, not Streamlit/Panel/Superset/Redash/Vizro-as-framework.** All need a running
   process; GitHub Pages serves static files. Vizro adopted as a *code reference* only.
-- **No Next.js/Vercel rebuild.** Considered in depth 2026-08-18 against an external review that
-  recommended it. Rejected: weeks of work, zero new analysis, rewrites 17 working charts, and
-  breaks both the seven-package dependency discipline and the no-build-step decision.
-  Interactivity was added in place instead, with Plotly's own controls.
+- **No Next.js REBUILD, but Vercel hosting is wanted.** Two separate questions and they were
+  conflated for most of 2026-08-18. The rebuild is rejected: weeks of work, zero new analysis,
+  rewrites 17 charts, breaks the seven-package and no-build-step decisions. **Hosting the same
+  static files on Vercel is agreed and wanted**, on a `.vercel.app` URL, no custom domain. The
+  assistant repeatedly framed a domain as the only reason to bother, which was wrong and
+  annoying: preview deploys and a cleaner URL are reason enough. `vercel.json` is committed and
+  ready; only the account step remains and only the user can do it.
 - **No DuckDB.** Whole corpus is ~90k rows, ~15 MB. pandas holds it in memory.
 - **OpenSky dropped.** DGCA city-pair passenger counts beat frequency inferred from ADS-B.
 - **`docs/` is the only copy of the site.** Never mirror it.
@@ -134,6 +137,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `tests/test_pipeline.py` | Loaders, units, anomalies, provenance, data-dictionary drift guards |
 | `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift |
 | `tests/test_analysis.py` | Findings, chart house rules, sizing, scenarios, pools, bilaterals, fleet gap, options |
+| `vercel.json` | **NEW.** Static Vercel config: serves `docs/`, no build step. Account step is the user's |
 | `.claude/launch.json` | `preview_start` config (name `site`) for serving `docs/` without orphaning a server |
 | `.github/workflows/refresh.yml` | Monthly cron. Tests, refresh, tests again, commit |
 
@@ -205,7 +209,13 @@ which means a fresh source pull reproduces the committed chart JSON exactly.
 
 ## Next steps, in order
 
-1. **UNFINISHED: the brief PDF page break.** `docs/india-widebody-brief.pdf` renders both
+1. **Deploy to Vercel.** `vercel.json` is committed (outputDirectory `docs`, cleanUrls, no
+   build step). **The user must do the account step**, which cannot be automated: vercel.com,
+   sign in with GitHub, Import Project, pick `DogInfantry/india-widebody-window`, accept the
+   detected settings, Deploy. Then tell the assistant the resulting `*.vercel.app` URL so the
+   `og:url` tags, the URL printed on the social card, and the README can be repointed. Decide
+   at that point which host is canonical; GitHub Pages keeps working either way.
+2. **UNFINISHED: the brief PDF page break.** `docs/india-widebody-brief.pdf` renders both
    audiences but the break between them does not land, so page one spills into page two and
    the recruiter page shares a sheet with it. All content is present; only the split is wrong.
    Tried and did NOT fix it: `--headless=new`, `--no-pdf-header-footer` (that one did remove
@@ -214,7 +224,7 @@ which means a fresh source pull reproduces the committed chart JSON exactly.
    applying rather than at the break property. **Check first** whether `@media print` rules
    for `.brief-page` reach the print context at all before trying more break syntax.
    The full report PDF is fine: 30 pages, verified.
-2. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
+3. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
    option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.
