@@ -118,6 +118,8 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `src/gap_analyzer.py` | Maps `jd.txt` to artifacts, checks each exists. Reports 82% |
 | `scripts/refresh.py` | **Single entry point, and exactly what CI runs** |
 | `docs/index.html` | The site. 17 scrolly steps, recommendation section, pivots section, reconciliation, methodology |
+| `docs/deck.html` | **NEW.** Slide view. Same no-prose pattern: reads `index.html`, one step per screen, arrow keys plus scroll-snap |
+| `scripts/make_social_card.py` | **NEW.** Generates `social-card.png` and `favicon.svg`. Run once, commit. NOT in `refresh.py`, CI never runs it, needs matplotlib which is deliberately absent from requirements.txt |
 | `docs/report.html` | **NEW.** Print edition. Holds no prose: fetches `index.html` at load and relays it linearly. Save as PDF button |
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
@@ -137,7 +139,7 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 110 tests pass. 17 charts. Working tree clean.**
+**Done and green. 113 tests pass. 17 charts. Working tree clean.**
 
 **Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
 2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
@@ -326,6 +328,18 @@ Every one of these cost real time or produced a wrong published number.
     `PUBLISHING_MODULES` in `tests/test_analysis.py`. `market_sizing` and `scenario` were
     exempt from the one-red and takeaway-title rules for the life of the project and nothing
     ever failed. A test now walks `src/` and fails if a publishing module is left out.
+41. **Build the chart data table from Plotly's `_fullData`, never the exported JSON.**
+    Exported trace arrays are frequently binary encoded, so `fig.data[0].y` from the file is
+    an object with no `.length`, while `_fullData` holds a decoded typed array.
+42. **`.sticky-graphic` is a flex COLUMN.** It was a row carrying one child, so anything
+    added beside the chart landed next to it rather than under it.
+43. **Three surfaces, one narrative.** `index.html` holds all the prose; `report.html` and
+    `deck.html` fetch it and re-lay it out. Never write step prose into the other two, and a
+    test asserts the deck has no headings of its own.
+44. **`scripts/make_social_card.py` needs matplotlib, which is NOT in `requirements.txt`.**
+    Deliberate: the card and favicon are static assets, generated once and committed, so CI
+    never needs the dependency and the seven-package discipline holds. Re-run it only if the
+    hero numbers or the headline change.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
