@@ -156,6 +156,10 @@ this file. Do not recreate it.
 
 **Done and green. 148 tests pass. 19 charts. Working tree clean.**
 
+**Closed 2026-08-18, third block (`434f186`, pushed):** the Vercel deploy and the brief PDF
+page break, the two items that had been open. Plus `docs/external_review_response.md`, which
+answers the external review item by item. Nothing from the previous handoff is still open.
+
 **Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
 2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
 publish complete, and is labelled as such on the page. See `docs/methodology.md`.
@@ -215,17 +219,23 @@ third thing asked for in that session.
 
 ## Next steps, in order
 
-1. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
+1. **The forwarding note.** Still unwritten and it is now the binding constraint. The user
+   applied to the BCN AMS Associate role and has had no reply, and has a warm contact who
+   could refer them. The artifact is finished; what is missing is a short note in the **user's
+   own voice** to send that contact, with the `.vercel.app` link and the brief PDF attached.
+   `docs/brief.html` and the PDFs exist precisely to make that forward cheap. Agreed in an
+   earlier session and never delivered.
+2. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
    option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.
-2. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
+3. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
    (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% utilisation is
    now load-bearing for the recommendation, so a second point would strengthen or break it.
-3. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
+4. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
    Europe already has via Eurostat. Would raise the 5.6% cross-checked share.
-4. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
-5. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource IDs
+5. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
+6. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource IDs
    `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`. Create
    `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no key, primary.
 
