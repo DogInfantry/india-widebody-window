@@ -43,8 +43,19 @@ Three assumption rows will not close, and are marked so rather than left looking
   India-Dubai runs about **119,200 one-way seats a week against a reported two-sided
   entitlement of 133,008, roughly 90% utilised**. Two independent routes to the same order of
   magnitude, which corroborates the secondary entitlement figure and puts a number on the
-  headroom. What remains genuinely open is the entitlement for the other Gulf points, and
-  whether India renegotiates. Branch 4.3 of the hypothesis tree.
+  headroom.
+
+  **Extended 2026-08-18 to a second point, and it corrected the claim.** Abu Dhabi's
+  entitlement was found (50,000 weekly seats one side, two independent secondary sources
+  agreeing, a third reconciling from the traffic end) and it runs at about **58%**, not 90.
+  The Gulf is not uniformly capped, and the recommendation was rewritten to say so. What
+  survives is that both points' remaining entitlement absorbs only about **5% of the order
+  book**, so the constraint is economic first and legal second.
+
+  **Sharjah remains open and is the one worth chasing.** It holds the third UAE MoU and
+  carries 2.3M passengers a year, and two timeboxed searches found no seat figure. The other
+  eight Gulf points have none either, so the 5% is a floor on Gulf headroom rather than a
+  measurement of it. Branch 4.3 of the hypothesis tree.
 - ~~**Carrier share trend.**~~ Answered, and it reversed the project's premise. Indian
   carriers' share went from 37.0% in 2015 to **45.9%** in 2025 while Gulf carriers fell 32.7%
   to 26.2%. The storyline was rewritten around the finding rather than against it.
@@ -84,9 +95,16 @@ survey analysis, mentoring and coaching analysts, and first-level team managemen
 
 ## Possible extensions
 
-- **Destination-side data for the US arm.** BTS T-100 was attempted once and dropped. A
-  working loader would let the India to United States corridor be reconciled from both
-  ends, as India to Europe already is.
+- ~~**Destination-side data for the US arm via BTS T-100.**~~ **Attempted a second time on
+  2026-08-18 and dropped again.** All four `PREZIP` filename patterns 404, so BTS has
+  reorganised TranStats rather than moved a file, and the `data.transportation.gov` Socrata
+  catalog does not carry the series. The only remaining route is a form POST carrying
+  ASP.NET viewstate. Reopen only if BTS republishes a static path or an API.
+
+  This matters more than it used to. The risk register names the 5.6% cross-check coverage
+  as the most likely reason the case is wrong, and this was the cheapest available way to
+  raise it. It is now a known dead end rather than an untried idea, which is worth recording:
+  the next person should not spend an afternoon rediscovering it.
 - **Cargo.** Freight moves through the pipeline already and is unused. Wide-body belly
   cargo is second-order for this decision but is real money.
 - **Alternative B.** The India data centre case, scoped in `docs/alternative_b_datacenters.md`,

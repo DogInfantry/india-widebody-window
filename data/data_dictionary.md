@@ -359,5 +359,5 @@ measurement beats an undocumented scrape that breaks in CI.
 
 | Source | What happened | Consequence |
 |---|---|---|
-| BTS T-100 International Segment | The static `PREZIP` path returns 404. The only other route is a form POST carrying ASP.NET viewstate, which is exactly the brittle scraping the plan refuses | The India to United States arm is measured from the India side only |
+| BTS T-100 International Segment | **Attempted twice, dropped twice.** All four `PREZIP` filename patterns return 404 (`T_T100I_SEGMENT_ALL_CARRIER[_YYYY]`, `T_T100_SEGMENT_ALL_CARRIER`, `T_T100I_MARKET_ALL_CARRIER`), so BTS has reorganised TranStats rather than simply moved one file. The `data.transportation.gov` Socrata catalog does not carry the series either: a search for it returns Colorado highway quality and a canal trail. What remains is a form POST carrying ASP.NET viewstate, which is exactly the brittle scraping this project refuses | The India to United States arm is measured from the India side only, and 5.6% cross-check coverage stands |
 | IOCL aviation fuel prices | Page is JavaScript driven and serves no parseable table | ATF price becomes a single cited row in `data/manual/assumptions.csv`. One number per month does not justify a scraper |
