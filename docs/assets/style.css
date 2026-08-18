@@ -261,15 +261,18 @@ a:hover { border-bottom-color: var(--red); }
 .pivot a { color: var(--ink); text-decoration-color: var(--grey); }
 .pivot a:hover { color: var(--accent); }
 
+/* Column, not row. This was a flex row carrying one child; adding the data
+   table put the table beside the chart instead of under it. */
 .sticky-graphic {
   position: sticky;
   top: 0;
   height: 100vh;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.chart { width: 100%; height: 74vh; }
+.chart { width: 100%; height: 68vh; flex: 0 0 auto; }
 
 .chart-fallback {
   font-size: 14px;
@@ -603,3 +606,65 @@ a:hover { border-bottom-color: var(--red); }
   a { text-decoration: none; color: var(--ink); }
   a[href^="http"]::after { content: ""; }
 }
+
+/* ---------------------------------------------------------------- deck */
+
+/* One claim and one exhibit per screen. Scroll-snap rather than hijacked
+   scrolling: the keys are a convenience, not a cage, so a reader who prefers to
+   scroll still can and the browser's own find and zoom keep working. */
+.deck { overflow-x: hidden; }
+
+.deck-bar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 10;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px var(--gutter);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--light);
+  font-size: 13px;
+}
+
+.deck-bar a { font-weight: 600; border-bottom: none; }
+.deck-bar #counter { color: var(--grey); font-variant-numeric: tabular-nums; }
+
+#slides { scroll-snap-type: y mandatory; height: 100vh; overflow-y: scroll; }
+
+.slide {
+  scroll-snap-align: start;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: 64px var(--gutter) 40px;
+  border-bottom: 1px solid var(--light);
+}
+
+.slide-inner { max-width: var(--wrap); margin: 0 auto; width: 100%; }
+
+.slide-split {
+  display: grid;
+  grid-template-columns: minmax(0, 38%) minmax(0, 62%);
+  gap: 48px;
+  align-items: center;
+}
+
+.slide-text h2 { font-size: 30px; font-weight: 600; margin-bottom: 18px; }
+.slide-text p { font-size: 16px; color: #333; }
+.slide-chart { width: 100%; height: 70vh; min-height: 380px; }
+
+.slide-title h1 { font-size: clamp(40px, 6vw, 72px); font-weight: 700; margin-bottom: 18px; }
+.slide-title .question { margin-bottom: 36px; }
+.deck-hint { margin-top: 40px; font-size: 13px; color: var(--grey); }
+
+@media (max-width: 900px) {
+  .slide { padding: 72px 20px 32px; }
+  .slide-split { grid-template-columns: 1fr; gap: 20px; }
+  .slide-text h2 { font-size: 22px; }
+  .slide-text p { font-size: 15px; }
+  .slide-chart { height: 46vh; min-height: 260px; }
+}
+
+@media (prefers-reduced-motion: reduce) { #slides { scroll-behavior: auto; } }

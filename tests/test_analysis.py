@@ -1177,3 +1177,73 @@ def test_the_abu_dhabi_entitlement_stays_gated():
     with pytest.raises(dp.UnverifiedAssumption):
         dp.assumption(key)
     assert dp.assumption(key, allow_unverified=True) == 50_000
+
+
+# --------------------------------------------------------------------------
+# the other two surfaces, and the assets that make the link shareable
+# --------------------------------------------------------------------------
+
+
+def _docs():
+    from pathlib import Path
+
+    return Path(__file__).resolve().parent.parent / "docs"
+
+
+def test_the_deck_reads_the_page_rather_than_repeating_it():
+    """Three surfaces, one narrative.
+
+    `index.html` holds the prose. `report.html` and `deck.html` both fetch it and
+    re-lay it out, so none of the three can drift on content. If either stops
+    reading index.html it has become a second copy of the argument, which is the
+    thing this arrangement exists to prevent.
+    """
+    deck = _docs() / "deck.html"
+    assert deck.exists(), "the deck is gone"
+    text = deck.read_text(encoding="utf-8")
+    assert 'fetch("index.html")' in text
+    assert "scroll-snap" not in text, "slide layout belongs in style.css, not inline"
+
+    # the deck must not carry step prose of its own
+    assert text.count("<h2") == 0, "the deck has grown its own headings, so it can now drift"
+
+
+def test_every_page_is_shareable():
+    """A link with no preview card is a bare URL in every feed and inbox.
+
+    The site had no og:, twitter: or favicon tags at all, which for a piece whose
+    whole purpose is being sent to people was the largest cosmetic gap on it.
+    """
+    docs = _docs()
+    card = docs / "assets" / "social-card.png"
+    icon = docs / "assets" / "favicon.svg"
+    assert card.exists() and card.stat().st_size > 10_000, "the social card is missing or empty"
+    assert icon.exists(), "the favicon is missing"
+
+    for name in ("index.html", "report.html"):
+        text = (docs / name).read_text(encoding="utf-8")
+        for tag in ('property="og:title"', 'property="og:image"', 'name="twitter:card"',
+                    'property="og:description"', 'rel="icon"'):
+            assert tag in text, f"{name} is missing {tag}"
+        assert "social-card.png" in text
+        # an image with no alt text is useless to the readers who most need it
+        assert 'property="og:image:alt"' in text, f"{name} ships a preview image with no alt text"
+
+
+def test_charts_carry_a_text_alternative():
+    """Seventeen SVGs with no text alternative is a page a screen reader cannot use.
+
+    The label and the table are both built at runtime from the figure Plotly
+    actually rendered, so neither can disagree with the chart. This pins the
+    scaffolding they need.
+    """
+    index = (_docs() / "index.html").read_text(encoding="utf-8")
+    assert 'role="img"' in index and "aria-label" in index
+    assert 'id="chart-data-body"' in index, "the data-table container is gone"
+
+    js = (_docs() / "assets" / "scrolly.js").read_text(encoding="utf-8")
+    assert "_fullData" in js, (
+        "the table must be built from Plotly's decoded data, not the raw JSON: "
+        "exported arrays are often binary encoded and have no length"
+    )
+    assert "setAttribute(\"aria-label\"" in js

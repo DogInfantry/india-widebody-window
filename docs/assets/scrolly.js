@@ -32,6 +32,120 @@
     return cache[name];
   }
 
+
+  var MAX_ROWS = 60;
+
+  /* Accessibility, and a second job it happens to do.
+   *
+   * A Plotly chart is an SVG with no text alternative, so seventeen of them make
+   * a page that a screen reader cannot use at all. Each chart therefore gets an
+   * aria-label from its own title, and a collapsible table of the numbers behind
+   * it.
+   *
+   * The table is built from `_fullData`, which is Plotly's own decoded copy, not
+   * from the JSON on disk. That matters: exported arrays are often binary
+   * encoded, so reading the raw file gives an object with no length, while
+   * `_fullData` gives a typed array. It also means the table cannot drift from
+   * the chart, because it is literally the same numbers the chart drew.
+   */
+  function fmt(v) {
+    if (v === null || v === undefined) return "";
+    if (typeof v !== "number") return String(v);
+    if (Math.abs(v) >= 1000) return v.toLocaleString(undefined, { maximumFractionDigits: 0 });
+    return String(Math.round(v * 100) / 100);
+  }
+
+  function rowsFor(trace) {
+    var rows = [];
+    var i;
+    if (trace.type === "sankey" && trace.link && trace.node) {
+      var labels = trace.node.label || [];
+      for (i = 0; i < trace.link.value.length; i++) {
+        rows.push([
+          labels[trace.link.source[i]] || trace.link.source[i],
+          labels[trace.link.target[i]] || trace.link.target[i],
+          fmt(trace.link.value[i])
+        ]);
+      }
+      return { head: ["From", "To", "Passengers"], rows: rows };
+    }
+    if (trace.x && trace.y && trace.x.length && trace.y.length) {
+      var n = Math.min(trace.x.length, trace.y.length);
+      var horizontal = trace.orientation === "h";
+      for (i = 0; i < n; i++) {
+        rows.push([fmt(horizontal ? trace.y[i] : trace.x[i]),
+                   fmt(horizontal ? trace.x[i] : trace.y[i])]);
+      }
+      return { head: [horizontal ? "Category" : "X", "Value"], rows: rows };
+    }
+    return null;
+  }
+
+  function buildTable(host) {
+    var body = document.getElementById("chart-data-body");
+    var details = document.getElementById("chart-data");
+    if (!body || !host._fullData) return;
+
+    body.innerHTML = "";
+    var wrote = 0;
+    host._fullData.forEach(function (trace) {
+      if (trace.visible === false) return;
+      var built = rowsFor(trace);
+      if (!built || !built.rows.length) return;
+
+      if (trace.name && host._fullData.length > 1) {
+        var h = document.createElement("h4");
+        h.textContent = trace.name;
+        body.appendChild(h);
+      }
+      var table = document.createElement("table");
+      var thead = document.createElement("thead");
+      var hr = document.createElement("tr");
+      built.head.forEach(function (label) {
+        var th = document.createElement("th");
+        th.scope = "col";
+        th.textContent = label;
+        hr.appendChild(th);
+      });
+      thead.appendChild(hr);
+      table.appendChild(thead);
+
+      var tbody = document.createElement("tbody");
+      built.rows.slice(0, MAX_ROWS).forEach(function (r) {
+        var tr = document.createElement("tr");
+        r.forEach(function (cell) {
+          var td = document.createElement("td");
+          td.textContent = cell;
+          tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+      });
+      table.appendChild(tbody);
+      body.appendChild(table);
+
+      if (built.rows.length > MAX_ROWS) {
+        var note = document.createElement("p");
+        note.className = "truncated";
+        note.textContent =
+          "Showing the first " + MAX_ROWS + " of " + built.rows.length +
+          " rows. The full series is in the repository.";
+        body.appendChild(note);
+      }
+      wrote++;
+    });
+
+    if (details) details.hidden = wrote === 0;
+  }
+
+  function describe(fig) {
+    var title = (fig.layout && fig.layout.title && fig.layout.title.text) || "";
+    /* The exported title carries the takeaway on the first line and the caveats
+       on the rest, separated by <br>. The whole thing is the description a
+       screen reader should hear, so the tags are stripped rather than the text
+       truncated. */
+    return title.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  }
+
   function show(name) {
     if (!name || name === current) return;
     current = name;
@@ -48,6 +162,9 @@
         Plotly.react(chartEl, fig.data, layout, {
           displayModeBar: false,
           responsive: true
+        }).then(function () {
+          chartEl.setAttribute("aria-label", describe(fig) || "Chart");
+          buildTable(chartEl);
         });
       })
       .catch(function (err) {

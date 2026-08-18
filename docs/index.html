@@ -8,6 +8,21 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600;700&display=swap" rel="stylesheet"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="theme-color" content="#CC0000"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="India's Wide-Body Window"/>
+<meta property="og:url" content="https://doginfantry.github.io/india-widebody-window/"/>
+<meta property="og:title" content="India's Wide-Body Window"/>
+<meta property="og:description" content="Compete with the Gulf hubs, do not fly more aircraft to them. A commercial aviation case built on DGCA, Eurostat and World Bank data, with every figure computed in-repo and six documented changes of mind."/>
+<meta property="og:image" content="https://doginfantry.github.io/india-widebody-window/assets/social-card.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+<meta property="og:image:alt" content="India's Wide-Body Window: compete with the Gulf hubs, do not fly more aircraft to them. 78M India international passengers, 51% touching a Gulf point, 46% flown by Indian carriers."/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="India's Wide-Body Window"/>
+<meta name="twitter:description" content="Compete with the Gulf hubs, do not fly more aircraft to them. A commercial aviation case built on DGCA, Eurostat and World Bank data, with every figure computed in-repo and six documented changes of mind."/>
+<meta name="twitter:image" content="https://doginfantry.github.io/india-widebody-window/assets/social-card.png"/>
 <link rel="stylesheet" href="assets/style.css"/>
 <script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
 <script src="https://unpkg.com/scrollama"></script>
@@ -34,7 +49,7 @@
 
     <div class="kpi-row" id="kpis"></div>
 
-    <p class="hero-links"><a href="report.html">Read it as a printable report</a> <span>the same analysis in reading order, with a Save as PDF button</span></p>
+    <p class="hero-links"><a href="deck.html">Walk through it as a deck</a> <span>one claim per screen, arrow keys to advance</span><br/><a href="report.html">Read it as a printable report</a> <span>the same analysis in reading order, with a Save as PDF button</span></p>
   </div>
 </header>
 
@@ -171,7 +186,11 @@
     </div>
 
     <div class="sticky-graphic">
-      <div id="chart" class="chart"></div>
+      <div id="chart" class="chart" role="img" aria-label="Chart, loading"></div>
+      <details class="chart-data" id="chart-data">
+        <summary>Show the numbers behind this chart</summary>
+        <div id="chart-data-body"></div>
+      </details>
       <p class="chart-fallback" id="chart-fallback" hidden>Charts load from <code>assets/charts/</code>. If you are viewing this file directly from disk, your browser may block those requests. Serve it with <code>python -m http.server 8000 --directory docs</code>.</p>
     </div>
   </div>
