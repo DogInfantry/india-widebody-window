@@ -406,6 +406,14 @@ Every one of these cost real time or produced a wrong published number.
     **static export**, and the root `vercel.json` runs `npm --prefix web run build` and serves
     `web/out`. No Root Directory setting, no dashboard step, and the output stays a static
     artifact like everything else here.
+53. **`#E6E6E6` is a fill for BARS, never for scatter marks.** Recharts draws a scatter point
+    about 8px across, and a light-grey 8px mark on a white page is invisible: the option 2x2
+    read as an empty grid with axis labels and nothing in it, and the user reported it as
+    blank. Non-highlighted marks are `#999999`. Bars keep `#E6E6E6` because they have area.
+54. **A 2x2 built from an ordinal table will stack coincident points and silently lose one.**
+    Owning wide-bodies for long-haul and for the Gulf differ by corridor, not by capital or
+    timing, so they landed on the same cell. Coincident points are spread by a fixed offset.
+    **Also label the points**: an unlabelled 2x2 is a puzzle, not an exhibit.
 48. **`.vercelignore` follows gitignore semantics, so bare patterns match at ANY depth.** A
     bare `data` excluded `web/public/data` and the Vercel build failed with
     `Can't resolve '@/public/data/access.json'` while the local build passed. Every pattern in

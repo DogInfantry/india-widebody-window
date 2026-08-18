@@ -12,6 +12,7 @@ import {
   ResponsiveContainer,
   Scatter,
   ScatterChart,
+  LabelList,
   Tooltip,
   XAxis,
   YAxis,
@@ -92,8 +93,12 @@ export default function Dashboard() {
     return { pax, rev, freight, worst, count: shown.length };
   }, [shown]);
 
+  // LIGHT for bars, which have area. GREY for scatter marks, which do not: a
+  // #E6E6E6 point on a white page is invisible.
   const fill = (region: string) =>
     selected.includes(region) ? RED : selected.length === 0 && region === "Gulf" ? RED : LIGHT;
+  const markFill = (region: string) =>
+    selected.includes(region) ? RED : selected.length === 0 && region === "Gulf" ? RED : GREY;
 
   return (
     <div className="mx-auto grid max-w-[1180px] gap-8 px-8 py-10 lg:grid-cols-[220px_1fr]">
@@ -240,8 +245,9 @@ export default function Dashboard() {
                   {economicCorridors
                     .filter((c) => isOn(c.region))
                     .map((c) => (
-                      <Cell key={c.region} fill={fill(c.region)} cursor="pointer" />
+                      <Cell key={c.region} fill={markFill(c.region)} cursor="pointer" />
                     ))}
+                  <LabelList dataKey="region" position="top" offset={8} fontSize={11} fill={INK} />
                 </Scatter>
               </ScatterChart>
             </ResponsiveContainer>

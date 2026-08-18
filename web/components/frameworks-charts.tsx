@@ -5,8 +5,8 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  ErrorBar,
   Label,
+  LabelList,
   Line,
   LineChart,
   ReferenceLine,
@@ -96,7 +96,7 @@ export function CarrierCapability() {
 
   return (
     <ResponsiveContainer width="100%" height={260}>
-      <ScatterChart margin={{ left: 4, right: 28, top: 12, bottom: 20 }}>
+      <ScatterChart margin={{ left: 4, right: 60, top: 20, bottom: 20 }}>
         <CartesianGrid stroke={LIGHT} />
         <XAxis type="number" dataKey="stage_length_km" {...AXIS} width={60}>
           <Label value="average stage length, km" position="insideBottom" offset={-12} fill={GREY} fontSize={12} />
@@ -114,8 +114,19 @@ export function CarrierCapability() {
         />
         <Scatter data={data} isAnimationActive={false}>
           {data.map((c) => (
-            <Cell key={c.airline} fill={c.airline === "IndiGo" ? RED : LIGHT} />
+            <Cell key={c.airline} fill={c.airline === "IndiGo" ? RED : GREY} />
           ))}
+          {/* Only the two the exhibit is about. Labelling all seven puts four
+              overlapping strings in the low-capacity corner, which is clutter
+              standing in for information. */}
+          <LabelList
+            dataKey="airline"
+            position="top"
+            offset={10}
+            fontSize={11}
+            fill={INK}
+            formatter={(v: unknown) => (v === "IndiGo" || v === "Air India" ? String(v) : "")}
+          />
         </Scatter>
       </ScatterChart>
     </ResponsiveContainer>
@@ -218,7 +229,7 @@ const CAPITAL: Record<string, number> = {
 };
 
 export function OptionMatrix() {
-  const data = narrative.options
+  const placed = narrative.options
     .map((o) => ({
       label: o.Option.replace(" (recommended)", ""),
       recommended: o.Option.includes("(recommended)"),
@@ -227,9 +238,21 @@ export function OptionMatrix() {
     }))
     .filter((o) => o.x > 0);
 
+  // Two options sit on the SAME cell: owning wide-bodies for long-haul and
+  // owning them for the Gulf differ by corridor, not by capital or timing.
+  // Drawn raw they stack and one disappears, which is how a 2x2 quietly loses
+  // an option. Coincident points are spread by a fixed offset instead.
+  const seen = new Map<string, number>();
+  const data = placed.map((o) => {
+    const cell = `${o.x},${o.y}`;
+    const nth = seen.get(cell) ?? 0;
+    seen.set(cell, nth + 1);
+    return { ...o, y: o.y - nth * 0.34 };
+  });
+
   return (
-    <ResponsiveContainer width="100%" height={300}>
-      <ScatterChart margin={{ left: 8, right: 24, top: 16, bottom: 24 }}>
+    <ResponsiveContainer width="100%" height={340}>
+      <ScatterChart margin={{ left: 8, right: 150, top: 20, bottom: 28 }}>
         <CartesianGrid stroke={LIGHT} />
         <XAxis
           type="number"
@@ -239,28 +262,33 @@ export function OptionMatrix() {
           tickFormatter={(v) => ["", "Immediate", "Near term", "2027+"][v]}
           {...AXIS}
         >
-          <Label value="time to capacity" position="insideBottom" offset={-14} fill={GREY} fontSize={12} />
+          <Label value="time to capacity" position="insideBottom" offset={-16} fill={GREY} fontSize={12} />
         </XAxis>
         <YAxis
           type="number"
           dataKey="y"
-          domain={[-0.5, 3.5]}
+          domain={[-0.8, 3.5]}
           ticks={[0, 1, 2, 3]}
-          tickFormatter={(v) => ["None", "Low", "Medium", "High"][v]}
+          tickFormatter={(v) => ["None", "Low", "Medium", "High"][v] ?? ""}
           width={72}
           {...AXIS}
         >
           <Label value="capital" angle={-90} position="insideLeft" fill={GREY} fontSize={12} />
         </YAxis>
-        <Tooltip
-          {...TOOLTIP}
-          formatter={(_v, _n, item) => (item?.payload as { label: string })?.label}
-          labelFormatter={() => ""}
-        />
-        <Scatter data={data} isAnimationActive={false} shape="square">
+        <Scatter data={data} isAnimationActive={false} shape="circle">
           {data.map((d) => (
-            <Cell key={d.label} fill={d.recommended ? RED : LIGHT} />
+            // GREY, not LIGHT. A #E6E6E6 mark eight pixels across on a white
+            // page is invisible, which made this exhibit read as an empty grid.
+            // LIGHT is a fill for bars, where there is area to see it.
+            <Cell key={d.label} fill={d.recommended ? RED : GREY} />
           ))}
+          <LabelList
+            dataKey="label"
+            position="right"
+            offset={10}
+            fontSize={12}
+            fill={INK}
+          />
         </Scatter>
       </ScatterChart>
     </ResponsiveContainer>
