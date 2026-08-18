@@ -172,9 +172,16 @@ def bar(
     highlight: str | list[str] | None = None,
     orientation: str = "v",
     value_fmt: str = ",.0f",
+    sort: bool = True,
 ) -> go.Figure:
-    """Ranked bar with a single highlighted member."""
-    d = df.sort_values(value, ascending=(orientation == "h"))
+    """Ranked bar with a single highlighted member.
+
+    `sort=False` keeps the caller's order. Added for the cargo chart, where the
+    point is that freight per passenger does NOT track sector length: ordering
+    those bars by value would hide the very absence the chart exists to show.
+    Ranking stays the default because for most exhibits it is the right answer.
+    """
+    d = df.sort_values(value, ascending=(orientation == "h")) if sort else df
     colors = _highlight_colors(d[category], highlight)
     labels = d[value].map(lambda v: format(v, value_fmt))
     if orientation == "h":

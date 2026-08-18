@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src import (  # noqa: E402
     benchmarking,
+    cargo,
     charts,
     data_pipeline,
     fleet_gap,
@@ -102,6 +103,7 @@ def main() -> int:
         + scenario.build_all()
         + fleet_gap.build_all()
         + options.build_all()
+        + cargo.build_all()
     ):
         print(f"  {name}")
 

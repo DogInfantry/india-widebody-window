@@ -223,7 +223,7 @@ of the original framing.
 
 **Two limits, stated.** Sharjah holds the third UAE MoU and carries 2.3M
 passengers a year; two timeboxed searches found no entitlement figure and none is
-estimated, so the true Gulf headroom is larger than 5%. And the remaining eight
+estimated, so the true Gulf headroom is larger than 4%. And the remaining eight
 Gulf points have no findable entitlement either. This is a floor on Gulf headroom,
 not a measurement of it, which is why the argument is built on the order book's
 size rather than on the corridor being full.
@@ -426,6 +426,7 @@ was drift rather than a decision.
 
 What moved, and none of it reverses anything:
 
+<!-- narrative-guard: ignore. This table records superseded figures on purpose. -->
 | | 2024 | 2025 |
 |---|---|---|
 | India international sector passengers | 72.2M | **78.0M** |
@@ -434,6 +435,8 @@ What moved, and none of it reverses anything:
 | Indian carrier share | 45.3% | **45.9%** |
 | 2030 sizing band | 91M to 108M | **96M to 109M** |
 | Demand scenarios | 102 / 108 / 134M | **104 / 109 / 131M** |
+
+<!-- /narrative-guard -->
 
 The growth rates behind the band and the scenarios are **unchanged**, because they are fitted
 from history rather than from the base year. Only the level moved. The corridor ordering, the
@@ -468,9 +471,10 @@ a primary source, never by relaxing the rule:
 - The **capacity leg of the market sizing was blocked** and the chart said so. It now runs.
   Seat counts came from the manufacturers' own airport planning manuals (Airbus `AC_A350`,
   Boeing `D6-58333` and `D6-86073`), and utilisation from IndiGo's annual report block hours
-  cross-checked against DGCA. The band went from 106M to 108M on two methods to **91M to
-  108M on three**, and the new leg is the low one, so closing the gap made the answer more
-  conservative rather than more flattering.
+  cross-checked against DGCA. The new leg came in as the **low** one, widening the band
+  downward, so closing the gap made the answer more conservative rather than more flattering.
+  The band's current values are in the sizing section; they are deliberately not repeated
+  here, because this paragraph is about what the gate did, not about where the band sits.
 - **Profit pools are now built**, in `src/profit_pools.py`, with the margin axis modelled and
   labelled as such. The withdrawn margin claim stands withdrawn; see the retraction below.
 - **Scenario analysis now carries all three levers.** Demand was always built. Fuel and FX

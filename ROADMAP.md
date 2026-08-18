@@ -49,7 +49,7 @@ Three assumption rows will not close, and are marked so rather than left looking
   entitlement was found (50,000 weekly seats one side, two independent secondary sources
   agreeing, a third reconciling from the traffic end) and it runs at about **70%**, not 90.
   The Gulf is not uniformly capped, and the recommendation was rewritten to say so. What
-  survives is that both points' remaining entitlement absorbs only about **5% of the order
+  survives is that both points' remaining entitlement absorbs only about **4% of the order
   book**, so the constraint is economic first and legal second.
 
   **Sharjah remains open and is the one worth chasing.** It holds the third UAE MoU and

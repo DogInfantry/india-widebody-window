@@ -39,7 +39,7 @@ own 2,182 km sector that absorbs **roughly 4% of the order book**. So the
 constraint on Gulf deployment is **economic first and legal second**, which is the
 reverse of how this case first put it. Sharjah, the third UAE MoU, carries 2.3M
 passengers a year and publishes no entitlement figure at all, so the true Gulf
-headroom is somewhat larger than 5% and nowhere near enough to change the answer.
+headroom is somewhat larger than 4% and nowhere near enough to change the answer.
 
 **2. The unit economics are the worst on the map.** Scale IndiGo's published unit
 cost across the corridors and the Gulf has the **least** room of any of them to

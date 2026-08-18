@@ -27,7 +27,7 @@ lines, none of which existed when the headline was written, say so:
 1. **The room that exists is trivial next to the aircraft.** India-Dubai runs at **88.8%**
    of its reported bilateral entitlement. This was first written as "there is no room in the
    Gulf", which was an overstatement: checking the second point found **Abu Dhabi at about
-   58%**. What survives is the number that matters, that both points' remaining entitlement
+   70%**. What survives is the number that matters, that both points' remaining entitlement
    absorbs only **about 4% of the order book** at the Gulf's own sector length. The
    constraint is economic first and legal second.
 2. **The unit economics are the worst on the map.** Scaling IndiGo's published unit cost across

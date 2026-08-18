@@ -115,6 +115,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `src/options.py` | **NEW.** Corridor breakeven, yield headroom, value at stake, option menu. Holds `CASK_STAGE_ELASTICITY`, the one knob |
 | `src/profit_pools.py` | Corridor profit pool. Heavily modelled; every seam labelled. Holds `MARGIN_STAGE_SENSITIVITY` |
 | `src/scenario.py` | Demand paths, plus fuel and FX on unit economics |
+| `src/cargo.py` | **NEW.** Belly freight by corridor. Physical units only, no revenue leg. Holds the non-correlation caveat |
 | `src/gap_analyzer.py` | Maps `jd.txt` to artifacts, checks each exists. Reports 82% |
 | `scripts/refresh.py` | **Single entry point, and exactly what CI runs** |
 | `docs/index.html` | The site. 17 scrolly steps, recommendation section, pivots section, reconciliation, methodology |
@@ -128,6 +129,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `data/data_dictionary.md` | Provenance contract. Every field, source, pull date, grade |
 | `data/manual/assumptions.csv` | Hand-entered numbers, 11-state status vocabulary. 30 rows |
 | `tests/test_pipeline.py` | Loaders, units, anomalies, provenance, data-dictionary drift guards |
+| `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift |
 | `tests/test_analysis.py` | Findings, chart house rules, sizing, scenarios, pools, bilaterals, fleet gap, options |
 | `.claude/launch.json` | `preview_start` config (name `site`) for serving `docs/` without orphaning a server |
 | `.github/workflows/refresh.yml` | Monthly cron. Tests, refresh, tests again, commit |
@@ -139,7 +141,7 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 113 tests pass. 17 charts. Working tree clean.**
+**Done and green. 145 tests pass. 17 charts. Working tree clean.**
 
 **Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
 2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
@@ -373,6 +375,12 @@ Serve the site through `preview_start` (config name `site`), not a bare `http.se
 - Framework prose comes from `DogInfantry/claude-skill-management-consultant-B1` (146 modules).
   Cite it, do not rewrite it.
 - **When a gate opens, invert the test that guarded it rather than deleting it.**
+- **When a headline number moves, add its OLD value to `must_not_appear` in
+  `tests/test_narrative.py`, not just the prose.** That is what turns the next drift into a
+  failing build. Prose was reconciled to the modules by hand three times in one session and
+  four figures still survived it, every one missed because the phrase wrapped across a line
+  break. A passage that quotes a superseded figure ON PURPOSE opts out with
+  `<!-- narrative-guard: ignore -->`, visibly, in the source.
 - **When the answer changes, say so in `docs/pivot_log.md` rather than quietly amending.** Six
   entries so far, each citing its commit. Changing a recommendation also means sweeping
   `storyline.md`, `hypothesis_tree.md`, `index.html`, `README.md` and `methodology.md`: the

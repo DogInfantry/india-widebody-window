@@ -13,6 +13,7 @@ import pandas as pd
 import pytest
 
 from src import benchmarking as bm
+from src import cargo as cg
 from src import charts
 from src import fleet_gap as fg
 from src import market_sizing as ms
@@ -87,7 +88,7 @@ def test_gateway_flows_are_well_formed():
 # nothing else in the suite would notice: the export test only checks that the
 # files exist, not that they obey the palette or carry a takeaway. That is how a
 # module gets added and quietly skips every rule the repo claims to enforce.
-PUBLISHING_MODULES = (bm, pp, fg, ms, opt, sc)
+PUBLISHING_MODULES = (bm, pp, fg, ms, opt, sc, cg)
 
 
 @pytest.fixture(scope="module")
@@ -1247,3 +1248,70 @@ def test_charts_carry_a_text_alternative():
         "exported arrays are often binary encoded and have no length"
     )
     assert "setAttribute(\"aria-label\"" in js
+
+
+# --------------------------------------------------------------------------
+# belly cargo
+# --------------------------------------------------------------------------
+
+
+def test_freight_does_not_track_sector_length():
+    """The module's central caveat, and the reason it exists as a test.
+
+    The tempting reading is that cargo reinforces the long-haul case because
+    long aircraft carry freight. It does not: North America is the longest
+    corridor on the map and carries less freight per passenger than Africa.
+
+    If this correlation ever becomes real, the prose in `src/cargo.py` and the
+    chart subtitle are both wrong and must be rewritten rather than left. That
+    is why the bound is asserted rather than the sign.
+    """
+    r = cg.distance_correlation()
+    assert abs(r) < 0.35, (
+        f"sector length now explains freight per passenger (r={r:+.2f}), so the "
+        "module's central claim that it does not is no longer true"
+    )
+
+
+def test_europe_carries_far_more_freight_per_passenger_than_the_gulf():
+    """The finding that supports Europe-first from a direction nothing else uses."""
+    s = cg.summary()
+    assert s["europe_vs_gulf"] > 2.5, (
+        "Europe no longer carries materially more freight per passenger than the "
+        "Gulf, so the cargo leg of the recommendation has gone"
+    )
+    assert s["europe_kg_per_pax"] > s["gulf_kg_per_pax"]
+
+
+def test_the_densest_freight_corridor_is_not_the_biggest_passenger_one():
+    """East Asia: thinnest passenger market in the set, densest freight.
+
+    Worth pinning because it is the one thing in this module that points at a
+    corridor the case does not otherwise examine.
+    """
+    df = cg.corridor_freight().set_index("region")
+    densest = df["kg_per_pax"].idxmax()
+    assert densest != "Gulf", "the Gulf is now the densest freight corridor, which reverses the finding"
+    assert df.loc[densest, "pax"] < df["pax"].max() / 2
+
+
+def test_cargo_reconciles_to_the_source_table():
+    """Nothing in this module is modelled, so it must add back up to DGCA."""
+    df = cg.corridor_freight()
+    raw = bm.load_dgca_intl_country()
+    raw = raw[raw["year"] == bm.INTL_COUNTRY_YEAR]
+    total = float((raw["freight_to_india"] + raw["freight_from_india"]).sum())
+    # corridor_freight drops the excluded regions, so it is a subset, never more
+    assert 0 < df["freight_t"].sum() <= total + 1
+    assert (df["kg_per_pax"] > 0).all()
+    assert (df["ftk_bn"] > 0).all()
+
+
+def test_the_cargo_chart_carries_no_modelled_badge():
+    """It has nothing to model. If a revenue leg is ever added, this must flip."""
+    fig = cg.fig_cargo_asymmetry()
+    texts = [a.text or "" for a in fig.layout.annotations]
+    assert not any("MODELLED" in t for t in texts), (
+        "the cargo chart is now labelled modelled, so something unverifiable "
+        "entered it; check whether a freight yield was introduced"
+    )
