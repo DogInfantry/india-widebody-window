@@ -1,0 +1,60 @@
+{
+ "client": "IndiGo (InterGlobe Aviation), network and fleet strategy.",
+ "decision": "IndiGo holds 60 A350-900s on firm order and 40 purchase rights it has",
+ "not_this": "A financing case. Whether to fund the aircraft through",
+ "recommendation": [
+  "Compete with the Gulf hubs. Do not fly more aircraft to them.",
+  "The Gulf is half of India's international traffic and four times the entire direct Europe market, and about 8.5M passengers a year are not going to the Gulf at all. They are going to Europe and North America and paying a Gulf carrier for it, a contested pool worth INR 28,900 to 56,700 crore, a third to two thirds of IndiGo's annual revenue.",
+  "The instrument is not more Gulf flying. It is long-haul direct service from Indian gateways that makes the Gulf connection unnecessary. Europe first, North America second, Gulf capacity roughly flat.",
+  "Three lines of evidence say the aircraft cannot go to Gulf airports even though the traffic is there:",
+  "- Almost no usable room. India-Dubai runs at 88.8% of its reported bilateral entitlement. Abu Dhabi has more slack at about 70%, so the Gulf is not uniformly capped, but both points' remaining entitlement together absorbs only about 4% of the order book. - Worst unit economics on the map. Scaling IndiGo's published unit cost across corridors, the Gulf has the least room of any to absorb a yield decline, because short sectors keep cost per seat kilometre high. Europe can take about a fifth off the fare and still clear. - An order book sized for a longer network. The 140 firm wide-bodies would add 78% to Indian carriers' international capacity when holding share needs roughly half that. It clears only if the average sector lengthens about 27%.",
+  "The corridor stays the centre of the case. The aircraft point elsewhere. This is a change of answer, and it is recorded as pivot 1 in docs/pivot_log.md rather than presented as though it had always been the view. The full option menu, roadmap, risk register and leading indicators are in docs/recommendation.md."
+ ],
+ "scqa": {
+  "answer": [
+   "The corridor is the prize. The aircraft go somewhere else.",
+   "Scale, and it is not in dispute. The Gulf is 39.7M passengers, four times India's entire direct Europe market. Nothing below weakens that. What changed is the conclusion drawn from it.",
+   "But the traffic splits, and only one half is addressable with more Gulf flying. Roughly 31.2M passengers are genuinely point-to-point, the diaspora and labour corridor anchored in Kerala. Kochi already sends more passengers to Gulf hubs than to the entire rest of the world combined. That demand does not need a hub and it does not need a wide-body; it is already served by narrow-bodies that suit its sector length.",
+   "The other 8.5M are the prize, and they are leaving from the same airports. The eleven point gap between the sector and origin-destination measures is a passenger whose journey begins in India, ends in Europe or North America, and is sold by a Gulf carrier. Worth INR 28,900 to 56,700 crore. Winning them means offering the journey they actually want, which is a direct flight, not a better connection through Dubai.",
+   "And Gulf capacity can barely grow. India-Dubai runs at 88.8% of its reported bilateral entitlement. Abu Dhabi is looser at about 70%, so the corridor is not uniformly capped, but the two together leave room for only about 4% of the order book. Gulf sectors also have the least yield headroom of any corridor and do not cover their own cost at IndiGo's realised yield. Aircraft pointed there would be flying on rights that do not exist, at unit economics that do not work.",
+   "So Europe first, North America second. Europe is reachable, has about a fifth of fare headroom before it stops covering cost, and is where the leaked traffic is actually going. North America has the most headroom of any corridor and cannot be reached by anything but a wide-body, but it is the smallest at 2.2M direct and carries the 777X delivery risk. It is a second move on the evidence, not a first.",
+   "This section used to argue the opposite and is rewritten rather than quietly amended. See pivot 1 in docs/pivot_log.md."
+  ],
+  "complication": [
+   "Indian carriers are winning their home market back, and it still is not enough.",
+   "The share trend is theirs. Indian carriers have gone from 37.0% of India's international sector passengers in 2015 to 45.9% in 2025, while Gulf carriers fell from 32.7% to 26.2%. This is not an industry being routed. It is one closing on parity.",
+   "That correction matters, because the obvious version of this case is that India is losing and needs rescuing. The data says otherwise, and a recommendation built on a false premise would be worth nothing.",
+   "But they are still the minority in their own market, at 45.9% against 54.1% for everyone else, and the deficit sits precisely where aircraft range binds. The share Indian carriers have taken back is short-haul: Gulf and Southeast Asia, flyable with narrow-bodies. The segment they have not taken back is the one that needs an aircraft they have only just ordered.",
+   "The Gulf is where the volume is, by a distance. Gulf destinations carry 39.7M passengers to and from India, against 9.6M for all of Europe combined. The corridor is 4.1 times India's entire direct European market and larger than Europe, North America, East Asia, Africa and Oceania added together.",
+   "And India cannot see past it. DGCA records the first foreign point and nothing beyond. A passenger flying Delhi to Dubai to London is counted as a passenger to the United Arab Emirates. That is why DGCA puts the Gulf at 50.9% of international traffic while IATA's true origin-destination figures put it near 40%. The eleven point gap is the connecting traffic: passengers whose real destination is Europe or North America, flying on a Gulf carrier, through a Gulf hub, contributing a Gulf hub's margin.",
+   "The fleet explains why. In 2025 IndiGo carried 16.7M international passengers to Air India's 10.7M, yet flew barely half the distance per passenger: an average stage length of 2,643 km against Air India's 5,316 km. IndiGo's international network is structurally the Gulf and Southeast Asia. It is not losing long-haul; it has never been able to fly it."
+  ],
+  "question": [
+   "Where should the incoming wide-body capacity go, and can the Gulf corridor absorb it?"
+  ],
+  "situation": [
+   "India's domestic market is settled and Indian carriers won it.",
+   "IndiGo carries 64.1% of scheduled domestic passengers at an 86.1% load factor (2025, DGCA). Air India follows at 15.7%, Air India Express at 11.3%. Load factors have recovered past their pre-pandemic level across every major carrier, so the aircraft that exist are full.",
+   "Domestic is not the problem. It is the cash engine and the feed network that any long-haul expansion has to be built on, and it is already in hand."
+  ]
+ },
+ "success_metrics": [
+  {
+   "Metric": "International stage length against Air India",
+   "Where it stands today": "2,643 km against 5,316 km, 2025"
+  },
+  {
+   "Metric": "Share of India's international sector passengers, Indian carriers",
+   "Where it stands today": "45.9%, up from 37.0% in 2015"
+  },
+  {
+   "Metric": "Unit revenue against unit cost",
+   "Where it stands today": "RASK 4.99 against CASK 5.00, FY2026. Currently inverted"
+  },
+  {
+   "Metric": "Share of corridor revenue, not just passengers",
+   "Where it stands today": "Gulf is 52% of passengers and 31% of revenue"
+  }
+ ],
+ "timeframe": "Deployment decisions through 2030, which is the horizon the market sizing runs"
+}

@@ -1,0 +1,307 @@
+[
+ {
+  "chart": "domestic_share",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "IndiGo carries roughly two thirds of every domestic passenger in India. That position generates the cash and the feed network any long-haul expansion has to be built on."
+   },
+   {
+    "kind": "body",
+    "text": "Domestic is not the problem. It is the platform."
+   }
+  ],
+  "pivot": null,
+  "title": "The base is already won"
+ },
+ {
+  "chart": "corridor_scale",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Half of India's international traffic touches a Gulf point. The corridor is four times the size of India's entire direct market to Europe, and larger than Europe, North America, East Asia, Africa and Oceania combined."
+   },
+   {
+    "kind": "body",
+    "text": "Any conversation that starts with London and New York has already missed where the volume is."
+   }
+  ],
+  "pivot": null,
+  "title": "The prize is the Gulf, by a distance"
+ },
+ {
+  "chart": "gateway_flows",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "India's own statistics record the first foreign point and nothing beyond it. A passenger flying Delhi to Dubai to London is counted as a passenger to the United Arab Emirates."
+   },
+   {
+    "kind": "body",
+    "text": "That blind spot is not a data problem to apologise for. It is the finding. What the Gulf hubs do with those passengers after they land is where the margin goes, and India cannot see it."
+   },
+   {
+    "kind": "aside",
+    "text": "Kochi sends more passengers to Gulf hubs than to the entire rest of the world combined."
+   }
+  ],
+  "pivot": {
+   "label": "Pivot 3",
+   "text": "This chart was wrong for weeks. DGCA writes ABUDHABI where the code looked for ABU DHABI, so 5.0M passengers a year, a fifth of the entire Gulf hub flow, sat in the \"everywhere else\" bucket. All 72 tests passed the whole time, because a wrong bucket is still a valid bucket. How this analysis changed"
+  },
+  "title": "And the passenger vanishes there"
+ },
+ {
+  "chart": "value_at_stake",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "India's own statistics put the Gulf at 51 per cent of international sectors. Origin-destination figures, which follow the passenger to where they were actually going, put it near 40. The eleven point difference is roughly eight and a half million people a year whose journey begins in India, ends in Europe or North America, and is sold by a Gulf carrier."
+   },
+   {
+    "kind": "body",
+    "text": "Priced across that journey at the only two yields this project has verified, its own and Emirates', the contested revenue runs between 28,900 and 56,700 crore rupees. A third to two thirds of IndiGo's entire annual revenue, in a pool it does not currently compete for."
+   },
+   {
+    "kind": "aside",
+    "text": "Read it as the size of the contested pool, not a prize anyone captures whole. And note the weakest link is named: the 40 per cent cannot be verified, because IATA sells that data and publishes no free table. It is gated as unverifiable and everything drawn from it is reported as a band."
+   }
+  ],
+  "pivot": null,
+  "title": "What the blind spot is worth"
+ },
+ {
+  "chart": "who_carries_india",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Indian carriers account for fewer than half of India's international passengers. Gulf carriers take a quarter."
+   },
+   {
+    "kind": "body",
+    "text": "This is a market where the home team is still the minority shareholder."
+   }
+  ],
+  "pivot": null,
+  "title": "Foreign carriers still fly the majority"
+ },
+ {
+  "chart": "carrier_share_trend",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "The obvious version of this case is that India is losing its own market and needs rescuing. The data says the opposite. Indian carriers have gone from 37 per cent of international traffic in 2015 to 46 per cent in 2025, while the Gulf carriers have fallen from 33 per cent to 26."
+   },
+   {
+    "kind": "body",
+    "text": "That matters, because a recommendation built on a false premise is worth nothing. The gap is closing on its own. What has not closed is where it is closing: the share taken back is short-haul, flyable with the narrow-bodies India already has. The long-haul deficit needs an aircraft that has only just been ordered."
+   }
+  ],
+  "pivot": {
+   "label": "Pivot 2",
+   "text": "This case opened on the opposite premise, that Gulf carriers were eating India's market and the wide-body order was a rescue. The trend reversed it. The finding only surfaced after a GRAND TOTAL row worth 17.53M passengers was found being counted as a foreign airline. How this analysis changed"
+  },
+  "title": "But the trend belongs to the Indian carriers"
+ },
+ {
+  "chart": "stage_length_gap",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "In 2025 IndiGo carried more international passengers than Air India while flying barely half the distance per passenger. Its international network averages under 2,700 km, which is the Gulf and Southeast Asia. Air India's averages over 5,300 km."
+   },
+   {
+    "kind": "body",
+    "text": "Neither airline is doing anything wrong. They are simply in different businesses, and the wide-body order is IndiGo buying its way into the second one."
+   }
+  ],
+  "pivot": null,
+  "title": "The gap the wide-bodies exist to close"
+ },
+ {
+  "chart": "pax_vs_revenue_share",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "The Gulf is 52 per cent of India's international passengers. Weight the same traffic by distance flown, and its share of revenue falls to 31 per cent. A Dubai sector is about 2,200 km; a New York sector is about 11,700 km, and revenue scales with the distance."
+   },
+   {
+    "kind": "body",
+    "text": "No margin assumption enters this chart. It is passenger counts, great circle distances and one published yield, so it stands even if you reject the profit model that follows."
+   }
+  ],
+  "pivot": null,
+  "title": "Half the passengers, a third of the money"
+ },
+ {
+  "chart": "profit_pool",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Width is revenue, height is margin, so each block's area is that corridor's profit. The Gulf stays the widest block because volume is real, but the long-haul corridors sit above it, and that height is what a wide-body buys access to."
+   },
+   {
+    "kind": "body",
+    "text": "The margin axis is modelled, and labelled as such, because no Indian carrier publishes a margin split by corridor. It is anchored so the revenue-weighted mean equals IndiGo's 27.3 per cent FY2026 EBITDAR margin excluding forex. IndiGo reported 17.8 per cent including it. Both are stated, because the difference is a treasury outcome on dollar lease liabilities, not a route one."
+   }
+  ],
+  "pivot": null,
+  "title": "Where the profit actually sits"
+ },
+ {
+  "chart": "yield_headroom",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Unit cost falls as sectors lengthen, because the cost of a departure is spread over more seat kilometres. Scale IndiGo's published unit cost across the corridors and ask a different question: how far could fares fall before each stops covering what it costs to fly?"
+   },
+   {
+    "kind": "body",
+    "text": "The Gulf has the least room of any corridor, and on these numbers it does not cover its cost today. Europe could absorb a fifth off the fare and still clear."
+   },
+   {
+    "kind": "body",
+    "text": "This chart is one of the three findings that moved the recommendation off \"Gulf first\". It does not say the Gulf stops mattering: the corridor is still where the traffic and the contested revenue are. It says the aircraft should not be pointed at it, because the sectors are too short to carry their own cost and there is no entitlement to fly more of them anyway."
+   },
+   {
+    "kind": "aside",
+    "text": "This corroborates the chart before it from an unrelated direction. The profit pool models margin upward from an EBITDAR anchor; this scales cost downward from a published CASK. They share nothing but the corridor distances, and they rank the corridors the same way. A test asserts they keep agreeing."
+   }
+  ],
+  "pivot": {
+   "label": "Pivot 1",
+   "text": "This chart, the bilateral ceiling and the capacity arithmetic together moved the recommendation. It was \"reclaim the Gulf corridor first\" until three separate lines of evidence said the aircraft cannot go to Gulf airports: no entitlement to fly them on, the worst unit economics on the map, and an order book sized for a network a quarter longer than this one. How this analysis changed"
+  },
+  "title": "And the corridor we are recommending is the tightest one"
+ },
+ {
+  "chart": "cargo_asymmetry",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Every wide-body carries freight under the floor, and this case has ignored it until now. Europe moves 65 kilogrammes of it per passenger against the Gulf's 17, so the corridor being recommended carries nearly four times the cargo of the one being stepped back from."
+   },
+   {
+    "kind": "body",
+    "text": "Resist the obvious conclusion. This is not a long-haul effect: the correlation between sector length and freight per passenger is minus 0.10, which is nothing. North America is the longest corridor on the map and sits near the bottom. Belly freight tracks what two economies trade, not how far apart they are, and a chart ordered by distance shows that better than one ordered by freight."
+   },
+   {
+    "kind": "aside",
+    "text": "East Asia is the number to look at twice: 130 kilogrammes per passenger on a corridor carrying two million people, the thinnest passenger market here with the densest freight. Nothing else in this case examines it. No revenue is claimed anywhere on this chart, because no Indian carrier publishes a freight yield."
+   }
+  ],
+  "pivot": null,
+  "title": "And there is a second deck nobody has counted"
+ },
+ {
+  "chart": "market_sizing",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Three methods, extrapolating India's own traffic history, fitting air travel against income across peer countries, and counting the seats the announced order books can actually fly, put the 2030 international market between 96 and 109 million passengers, up from 78 million."
+   },
+   {
+    "kind": "body",
+    "text": "The capacity method is the low leg, and it was withheld for most of this project's life because its inputs were not verified. They now are, from the manufacturers' own airport planning manuals and IndiGo's annual report. The band is reported, never averaged: the spread between the legs is the useful output."
+   }
+  ],
+  "pivot": {
+   "label": "Pivot 5",
+   "text": "Note which direction verifying the gated numbers moved the answer. The new leg is the low one, so the band widened downward and the recommendation got harder to argue, not easier. A gate that only ever unlocks good news is not a gate. How this analysis changed"
+  },
+  "title": "The market being bought into"
+ },
+ {
+  "chart": "scenarios",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Three growth paths, anchored on rates India has actually recorded rather than chosen for symmetry. The bear case is the slowest sustained three-year stretch in the clean data; the bull case is capped at 12 per cent, because beyond that the constraint stops being demand and becomes how fast aircraft, crew and slots can be brought on."
+   },
+   {
+    "kind": "body",
+    "text": "The spread between them is 27 million passengers. Every path requires materially more long-haul capacity than exists today."
+   }
+  ],
+  "pivot": null,
+  "title": "Even the pessimistic case needs the aircraft"
+ },
+ {
+  "chart": "absorption_frontier",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Count what the firm order books can actually fly and the answer inverts. The 140 wide-bodies on order carry roughly twice the capacity Indian carriers need to hold their current share of a 2030 market. On today's network shape they would fly half empty of purpose."
+   },
+   {
+    "kind": "body",
+    "text": "They only clear if the average sector lengthens by about a quarter, from 3,400 kilometres to nearer 4,300, or if Indian carriers take share well past parity, or some mix of the two. That is the recommendation restated in capacity terms: these aircraft are not bought to carry more of the same traffic, they are bought to carry it further."
+   },
+   {
+    "kind": "aside",
+    "text": "Block speed and sector length here are computed from DGCA's own aircraft-kilometre and aircraft-hour columns, not assumed. Air India blocks at 698 km/h across a 5,316 km network and IndiGo at 656 km/h across 2,643 km, which is the physical relationship you would expect and a reason to trust the columns."
+   }
+  ],
+  "pivot": null,
+  "title": "The aircraft are not the constraint. The network is"
+ },
+ {
+  "chart": "fleet_gap",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "No primary source says when the deliveries begin. The Airbus release that confirms IndiGo's sixty firm A350s states no schedule at all, so no start year is asserted anywhere here. Three plausible starts are run instead and the spread is the output."
+   },
+   {
+    "kind": "body",
+    "text": "The shape is the same in all three: a gap opens in the bridge years, widest between 2026 and 2028, and closes as aircraft arrive. Slipping the start moves the whole delivery curve to the right without changing where it ends up, which is why the phasing question is about what to fly in the meantime rather than about how much was ordered."
+   }
+  ],
+  "pivot": null,
+  "title": "Timing changes when it lands, not whether it is enough"
+ },
+ {
+  "chart": "cask_bridge",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "IndiGo's unit cost rose 4.66 to 5.00 rupees per available seat kilometre in FY2026, and the headline reads as an operating collapse. Bridge it and the picture inverts: fuel fell 0.18, genuine non-fuel inflation was 0.11, and currency added 0.41. The currency effect alone is larger than the entire net increase."
+   },
+   {
+    "kind": "body",
+    "text": "This is the same correction as the retracted margin claim in the methodology, made at the unit cost line instead of the margin line. A dollar-denominated lease book is not an operating problem, but it is a real one."
+   }
+  ],
+  "pivot": {
+   "label": "Pivot 4",
+   "text": "This exhibit exists because an earlier version of this page claimed IndiGo's operating margin had halved, 22.3 to 14.0 per cent. It had not. The number came from a convention the company does not publish, the real margin improved, and the claim was withdrawn. The pressure is real but it sits in unit cost, which is what this chart measures. How this analysis changed"
+  },
+  "title": "The cost problem is a currency problem"
+ },
+ {
+  "chart": "fuel_fx_sensitivity",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Between 10 and 40 per cent of IndiGo's unit cost moves with the rupee, depending on how much fuel is bought at the dollar international price rather than the rupee domestic one. India publishes no split, so the exposure is reported as a band."
+   },
+   {
+    "kind": "body",
+    "text": "At the top of that band a rupee move costs more than the same move in fuel. And every line starts above breakeven, because FY2026 opened with unit cost at 5.00 against unit revenue of 4.99. Long-haul aircraft are bought into that, not out of it."
+   }
+  ],
+  "pivot": null,
+  "title": "Which shock hurts more"
+ },
+ {
+  "chart": "load_factor_slope",
+  "paragraphs": [
+   {
+    "kind": "body",
+    "text": "Domestic load factors have recovered past their pre-pandemic level. The aircraft that exist are full. The question is what the next hundred fly, and where."
+   }
+  ],
+  "pivot": null,
+  "title": "Demand is not the constraint"
+ }
+]

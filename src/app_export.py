@@ -28,6 +28,7 @@ from __future__ import annotations
 import json
 import re
 from dataclasses import asdict, is_dataclass
+from html import unescape
 from pathlib import Path
 from typing import Any
 
@@ -35,6 +36,7 @@ import pandas as pd
 
 from src import benchmarking as bm
 from src import cargo as cg
+from src import financials as fin
 from src import fleet_gap as fg
 from src import market_sizing as ms
 from src import options as opt
@@ -74,6 +76,24 @@ def _clean(obj: Any) -> Any:
     if isinstance(obj, (str, int, bool)) or obj is None:
         return obj
     return str(obj)
+
+
+def load_factor_slope(start: int = 2019, end: int | None = None) -> pd.DataFrame:
+    """Domestic load factor at two points, for the four carriers the slope names.
+
+    The same window and the same four carriers as
+    `benchmarking.fig_load_factor_slope`, which is the point: this is a second
+    *rendering* of that exhibit, not a second version of it. The Plotly builder
+    reaches into `charts.slope()` with the figure already assembled, so there is
+    no frame to reuse and the merge is repeated here rather than refactored into
+    benchmarking, where nothing else would call it.
+    """
+    end = end or bm.LATEST_COMPLETE_YEAR
+    a = bm.carrier_operating_summary(start)[["airline", "load_factor_pct"]]
+    b = bm.carrier_operating_summary(end)[["airline", "load_factor_pct"]]
+    d = a.merge(b, on="airline", suffixes=("_start", "_end"))
+    d = d[d["airline"].isin(["IndiGo", "Air India", "SpiceJet", "Air India Express"])]
+    return d.assign(start_year=start, end_year=end).reset_index(drop=True)
 
 
 def corridor_spine() -> list[dict]:
@@ -221,6 +241,148 @@ def _markdown_table(doc: Path, heading: str) -> list[dict]:
     return rows
 
 
+def _section_lines(doc: Path, heading: str) -> list[str]:
+    """Every line under a `## heading`, up to the next heading of any level."""
+    lines = doc.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, ln in enumerate(lines) if ln.strip() == heading)
+    out: list[str] = []
+    for ln in lines[start + 1 :]:
+        if ln.startswith("#"):
+            break
+        out.append(ln)
+    return out
+
+
+def _paragraphs(doc: Path, heading: str) -> list[str]:
+    """Prose paragraphs under a heading, with table rows and rules dropped."""
+    body, para = [], []
+    for ln in _section_lines(doc, heading):
+        stripped = ln.strip()
+        if not stripped or stripped.startswith(("|", "---", "*Every figure")):
+            if para:
+                body.append(" ".join(para))
+                para = []
+            continue
+        para.append(stripped)
+    if para:
+        body.append(" ".join(para))
+    return [_MD_EMPH.sub("", _MD_LINK.sub(r"\1", p)) for p in body]
+
+
+_LABELLED = re.compile(r"^\*\*(?P<label>[^.*]+)\.\*\*\s*(?P<text>.+)$")
+
+
+def _labelled(doc: Path, heading: str) -> dict[str, str]:
+    """The `**Client.** IndiGo ...` form that `docs/storyline.md` writes the brief in.
+
+    The brief is prose with bolded leads rather than a table, because that is how
+    it reads on the page. Parsing the leads out is what lets the app render it as
+    a decision box without a second copy of the words existing in TypeScript.
+    """
+    out: dict[str, str] = {}
+    for para in [" ".join(p.split()) for p in _section_lines(doc, heading)]:
+        matched = _LABELLED.match(para)
+        if matched:
+            out[matched["label"].strip()] = _MD_EMPH.sub(
+                "", _MD_LINK.sub(r"\1", matched["text"].strip())
+            )
+    return out
+
+
+def brief() -> dict:
+    """The case frame: client, decision, horizon, success metrics, SCQA.
+
+    **All of it already existed in `docs/storyline.md` and none of it reached the
+    app.** The analysis was IndiGo-anchored from the first commit; the delivery
+    layer never said whose decision it was, which is the single reason it read as
+    sector research rather than as a case.
+
+    Parsed rather than retyped, for the same reason the option menu and risk
+    register are: a second copy of the brief in TypeScript would drift from the
+    written one, and the drift would be invisible because both would render.
+    """
+    doc = ROOT / "docs" / "storyline.md"
+    lead = _labelled(doc, "## The brief")
+    metrics = _markdown_table(doc, "## The brief")
+
+    scqa = {
+        part.lower(): _paragraphs(doc, f"## {part}")
+        for part in ("Situation", "Complication", "Question", "Answer")
+    }
+
+    return {
+        "client": lead["Client"],
+        "decision": lead["The decision"],
+        "timeframe": lead["Timeframe"],
+        "not_this": lead["What this deliberately is not"],
+        "success_metrics": metrics,
+        "scqa": scqa,
+        "recommendation": _paragraphs(doc, "## Recommendation"),
+    }
+
+
+# The scrolly steps of the static site, as they sit in the markup. Non-greedy on
+# purpose: the steps nest asides, and a greedy match swallows every step into one.
+_STEP = re.compile(
+    r'<div class="step" data-chart="(?P<chart>[^"]+)">\s*<h2>(?P<title>.*?)</h2>(?P<body>.*?)</div>\s*(?=<div class="step"|</div>)',
+    re.S,
+)
+_PARA = re.compile(r'<p(?: class="(?P<cls>[^"]*)")?>(?P<text>.*?)</p>', re.S)
+_PIVOT = re.compile(
+    r'<aside class="pivot">\s*<span class="pivot-label">(?P<label>[^<]+)</span>\s*<p>(?P<text>.*?)</p>',
+    re.S,
+)
+_TAG = re.compile(r"<[^>]+>")
+
+
+def _text(fragment: str) -> str:
+    return " ".join(unescape(_TAG.sub("", fragment)).split())
+
+
+def story() -> list[dict]:
+    """The 22-step narrative, read out of `docs/index.html` rather than rewritten.
+
+    **Restoring this reverses a recommendation made in a previous session.** The
+    scrollytelling spine was dropped when the app was built, on the argument that
+    a deck and a dashboard covered it. They did not: the action titles were the
+    argument, and losing all 22 is most of why the app reads as a collection of
+    charts instead of a case.
+
+    Parsed from the markup for the same reason as everything else here. Gotcha 43
+    in CLAUDE.md already says all prose lives in `index.html` and the other
+    surfaces re-lay it out; this makes the React surface obey that rule too
+    instead of becoming a fourth place the words are kept.
+    """
+    html = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    steps = []
+    for match in _STEP.finditer(html):
+        body = match["body"]
+        pivot = _PIVOT.search(body)
+        # The pivot aside carries its own <p>. Cut the whole aside out before
+        # reading paragraphs, so a change of mind renders as a marginal note
+        # rather than as another line of narrative.
+        narrative_body = re.sub(r'<aside class="pivot">.*?</aside>', "", body, flags=re.S)
+        paras = [
+            {"text": _text(p["text"]), "kind": (p["cls"] or "body")}
+            for p in _PARA.finditer(narrative_body)
+        ]
+        steps.append(
+            {
+                "chart": match["chart"],
+                "title": _text(match["title"]),
+                "paragraphs": [p for p in paras if p["text"]],
+                "pivot": (
+                    {"label": _text(pivot["label"]), "text": _text(pivot["text"])}
+                    if pivot
+                    else None
+                ),
+            }
+        )
+    if len(steps) < 18:
+        raise ValueError(f"only {len(steps)} narrative steps parsed from index.html")
+    return steps
+
+
 def evidence() -> dict:
     """What the provenance contract actually contains, counted rather than claimed.
 
@@ -284,6 +446,8 @@ def narrative() -> dict:
 
 DATASETS: dict[str, Any] = {
     "kpis": kpi_band,
+    "brief": brief,
+    "story": story,
     "narrative": narrative,
     "evidence": evidence,
     "corridors": corridor_spine,
@@ -299,6 +463,11 @@ DATASETS: dict[str, Any] = {
         "international_summary": _clean(
             bm.carrier_operating_summary(bm.LATEST_COMPLETE_YEAR, international=True)
         ),
+        # Domestic load factor at two points in time, which is the only shape a
+        # slope chart can be drawn from. The static site builds this inside
+        # `fig_load_factor_slope`; exporting the frame rather than the figure is
+        # what lets both surfaces draw the same four carriers.
+        "load_factor_slope": _clean(load_factor_slope()),
     },
     "market": lambda: {
         "triangulation": _clean(ms.triangulate()),
@@ -328,6 +497,10 @@ DATASETS: dict[str, Any] = {
         "gateway_flows": _clean(bm.gateway_flows()),
     },
     "scenario_cube": scenario_cube,
+    # _clean, not the raw summary: Air India is unlisted and files no yield, so
+    # that cell is NaN and `allow_nan=False` turns it into a build failure rather
+    # than a page that renders nothing. Gotcha 49.
+    "company": lambda: _clean(fin.summary()),
 }
 
 

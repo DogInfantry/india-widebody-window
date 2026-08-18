@@ -156,6 +156,36 @@
    "stage_length_km": 231.0
   }
  ],
+ "load_factor_slope": [
+  {
+   "airline": "IndiGo",
+   "end_year": 2025,
+   "load_factor_pct_end": 86.081247,
+   "load_factor_pct_start": 87.773106,
+   "start_year": 2019
+  },
+  {
+   "airline": "SpiceJet",
+   "end_year": 2025,
+   "load_factor_pct_end": 86.224444,
+   "load_factor_pct_start": 92.650237,
+   "start_year": 2019
+  },
+  {
+   "airline": "Air India",
+   "end_year": 2025,
+   "load_factor_pct_end": 82.339715,
+   "load_factor_pct_start": 80.062741,
+   "start_year": 2019
+  },
+  {
+   "airline": "Air India Express",
+   "end_year": 2025,
+   "load_factor_pct_end": 83.141081,
+   "load_factor_pct_start": 60.98503,
+   "start_year": 2019
+  }
+ ],
  "share_trend": [
   {
    "Gulf": 32.743608,

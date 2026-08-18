@@ -1,0 +1,153 @@
+{
+ "capital_scale": {
+  "aircraft": 60,
+  "ask": 48441318929.50789,
+  "ask_bn": 48.441319,
+  "block_speed_kmh": 698.012677,
+  "fy2026_ebitdar_exforex_inr_cr": 23189.0,
+  "fy2026_revenue_inr_cr": 84962.0,
+  "multiple_of_fy2026_ebitdar": 1.0424,
+  "pct_of_fy2026_revenue": 28.450623,
+  "purchase_rights_not_converted": 40,
+  "revenue_potential_inr_cr": 24172.218146,
+  "seats": 18900.0,
+  "utilisation_hours_per_day": 10.06
+ },
+ "client": "IndiGo",
+ "competitive_position": [
+  {
+   "carrier": "IndiGo",
+   "group": "Indian carriers",
+   "group_share_pct": 45.917398,
+   "intl_pax_m": 16.673953,
+   "load_factor_pct": 81.980776,
+   "stage_length_km": 2642.784168,
+   "yield_inr_per_rpk": 5.06,
+   "yield_vs_indigo": 1.0
+  },
+  {
+   "carrier": "Air India",
+   "group": "Indian carriers",
+   "group_share_pct": 45.917398,
+   "intl_pax_m": 10.721836,
+   "load_factor_pct": 81.394846,
+   "stage_length_km": 5316.338717,
+   "yield_inr_per_rpk": null,
+   "yield_vs_indigo": null
+  },
+  {
+   "carrier": "Emirates",
+   "group": "Gulf carriers",
+   "group_share_pct": 26.161341,
+   "intl_pax_m": null,
+   "load_factor_pct": null,
+   "stage_length_km": null,
+   "yield_inr_per_rpk": 9.924,
+   "yield_vs_indigo": 1.961265
+  }
+ ],
+ "cost_stack": [
+  {
+   "basis": "CASK",
+   "change": 0.34,
+   "change_pct": 7.296137,
+   "fy2025": 4.66,
+   "fy2026": 5.0,
+   "note": "all-in unit cost"
+  },
+  {
+   "basis": "CASK ex-fuel",
+   "change": 0.52,
+   "change_pct": 17.333333,
+   "fy2025": 3.0,
+   "fy2026": 3.52,
+   "note": "fuel stripped out"
+  },
+  {
+   "basis": "CASK ex-fuel ex-forex",
+   "change": 0.11,
+   "change_pct": 3.806228,
+   "fy2025": 2.89,
+   "fy2026": 3.0,
+   "note": "the basis to use when an FX lever is running, or forex is double counted"
+  }
+ ],
+ "margin_ladder": [
+  {
+   "basis": "As reported",
+   "margin_pct": 26.301004,
+   "note": "EBITDAR over revenue from operations, as published",
+   "year": "FY2025"
+  },
+  {
+   "basis": "As reported",
+   "margin_pct": 17.8,
+   "note": "IndiGo's own financial highlights table. Includes a Q4 forex loss on USD lease liabilities",
+   "year": "FY2026"
+  },
+  {
+   "basis": "Excluding forex",
+   "margin_pct": 26.301004,
+   "note": "no material forex effect in the comparative year",
+   "year": "FY2025"
+  },
+  {
+   "basis": "Excluding forex",
+   "margin_pct": 27.293378,
+   "note": "the operating read, and the anchor the corridor profit pool uses, because forex on lease liabilities is not a route outcome",
+   "year": "FY2026"
+  }
+ ],
+ "operations": {
+  "dgca_all_services_hours": 1619570.642,
+  "dgca_scheduled_hours": 1614608.324,
+  "fiscal_year_end": 2026,
+  "implied_aircraft": 441.07138,
+  "non_scheduled_intl_hours": 4962.318,
+  "published_block_hours": 1619570.0,
+  "reconciliation_all_services_pct": 4e-05,
+  "reconciliation_pct": 0.306358,
+  "utilisation_basis": "owned fleet, block hours over aircraft at period end",
+  "utilisation_hours_per_day": 10.06
+ },
+ "revenue_bridge": [
+  {
+   "inr_cr": 80803.0,
+   "kind": "actual",
+   "measure": "absolute",
+   "step": "FY2025 revenue"
+  },
+  {
+   "inr_cr": 4159.0,
+   "kind": "actual",
+   "measure": "relative",
+   "step": "Growth"
+  },
+  {
+   "inr_cr": 84962.0,
+   "kind": "actual",
+   "measure": "total",
+   "step": "FY2026 revenue"
+  },
+  {
+   "inr_cr": 24172.218146,
+   "kind": "memo",
+   "measure": "relative",
+   "step": "60 A350s at FY2026 RASK"
+  }
+ ],
+ "source": "IndiGo Q4 & FY2026 results release and Annual Report FY26, Emirates Group 2025-26 results, and the Airbus order confirmation, all verified in data/manual/assumptions.csv. Stage lengths, load factors and carrier shares computed from DGCA",
+ "spread": {
+  "cask": 5.0,
+  "currency_contribution": 0.41,
+  "currency_vs_gap": 41.0,
+  "inverted": true,
+  "rask": 4.99,
+  "reference_stage_km": 1172.002856,
+  "spread": -0.01,
+  "spread_pct_of_rask": -0.200401,
+  "stage_km_to_close": 1181.425947,
+  "stage_uplift_pct_to_close": 0.804016,
+  "year": "FY2026"
+ }
+}
