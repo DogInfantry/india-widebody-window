@@ -130,6 +130,10 @@ a:hover { border-bottom-color: var(--red); }
    for the argument above it, not a competing headline, so no red and no rules. */
 /* Four fields, so the min track is sized to fit all four on one row at the wrap
    width and fall to two rather than stranding one on a line of its own. */
+/* NAME IS TAKEN. This is the decision list only. The two-page brief uses
+   `.brief-doc`, because a body carrying this class becomes a grid container and
+   Chrome then ignores every forced page break inside it. See the print block
+   near the end of this file. */
 .brief {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
@@ -675,7 +679,7 @@ a:hover { border-bottom-color: var(--red); }
    ANALYSIS deserves a colleague's time, one for someone deciding whether the
    PERSON deserves an interview. Sized so Chrome prints each to its own sheet,
    which is the whole point: an attachment forwards, a link asks for effort. */
-.brief { font-size: 15px; }
+.brief-doc { font-size: 15px; }
 
 .brief-bar {
   display: flex;
@@ -709,8 +713,8 @@ a:hover { border-bottom-color: var(--red); }
   margin-bottom: 24px;
 }
 
-.brief .answer { margin-bottom: 26px; padding-top: 16px; }
-.brief .answer p { font-size: 19px; }
+.brief-doc .answer { margin-bottom: 26px; padding-top: 16px; }
+.brief-doc .answer p { font-size: 19px; }
 
 .brief-nums {
   display: grid;
@@ -750,14 +754,17 @@ a:hover { border-bottom-color: var(--red); }
 
 @media print {
   .brief-bar { display: none; }
-  .brief { font-size: 10pt; }
+  .brief-doc { font-size: 10pt; }
   /* One audience per sheet. Without this the two run together and the second
-     page stops being something you can send on its own. */
-  /* Both properties: `page-break-after` is the legacy spelling and `break-after`
-     the current one, and Chrome's print path honours them inconsistently
-     depending on version. The first attempt used only the legacy form and the
-     two briefs ran together on one sheet, which defeats the point of having
-     two. */
+     page stops being something you can send on its own.
+
+     Both spellings, because `page-break-after` is the legacy one and
+     `break-after` the current one. Neither worked for two commits, and the
+     reason was not the syntax: the page carried `<body class="brief">`, which
+     collided with the decision-list `.brief` above and made the body a GRID
+     CONTAINER. Chrome does not honour a forced break between grid items, so
+     both properties were correct and both inert. The body is `.brief-doc` now.
+     A test pins it. */
   .brief-page {
     page-break-after: always;
     break-after: page;

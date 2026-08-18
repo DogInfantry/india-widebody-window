@@ -283,3 +283,29 @@ def test_the_guard_can_actually_fail(corpus):
     assert "Wide-Body" in corpus
     probe = Claim("probe", lambda: 0.0, "{:.0f}", must_appear=("a phrase that is not present",))
     assert not [p for p in probe.must_appear if p in corpus]
+
+
+def test_the_brief_does_not_reuse_the_decision_list_class():
+    """A grid container silently voids every forced page break inside it.
+
+    `docs/brief.html` shipped as `<body class="brief">`, and `.brief` was already
+    taken by the decision list in `index.html`, where it is a grid. That made the
+    brief's body a grid container and its two `.brief-page` sections grid items,
+    and Chrome does not honour `page-break-after` between grid items. Both
+    spellings of the break property were present, both correct, both inert. The
+    printed PDF put the two audiences in side-by-side columns across both sheets.
+
+    Nothing failed. The PDF existed, was the right size, and held every word. The
+    only way to see it was to read the rendered layout, which is why this file
+    now asserts the class rather than the output.
+    """
+    brief = (ROOT / "docs" / "brief.html").read_text(encoding="utf-8")
+    css = (ROOT / "docs" / "assets" / "style.css").read_text(encoding="utf-8")
+
+    assert 'class="brief"' not in brief, (
+        "docs/brief.html is using the decision-list class again. That makes its body a "
+        "grid container and Chrome will ignore the page breaks, without failing anything."
+    )
+    assert 'class="brief-doc"' in brief
+    assert ".brief-doc {" in css, "the brief's own class is not defined in style.css"
+    assert "page-break-after: always" in css

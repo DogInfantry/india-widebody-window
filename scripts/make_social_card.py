@@ -44,7 +44,7 @@ SANS = "Segoe UI"
 HEADLINE = "India's Wide-Body Window"
 EYEBROW = "COMMERCIAL AVIATION  ·  INDIA AND THE GULF"
 ANSWER = "Compete with the Gulf hubs.\nDo not fly more aircraft to them."
-URL = "doginfantry.github.io/india-widebody-window"
+URL = "india-widebody-window.vercel.app"
 
 
 def _kpis() -> list[tuple[str, str]]:

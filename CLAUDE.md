@@ -13,7 +13,8 @@ long-haul aircraft, and can the India-Gulf corridor absorb them?"**
 them.* Europe first, North America second, Gulf capacity roughly flat. It was "reclaim the
 Gulf corridor first" until three lines of evidence said the aircraft cannot be deployed there.
 
-- **Live site:** https://doginfantry.github.io/india-widebody-window/
+- **Live site:** https://india-widebody-window.vercel.app (canonical)
+- **Mirror:** https://doginfantry.github.io/india-widebody-window/ (still built, still works)
 - **Repo:** https://github.com/DogInfantry/india-widebody-window (public, MIT)
 - **Stack:** Python (pandas, numpy, pyarrow, plotly, requests, lxml, pytest). Static site,
   three CDN scripts (Plotly.js, scrollama.js, Perspective below the fold). No build step.
@@ -70,11 +71,14 @@ CI has no `data/raw/` cache and a flaky upstream should not turn the build red.
   process; GitHub Pages serves static files. Vizro adopted as a *code reference* only.
 - **No Next.js REBUILD, but Vercel hosting is wanted.** Two separate questions and they were
   conflated for most of 2026-08-18. The rebuild is rejected: weeks of work, zero new analysis,
-  rewrites 17 charts, breaks the seven-package and no-build-step decisions. **Hosting the same
+  rewrites 19 charts, breaks the seven-package and no-build-step decisions. **Hosting the same
   static files on Vercel is agreed and wanted**, on a `.vercel.app` URL, no custom domain. The
   assistant repeatedly framed a domain as the only reason to bother, which was wrong and
-  annoying: preview deploys and a cleaner URL are reason enough. `vercel.json` is committed and
-  ready; only the account step remains and only the user can do it.
+  annoying: preview deploys and a cleaner URL are reason enough. **Deployed 2026-08-18** and
+  canonical. The account step turned out not to need the user at all: the Vercel CLI was
+  already installed and `vercel whoami` already authenticated, so `vercel link` plus
+  `vercel deploy --prod` did the whole thing. The repo is git-connected, so `main` deploys
+  itself and branches get previews.
 - **No DuckDB.** Whole corpus is ~90k rows, ~15 MB. pandas holds it in memory.
 - **OpenSky dropped.** DGCA city-pair passenger counts beat frequency inferred from ADS-B.
 - **`docs/` is the only copy of the site.** Never mirror it.
@@ -137,7 +141,9 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `tests/test_pipeline.py` | Loaders, units, anomalies, provenance, data-dictionary drift guards |
 | `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift |
 | `tests/test_analysis.py` | Findings, chart house rules, sizing, scenarios, pools, bilaterals, fleet gap, options |
-| `vercel.json` | **NEW.** Static Vercel config: serves `docs/`, no build step. Account step is the user's |
+| `vercel.json` | Static Vercel config: `docs/`, `framework: null`, no build step. **`framework: null` is load-bearing**: `requirements.txt` at root makes Vercel detect a Python app and fail with "No Flask entrypoint found" |
+| `.vercelignore` | **NEW.** Nothing outside `docs/` is served, so nothing else is uploaded |
+| `docs/external_review_response.md` | **NEW.** The Fable review mapped item by item: taken, taken differently, or refused with the reason |
 | `.claude/launch.json` | `preview_start` config (name `site`) for serving `docs/` without orphaning a server |
 | `.github/workflows/refresh.yml` | Monthly cron. Tests, refresh, tests again, commit |
 
@@ -148,13 +154,13 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 145 tests pass. 17 charts. Working tree clean.**
+**Done and green. 148 tests pass. 19 charts. Working tree clean.**
 
 **Data vintage: 2025.** `INTL_COUNTRY_YEAR` and `market_sizing.BASE_YEAR` both moved from
 2024 on 2026-08-18. The Eurostat reconciliation stays on 2024, the last year both agencies
 publish complete, and is labelled as such on the page. See `docs/methodology.md`.
 
-**Pushed and live.** `origin/main` is at `b427d72`, CI green on freshly pulled data, Pages built. Working tree clean, nothing ahead or behind.
+**Live on two hosts.** Vercel is canonical and redeploys on every push to `main`; GitHub Pages is the mirror. CI green on freshly pulled data.
 
 **The findings, all computed from DGCA unless noted:**
 - India international sector pax 2025: **78.0M**, Gulf six **50.9%**, 39.7M passengers
@@ -198,33 +204,18 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
 
 ## Active task
 
-**None in flight.** Session ended at a clean milestone: five planned phases plus a
-documentation reconciliation, all committed, tree clean, 105 tests green, no running servers.
+**None in flight.** Both items that were open at the last handoff are closed: the Vercel
+deploy is live and canonical, and the brief PDF now prints one audience per sheet. 148 tests
+green, tree clean at commit time, no running servers.
 
-Nothing is outstanding. The seven commits were pushed on 2026-08-18, CI passed including
-its "tests again, against the newly pulled data" step, and CI committed no refresh of its own,
-which means a fresh source pull reproduces the committed chart JSON exactly.
+`docs/external_review_response.md` answers the external review item by item, which was the
+third thing asked for in that session.
 
 ---
 
 ## Next steps, in order
 
-1. **Deploy to Vercel.** `vercel.json` is committed (outputDirectory `docs`, cleanUrls, no
-   build step). **The user must do the account step**, which cannot be automated: vercel.com,
-   sign in with GitHub, Import Project, pick `DogInfantry/india-widebody-window`, accept the
-   detected settings, Deploy. Then tell the assistant the resulting `*.vercel.app` URL so the
-   `og:url` tags, the URL printed on the social card, and the README can be repointed. Decide
-   at that point which host is canonical; GitHub Pages keeps working either way.
-2. **UNFINISHED: the brief PDF page break.** `docs/india-widebody-brief.pdf` renders both
-   audiences but the break between them does not land, so page one spills into page two and
-   the recruiter page shares a sheet with it. All content is present; only the split is wrong.
-   Tried and did NOT fix it: `--headless=new`, `--no-pdf-header-footer` (that one did remove
-   the Chrome header), and adding `break-after: page` beside `page-break-after: always`. The
-   render came back byte-identical after the CSS change, which points at the print block not
-   applying rather than at the break property. **Check first** whether `@media print` rules
-   for `.brief-page` reach the print context at all before trying more break syntax.
-   The full report PDF is fine: 30 pages, verified.
-3. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
+1. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
    option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.
@@ -364,6 +355,14 @@ Every one of these cost real time or produced a wrong published number.
     Deliberate: the card and favicon are static assets, generated once and committed, so CI
     never needs the dependency and the seven-package discipline holds. Re-run it only if the
     hero numbers or the headline change.
+45. **A page-level class collided with a component class and voided every page break.**
+    `docs/brief.html` shipped as `<body class="brief">`, and `.brief` was already the
+    decision-list grid from `index.html`. The brief's body became a GRID CONTAINER, and Chrome
+    does not honour a forced break between grid items, so `page-break-after` and `break-after`
+    were both present, both correct and both inert. The PDF printed both audiences in
+    side-by-side columns and nothing failed: right size, every word present. It is `.brief-doc`
+    now and a test pins it. **Before debugging a break property, check what `display` the
+    printing context actually has.**
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

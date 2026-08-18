@@ -1,0 +1,14 @@
+# vercel.json sets outputDirectory to docs and there is no build step, so nothing
+# outside docs/ is ever served. Without this every deploy uploads the whole parquet
+# corpus, about 15 MB, to be ignored. vercel.json itself must stay: Vercel reads it.
+data
+src
+tests
+scripts
+memory
+.github
+.claude
+/*.md
+/jd.txt
+/NOTICE
+requirements.txt

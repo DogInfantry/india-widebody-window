@@ -24,3 +24,5 @@ data/raw/*
 Thumbs.db
 .DS_Store
 desktop.ini
+
+.vercel

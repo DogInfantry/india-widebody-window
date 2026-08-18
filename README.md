@@ -3,6 +3,8 @@
 **Where should Indian carriers deploy their next 100 long-haul aircraft, and can the
 India-Gulf corridor absorb them?**
 
+**Live: [india-widebody-window.vercel.app](https://india-widebody-window.vercel.app)** (also mirrored on [GitHub Pages](https://doginfantry.github.io/india-widebody-window/))
+
 > **Compete with the Gulf hubs. Do not fly more aircraft to them.** The corridor carries
 > half of India's international traffic and is four times the entire direct Europe market,
 > but about 8.5M of those passengers a year are going somewhere else entirely, and what
