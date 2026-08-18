@@ -135,6 +135,7 @@ docs/                  the only copy of the site, served by GitHub Pages
 | [Recommendation](docs/recommendation.md) | Five costed options, roadmap, risk register, leading indicators |
 | [Pivot log](docs/pivot_log.md) | The six times evidence turned the analysis, each citing its commit |
 | [Hypothesis tree](docs/hypothesis_tree.md) | The decomposition, including branches still open |
+| [Survey design](docs/survey_design.md) | A conjoint instrument for the softest number in the case. Designed, not fielded |
 | [Methodology](docs/methodology.md) | Frameworks, limits, what the data cannot tell you, and the retraction |
 | [Data dictionary](data/data_dictionary.md) | Every field: source, pull date, reliability grade |
 | [Coverage](docs/coverage.md) | Job posting mapped to artifacts, gaps included |

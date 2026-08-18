@@ -124,6 +124,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/report.html` | **NEW.** Print edition. Holds no prose: fetches `index.html` at load and relays it linearly. Save as PDF button |
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
+| `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
 | `docs/pivot_log.md` | **NEW.** Six documented changes of mind, each citing its commit |
 | `docs/{storyline,hypothesis_tree,methodology,coverage,alternative_b_datacenters}.md` | Written IP |
 | `data/data_dictionary.md` | Provenance contract. Every field, source, pull date, grade |

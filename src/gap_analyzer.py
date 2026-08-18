@@ -84,7 +84,11 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         "survey analysis",
         "Survey analysis",
         (),
-        "NOT EVIDENCED. No survey data exists and fabricating one would be dishonest",
+        "STILL A GAP, and deliberately. docs/survey_design.md holds a fielded-ready "
+        "conjoint instrument, sampling frame and analysis plan for the one number this "
+        "case cannot verify. It stays a gap because designing a survey is not analysing "
+        "one: there are no responses. Counting it would be the stretch this analyzer exists "
+        "to refuse",
     ),
     Requirement(
         "ad-hoc studies",
