@@ -67,7 +67,7 @@ life. It was unblocked by finding the sources, never by relaxing the rule, and n
 that moved the answer: the new leg came in at 90.7M, the **low** end, so verifying the gated
 numbers widened the band downward and made the recommendation harder to argue.
 
-**4. It publishes the six times it was wrong.**
+**4. It publishes the eight times it was wrong.**
 [The pivot log](docs/pivot_log.md) records every change of mind with the commit it happened
 in. A margin claim published on the site and withdrawn. A premise reversed. A bucket bug that
 misfiled 5.0M passengers a year **while all 72 tests passed**, because a wrong bucket is still
@@ -135,7 +135,7 @@ docs/                  the only copy of the site, served by GitHub Pages
 |---|---|
 | [Storyline](docs/storyline.md) | The client brief, the recommendation, and the SCQA under it |
 | [Recommendation](docs/recommendation.md) | Five costed options, roadmap, risk register, leading indicators |
-| [Pivot log](docs/pivot_log.md) | The six times evidence turned the analysis, each citing its commit |
+| [Pivot log](docs/pivot_log.md) | The eight times evidence turned the analysis, each citing its commit |
 | [Hypothesis tree](docs/hypothesis_tree.md) | The decomposition, including branches still open |
 | [Survey design](docs/survey_design.md) | A conjoint instrument for the softest number in the case. Designed, not fielded |
 | [Methodology](docs/methodology.md) | Frameworks, limits, what the data cannot tell you, and the retraction |

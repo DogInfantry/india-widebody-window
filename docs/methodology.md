@@ -17,7 +17,7 @@ What was done, what it rests on, and what it cannot tell you.
 | **Breakeven analysis** | `src/options.py`. How far yield can fall before a corridor stops covering its cost, in place of an NPV whose inputs cannot be verified |
 | **Option evaluation** | `docs/recommendation.md`. Five options, each with what would have to be true, and the recommendation falling out of the breakeven table |
 | **Hypothesis invalidation** | `docs/storyline.md` and `docs/recommendation.md`. A recommendation that cannot be falsified is not analysis |
-| **Decision audit trail** | `docs/pivot_log.md`. Six documented changes of mind, each citing the commit it happened in |
+| **Decision audit trail** | `docs/pivot_log.md`. Eight documented changes of mind, each citing the commit it happened in |
 
 Framework structure draws on
 [DogInfantry/claude-skill-management-consultant-B1](https://github.com/DogInfantry/claude-skill-management-consultant-B1),

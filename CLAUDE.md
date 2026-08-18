@@ -148,7 +148,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
-| `docs/pivot_log.md` | Seven documented changes of mind, each citing its commit |
+| `docs/pivot_log.md` | Eight documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
 | `web/` | The client-facing delivery layer. Next.js **static export**, **seven routes**, Recharts. Canonical on Vercel |
 | `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 20 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
@@ -576,7 +576,13 @@ Serve the site through `preview_start` (config name `site`), not a bare `http.se
 - **Prose belongs in `docs/index.html` and every other surface re-lays it out.** That was
   gotcha 43 for the report and the deck; the React app now obeys it too, by parsing steps in
   `app_export.story()` rather than retyping them. **Never write step prose into `web/`.**
-- **When the answer changes, say so in `docs/pivot_log.md` rather than quietly amending.** Six
+- **When the answer changes, say so in `docs/pivot_log.md` rather than quietly amending.** Eight
   entries so far, each citing its commit. Changing a recommendation also means sweeping
   `storyline.md`, `hypothesis_tree.md`, `index.html`, `README.md` and `methodology.md`: the
   2026-08-18 change left four of them self-contradicting for one commit.
+- **Adding a pivot means sweeping the COUNT, in seven files.** `README.md` twice,
+  `docs/{index,report,brief}.html` (including two OpenGraph descriptions that surface in link
+  previews), `docs/methodology.md`, `src/gap_analyzer.py` (which regenerates `docs/coverage.md`),
+  and this file. Only `web/app/methodology` computes it, which is why the app was right and
+  every hand-written surface was wrong for two pivots running. A narrative-guard claim now
+  counts `## Pivot ` headings and fails the build, so this is the last time.

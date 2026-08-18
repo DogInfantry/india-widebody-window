@@ -265,6 +265,31 @@ CLAIMS: tuple[Claim, ...] = (
         must_not_appear=("33 million passengers",),
     ),
     Claim(
+        # Counted from the pivot log itself, never typed. This drifted TWICE
+        # without failing anything: pivot 7 was added and six other files kept
+        # saying six, then pivot 8 was added and CLAUDE.md alone said seven. The
+        # app was right the whole time because `web/app/methodology` renders
+        # `pivots.length`; every hand-written surface was wrong, including the
+        # OpenGraph description that shows in a link preview.
+        "documented changes of mind",
+        lambda: sum(
+            ln.startswith("## Pivot ")
+            for ln in (ROOT / "docs" / "pivot_log.md").read_text(encoding="utf-8").splitlines()
+        ),
+        "{:.0f}",
+        must_appear=("Eight documented changes of mind", "eight documented changes of mind"),
+        must_not_appear=(
+            "six documented changes of mind",
+            "Six documented changes of mind",
+            "Seven documented changes of mind",
+            "seven documented changes of mind",
+            "Six times, evidence turned",
+            "Six changes of mind",
+            "the six times evidence turned",
+            "the six times it was wrong",
+        ),
+    ),
+    Claim(
         "IndiGo domestic load factor",
         lambda: float(
             bm.carrier_operating_summary(bm.LATEST_COMPLETE_YEAR)
