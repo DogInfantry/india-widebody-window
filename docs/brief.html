@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>India's Wide-Body Window: brief</title>
+<meta name="description" content="One page on where Indian carriers should deploy their next 100 long-haul aircraft, and one page on what building it demonstrates."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@500;600;700&display=swap" rel="stylesheet"/>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"/>
+<meta name="theme-color" content="#CC0000"/>
+<meta property="og:type" content="website"/>
+<meta property="og:url" content="https://doginfantry.github.io/india-widebody-window/brief.html"/>
+<meta property="og:title" content="India's Wide-Body Window: brief"/>
+<meta property="og:description" content="Compete with the Gulf hubs, do not fly more aircraft to them. One page on the analysis, one page on what building it demonstrates."/>
+<meta property="og:image" content="https://doginfantry.github.io/india-widebody-window/assets/social-card.png"/>
+<meta property="og:image:alt" content="India's Wide-Body Window: compete with the Gulf hubs, do not fly more aircraft to them."/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://doginfantry.github.io/india-widebody-window/assets/social-card.png"/>
+<link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body class="brief">
+
+<!-- Two pages, each standing alone, because they answer different questions.
+     Page one is for someone deciding whether the ANALYSIS is worth their
+     colleague's time. Page two is for someone deciding whether the PERSON is
+     worth an interview. Printed, Chrome breaks them onto separate sheets. -->
+
+<div class="brief-bar">
+  <a href="index.html">Full version</a>
+  <span><a href="india-widebody-brief.pdf">Download this brief (PDF)</a> &middot; <a href="india-widebody-window.pdf">Full report (PDF)</a></span>
+</div>
+
+<section class="brief-page">
+  <p class="eyebrow">Commercial aviation &middot; India and the Gulf</p>
+  <h1>India's Wide-Body Window</h1>
+  <p class="brief-q">Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them?</p>
+
+  <div class="answer">
+    <span class="answer-label">The answer</span>
+    <p>Compete with the Gulf hubs. Do not fly more aircraft to them. Europe first, North America second.</p>
+  </div>
+
+  <div class="brief-nums">
+    <div><strong>78.0M</strong><span>India international sector passengers, 2025, computed from DGCA</span></div>
+    <div><strong>8.5M</strong><span>of them are connecting onward through a Gulf hub, not going to the Gulf</span></div>
+    <div><strong>78%</strong><span>the firm wide-body order book would add to Indian carriers' international capacity</span></div>
+  </div>
+
+  <h2>Why the aircraft should not go to the Gulf, though the traffic is there</h2>
+  <ol class="brief-list">
+    <li><strong>Almost no room.</strong> India-Dubai runs at 88.8% of its reported bilateral entitlement. Abu Dhabi is looser at 70.1%, so the corridor is not uniformly capped, but the two together leave space for about 4% of the order book.</li>
+    <li><strong>The worst unit economics on the map.</strong> Scaling IndiGo's published unit cost across corridors, Gulf sectors have the least room of any to absorb a yield decline, and do not cover their own cost at IndiGo's realised yield. Europe can take about a fifth off the fare and still clear.</li>
+    <li><strong>An order book sized for a longer network.</strong> It clears only if the average sector lengthens about 27%, or if Indian carriers take 58% of the market.</li>
+  </ol>
+
+  <p>The corridor stays the prize: of 39.7M Gulf passengers, roughly 8.5M are travelling onward to Europe and North America on a Gulf carrier, a contested pool worth <strong>INR 28,900 to 56,700 crore</strong>. That traffic is won by flying past the Gulf, not to it.</p>
+
+  <div class="brief-check">
+    <h3>Why the numbers can be checked rather than taken on trust</h3>
+    <p>Every figure is computed in-repo from DGCA, Eurostat and World Bank data, or gated against a primary filing: a status gate refuses any hand-entered number that has not been verified, and it has blocked real work rather than been relaxed. DGCA and Eurostat, measuring the same routes from opposite ends, agree to 2.6%. Six changes of mind are published with the commit each happened in, including a claim that was on the page and had to be withdrawn.</p>
+    <p class="brief-link">doginfantry.github.io/india-widebody-window</p>
+  </div>
+</section>
+
+<section class="brief-page">
+  <p class="eyebrow">The same project, as evidence</p>
+  <h1>What building this demonstrates</h1>
+  <p class="brief-q">A self-directed case in the style of BCN Advanced Manufacturing &amp; Services commercial aviation work. Python analysis layer, static site, no PowerPoint and no Excel anywhere in the pipeline.</p>
+
+  <table class="recon options brief-table">
+    <thead><tr><th>From the posting</th><th>Where it is evidenced</th></tr></thead>
+    <tbody>
+      <tr><td>Go-to-market strategy</td><td>A named client, five costed options each with what would have to be true, a phased roadmap and a nine-row risk register</td></tr>
+      <tr><td>Industry analysis and competitive benchmarking</td><td>India's international market by corridor, carrier and stage length; Indian carriers against Gulf carriers on share, load factor and sector length</td></tr>
+      <tr><td>Model building</td><td>Capacity absorption in ASK, corridor breakeven, market sizing to a band across three methods, and a sensitivity on every modelled knob. Reimagined in Python; the repo forbids Excel as output or intermediate</td></tr>
+      <tr><td>Secondary research</td><td>Every field sourced, dated and reliability graded in a data dictionary; conflicts flagged rather than resolved to whichever was convenient</td></tr>
+      <tr><td>Judgement where data is thin</td><td>An assumption gate, a disputed route quarantined, an unverifiable origin-destination share bounded rather than asserted</td></tr>
+      <tr><td>Storylining</td><td>SCQA, answer-first structure, and action titles on every chart enforced by a test</td></tr>
+    </tbody>
+  </table>
+
+  <h2>What it does not evidence, stated rather than stretched</h2>
+  <p>A script maps the real posting to artifacts and checks each exists. It reports <strong>82%</strong>, not 100%. Three requirements cannot be honestly evidenced by one person working alone, and are listed rather than papered over: survey analysis, mentoring analysts, and first-level team management. A fielded-ready conjoint instrument for the softest number in the case is designed and included, and survey analysis is <em>still</em> counted as a gap, because designing a survey is not analysing one.</p>
+
+  <div class="brief-check">
+    <h3>The part I would most want to be asked about</h3>
+    <p>A bug once misfiled 5.0M passengers a year, a fifth of the entire Gulf flow, into the wrong bucket. All 72 tests passed throughout, because a wrong bucket is still a valid bucket. It was found by chasing an unrelated number. Four of the six documented corrections came from cross-checking one source against another; none came from the test suite. That is why the reconciliation work is an exhibit on the site rather than an appendix.</p>
+    <p class="brief-link">doginfantry.github.io/india-widebody-window &middot; source and full write-up on GitHub</p>
+  </div>
+</section>
+
+</body>
+</html>

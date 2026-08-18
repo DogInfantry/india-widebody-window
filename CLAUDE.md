@@ -120,6 +120,8 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `scripts/refresh.py` | **Single entry point, and exactly what CI runs** |
 | `docs/index.html` | The site. 17 scrolly steps, recommendation section, pivots section, reconciliation, methodology |
 | `docs/deck.html` | **NEW.** Slide view. Same no-prose pattern: reads `index.html`, one step per screen, arrow keys plus scroll-snap |
+| `scripts/make_pdfs.py` | **NEW.** Chrome headless to committed PDFs. Needs the site served on :8000. Not in `refresh.py`, not in CI |
+| `docs/brief.html` | **NEW.** Two one-pagers: one for a case team, one for a screener |
 | `scripts/make_social_card.py` | **NEW.** Generates `social-card.png` and `favicon.svg`. Run once, commit. NOT in `refresh.py`, CI never runs it, needs matplotlib which is deliberately absent from requirements.txt |
 | `docs/report.html` | **NEW.** Print edition. Holds no prose: fetches `index.html` at load and relays it linearly. Save as PDF button |
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
@@ -203,7 +205,16 @@ which means a fresh source pull reproduces the committed chart JSON exactly.
 
 ## Next steps, in order
 
-1. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
+1. **UNFINISHED: the brief PDF page break.** `docs/india-widebody-brief.pdf` renders both
+   audiences but the break between them does not land, so page one spills into page two and
+   the recruiter page shares a sheet with it. All content is present; only the split is wrong.
+   Tried and did NOT fix it: `--headless=new`, `--no-pdf-header-footer` (that one did remove
+   the Chrome header), and adding `break-after: page` beside `page-break-after: always`. The
+   render came back byte-identical after the CSS change, which points at the print block not
+   applying rather than at the break property. **Check first** whether `@media print` rules
+   for `.brief-page` reach the print context at all before trying more break syntax.
+   The full report PDF is fine: 30 pages, verified.
+2. **Wide-body lease rates.** Now the largest named unresolved input: the damp-lease bridge
    option in `docs/recommendation.md` is presented with its economics explicitly unquantified.
    IBA/Cirium transaction rates are paywalled. If a citable rate ever surfaces, the bridge
    option becomes comparable and the roadmap's Phase 1 gets a real answer.

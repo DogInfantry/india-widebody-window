@@ -668,3 +668,105 @@ a:hover { border-bottom-color: var(--red); }
 }
 
 @media (prefers-reduced-motion: reduce) { #slides { scroll-behavior: auto; } }
+
+/* --------------------------------------------------------------- brief */
+
+/* Two pages, each standing alone: one for someone deciding whether the
+   ANALYSIS deserves a colleague's time, one for someone deciding whether the
+   PERSON deserves an interview. Sized so Chrome prints each to its own sheet,
+   which is the whole point: an attachment forwards, a link asks for effort. */
+.brief { font-size: 15px; }
+
+.brief-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 18px var(--gutter);
+  border-bottom: 1px solid var(--light);
+  font-size: 13px;
+}
+
+.brief-page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 44px var(--gutter) 56px;
+  border-bottom: 1px solid var(--light);
+}
+
+.brief-page:last-child { border-bottom: none; }
+.brief-page h1 { font-size: 38px; font-weight: 700; margin-bottom: 12px; }
+.brief-page h2 { font-size: 19px; font-weight: 600; margin: 26px 0 10px; }
+.brief-page h3 { font-size: 15px; font-weight: 600; color: var(--red); margin-bottom: 8px; }
+
+.brief-q {
+  font-family: var(--serif);
+  font-size: 18px;
+  line-height: 1.4;
+  color: #333;
+  max-width: 62ch;
+  margin-bottom: 24px;
+}
+
+.brief .answer { margin-bottom: 26px; padding-top: 16px; }
+.brief .answer p { font-size: 19px; }
+
+.brief-nums {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 22px;
+  margin-bottom: 26px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--light);
+}
+
+.brief-nums strong {
+  display: block;
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+  margin-bottom: 5px;
+}
+
+.brief-nums span { font-size: 13px; color: #333; line-height: 1.45; }
+
+.brief-list { margin: 0 0 18px; padding-left: 20px; }
+.brief-list li { margin-bottom: 9px; color: #333; }
+
+.brief-check {
+  background: var(--wash);
+  border-left: 2px solid var(--accent);
+  padding: 16px 18px;
+  margin-top: 24px;
+}
+
+.brief-check p { font-size: 14px; color: #333; margin-bottom: 8px; }
+.brief-link { font-size: 13px; color: var(--grey); margin: 0; }
+.brief-table { font-size: 13px; margin-top: 12px; }
+.brief-table td { padding: 9px 12px; }
+
+@media print {
+  .brief-bar { display: none; }
+  .brief { font-size: 10pt; }
+  /* One audience per sheet. Without this the two run together and the second
+     page stops being something you can send on its own. */
+  /* Both properties: `page-break-after` is the legacy spelling and `break-after`
+     the current one, and Chrome's print path honours them inconsistently
+     depending on version. The first attempt used only the legacy form and the
+     two briefs ran together on one sheet, which defeats the point of having
+     two. */
+  .brief-page {
+    page-break-after: always;
+    break-after: page;
+    border-bottom: none;
+    padding: 0 0 12pt;
+    max-width: none;
+  }
+  .brief-page:last-child { page-break-after: auto; break-after: auto; }
+  .brief-page h1 { font-size: 22pt; }
+  .brief-nums strong { font-size: 18pt; }
+  .brief-check { page-break-inside: avoid; }
+}
