@@ -288,23 +288,34 @@ hand:** `web/lib/exhibits.tsx` reads it from the `story` export, which is parsed
 
 ## Next steps, in order
 
-1. **The forwarding note.** Still unwritten and now the binding constraint. The user applied
-   to the BCN AMS Associate role, has had no reply, and has a warm contact who could refer
-   them. What is missing is a short note in the **user's own voice** with the `.vercel.app`
-   link and the brief PDF attached. `docs/brief.html` and the PDFs exist to make that forward
-   cheap. Agreed in an earlier session and never delivered.
-2. **Wide-body lease rates.** The largest named unresolved input: the damp-lease bridge option
-   in `docs/recommendation.md` is presented with its economics explicitly unquantified.
-   IBA/Cirium transaction rates are paywalled.
-3. **Bilateral entitlements for the non-Dubai Gulf points.** Abu Dhabi (5.7M pax) and Sharjah
-   (3.4M) hold separate MoUs whose entitlements were not found. Dubai's 88.8% is load-bearing.
-4. **BTS T-100 loader** for a both-ends India to United States reconciliation, as India to
-   Europe already has via Eurostat. Would raise the 5.6% cross-checked share.
-5. **Belly cargo.** Freight already flows through the pipeline unused. Real money on wide-bodies.
-6. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource
-    IDs `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`.
-    Create `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no
-    key, primary.
+**The artifact is finished.** Nothing below is required for it to stand up to a reader, and
+three entries that sat here for two sessions were already done and are deleted rather than
+carried: Abu Dhabi's entitlement was found and published (70.1%), belly cargo has its own
+module and a published exhibit, and the forwarding note was **declined by the user on
+2026-08-19**. Do not re-add it.
+
+Everything remaining is either blocked by a paywall or is genuine new analysis.
+
+1. **BTS T-100 loader**, and this is the only item that would move a headline. A both-ends
+   India to United States reconciliation, as India to Europe already has via Eurostat. It
+   would raise the **5.6%** cross-checked share, which is the number `docs/methodology.md`
+   names as the honest limit of the whole provenance claim. BTS T-100 is free, public and
+   machine-readable, so unlike everything else here it is not blocked, only unbuilt.
+2. **Wide-body lease rates.** BLOCKED. The largest named unresolved input: the damp-lease
+   bridge in `docs/recommendation.md` is presented with its economics explicitly unquantified.
+   IBA and Cirium transaction rates are paywalled and no free primary exists.
+3. **Sharjah's bilateral entitlement.** BLOCKED. Two timeboxed searches found nothing, so no
+   row exists and the 3.4M passengers a year through Sharjah sit outside the entitlement
+   check. Dubai and Abu Dhabi are both covered; this is the third UAE MoU only.
+4. **Optional:** wire the data.gov.in ATF historical series when their API recovers. Resource
+   IDs `20c8db40-d4b8-4c69-b7e5-a6fa3fd24d05` and `e3b19e4d-e287-4d32-b53d-70e9617c7770`.
+   Create `.env` with `DATAGOV_API_KEY=...` (gitignored). IOCL publishes its own history, no
+   key, primary, so this is a convenience rather than a gap.
+
+**The three JD gaps are terminal and should stay gaps.** Survey analysis has a fielded-ready
+instrument in `docs/survey_design.md` and no responses, and designing a survey is not
+analysing one. Mentoring and first-level team management cannot be evidenced by a solo repo.
+Coverage is **82%** and engineering it upward would defeat the point of the analyzer.
 
 ---
 
