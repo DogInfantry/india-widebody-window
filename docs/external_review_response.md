@@ -119,3 +119,79 @@ quotes 72 million international passengers, a 91 to 108 million band, and a 51.2
 share. All three moved when the headline year became 2025. They appear here as the review had
 them, not as current figures.
 <!-- /narrative-guard -->
+
+---
+
+# The second Fable review, 2026-08-19
+
+A second review arrived the following day, framed as a partner-level audit and proposing a
+90-day rebuild around a new "Hormuz Stress-Test module". **Its factual core is real and was
+verified against primary sources before anything was acted on. Its priorities are wrong, and
+the two highest-value findings available were ones it buried or missed.**
+
+## What was verified before anything was built
+
+Gotcha 22 exists because the first review published a headline number that was wrong by about
+4x. So every load-bearing claim in this one was checked against IndiGo's own Q1 FY27 earnings
+presentation and contemporaneous reporting. **All of it held**: the Strait of Hormuz closing
+on 28 February 2026, Brent past $100 within a fortnight, fuel CASK 2.49 against 1.38, CASK
+5.71 against 4.31, CASK ex-fuel 3.22 against 2.93, RASK 5.66, yield 6.04, load factor 83.3%,
+and a 238 crore loss against a 2,176 crore profit.
+
+Two corrections to the review's own figures:
+
+- It quotes Q1 FY27 CASK ex-fuel at 3.22 and never mentions **CASK ex-fuel ex-forex at 3.20**,
+  which is the figure gotcha 20 requires whenever an FX lever is running. Using only 3.22
+  double counts the currency.
+- It cites the IATA origin-destination data as 2025. **The data is 2024.** It also omits
+  **Asia Pacific at 29.9%**, the second largest region, from its regional list, so the cut it
+  presents is not MECE.
+
+## Taken, and it is the largest single upgrade this project has had
+
+**The IATA origin-destination reconciliation**, which the review gave one sentence in its
+section 6 while devoting a third of the document to the stress-test module. It is the bigger
+finding by a wide margin, because it reaches the number the recommendation actually rests on.
+See pivot 9. The short version: this project said the figure could never be checked, that was
+wrong, and checking it produced a measured floor of 7.84M under the 8.49M it models.
+
+**The risk register had already fired**, which the review did not notice at all. Three of its
+nine rows, and one impact grade was wrong. See pivot 10.
+
+## Refused, and the reason matters more than the item
+
+**"Move the 'how this analysis changed' confessions to a methodology appendix."** No. This is
+the central disagreement and it is a category error. The review assesses this as a board
+deliverable for a client that has commissioned it. **It is a recruiter-facing portfolio piece
+for an Associate role in an advanced-manufacturing practice**, and the pivot log, the gated
+assumption vocabulary and the "what would break it" tabs are not friction in front of the
+argument, they *are* the argument: they are the only direct evidence of the judgement the
+role is actually hiring for. Anyone can assert a recommendation. The review contradicts itself
+here in any case, grading evidence hierarchy an A that "should be marketed, not hidden" in its
+scorecard and then recommending, three rows later, that the epistemics be hidden.
+
+## Wrong about what is already here
+
+- **"No Hormuz stress-test; build `src/stress_test.py`."** `scenario.cost_under_shock(atf_pct,
+  inr_depreciation_pct)` and `scenario.fuel_fx_sensitivity()` already exist and are already
+  parameterised in percent. **The first Fable review made this identical error** and this file
+  answered it: "Fuel and FX are not wired to the model as sensitivity drivers. They already
+  were." The real defect is much narrower and is recorded as Next steps item 0: the sweep
+  runs to plus or minus 20% and the event was **+80.4%**, so the axis stops short of reality.
+- **"No PDF export, no print-to-PDF styles, no board one-pager."** All three exist:
+  `scripts/make_pdfs.py`, the `@media print` block in `docs/assets/style.css`, and
+  `docs/brief.html`, which is already two one-pagers aimed at two different readers.
+- **Tornado.** Refused once already, with a reason, in the section on the model spec above.
+  The review's version is decoupled from the NPV, which weakens that particular refusal, but
+  it is not a new proposal.
+- **NPV.** The review agrees it should not be faked here. Nothing to settle.
+
+## What it opened that is still open
+
+The **airspace overlay**, and this is the review's best original observation. The Iranian and
+Pakistani closures lengthen westbound sectors, which are precisely the ones this case
+sequences first, so the shock does **not** cleanly strengthen the recommendation. A fuel spike
+raises unit cost most where sectors are shortest, which argues for west-first; the detours
+argue against it. Both effects are computable from `CASK_STAGE_ELASTICITY` and the corridor
+headroom table and **neither has been netted**. It is named as open work in the risk register
+rather than resolved in the recommendation's favour.
