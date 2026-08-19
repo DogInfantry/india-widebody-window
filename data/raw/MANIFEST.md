@@ -1,6 +1,6 @@
 # Raw pull manifest
 
-Generated 2026-08-18 by `src.data_pipeline.build_all`.
+Generated 2026-08-19 by `src.data_pipeline.build_all`.
 
 `data/raw/` itself is gitignored because it is regenerable. This manifest is
 committed so the provenance of every published figure survives.
