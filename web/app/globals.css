@@ -53,6 +53,100 @@ h3 {
   font-variant-numeric: tabular-nums;
 }
 
+/* ------------------------------------------------------------------ *
+   Interactive affordance.
+
+   The complaint that prompted this was that interactive things do not look
+   interactive, and it was concretely true. Tailwind v4's preflight styles
+   `button` for font, colour, background and border-radius, and deliberately
+   does NOT set `cursor: pointer` the way v3 did. Nothing here added it back, so
+   every tab on all 26 exhibits showed an arrow cursor. A tab that does not
+   change the cursor is a caption as far as the reader's hand is concerned.
+
+   The default for `a` is UNDERLINED, and opting out is explicit via
+   `.block-link`. That direction matters: a link added later is visible by
+   default and has to be deliberately quietened, rather than being invisible by
+   default and having to be remembered. Eight links had already drifted into
+   having no underline at all before this rule existed.
+ * ------------------------------------------------------------------ */
+@layer base {
+  button,
+  summary,
+  [role="tab"],
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--color-light);
+    text-underline-offset: 4px;
+    transition:
+      color 0.15s ease,
+      text-decoration-color 0.15s ease;
+  }
+
+  a:hover,
+  a:focus-visible {
+    color: var(--color-red);
+    text-decoration-color: currentColor;
+  }
+
+  /* One focus treatment everywhere, in the accent that already means "this is
+     the thing that matters" on every chart. */
+  :focus-visible {
+    outline: 2px solid var(--color-red);
+    outline-offset: 2px;
+  }
+}
+
+/* A whole clickable block: a door card, a driver-tree leaf. It carries no
+   underline, so it needs a different affordance, and it needs one AT REST
+   rather than only on hover. The rest state is a left rule in the neutral; the
+   hover and focus state reddens it and lifts the surface. */
+.block-link {
+  display: block;
+  text-decoration: none;
+  border-left: 2px solid var(--color-light);
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.block-link:hover,
+.block-link:focus-visible {
+  background-color: var(--color-wash);
+  border-left-color: var(--color-red);
+  color: inherit;
+}
+
+/* The persistent "this goes somewhere" mark. Grey at rest so it reads as
+   affordance rather than decoration, red on hover with a short nudge. */
+.block-link .go {
+  color: var(--color-grey);
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+  display: inline-block;
+}
+
+.block-link:hover .go,
+.block-link:focus-visible .go {
+  color: var(--color-red);
+  transform: translateX(3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .block-link .go {
+    transition: none;
+  }
+  .block-link:hover .go,
+  .block-link:focus-visible .go {
+    transform: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

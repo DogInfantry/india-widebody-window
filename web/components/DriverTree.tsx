@@ -10,8 +10,28 @@ import { carriers, company, corridors, access, fleet } from "@/lib/data";
 //
 // It is one identity decomposed, not four frameworks stacked. Revenue and profit
 // share the same ASK term; reach is what sets the stage length inside yield; and
-// competitive position decides whether the yield holds at all. Each branch fails
-// for a different reason, and the recommendation is the branch that survives.
+// competitive position decides whether the yield holds at all.
+//
+// **Rebuilt 2026-08-20, because it read as a text grid rather than an exhibit.**
+// Three things were wrong and all three were about the reader, not the data:
+//
+//   1. The verdicts were the characters `x`, `/` and `~`, with the only
+//      explanation in an `aria-label` no sighted reader ever sees. A slash
+//      meaning "holds" is not decodable. They are labelled chips now.
+//   2. There was no branch-level roll-up, so the headline finding was invisible
+//      unless you read all nine leaves and did the counting yourself.
+//   3. Every leaf was a link and none of them looked like one. They now use the
+//      `.block-link` convention: a rule at rest, a surface and a moving chevron
+//      on hover, and a real focus ring.
+//
+// **The roll-up is computed, and finding the rule mattered.** The old subtitle
+// asserted "three branches fail as things stand". Counting branches with at
+// least one failing leaf gives four; counting branches where failures outnumber
+// passes gives two. Neither is three. The rule that yields three is
+// `fails > 0 && fails >= holds`, which is also the defensible one: a branch is
+// failing when its problems are at least as numerous as the things going right.
+// It is now computed and the sentence reads the computed number, the same way
+// `web/app/methodology` renders `pivots.length` instead of stating a figure.
 
 const gulf = corridors.find((c) => c.region === "Gulf")!;
 const europe = corridors.find((c) => c.region === "Europe")!;
@@ -21,7 +41,8 @@ const spread = company.spread;
 const emirates = company.competitive_position.find((c) => c.carrier === "Emirates")!;
 const baseline = fleet.baseline;
 
-type Leaf = { metric: string; value: string; verdict: "fails" | "holds" | "mixed"; href: string };
+type Verdict = "fails" | "holds" | "mixed";
+type Leaf = { metric: string; value: string; verdict: Verdict; href: string };
 
 const BRANCHES: {
   branch: string;
@@ -113,11 +134,37 @@ const BRANCHES: {
   },
 ];
 
-const MARK = {
-  fails: { glyph: "x", label: "fails today", className: "text-red" },
-  holds: { glyph: "/", label: "holds", className: "text-ink" },
-  mixed: { glyph: "~", label: "mixed", className: "text-grey" },
-} as const;
+/** A branch is failing when its problems are at least as numerous as the things
+ *  going right. Stated as a rule so the count in the prose cannot drift from it. */
+function rollUp(leaves: Leaf[]): Verdict {
+  const fails = leaves.filter((l) => l.verdict === "fails").length;
+  const holds = leaves.filter((l) => l.verdict === "holds").length;
+  if (fails > 0 && fails >= holds) return "fails";
+  if (fails > 0) return "mixed";
+  return "holds";
+}
+
+const FAILING = BRANCHES.filter((b) => rollUp(b.leaves) === "fails").length;
+const WORDS = ["none", "one", "two", "three", "four"] as const;
+
+/** Chips, not glyphs. Written here rather than installed, because a status chip
+ *  is ten lines and a component library is three dependencies. */
+const CHIP: Record<Verdict, { label: string; className: string }> = {
+  fails: { label: "Fails today", className: "border-red text-red" },
+  holds: { label: "Holds", className: "border-light text-ink" },
+  mixed: { label: "Mixed", className: "border-light text-grey" },
+};
+
+function Chip({ verdict }: { verdict: Verdict }) {
+  const c = CHIP[verdict];
+  return (
+    <span
+      className={`shrink-0 border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${c.className}`}
+    >
+      {c.label}
+    </span>
+  );
+}
 
 export function DriverTree() {
   return (
@@ -127,58 +174,66 @@ export function DriverTree() {
       </p>
       <p className="mt-2 max-w-[70ch] text-[13.5px] leading-relaxed text-grey">
         Four branches of one identity, not four frameworks stacked. Every leaf carries the number
-        that decides it and links to the exhibit that proves it. Three branches fail as things
-        stand, and the recommendation is what is left.
+        that decides it and links to the exhibit that proves it.
+      </p>
+
+      {/* The finding, at the top, where a reader who reads nothing else still
+          gets it. Counted from the leaves rather than typed. */}
+      <p className="mt-5 flex flex-wrap items-baseline gap-x-3 border-l-2 border-red pl-4">
+        <span className="font-serif text-[clamp(1.1rem,2vw,1.4rem)] font-semibold">
+          {(WORDS[FAILING] ?? String(FAILING)).replace(/^./, (m) => m.toUpperCase())} of{" "}
+          {WORDS[BRANCHES.length] ?? BRANCHES.length} branches fail as things stand.
+        </span>
+        <span className="text-[13.5px] text-grey">The recommendation is what is left.</span>
       </p>
 
       <ol className="mt-8 grid gap-px bg-light lg:grid-cols-2">
-        {BRANCHES.map((b) => (
-          <li key={b.branch} className="bg-paper p-6">
-            <div className="flex items-baseline gap-3">
-              <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
-                {b.branch}
-              </span>
-              <span className="font-serif text-lg font-semibold">{b.question}</span>
-            </div>
-            <p className="tnum mt-1 text-[12.5px] text-grey">{b.identity}</p>
+        {BRANCHES.map((b) => {
+          const verdict = rollUp(b.leaves);
+          return (
+            <li key={b.branch} className="bg-paper p-6">
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <div className="flex items-baseline gap-3">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+                      {b.branch}
+                    </span>
+                    <span className="font-serif text-lg font-semibold">{b.question}</span>
+                  </div>
+                  <p className="tnum mt-1 text-[12.5px] text-grey">{b.identity}</p>
+                </div>
+                <Chip verdict={verdict} />
+              </div>
 
-            <ul className="mt-4 space-y-3">
-              {b.leaves.map((leaf) => {
-                const mark = MARK[leaf.verdict];
-                return (
+              <ul className="mt-5 space-y-px">
+                {b.leaves.map((leaf) => (
                   <li key={leaf.metric}>
-                    <Link
-                      href={leaf.href}
-                      className="group flex gap-3 focus-visible:outline-2 focus-visible:outline-red"
-                    >
-                      <span
-                        aria-label={mark.label}
-                        className={`mt-0.5 w-3 shrink-0 text-center font-semibold ${mark.className}`}
-                      >
-                        {mark.glyph}
-                      </span>
-                      <span className="min-w-0">
-                        <span className="block text-[13.5px] leading-snug text-ink/70">
-                          {leaf.metric}
-                        </span>
-                        <span
-                          className={`tnum block text-[15px] font-medium leading-snug group-hover:text-red ${
-                            leaf.verdict === "fails" ? "text-red" : "text-ink"
-                          }`}
-                        >
-                          {leaf.value}{" "}
-                          <span aria-hidden className="text-grey group-hover:text-red">
-                            &rarr;
+                    <Link href={leaf.href} className="block-link group py-2.5 pl-3 pr-2">
+                      <span className="flex items-start justify-between gap-3">
+                        <span className="min-w-0">
+                          <span className="block text-[13px] leading-snug text-grey">
+                            {leaf.metric}
+                          </span>
+                          <span
+                            className={`tnum mt-0.5 block text-[15px] font-medium leading-snug ${
+                              leaf.verdict === "fails" ? "text-red" : "text-ink"
+                            }`}
+                          >
+                            {leaf.value}{" "}
+                            <span aria-hidden className="go">
+                              &rarr;
+                            </span>
                           </span>
                         </span>
+                        <Chip verdict={leaf.verdict} />
                       </span>
                     </Link>
                   </li>
-                );
-              })}
-            </ul>
-          </li>
-        ))}
+                ))}
+              </ul>
+            </li>
+          );
+        })}
       </ol>
     </div>
   );

@@ -1,0 +1,9 @@
+{
+ "origin": {
+  "iata": "DEL",
+  "lat": 28.55563,
+  "lon": 77.09519,
+  "name": "Delhi"
+ },
+ "source": "Airport coordinates from OurAirports (CC0), via the committed data/processed/airports.parquet. Land outline is Natural Earth 110m, public domain, simplified by scripts/make_basemap.py."
+}

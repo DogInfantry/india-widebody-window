@@ -20,6 +20,7 @@ import scenarioCubeJson from "@/public/data/scenario_cube.json";
 import briefJson from "@/public/data/brief.json";
 import storyJson from "@/public/data/story.json";
 import companyJson from "@/public/data/company.json";
+import geoJson from "@/public/data/geo.json";
 
 export type Kpi = { value: string; label: string; note: string | null };
 
@@ -34,6 +35,8 @@ export type Corridor = {
   reachable_by_narrowbody: boolean | null;
   hub_iata: string | null;
   hub_name: string | null;
+  hub_lat: number | null;
+  hub_lon: number | null;
   rpk_bn: number | null;
   revenue_inr_cr: number | null;
   margin_pct: number | null;
@@ -53,6 +56,10 @@ export const fleet = fleetJson;
 export const economics = economicsJson;
 export const access = accessJson;
 export const market = marketJson;
+
+/** Where Delhi is, plus the provenance line for the corridor map. Hub
+ *  coordinates ride on `corridors`, because they are corridor attributes. */
+export const geo = geoJson;
 
 /** The option menu and the nine-row risk register, parsed out of
  *  docs/recommendation.md by src/app_export.py rather than retyped, so the app

@@ -117,7 +117,35 @@ def corridor_spine() -> list[dict]:
     out = scale.merge(econ, on="region", how="left")
     out = out.merge(pool, on="region", how="left")
     out = out.merge(freight, on="region", how="left")
+
+    # Hub coordinates, so the corridor map can draw real geography rather than a
+    # schematic. `_airport_coords()` is reused rather than a second lookup being
+    # written: it already resolves exactly the IATA codes this table carries,
+    # from the committed OurAirports extract, and it is the same source the
+    # stage lengths in `econ` were computed from. Two lookups would be two
+    # chances to disagree about where Dubai is.
+    coords = pp._airport_coords()
+    out["hub_lat"] = out["hub_iata"].map(lambda k: coords.get(k, (None, None))[0])
+    out["hub_lon"] = out["hub_iata"].map(lambda k: coords.get(k, (None, None))[1])
     return _clean(out)
+
+
+def geo() -> dict:
+    """Where the origin is, for the map that draws every corridor out of it.
+
+    The corridor hubs travel on `corridor_spine()` because they are corridor
+    attributes. The origin is a single constant shared by all of them, so it sits
+    here rather than being repeated on nine rows.
+    """
+    lat, lon = pp._airport_coords()[pp.ORIGIN]
+    return {
+        "origin": {"iata": pp.ORIGIN, "name": "Delhi", "lat": lat, "lon": lon},
+        "source": (
+            "Airport coordinates from OurAirports (CC0), via the committed "
+            "data/processed/airports.parquet. Land outline is Natural Earth 110m, "
+            "public domain, simplified by scripts/make_basemap.py."
+        ),
+    }
 
 
 def scenario_cube() -> dict:
@@ -473,6 +501,7 @@ DATASETS: dict[str, Any] = {
     "narrative": narrative,
     "evidence": evidence,
     "corridors": corridor_spine,
+    "geo": geo,
     "carriers": lambda: {
         "who_carries_india": _clean(bm.who_carries_india()),
         "share_trend": _clean(bm.carrier_share_trend()),

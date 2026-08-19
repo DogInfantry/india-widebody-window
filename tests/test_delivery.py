@@ -309,3 +309,64 @@ def test_no_chart_series_turns_animation_on():
         f"Recharts animation is enabled in {offenders}. Chart marks stay static; "
         "motion belongs on page chrome only. See gotcha 70."
     )
+
+
+def test_every_link_carries_a_visible_affordance():
+    """A link that looks like text is not a link as far as the reader is concerned.
+
+    Eight `<Link>` elements had drifted into carrying no underline and no other
+    cue, and the site had three competing `<a>` treatments and no base rule. The
+    fix is a default in `globals.css` plus explicit opt-outs; this stops the
+    opt-out becoming the accident it was.
+
+    Three affordances are accepted, and they are different jobs:
+      underline      inline links inside prose
+      block-link     a whole clickable card: rule at rest, surface on hover
+      no-underline   site navigation, which carries `aria-current` and a rule
+    """
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    accepted = ("underline", "block-link")
+    offenders = {}
+
+    for path in sorted((root / "web").rglob("*.tsx")):
+        if "node_modules" in path.parts or ".next" in path.parts:
+            continue
+        text = path.read_text(encoding="utf-8")
+        for tag in re.finditer(r"<(?:Link|a)\s[^>]*?>", text, flags=re.S):
+            opening = tag.group(0)
+            if any(a in opening for a in accepted):
+                continue
+            # An element that spreads props cannot be judged from the source.
+            if "{..." in opening:
+                continue
+            offenders.setdefault(str(path.relative_to(root)).replace("\\", "/"), []).append(
+                " ".join(opening.split())[:90]
+            )
+
+    assert not offenders, (
+        "These links carry no underline and no block-link class, so they render "
+        f"as plain text: {offenders}. Use the inline default, `.block-link` for a "
+        "whole clickable card, or `no-underline` for site nav."
+    )
+
+
+def test_interactive_elements_keep_a_pointer_cursor():
+    """Tailwind v4 stopped giving buttons `cursor: pointer`, and nobody noticed.
+
+    v3's preflight set it; v4's does not, and nothing in the app added it back,
+    so every tab on all 26 exhibits showed an arrow cursor. A control that does
+    not change the cursor reads as a caption. This pins the rule so a future
+    preflight change cannot quietly take it away again.
+    """
+    from pathlib import Path
+
+    css = (Path(__file__).resolve().parent.parent / "web" / "app" / "globals.css").read_text(
+        encoding="utf-8"
+    )
+    block = re.search(r"button,\s*summary,\s*\[role=\"tab\"\],\s*\[role=\"button\"\]\s*\{[^}]*\}", css)
+    assert block and "cursor: pointer" in block.group(0), (
+        "globals.css no longer gives buttons, summaries and tabs a pointer cursor. "
+        "See gotcha 73."
+    )

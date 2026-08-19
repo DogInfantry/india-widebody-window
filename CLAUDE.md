@@ -153,6 +153,10 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 26 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
 | `web/components/DriverTree.tsx` | The value-driver tree AS NAVIGATION. Every leaf links to the exhibit that proves it; a test asserts none dangle |
+| `web/components/CorridorMap.tsx` | **NEW.** The case on real geography. Inline SVG, no map library, no tiles, no key. Great circles from Delhi to all eight corridor hubs |
+| `web/components/PastTheGulf.tsx` | **NEW.** The governing thought as a schematic. The map is its evidence; they are not competing |
+| `web/components/motion-primitives.tsx` | **NEW.** `Reveal` (CSS + IntersectionObserver, visible by default) and `CountUp` (Motion). Nothing touches chart marks |
+| `scripts/make_basemap.py` | **NEW.** Natural Earth 110m to a 50KB committed outline. Run once, never in CI, stdlib only |
 | `web/lib/chart-theme.ts` | **NEW.** House-rule tokens in one place. They were copied into three chart files |
 | `src/app_export.py` | **NEW.** Tidy JSON, exhibit data, the scenario cube and the evidence ledger for `web/`. Calls the SAME functions the charts do |
 | `tests/test_app_export.py` | **NEW.** Strict-JSON, determinism and stale-export drift guards |
@@ -649,6 +653,31 @@ Every one of these cost real time or produced a wrong published number.
     which was a green light for a check that never ran. Use `cd web && npx tsc --noEmit`.
     **A verification command that cannot fail is worth less than no verification command**,
     because it is trusted. Same shape as gotcha 64: the claim nothing tests.
+73. **Tailwind v4's preflight does NOT set `cursor: pointer` on buttons. v3 did.** Nothing in
+    `web/` added it back, so every tab on all 26 exhibits showed an arrow cursor for the app's
+    whole life. A control that does not change the cursor reads as a caption, and this was the
+    single largest "document, not an app" signal on the site. One rule in `globals.css` covers
+    `button, summary, [role="tab"], [role="button"]`, and a test pins it.
+74. **Links default to UNDERLINED and opt out explicitly, not the reverse.** Eight `<Link>`s
+    had drifted into carrying no underline and no other cue, alongside three competing `<a>`
+    treatments and no base rule at all. The base rule now underlines every `a`; `.block-link`
+    is the opt-out for a whole clickable card and `no-underline` for site nav. **The direction
+    is the point**: a link added later is visible by default and has to be deliberately
+    quietened, rather than invisible by default and needing to be remembered. Same shape as
+    the reveal fix, where content is visible unless JavaScript proves otherwise.
+75. **A map needs no map library here.** `data/processed/airports.parquet` has held 5,275
+    airports with lat/lon since the first commit, `profit_pools._airport_coords()` resolves
+    IATA to coordinates and `_great_circle_km()` already does the spherical maths. MapLibre
+    wants a tile source, so a key, plus ~800KB of WebGL that neither prints nor themes;
+    ECharts is ~1MB for a third chart library. `CorridorMap.tsx` is inline SVG with an
+    equidistant-cylindrical projection at a 25 degree standard parallel and slerp-sampled
+    great circles. The basemap is Natural Earth 110m, public domain, simplified to 50KB by
+    `scripts/make_basemap.py`, generated once and committed like the social card.
+76. **A prose count that no code computes will be wrong.** The driver tree's subtitle asserted
+    "three branches fail as things stand". Branches with at least one failing leaf is four;
+    branches where failures outnumber passes is two. Neither is three. The rule that yields
+    three is `fails > 0 && fails >= holds`, and it is now computed and rendered rather than
+    typed, the way `web/app/methodology` renders `pivots.length`.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

@@ -64,3 +64,20 @@ License: CC0 1.0 (public domain dedication)
 World Bank: CC BY 4.0, https://data.worldbank.org
 Eurostat:   Commission Decision 2011/833/EU reuse policy,
             https://ec.europa.eu/eurostat
+
+--------------------------------------------------------------------------------
+5. Natural Earth (1:110m physical land)
+--------------------------------------------------------------------------------
+Source:  https://www.naturalearthdata.com
+         via https://github.com/nvkelso/natural-earth-vector
+License: Public domain. No permission, fee or attribution is required.
+
+Recorded anyway, because a committed asset with no stated source is the thing
+this repository refuses everywhere else.
+
+`web/public/geo/land.json` is a simplification rather than the original: outer
+rings only, coordinates rounded to one decimal degree, polygons under three
+degrees dropped, nothing south of 60S. `scripts/make_basemap.py` performs the
+reduction and documents what it costs. The file backs the corridor map in
+`web/components/CorridorMap.tsx`, whose airport positions come from OurAirports
+above.

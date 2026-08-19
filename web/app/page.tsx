@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DriverTree } from "@/components/DriverTree";
 import { PastTheGulf } from "@/components/PastTheGulf";
+import { CorridorMap } from "@/components/CorridorMap";
 import { CountUp, Reveal } from "@/components/motion-primitives";
 import { RegisteredExhibit } from "@/lib/exhibits";
 import { brief, company, kpis } from "@/lib/data";
@@ -105,7 +106,16 @@ export default function Home() {
       <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
         The prize is real, and it is mis-located
       </p>
-      <div className="mt-6 space-y-16">
+      <h2 className="mt-3 max-w-[30ch] font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+        Every corridor India flies, and the two the wide-bodies should take
+      </h2>
+
+      {/* The schematic above states the thesis; this is the same thesis on real
+          geography, with every corridor the analysis covers rather than only the
+          one it argues about. */}
+      <CorridorMap />
+
+      <div className="mt-16 space-y-16">
         <RegisteredExhibit id="corridor_scale" />
         <RegisteredExhibit id="gateway_flows" />
       </div>
@@ -228,13 +238,13 @@ export default function Home() {
         <Link
           key={d.href}
           href={d.href}
-          className="group bg-paper py-7 pr-6 transition-colors hover:bg-wash focus-visible:bg-wash focus-visible:outline-2 focus-visible:outline-red"
+          className="block-link group bg-paper py-7 pl-5 pr-6"
         >
           <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
             {d.time}
           </span>
           <span className="mt-2 block font-serif text-2xl font-semibold group-hover:text-red">
-            {d.label} <span aria-hidden>&rarr;</span>
+            {d.label} <span aria-hidden className="go">&rarr;</span>
           </span>
         </Link>
       ))}

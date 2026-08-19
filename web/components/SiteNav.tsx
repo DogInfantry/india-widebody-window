@@ -29,7 +29,7 @@ export function SiteNav() {
         aria-label="Sections"
         className="mx-auto flex max-w-[1180px] flex-wrap items-baseline gap-x-6 gap-y-1 px-8 py-3"
       >
-        <Link href="/" className="font-serif text-[15px] font-semibold hover:text-red">
+        <Link href="/" className="font-serif text-[15px] font-semibold no-underline hover:text-red hover:underline">
           India&rsquo;s Wide-Body Window
         </Link>
         <span className="ml-auto flex flex-wrap gap-x-5 gap-y-1 text-[13px]">
@@ -42,8 +42,8 @@ export function SiteNav() {
                 aria-current={active ? "page" : undefined}
                 className={
                   active
-                    ? "border-b-2 border-red pb-0.5 font-medium text-ink"
-                    : "pb-0.5 text-grey hover:text-red"
+                    ? "border-b-2 border-red pb-0.5 font-medium text-ink no-underline"
+                    : "pb-0.5 text-grey no-underline hover:text-red hover:underline"
                 }
               >
                 {p.label}
