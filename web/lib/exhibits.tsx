@@ -167,7 +167,7 @@ export const EXHIBITS: Record<string, ExhibitSpec> = {
       <p>
         The diagram shows where the record stops, not where the passenger goes. How many of
         those Gulf-hub passengers continue elsewhere is the one number this project cannot
-        verify, because IATA sells origin-destination data. It is gated{" "}
+        measure directly, because no source publishes a Gulf six O-D table. It is gated{" "}
         <span className="text-red">UNVERIFIED_NO_PRIMARY</span> and read in exactly two places.
       </p>
     ),
@@ -191,9 +191,10 @@ export const EXHIBITS: Record<string, ExhibitSpec> = {
       <p>
         <strong>This is the likeliest reason the case is wrong.</strong> The whole figure rests
         on <code>gulf_od_share_pct</code>, which carries{" "}
-        <span className="text-red">UNVERIFIED_NO_PRIMARY</span> and can never clear: IATA sells
-        that data and publishes no free table. If the true connecting share is materially
-        smaller than eleven points, the contested pool shrinks with it.
+        <span className="text-red">UNVERIFIED_NO_PRIMARY</span> and still cannot clear, because
+        IATA's free report covers a wider Middle East and not the Gulf six. It corroborates
+        the share at 39.2% and bounds the gap from below. If the true connecting share is
+        materially smaller than eleven points, the contested pool shrinks with it.
       </p>
     ),
   },

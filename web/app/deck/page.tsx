@@ -229,7 +229,7 @@ const SLIDES: Slide[] = [
     source:
       "Computed in src/options.py, banded between IndiGo's and Emirates' verified yields. Modelled.",
     notes:
-      "A third to two thirds of IndiGo's entire annual revenue, in a pool it does not currently compete for. Be honest that the origin-destination share underneath it cannot be verified: IATA sells that data. It is the single likeliest reason this case is wrong.",
+      "A third to two thirds of IndiGo's entire annual revenue, in a pool it does not currently compete for. Be honest that the origin-destination share underneath it has no Gulf six source. IATA's free report corroborates it at 39.2 per cent for a wider Middle East, which bounds it rather than settles it. It is still the single likeliest reason this case is wrong.",
   },
   {
     kicker: "1. Size the prize",

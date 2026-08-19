@@ -121,14 +121,57 @@ Stated plainly, because the reconciliation above could imply more coverage than 
 | Single-sourced on DGCA alone | 68.17M | 94.4% |
 
 This is not missing data. DGCA covers 100% of India's international traffic. It is that only
-the European portion has an independent agency publishing the same routes from the other
-end. The Gulf, which carries half the traffic and most of the argument, has **no equivalent
-open source**: GCC civil aviation authorities do not publish route-level statistics in
-machine-readable form.
+the European portion has an independent agency publishing the same **routes** from the other
+end. GCC civil aviation authorities do not publish route-level statistics in machine-readable
+form, so at route level the Gulf still has no equivalent open source and the 5.6% above is
+unchanged.
+
+**At country level the Gulf now does have one, and this file said otherwise until
+2026-08-19.** The claim here used to be that extending the cross-check to the Gulf would need
+paid data (Cirium, OAG, or IATA DDS). That was half right. IATA's `Aviation in India` is
+free, public and machine readable, and its section 3.2 publishes India's departing
+international origin-destination traffic by region and by country. What IATA sells is DDS,
+the route-level product, and this project conflated the two for its whole life. The mistake
+was expensive because the claim was an argument for not looking.
+
+### DGCA against IATA: agreement on departures, disagreement on destinations
+
+Computed by `options.od_reconciliation()`, on 2024, which is the year IATA reports and the
+same year the Eurostat reconciliation is held on. Two of the three differences IATA names in
+its own footnote 5 are controlled: DGCA is read on `pax_from_india` rather than `pax_total`,
+because IATA counts departing passengers where DGCA sums both directions, and both sides are
+read on 2024. The third difference, segment counting against O-D journeys, is left in because
+it *is* the quantity being measured.
+
+| Measure, 2024, departing India | DGCA sectors | IATA O-D | Difference |
+|---|---|---|---|
+| **All international** | 36.66M | 38.01M | **3.7%** |
+| **UAE** | 10.93M (29.8%) | 7.60M (19.9%) | **3.33M, 9.9 points** |
+| **Gulf six against IATA's wider Middle East** | 18.82M (51.3%) | 14.90M (39.2%) | **at least 3.92M, 12.1 points** |
+
+The shape is the finding. The two agencies agree to **3.7%** on how many passengers leave
+India, and disagree by **9.9 points** on how many of them are going to the UAE. They cannot
+both be right about the destination, and they do not have to be: DGCA records the sector a
+passenger flies and IATA records where the journey ends, so the difference is the passenger
+who lands in Dubai and gets on another aeroplane. That difference is the case.
+
+**The UAE row is a measurement. The Gulf row is a lower bound**, because IATA's region
+"Middle East" contains the Gulf six and more, so Gulf six O-D cannot exceed the published
+Middle East figure. The bound therefore moves in the direction that strengthens the argument,
+which is the opposite of a convenient assumption.
+
+**What this does and does not settle.** Doubled for direction, the measured lower bound is
+**7.84M** connecting passengers against the **8.49M** this project models from
+`gulf_od_share_pct`. Two methods, one of them measured, 8% apart, and the measured one is a
+floor. So the modelled figure is corroborated and is not inflated. It is not *replaced*:
+`gulf_od_share_pct` stays `UNVERIFIED_NO_PRIMARY` because no source publishes the Gulf six
+O-D share itself, and substituting IATA's Middle East for it would silently resolve a
+conflict rather than flag one.
 
 So the honest position is that the DGCA spine has been validated where validation was
-possible, and it passed. Extending that to the Gulf would need paid data (Cirium, OAG, or
-IATA DDS) and is named in `ROADMAP.md` rather than glossed over.
+possible, and it passed twice: against Eurostat at route level in Europe, and against IATA at
+country level in the Gulf. Route-level Gulf validation remains paid-data work and is named in
+`ROADMAP.md` rather than glossed over.
 
 ---
 
@@ -408,9 +451,13 @@ appeared in two conflicts tables with no URL and no pull date, so `dp.assumption
 it. By this project's own rule, that every hard number is either computed in-repo or carries a
 source and a pull date, it should have been gated from the start and was not.
 
-It now is, as `gulf_od_share_pct` with status `UNVERIFIED_NO_PRIMARY`. It can never clear:
-IATA sells origin-destination data and publishes no free table, so there is no primary
-document to check it against. It is read only through `allow_unverified=True`, in exactly one
+It now is, as `gulf_od_share_pct` with status `UNVERIFIED_NO_PRIMARY`. It still cannot
+clear, but the reason has narrowed and the old one is withdrawn. IATA's `Aviation in India`
+is free, public and machine readable, and its section 3.2 publishes India's departing
+international O-D by region and by country, putting the Middle East at **39.2%** against the
+40% recorded here. What IATA sells is DDS, the route level product. The row stays gated
+because IATA's Middle East is wider than this repo's Gulf six, so 39.2% is not the same
+quantity: it bounds the gap from below rather than closing it. It is read only through `allow_unverified=True`, in exactly one
 diagnostic function, the same pattern `dubai_entitlement_check` uses for the bilateral
 entitlement. Everything derived from it is reported as a band and labelled `MODELLED`, and a
 test asserts the gate bites.
@@ -576,7 +623,7 @@ comparing a yield against a cost, and proved nothing.
 
 | Quantity | Competing figures | Why they differ |
 |---|---|---|
-| Gulf share of India international | 50.9% (DGCA sector, computed) vs ~40% (IATA O-D) | Sector counts the India-to-hub leg; O-D counts the real destination |
+| Gulf share of India international | 50.9% (DGCA sector, computed) vs 39.2% (IATA O-D, Middle East, 2024) | Sector counts the India-to-hub leg; O-D counts the real destination. **No longer an unexplained conflict**: reconciled above, and IATA's own footnote 5 states the mechanism |
 | India total passengers | 180.4M (World Bank, carriers-carried, 2023), 211M (IATA, 2024), 406M (DGCA, airport-handled, 2025) | Three different things counted. The definition is stated every time |
 | Air India post-merger fleet | 198 / 205 / 218 | Varies by source date and by whether Vistara and Air India Express are consolidated |
 

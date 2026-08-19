@@ -345,7 +345,7 @@ export function ProfitPool() {
 // --------------------------------------------------------------------------
 
 /** The contested pool as a band, never a point, because the origin-destination
- *  share underneath it cannot be verified at all. Drawn against IndiGo's own
+ *  share underneath it has no Gulf six source and is bounded, not measured. Drawn against IndiGo's own
  *  annual revenue so the size means something without a second chart. */
 export function ValueAtStake() {
   const v = economics.value_at_stake;

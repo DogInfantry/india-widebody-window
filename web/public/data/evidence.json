@@ -2,7 +2,7 @@
  "assumptions": {
   "by_status": [
    {
-    "count": 16,
+    "count": 23,
     "status": "VERIFIED"
    },
    {
@@ -46,7 +46,7 @@
    },
    {
     "key": "gulf_od_share_pct",
-    "note": "PROMOTED INTO THE GATE, and the reason matters. This figure was carried on the live page and in docs/storyline.md as a hard number ('roughly 40 percent') with no row here at all, which means dp.assumption() never saw it. It sat in the confl",
+    "note": "PROMOTED INTO THE GATE, and the reason matters. This figure was carried on the live page and in docs/storyline.md as a hard number ('roughly 40 percent') with no row here at all, which means dp.assumption() never saw it. CLAIM WITHDRAWN 202",
     "status": "UNVERIFIED_NO_PRIMARY"
    },
    {
@@ -55,8 +55,8 @@
     "status": "UNVERIFIED_NO_PRIMARY"
    }
   ],
-  "total": 31,
-  "usable": 25,
+  "total": 38,
+  "usable": 32,
   "usable_statuses": [
    "VERIFIED",
    "CORRECTED_VERIFIED"

@@ -982,7 +982,7 @@ def test_value_at_stake_is_a_band_never_a_point():
 
 
 def test_the_connect_gap_is_the_difference_between_two_measures():
-    """Sector share is computed from DGCA; the O-D share can never be verified."""
+    """Sector share is computed from DGCA; the Gulf six O-D share is not published."""
     g = opt.connect_gap()
     assert g["gap_pts"] == pytest.approx(g["sector_share_pct"] - g["od_share_pct"], abs=0.05)
     assert 8 < g["gap_pts"] < 15, "the connect gap has moved outside the range the case argues"
@@ -992,15 +992,86 @@ def test_the_od_share_cannot_reach_a_published_figure_through_the_gate():
     """`gulf_od_share_pct` must stay refused unless a caller opts in explicitly.
 
     It was carried as a hard number on the live page with no row here at all,
-    which is how it escaped the gate for the life of the project. Now it is gated,
-    and this asserts the gate bites. INVERT THIS, do not delete it, if IATA ever
-    publishes a free origin-destination table.
+    which is how it escaped the gate for the life of the project.
+
+    **INVERTED 2026-08-19, rather than deleted.** The old docstring said to invert
+    this "if IATA ever publishes a free origin-destination table". IATA does, and
+    did all along: `Aviation in India` is free and machine readable and its
+    section 3.2 gives the region and country split. So the half of this test that
+    guarded a claim about IATA is now the second assertion, which requires those
+    published figures to CLEAR the gate.
+
+    The first assertion survives, for a narrower and now correct reason: IATA's
+    region "Middle East" is wider than this repo's Gulf six, so no published
+    figure is this row's quantity. The gate still has to bite on the row itself.
     """
     from src import data_pipeline as dp
 
     with pytest.raises(dp.UnverifiedAssumption):
         dp.assumption("gulf_od_share_pct")
     assert dp.assumption("gulf_od_share_pct", allow_unverified=True) > 0
+
+    # The inversion: what IATA does publish must pass the gate with no opt-in.
+    for key in (
+        "iata_india_od_middle_east_share_pct",
+        "iata_india_od_uae_share_pct",
+        "iata_india_od_middle_east_pax_m",
+        "iata_india_od_uae_pax_m",
+    ):
+        assert dp.assumption(key) > 0, f"{key} should clear the gate on its own"
+
+
+def test_dgca_and_iata_agree_on_departures_and_disagree_on_destinations():
+    """The Gulf equivalent of the DGCA-to-Eurostat check, and the shape is the finding.
+
+    Two agencies, opposite methodologies, one controlled comparison. They agree
+    closely on how many passengers leave India and disagree sharply on where
+    those passengers are going. The disagreement is the connecting traffic, which
+    is the spine of the recommendation, and until now it was modelled off a figure
+    that circulated in trade press without a primary table.
+
+    Direction and year are controlled, per IATA's own footnote 5: DGCA is read on
+    `pax_from_india` rather than `pax_total`, and on 2024 rather than
+    INTL_COUNTRY_YEAR. The third difference IATA names, segment counting against
+    O-D journeys, is the quantity being measured and so is left in.
+    """
+    r = opt.od_reconciliation()
+
+    # They agree on the total. Anything much wider and the comparison is unsound.
+    assert r["total_divergence_pct"] < 6.0, (
+        "DGCA and IATA no longer agree on how many passengers leave India, so the "
+        "destination comparison below cannot be trusted"
+    )
+
+    # They disagree on the destination, and the sign must be this way round:
+    # sector counting attributes the connecting passenger to the hub.
+    assert r["uae_dgca_share_pct"] > r["uae_iata_share_pct"]
+    assert r["uae_leak_m"] > 0
+    assert r["gulf_leak_m_lower_bound"] > 0
+
+
+def test_the_measured_gulf_leak_corroborates_the_modelled_connect_gap():
+    """The project's most load-bearing modelled number, checked against measurement.
+
+    `connect_gap` models 8.5M connecting passengers from a trade-press O-D share.
+    `od_reconciliation` measures a LOWER bound of the same quantity from two
+    published sources. Doubling the measured one-way bound for direction should
+    land under the modelled figure and not far under it: much below and the model
+    is inflated, above and the model is impossible.
+
+    This is the check `docs/recommendation.md` said could not be run.
+    """
+    modelled = opt.connect_gap()["connecting_pax_m"]
+    measured_lower_bound = opt.od_reconciliation()["gulf_leak_m_lower_bound"] * 2
+
+    assert measured_lower_bound <= modelled * 1.05, (
+        f"measured lower bound {measured_lower_bound:.2f}M exceeds the modelled "
+        f"{modelled:.2f}M, so the model understates a floor it cannot understate"
+    )
+    assert measured_lower_bound > modelled * 0.75, (
+        f"measured lower bound {measured_lower_bound:.2f}M has fallen well below the "
+        f"modelled {modelled:.2f}M; the model may be inflated"
+    )
 
 
 def test_options_and_profit_pools_agree_on_the_corridor_ordering():

@@ -19,7 +19,7 @@ primary filing, with two exceptions, and both sit on the same question:
 
 | Row | Status | What it carries |
 |---|---|---|
-| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | The 40% origin-destination share. IATA sells this data and publishes no free table |
+| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | The 40% origin-destination share. Corroborated at region level by IATA at 39.2%, but no Gulf six table exists |
 | `gulf_hub_connect_premium_pct` | `MODELED` | What a Gulf hub earns for the connection. Nobody publishes it at all |
 
 Between them they produce the **10.9 point connect gap**, about **8.5M passengers

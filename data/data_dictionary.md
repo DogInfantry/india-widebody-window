@@ -202,9 +202,12 @@ looks entirely plausible but can never be verified, because the figure is an agg
 convention rather than something the company reports. That is exactly the case that produced
 the retracted margin claim in `docs/methodology.md`.
 
-### Current state: 25 of 31 rows cleared
+### Current state: 32 of 38 rows cleared
 
-Twenty-five rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
+Thirty-two rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
+Seven were added on 2026-08-19, the `iata_india_od_*` block, which records India's departing
+international origin-destination split by region and by country from IATA's free
+`Aviation in India` report. See `options.od_reconciliation()`.
 The six that do not are **terminal, not pending work**: each was chased to a primary source
 and the source does not exist.
 
@@ -214,7 +217,7 @@ and the source does not exist.
 | `aircraft_utilisation_hours_per_day_active` | `NOT_AVAILABLE` | The grounded-aircraft count is absent from both the FY26 annual report and the June 2026 analyst deck |
 | `india_dubai_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | India publishes no bilateral entitlement table. Corroborated from the traffic end instead |
 | `india_abu_dhabi_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | Same reason. Better corroborated than the Dubai row: two independent secondary sources give 50,000 one side, and a third figure from the traffic end reconciles with both |
-| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | IATA sells origin-destination data and publishes no free table |
+| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | No source publishes a **Gulf six** O-D share. Corroborated at region level by IATA at 39.2% against the 40% here, which bounds the gap without closing it. The earlier reason given, that IATA published nothing free, was wrong and is withdrawn |
 | `gulf_hub_connect_premium_pct` | `MODELED` | Nobody publishes it. Status is `MODELED` rather than `NOT_AVAILABLE` so it is not confused with a figure that exists but is undisclosed |
 
 The two `UNVERIFIED_NO_PRIMARY` rows are the ones to watch, because both carry weight. Each is
@@ -231,6 +234,10 @@ function apiece, and everything derived from either is reported as a band and la
   timeboxed searches found no entitlement figure for it, so it is outside the check.**
 - `gulf_od_share_pct` feeds `options.connect_gap`. It carries the eleven point connect gap
   the recommendation rests on, which makes it **the most likely reason the case is wrong**.
+  Since 2026-08-19 it is no longer the *only* evidence for that gap:
+  `options.od_reconciliation()` measures a lower bound of the same quantity from DGCA and
+  IATA together, and gets 7.84M against the 8.49M this row models. Corroborated, not
+  replaced, because IATA's Middle East is a wider geography than the Gulf six.
 
 A note on how this table used to read, kept because the drift is the lesson. It previously
 said "6 of 18 rows cleared", called both operating-profit rows unusable, and recorded Emirates

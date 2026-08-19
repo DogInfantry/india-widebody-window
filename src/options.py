@@ -64,7 +64,7 @@ import plotly.graph_objects as go
 
 from . import charts
 from .benchmarking import INTL_COUNTRY_YEAR, LATEST_COMPLETE_YEAR, corridor_scale
-from .data_pipeline import assumption, load_dgca_domestic_carrier
+from .data_pipeline import assumption, load_dgca_domestic_carrier, load_dgca_intl_country
 from .fleet_gap import baseline
 from .profit_pools import EXCLUDED_REGIONS, corridor_stage_lengths
 
@@ -100,7 +100,8 @@ SOURCE = (
     "Unit costs and yields from IndiGo FY2026 and Emirates 2025-26 primary filings, verified "
     "in data/manual/assumptions.csv. Stage lengths are great circle from OurAirports (CC0); "
     "network averages and load factors computed from DGCA. Cost elasticity to stage length is "
-    "modelled, see docs/methodology.md"
+    "modelled, see docs/methodology.md. Origin-destination corroboration from IATA, "
+    "Aviation in India, section 3.2 (2024), pulled 2026-08-19"
 )
 
 
@@ -224,12 +225,26 @@ def connect_gap(year: int = INTL_COUNTRY_YEAR) -> dict:
     therefore higher than the true origin-destination share, and the difference
     is the connecting traffic.
 
-    The O-D side is read with `allow_unverified=True`, which is correct here and
-    almost nowhere else. IATA sells origin-destination data and publishes no free
-    table, so `gulf_od_share_pct` can never clear the gate. This function exists
-    to put a bound on a figure that cannot be verified, exactly as
-    `benchmarking.dubai_entitlement_check` does for the bilateral entitlement.
-    Nothing derived from it is reported as a point.
+    That mechanism is no longer this repo's assertion. IATA states it in its own
+    words, in footnote 5 of `Aviation in India`: the DGCA "reports on a segment,
+    i.e. individual flight basis, meaning that a passenger who take a connecting
+    flight are counted multiple times", against IATA's own departing O-D basis.
+    The same footnote names the other two differences, departing against DGCA's
+    inbound-plus-outbound sum and calendar against fiscal year, both of which
+    `od_reconciliation` controls for.
+
+    The O-D side is still read with `allow_unverified=True`, which is correct here
+    and almost nowhere else. A previous version of this docstring said IATA
+    published no such table for free, and that `gulf_od_share_pct` could never
+    clear the gate. The first half was wrong and is withdrawn: the report is free
+    and machine readable, and the withdrawn wording is quoted verbatim in
+    `data/manual/assumptions.csv` so the record survives the correction. The second half survives for a narrower reason, that IATA's
+    region "Middle East" is wider than this repo's Gulf six, so the published
+    39.2 percent is not this row's quantity. It bounds it rather than replacing
+    it, exactly as `benchmarking.dubai_entitlement_check` bounds the bilateral
+    entitlement. Nothing derived from it is reported as a point.
+
+    Read `od_reconciliation` for the measured version of this gap.
     """
     corridors = corridor_scale(year)
     total = float(corridors["pax_total"].sum())
@@ -243,6 +258,79 @@ def connect_gap(year: int = INTL_COUNTRY_YEAR) -> dict:
         "gap_pts": round(gap_pts, 1),
         "connecting_pax_m": round(total * gap_pts / 100 / 1e6, 2),
         "total_intl_pax_m": round(total / 1e6, 1),
+    }
+
+
+
+# IATA publishes `Aviation in India` on 2024. The Eurostat reconciliation is held
+# on 2024 for the same reason, that it is the last year both agencies publish
+# complete, so the two both-ends checks in this repo share a vintage.
+IATA_OD_YEAR = 2024
+
+
+def od_reconciliation(year: int = IATA_OD_YEAR) -> dict:
+    """DGCA sectors against IATA origin-destination, measured from opposite ends.
+
+    This is the Gulf equivalent of the DGCA-to-Eurostat check, and until 2026-08-19
+    this repo held that it could not be built. `docs/methodology.md` said the Gulf
+    "has no equivalent open source" and that extending the cross-check there would
+    need paid data. That is true at ROUTE level and false at country level: IATA's
+    `Aviation in India` is free, public and machine readable, and section 3.2
+    publishes India's departing international O-D by region and by country.
+
+    Two confounds are controlled rather than assumed away, both named by IATA's own
+    footnote 5:
+
+      direction  DGCA sums inbound and outbound, IATA counts departing only, so
+                 this reads `pax_from_india` and not `pax_total`
+      year       IATA reports calendar 2024, so DGCA is read on 2024 and not on
+                 INTL_COUNTRY_YEAR
+
+    The third difference IATA names, segment counting against O-D journeys, is not
+    a confound. It is the quantity being measured.
+
+    What makes the result worth reporting is the shape of it. The two agencies
+    agree closely on how many passengers leave India and disagree sharply on where
+    those passengers are going, and that disagreement is the case.
+
+    The UAE row is a measurement. The Gulf row is a LOWER BOUND, because IATA's
+    region "Middle East" contains the Gulf six and more, so Gulf six O-D cannot
+    exceed the published Middle East figure.
+    """
+    d = load_dgca_intl_country()
+    d = d[d["year"] == year]
+    if d.empty:
+        raise ValueError(f"no DGCA international country data for {year}")
+
+    dgca_departing = float(d["pax_from_india"].sum())
+    dgca_uae = float(d[d["country"].str.contains("UNITED ARAB EMIRATES", na=False)]["pax_from_india"].sum())
+    dgca_gulf = float(d[d["is_gulf"]]["pax_from_india"].sum())
+
+    me_share = assumption("iata_india_od_middle_east_share_pct")
+    me_pax = assumption("iata_india_od_middle_east_pax_m") * 1e6
+    uae_share = assumption("iata_india_od_uae_share_pct")
+    uae_pax = assumption("iata_india_od_uae_pax_m") * 1e6
+    iata_total = me_pax / (me_share / 100)
+
+    return {
+        "year": year,
+        # the level the two agencies agree on
+        "dgca_departing_m": round(dgca_departing / 1e6, 2),
+        "iata_departing_od_m": round(iata_total / 1e6, 2),
+        "total_divergence_pct": round(100 * abs(iata_total - dgca_departing) / dgca_departing, 1),
+        # the level they disagree on, which is the finding
+        "uae_dgca_sector_m": round(dgca_uae / 1e6, 2),
+        "uae_iata_od_m": round(uae_pax / 1e6, 2),
+        "uae_leak_m": round((dgca_uae - uae_pax) / 1e6, 2),
+        "uae_dgca_share_pct": round(100 * dgca_uae / dgca_departing, 1),
+        "uae_iata_share_pct": uae_share,
+        "uae_leak_pts": round(100 * dgca_uae / dgca_departing - uae_share, 1),
+        # the bound, because Middle East is wider than the Gulf six
+        "gulf_dgca_sector_m": round(dgca_gulf / 1e6, 2),
+        "middle_east_iata_od_m": round(me_pax / 1e6, 2),
+        "gulf_leak_m_lower_bound": round((dgca_gulf - me_pax) / 1e6, 2),
+        "gulf_dgca_share_pct": round(100 * dgca_gulf / dgca_departing, 1),
+        "gulf_leak_pts_lower_bound": round(100 * dgca_gulf / dgca_departing - me_share, 1),
     }
 
 
@@ -453,9 +541,9 @@ def fig_value_at_stake(year: int = INTL_COUNTRY_YEAR) -> go.Figure:
             f"{v['sector_share_pct']:.1f}% of India's international sectors and roughly "
             f"{v['od_share_pct']:.0f}% of true origin-destination traffic, flown over a "
             f"{v['reference_stage_km']:,.0f} km reference journey. Banded between the only two "
-            "yields this project has verified. The O-D share cannot be verified at all, because "
-            "IATA sells that data. Read it as the size of the contested pool, not a prize any one "
-            "carrier captures"
+            "yields this project has verified. IATA's free Aviation in India report puts a wider "
+            "Middle East at 39.2%, which corroborates the O-D share and bounds this gap from "
+            "below. Read it as the size of the contested pool, not a prize any one carrier captures"
         ),
         source=SOURCE,
     )
@@ -476,6 +564,12 @@ def build_all() -> list[str]:
 
 
 if __name__ == "__main__":
+    _o = od_reconciliation()
+    print(f"O-D reconciliation {_o['year']}: DGCA {_o['dgca_departing_m']}M departing against "
+          f"IATA {_o['iata_departing_od_m']}M O-D, {_o['total_divergence_pct']}% apart. "
+          f"UAE {_o['uae_dgca_share_pct']}% of sectors against {_o['uae_iata_share_pct']}% of O-D, "
+          f"a leak of {_o['uae_leak_m']}M. Gulf leak at least {_o['gulf_leak_m_lower_bound']}M")
+    print()
     _r = reference()
     print(f"reference: {_r.carrier} {_r.year}, system sector {_r.stage_km:,.0f} km, "
           f"CASK {_r.cask:.2f}, yield {_r.yield_inr_per_rpk:.2f}, LF {_r.load_factor:.1%}")

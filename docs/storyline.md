@@ -208,8 +208,10 @@ What remains genuinely open:
 - **If the average sector does not actually lengthen.** If the wide-bodies end up flying Gulf
   and Southeast Asia rotations, the order book is roughly twice what the network needs.
 - **If the connecting share is smaller than the eleven point gap suggests.** The prize rests
-  on an origin-destination figure that cannot be verified, because IATA sells that data. This
-  is the most likely reason the case is wrong, and it is a data risk rather than a market one.
+  on an origin-destination figure for the Gulf six that no source publishes directly. IATA's
+  free report corroborates it at region level, 39.2% against 40%, which bounds the gap from
+  below without closing it. This is still the most likely reason the case is wrong, and it is
+  a data risk rather than a market one.
 - **If bilateral entitlements expand sharply.** Counter-intuitively this *weakens* the
   recommendation, by letting Gulf carriers re-flood the corridor faster than Indian carriers
   can build direct networks.

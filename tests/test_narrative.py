@@ -401,6 +401,64 @@ def test_neither_fy2026_margin_is_ever_published_alone(corpus):
     )
 
 
+def test_the_withdrawn_iata_claim_does_not_reappear():
+    """IATA does publish a free O-D table, and this repo said for months that it did not.
+
+    `data/manual/assumptions.csv` recorded "IATA sells O-D data and publishes no
+    free table; there is no primary document to check against", and the
+    value-at-stake chart told every reader on the live site that "The O-D share
+    cannot be verified at all, because IATA sells that data". Both were wrong.
+    IATA's `Aviation in India` is a free, public, machine readable PDF and its
+    section 3.2 publishes India's departing international O-D by region and by
+    country.
+
+    What IATA sells is DDS, the route level product. The repo conflated the two
+    and, because the claim was an argument for NOT looking, nothing ever tested
+    it. That is the expensive kind of wrong: an unfalsifiable excuse embedded in
+    the provenance layer.
+
+    **This guard reaches past CORPUS_FILES on purpose.** The false sentence lived
+    in `src/options.py` and was published through the exported chart JSON, and
+    neither is in the narrative corpus. That is gotcha 39 in yet another costume:
+    a surface carrying prose while exempt from the rule that governs prose.
+    """
+    withdrawn = (
+        "IATA sells that data",
+        "publishes no free table",
+        "cannot be verified at all",
+        "no free table",
+    )
+
+    targets = [ROOT / rel for rel in CORPUS_FILES]
+    targets += sorted((ROOT / "src").glob("*.py"))
+    targets += sorted((ROOT / "docs" / "assets" / "charts").glob("*.json"))
+
+    # A retraction has to be able to quote the wording it retracts, or the record
+    # cannot say what was withdrawn. Same opt-out the corpus fixture honours, in
+    # the HTML comment form and in a `#` form for Python.
+    ignore = re.compile(
+        r"(<!--\s*narrative-guard:\s*ignore.*?-->.*?<!--\s*/narrative-guard\s*-->)"
+        r"|(#\s*narrative-guard:\s*ignore.*?#\s*/narrative-guard)",
+        re.S,
+    )
+
+    offenders = {}
+    for path in targets:
+        if not path.exists():
+            continue
+        text = ignore.sub(" ", path.read_text(encoding="utf-8", errors="ignore"))
+        hit = [phrase for phrase in withdrawn if phrase in text]
+        if hit:
+            offenders[str(path.relative_to(ROOT)).replace("\\", "/")] = hit
+
+    assert not offenders, (
+        "The withdrawn IATA claim is published again. IATA's Aviation in India is "
+        "free and publishes India's O-D split by region and country; what is sold "
+        "is the route level DDS product. Offending files: "
+        f"{offenders}"
+    )
+
+
 def test_the_guard_can_actually_fail(corpus):
     """A guard that cannot fail is not a guard.
 
