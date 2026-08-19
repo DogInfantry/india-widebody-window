@@ -177,7 +177,7 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 195 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
+**Done and green. 198 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
 delivery layer across seven routes. Working tree clean, everything pushed, `main` at
 `f1704fe`.**
 
@@ -221,6 +221,16 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
   average stage length against **5,316 km**
 - **Premise reversed:** Indian carriers went 37.0% (2015) to **45.9%** (2025); Gulf 32.7% to 26.2%
 - DGCA and Eurostat agree to **2.6%** across seven countries measured from opposite ends
+- **DGCA and IATA, the Gulf's first ever second agency, and the shape is the finding.**
+  `options.od_reconciliation()`, 2024, departing India on both sides. They **agree to 3.7%**
+  on how many passengers leave India (36.66M sectors vs 38.01M O-D) and **disagree by 9.9
+  points** on how many are going to the UAE (29.8% of sectors vs 19.9% of O-D, a gap of
+  **3.33M**). They cannot both be right about the destination and do not have to be: the
+  difference is the passenger who lands in Dubai and boards another aeroplane. Gulf six
+  against IATA's wider Middle East gives a **lower bound** of 3.92M one way, so **7.84M**
+  both ways against the **8.49M** this case models. **The load-bearing modelled number is
+  corroborated by measurement and is slightly conservative.** Route-level Gulf cross-checking
+  is still paywalled, so the **5.6%** route-level figure is unchanged and must not be inflated
 - DGCA and IndiGo's own block hours agree to **0.31%** (1,614,608 vs 1,619,570, FY2026).
   **That 0.31% is the SCHEDULED-only basis.** `financials.operations()` also computes the
   like-for-like all-services figure, which is 1,619,570.6 against 1,619,570, a gap of **0.64
@@ -261,25 +271,29 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
 - **Options reference:** IndiGo system sector 1,172 km, CASK 5.00, yield 5.06,
   `CASK_STAGE_ELASTICITY = -0.25`
 
-**Assumptions: 25 of 31 cleared.** The six open rows are **terminal, not pending work**
-(this said 30 and five until 2026-08-18: an Abu Dhabi entitlement row was added and never
-reached the handoff, which the methodology route caught by counting the file):
+**Assumptions: 40 of 46 cleared.** Fifteen rows were added on 2026-08-19: seven
+`iata_india_od_*` rows from IATA's free `Aviation in India`, and eight Q1 FY2027 rows from
+IndiGo's primary earnings presentation. The six open rows are **terminal, not pending work**
+(this said 30 and five until 2026-08-18, and 25 of 31 until 2026-08-19):
 
 | Row | Status | Why it will not close |
 |---|---|---|
 | `air_india_yield_inr_per_rpk` | `NOT_AVAILABLE` | Unlisted, files nothing |
 | `aircraft_utilisation_hours_per_day_active` | `NOT_AVAILABLE` | Grounded count absent from AR FY26 and the June 2026 analyst deck |
 | `india_dubai_weekly_seat_entitlement_one_side` | `UNVERIFIED_NO_PRIMARY` | India publishes no entitlement table. Corroborated from the traffic end |
-| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | IATA sells O-D data. **Carries the 11-point connect gap, so it is the likeliest reason the case is wrong** |
+| `gulf_od_share_pct` | `UNVERIFIED_NO_PRIMARY` | No source publishes a **Gulf six** O-D share. **The old reason, that IATA publishes nothing free, was wrong and is withdrawn (pivot 9).** Corroborated at region level at 39.2% and now bounded by measurement, but still the likeliest reason the case is wrong |
 | `gulf_hub_connect_premium_pct` | `MODELED` | Nobody publishes it |
 
 ---
 
 ## Active task
 
-**None. `memory/plan-company-case.md` is executed in full, W1 through W6, and the three `docs/`
-corrections it deferred are made.** The plan file stays as the record of what was decided and
-why; do not re-run it.
+**None. Tier A and Tier B of the Fable review response are done (2026-08-19, four commits,
+`3328539` through `9a79a8f`). `memory/plan-company-case.md` was executed in full before that.**
+Neither plan should be re-run.
+
+**The FY2027 chapter is DEFERRED, not forgotten, and it is the one open decision.** See Next
+steps. It is the only remaining item that would change the analysis rather than the record.
 
 **A new session should not start work on this repo without an explicit ask.** The last two
 sessions each found real problems by *checking* rather than by building, and that is the
@@ -316,6 +330,22 @@ three entries that sat here for two sessions were already done and are deleted r
 carried: Abu Dhabi's entitlement was found and published (70.1%), belly cargo has its own
 module and a published exhibit, and the forwarding note was **declined by the user on
 2026-08-19**. Do not re-add it.
+
+0. **The FY2027 chapter. DEFERRED BY THE USER on 2026-08-19, and the only item here that
+   would change the analysis rather than the record.** Three of the risk register's rows have
+   fired and the register says so, but the consequences are not modelled. Specifically:
+   `scenario.fuel_fx_sensitivity()` sweeps `(-20, -10, 0, 10, 20)` and reality delivered
+   **+80.4%**, so the published chart's axis stops well short of the event. Its docstring
+   refuses to assume a fuel pass-through "this repo has not measured"; the pass-through is now
+   **observed**, at yield +21.3% and RASK +16.5% against fuel CASK +80.4%, and it was not
+   enough. **Invert that refusal rather than deleting it.** The remaining piece is the
+   adversarial one: foreign carriers took **58.4%** of India-origin international scheduled
+   *flights* Mar to May 2026 against 51.2 per cent a year earlier, as Air India cut international
+   flying **17.5%** concentrated in **Europe and North America**, the corridors this case
+   sequences first. That does not falsify the 45.9% premise reversal, which is passengers not
+   flights and 2025 not 2026, but it is a real challenge and belongs on the page as one. The
+   underlying OAG schedule data is paywalled, so any row for it grades `UNVERIFIED_NO_PRIMARY`
+   and it must not drive a published figure.
 
 Everything remaining is either blocked by a paywall or is genuine new analysis.
 
@@ -549,6 +579,42 @@ Every one of these cost real time or produced a wrong published number.
 62. **An absolutely-positioned annotation anchored to the right edge of the widest element runs
     off the container.** The Mekko's Gulf block finishes near 100%, so `left: x + w` put the
     annotation past the edge. Anchor from whichever side has room.
+64. **A claim that a number CANNOT be obtained is the one claim nothing tests.** This repo
+    told itself and its readers, on eight surfaces, that
+    <!-- narrative-guard: ignore, gotcha 64 has to quote the claim it retracts -->
+    "IATA sells that data and publishes no free table".
+    <!-- /narrative-guard -->
+    IATA's `Aviation in India` is free, public and machine readable, and its
+    section 3.2 gives India's departing international O-D by region and by country. What IATA
+    sells is DDS, the route-level product, and the two were conflated for the project's whole
+    life. Every other figure here is guarded by something that fails when it drifts; a
+    sentence saying a figure is unobtainable does not drift, it just discourages the one
+    action that would expose it. **When you write down that something cannot be checked,
+    write down the date you last tried.**
+65. **The narrative corpus does not cover `src/` or the exported chart JSON**, so prose
+    written into a docstring or a chart subtitle publishes unguarded. That is how the claim in
+    gotcha 64 reached the live `value_at_stake` chart. `test_the_withdrawn_iata_claim_does_not_reappear`
+    reaches past `CORPUS_FILES` to both. This is gotcha 39 in a third costume: count the
+    surfaces that carry words, not the ones that carry numbers.
+66. **Two figure collisions, and the FY2027 data created both.** `21.3%` is Europe's
+    computed yield headroom AND the rise in IndiGo's Q1 FY2027 yield.
+    <!-- narrative-guard: ignore, this gotcha has to name the colliding figure to be useful -->
+    `51.2%` is the superseded Gulf sector share the narrative guard forbids AND the
+    foreign-carrier share of India-origin international flights a year before Mar to May 2026.
+    <!-- /narrative-guard --> Nothing links either
+    pair. The first pair the guard **cannot** catch, because both values are correct; the
+    second it caught within a minute of the number being typed into this file, which is why
+    the FY2027 passage above says "51.2 per cent" rather than the digits. **Before writing an
+    FY2027 figure anywhere, grep `must_not_appear` for it.**
+67. **IATA's regions are not this repo's corridors.** "Middle East" contains the Gulf six and
+    more, so IATA's 39.2% is an upper bound on Gulf six O-D and therefore a LOWER bound on the
+    connect gap. Never substitute one for the other: `gulf_od_share_pct` stays gated for
+    exactly this reason, and `od_reconciliation()` reports the UAE row as a measurement and
+    the Gulf row as a bound because only UAE is unambiguous in both sources.
+68. **DGCA sums both directions, IATA counts departures only, and DGCA is fiscal where IATA
+    is calendar.** IATA states all three in footnote 5 of `Aviation in India`. Compare
+    `pax_from_india` against IATA, never `pax_total`, and hold both on 2024. Get the direction
+    wrong and the connect gap doubles.
 63. **`carrier_operating_summary` is the DGCA operating table, not a domestic-only one**,
     despite `load_dgca_domestic_carrier` being its loader's name. It carries
     `ScheduledDomestic`, `ScheduledInternational` and `NonScheduledInternational` rows behind
