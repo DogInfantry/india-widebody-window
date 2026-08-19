@@ -147,23 +147,40 @@ Likelihood and impact are judgements, so they are words. What matters more, and 
 the reason this is a table rather than a scatter plot, is the last two columns:
 what would falsify the risk, and what to watch.
 
+**Three of these rows fired between the data vintage and 2026-08-19, and one impact
+grade was wrong.** This register was published against 2025 DGCA data and IndiGo's
+FY2026 results. On 28 February 2026 the Strait of Hormuz closed, Brent passed
+$100 within a fortnight, and IndiGo's first quarter of FY2027 came in at a loss.
+The rows are marked below rather than quietly regraded. Recorded as pivot 10.
+
 | Risk | Likelihood | Impact | What would falsify it | Leading indicator |
 |---|---|---|---|---|
 | **Delivery slip** | High | High | A published Airbus delivery schedule for the IndiGo book, which does not currently exist | Airbus quarterly deliveries; any IndiGo fleet-plan disclosure |
-| **Rupee depreciation** | High | High | A sustained period of USD/INR stability | FBIL daily reference rate. Currency added +0.41 to FY2026 CASK, more than the entire net rise |
+| **Rupee depreciation** | High | High | A sustained period of USD/INR stability | **FIRED.** Q1 FY2027 averaged 95.02 INR/USD against 85.29, a move of **11.4%**. Graded correctly |
 | **Gulf carriers cut fares on direct-competing routes** | Medium | High | Gulf capacity discipline as their own fleets tighten | Published fares on India-Europe versus India-Gulf-Europe itineraries |
 | **Bilateral expansion re-floods the Gulf corridor** | Medium | Medium | India holding its refusal, as it has since 2014 | Ministry of Civil Aviation announcements; Rajya Sabha questions on air services agreements |
-| **ATF spike** | Medium | Medium | Brent stability | IOCL monthly ATF price, international and domestic bases separately |
+| **ATF spike** | Medium | **High**, corrected from Medium | Brent stability | **FIRED, and the impact grade was wrong.** Fuel CASK went 1.38 to **2.49**, up **80.4%**, and turned a 2,176 crore quarterly profit into a 238 crore loss. Not a Medium-impact risk |
 | **Europe direct yields fall past the headroom** | Medium | High | Yields holding within a fifth of today's realisation | IndiGo quarterly yield disclosure, which is published |
 | **Crew and MRO cannot absorb wide-body induction** | Medium | Medium | Type-rated pilot numbers, which nobody publishes | DGCA licence issuance; announced MRO capacity |
-| **Airspace closure lengthens sectors** | Medium | Medium | Reopening of Pakistan or Russian overflight | Route-level great circle against filed flight time |
-| **The connect prize is smaller than modelled** | Medium | High | A published origin-destination table, which IATA sells rather than publishes | Any free O-D release; a second agency covering India-Gulf |
+| **Airspace closure lengthens sectors** | Medium | Medium, and understated | Reopening of Pakistan or Russian overflight | **FIRED, and asymmetrically against this recommendation.** Iranian airspace closed on top of the standing Pakistan ban, and the sectors it lengthens are the western ones this case sequences first, not the Gulf ones it argues against |
+| **The connect prize is smaller than modelled** | Medium | High | A published origin-destination table for the Gulf six, which no source offers | **INDICATOR FIRED.** It read 'any free O-D release; a second agency covering India-Gulf'. IATA's free Aviation in India is both. See pivot 9 |
 
-**The single most likely reason this recommendation fails** is the last one, and
-it is a data risk rather than a market one. Only **5.6%** of India's international
-traffic is cross-checked against a second agency. The Gulf, which carries half of
-it, has no equivalent open source at all, so the checks that caught five earlier
-errors in this project cannot be run on the corridor the case turns on.
+**The single most likely reason this recommendation fails** is still the last one,
+and it is a data risk rather than a market one. It is smaller than it was. Only
+**5.6%** of India's international traffic is cross-checked against a second agency
+at **route** level, and that is unchanged, because no GCC authority publishes
+route-level statistics. At **country** level the Gulf now does have a second
+agency: IATA and DGCA agree to **3.7%** on how many passengers leave India and
+disagree by **9.9 points** on how many are going to the UAE, which puts a measured
+floor of 7.84M under the 8.49M this case models. See `options.od_reconciliation()`
+and the reconciliation section of `docs/methodology.md`.
+
+**What fired does not do is change the answer.** A fuel shock raises cost per seat
+kilometre everywhere, and it raises it most where sectors are shortest, which is
+the Gulf. The airspace closures cut the other way, lengthening exactly the western
+sectors this case recommends. Those two effects are opposed, both are computable
+from what is already in this repo, and neither has been netted here. That is named
+as open work rather than resolved in the recommendation's favour.
 
 ---
 
