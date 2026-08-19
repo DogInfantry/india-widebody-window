@@ -641,6 +641,14 @@ Every one of these cost real time or produced a wrong published number.
     `web/` is built on today. Read that list as scoped to the surface it was written about,
     not as a standing ban. Visx stays out for a live reason: this app is Recharts and a
     second charting library buys no analysis.
+72. **`npx --prefix web tsc --noEmit` DOES NOT TYPE CHECK. It prints tsc's help and exits 0.**
+    `--prefix` is an npm flag; npx consumes it, resolves the binary, and passes nothing that
+    tells tsc which project to load, so tsc sees no input files and helpfully explains itself.
+    Exit code 0, no output that looks like failure, and this file published it as the fast
+    type-check command. It was run and reported as "tsc clean" several times on 2026-08-19,
+    which was a green light for a check that never ran. Use `cd web && npx tsc --noEmit`.
+    **A verification command that cannot fail is worth less than no verification command**,
+    because it is trusted. Same shape as gotcha 64: the claim nothing tests.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
@@ -670,7 +678,7 @@ The delivery layer:
 npm --prefix web install
 npm --prefix web run dev                         # or preview_start, config name `app`
 npm --prefix web run build                       # static export to web/out, what Vercel runs
-npx --prefix web tsc --noEmit                    # types only, much faster than a build
+cd web && npx tsc --noEmit                       # types only, much faster than a build
 ```
 
 Serve the site through `preview_start` (config name `site`), not a bare `http.server`.
