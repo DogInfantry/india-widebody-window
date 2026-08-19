@@ -202,12 +202,19 @@ looks entirely plausible but can never be verified, because the figure is an agg
 convention rather than something the company reports. That is exactly the case that produced
 the retracted margin claim in `docs/methodology.md`.
 
-### Current state: 32 of 38 rows cleared
+### Current state: 40 of 46 rows cleared
 
-Thirty-two rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
-Seven were added on 2026-08-19, the `iata_india_od_*` block, which records India's departing
-international origin-destination split by region and by country from IATA's free
-`Aviation in India` report. See `options.od_reconciliation()`.
+Forty rows carry `VERIFIED` or `CORRECTED_VERIFIED` and may drive a published figure.
+Fifteen were added on 2026-08-19, in two blocks. The `iata_india_od_*` rows record India's
+departing international origin-destination split by region and by country from IATA's free
+`Aviation in India` report; see `options.od_reconciliation()`. The `*_q1fy2027*` and
+`*_q1fy2026*` rows record IndiGo's first quarter of FY2027 from the primary earnings
+presentation, and exist because three rows of the risk register in
+`docs/recommendation.md` fired and the register cannot say by how much without them.
+**Gotcha 30 applies to that deck**: `pdftotext -layout` mangles its column alignment, so
+every figure was reconstructed by position and cross-checked against an independently
+reported value. Fuel CASK is not among them: it is computed from the gated fuel expense
+and ASK rows, and lands on 2.49 against 1.38, the reported +80.4%.
 The six that do not are **terminal, not pending work**: each was chased to a primary source
 and the source does not exist.
 

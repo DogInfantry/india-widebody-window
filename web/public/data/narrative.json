@@ -47,7 +47,7 @@
   },
   {
    "Impact": "High",
-   "Leading indicator": "FBIL daily reference rate. Currency added +0.41 to FY2026 CASK, more than the entire net rise",
+   "Leading indicator": "FIRED. Q1 FY2027 averaged 95.02 INR/USD against 85.29, a move of 11.4%. Graded correctly",
    "Likelihood": "High",
    "Risk": "Rupee depreciation",
    "What would falsify it": "A sustained period of USD/INR stability"
@@ -67,8 +67,8 @@
    "What would falsify it": "India holding its refusal, as it has since 2014"
   },
   {
-   "Impact": "Medium",
-   "Leading indicator": "IOCL monthly ATF price, international and domestic bases separately",
+   "Impact": "High, corrected from Medium",
+   "Leading indicator": "FIRED, and the impact grade was wrong. Fuel CASK went 1.38 to 2.49, up 80.4%, and turned a 2,176 crore quarterly profit into a 238 crore loss. Not a Medium-impact risk",
    "Likelihood": "Medium",
    "Risk": "ATF spike",
    "What would falsify it": "Brent stability"
@@ -88,18 +88,18 @@
    "What would falsify it": "Type-rated pilot numbers, which nobody publishes"
   },
   {
-   "Impact": "Medium",
-   "Leading indicator": "Route-level great circle against filed flight time",
+   "Impact": "Medium, and understated",
+   "Leading indicator": "FIRED, and asymmetrically against this recommendation. Iranian airspace closed on top of the standing Pakistan ban, and the sectors it lengthens are the western ones this case sequences first, not the Gulf ones it argues against",
    "Likelihood": "Medium",
    "Risk": "Airspace closure lengthens sectors",
    "What would falsify it": "Reopening of Pakistan or Russian overflight"
   },
   {
    "Impact": "High",
-   "Leading indicator": "Any free O-D release; a second agency covering India-Gulf",
+   "Leading indicator": "INDICATOR FIRED. It read 'any free O-D release; a second agency covering India-Gulf'. IATA's free Aviation in India is both. See pivot 9",
    "Likelihood": "Medium",
    "Risk": "The connect prize is smaller than modelled",
-   "What would falsify it": "A published origin-destination table, which IATA sells rather than publishes"
+   "What would falsify it": "A published origin-destination table for the Gulf six, which no source offers"
   }
  ]
 }

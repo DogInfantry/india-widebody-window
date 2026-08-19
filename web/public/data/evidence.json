@@ -2,7 +2,7 @@
  "assumptions": {
   "by_status": [
    {
-    "count": 23,
+    "count": 31,
     "status": "VERIFIED"
    },
    {
@@ -55,8 +55,8 @@
     "status": "UNVERIFIED_NO_PRIMARY"
    }
   ],
-  "total": 38,
-  "usable": 32,
+  "total": 46,
+  "usable": 40,
   "usable_statuses": [
    "VERIFIED",
    "CORRECTED_VERIFIED"
