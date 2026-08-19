@@ -1,9 +1,10 @@
 # How this analysis changed
 
-Eight times, evidence turned the work against what it had been assuming. Once it changed the
+Ten times, evidence turned the work against what it had been assuming. Once it changed the
 recommendation. Once it reversed the premise of the whole case. Once it forced a published
 claim to be withdrawn. Once it found a wrong answer that every test in the repo had passed.
-Twice, most recently, the thing that was wrong was not a number at all but the delivery.
+Twice the thing that was wrong was not a number at all but the delivery. Once, most recently,
+it was a reason this project had given itself for not looking.
 
 They are recorded here for one reason: a case that arrives in a straight line was either
 trivial or is hiding something. Each entry names what was believed, what the evidence said,
@@ -300,6 +301,106 @@ narrative restored on `/story` by parsing `docs/index.html` rather than retyping
 **A recommendation reversed along with it.** `/story` had been dropped from the app on the
 argument that a deck and a dashboard covered the same ground. They did not. The action titles
 *were* the argument, and losing all of them is most of why the app read thin.
+
+---
+
+## Pivot 9. A reason for not looking, which was false
+
+`3328539` *The O-D gate opens: IATA does publish a free table, and this repo said it did not*
+
+**What was believed.** That the single most load-bearing unverifiable number in the project
+could never be checked. `gulf_od_share_pct`, the 40 per cent origin-destination share that
+carries the eleven point connect gap, was gated `UNVERIFIED_NO_PRIMARY` with the reason
+written into three places:
+<!-- narrative-guard: ignore, this retraction has to quote the wording it retracts -->
+"IATA sells origin-destination data and publishes no free table, so there is no primary
+document to check it against".
+<!-- /narrative-guard --> The value-at-stake chart told every
+reader on the live site the same thing. `docs/recommendation.md` called the resulting risk
+**the single most likely reason this recommendation fails**.
+
+**What the evidence said.** IATA's `Aviation in India` is a free, public, machine readable
+PDF. No login, no purchase. Its section 3.2 publishes India's departing international
+origin-destination traffic by destination region and by country: Middle East 39.2 per cent
+and 14.9M, Asia Pacific 29.9, Europe 15.5, North America 12.6, and at country level UAE 19.9
+per cent and 7.6M. What IATA sells is DDS, the route-level product. This project conflated
+the aggregate report with the route-level product for its entire life.
+
+**Why nothing caught it.** Because the claim was an argument for **not** looking, and nothing
+tests those. Every other number here is guarded by something that fails when it drifts. A
+sentence saying a number cannot be obtained has no such guard: it does not drift, it just
+sits there being wrong and discouraging the one action that would expose it. The false
+sentence was published on **eight surfaces** and none of them were covered, because neither
+`src/` nor the exported chart JSON is in `CORPUS_FILES`. That is gotcha 39 in yet another
+costume.
+
+**What changed.** Seven `iata_india_od_*` rows, VERIFIED against the primary PDF with URL and
+pull date, and `options.od_reconciliation()`, which is the Gulf equivalent of the DGCA to
+Eurostat check this project had said was impossible. Two of the three differences IATA names
+in its own footnote 5 are controlled, direction and year. The third, segment counting against
+O-D journeys, is left in because it is the quantity being measured.
+
+**The result, and it is the reason this pivot is worth more than the correction.** The two
+agencies **agree to 3.7 per cent** on how many passengers leave India, and **disagree by 9.9
+points** on how many of them are going to the UAE. They cannot both be right about the
+destination and they do not have to be: DGCA records the sector flown and IATA records where
+the journey ends, so the difference is the passenger who lands in Dubai and gets on another
+aeroplane. Doubled for direction, the measured floor is **7.84M** connecting passengers
+against the **8.49M** this case models. The number the whole recommendation rests on was
+modelled off trade press repetition, and it turns out to be right, and slightly conservative.
+
+**What did not change, deliberately.** `gulf_od_share_pct` is still gated. IATA's region
+"Middle East" is wider than this repo's Gulf six, so 39.2 per cent is not the same quantity,
+and substituting it would silently resolve a conflict instead of flagging one. It bounds the
+gap from below rather than closing it, and the bound moves in the direction that strengthens
+the argument, which is the opposite of a convenient assumption.
+
+`test_the_od_share_cannot_reach_a_published_figure_through_the_gate` carried the instruction
+"INVERT THIS, do not delete it, if IATA ever publishes a free origin-destination table". It
+is inverted. The half that guarded a claim about IATA now requires the published figures to
+clear the gate; the half that guards the row itself survives, for the narrower reason above.
+
+---
+
+## Pivot 10. The register fired, and one impact grade was wrong
+
+`f56f8a3` *Three risk-register rows fired, and one impact grade was wrong*
+
+**What was believed.** The nine-row risk register in `docs/recommendation.md` was published
+against 2025 DGCA data and IndiGo's FY2026 results, with a falsifier and a leading indicator
+on every row. An **ATF spike** was graded Medium likelihood and **Medium impact**. An
+**airspace closure lengthening sectors** was graded Medium and Medium. **Rupee depreciation**
+was graded High and High.
+
+**What the evidence said.** On 28 February 2026 the Strait of Hormuz closed. Brent passed
+$100 within a fortnight. IndiGo's first quarter of FY2027 reported fuel cost per available
+seat kilometre of **2.49 against 1.38, up 80.4 per cent**, an average exchange rate of
+**95.02 against 85.29**, and a **238 crore loss against a 2,176 crore profit** a year
+earlier. Yields rose 21.3 per cent and revenue per seat kilometre 16.5 per cent, and it was
+not enough.
+
+**What changed.** The ATF row's impact grade is corrected from Medium to **High** rather than
+quietly left, because a risk that flips the client's P&L in a quarter is not a Medium-impact
+risk. The rupee row was graded correctly and is marked as such, which matters: a register
+where nothing is ever confirmed right is as useless as one where nothing is ever wrong.
+
+**The row that fired against this case, not for it.** The airspace closure. Iranian airspace
+closed on top of the standing Pakistan ban, and the sectors it lengthens are the **western**
+ones this case sequences first, not the Gulf ones it argues against. That is the honest
+reading and it is recorded as such.
+
+**Why this does not change the answer, and why that claim is bounded.** A fuel shock raises
+cost per seat kilometre everywhere and raises it most where sectors are shortest, which is
+the Gulf, so it argues for west-first. The airspace closures cut the other way. The two
+effects are opposed, both are computable from what is already in this repo through
+`CASK_STAGE_ELASTICITY` and the corridor headroom table, and **neither has been netted**.
+Saying the shock strengthens the case would be exactly the kind of convenient reading this
+log exists to catch, so it is named as open work instead.
+
+**What this is really evidence of.** The register was written to be falsifiable and then
+reality ran the test on it, in public, four months later. Two grades held, one did not, and
+one fired in a direction the author did not anticipate. That is worth more than a register
+where every row is still hypothetical.
 
 ---
 

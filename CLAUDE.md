@@ -148,7 +148,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
-| `docs/pivot_log.md` | Eight documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
+| `docs/pivot_log.md` | Ten documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
 | `web/` | The client-facing delivery layer. Next.js **static export**, **seven routes**, Recharts. Canonical on Vercel |
 | `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 20 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |

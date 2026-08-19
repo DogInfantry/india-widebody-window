@@ -277,16 +277,22 @@ CLAIMS: tuple[Claim, ...] = (
             for ln in (ROOT / "docs" / "pivot_log.md").read_text(encoding="utf-8").splitlines()
         ),
         "{:.0f}",
-        must_appear=("Eight documented changes of mind", "eight documented changes of mind"),
+        must_appear=("Ten documented changes of mind", "ten documented changes of mind"),
         must_not_appear=(
             "six documented changes of mind",
             "Six documented changes of mind",
             "Seven documented changes of mind",
             "seven documented changes of mind",
+            "Eight documented changes of mind",
+            "eight documented changes of mind",
             "Six times, evidence turned",
+            "Eight times, evidence turned",
             "Six changes of mind",
+            "Eight changes of mind",
             "the six times evidence turned",
             "the six times it was wrong",
+            "the eight times evidence turned",
+            "the eight times it was wrong",
         ),
     ),
     Claim(

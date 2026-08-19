@@ -100,7 +100,7 @@ REQUIREMENTS: tuple[Requirement, ...] = (
         "business judgment to derive answers in \nsituations where data is not easily available",
         "Judgement where data is thin",
         ("data/manual/assumptions.csv", "src/data_pipeline.py", "docs/pivot_log.md"),
-        "Assumption status gate, disputed route quarantine, an unverifiable O-D share bounded rather than asserted, and eight documented changes of mind",
+        "Assumption status gate, disputed route quarantine, an unverifiable O-D share bounded rather than asserted, and ten documented changes of mind",
     ),
     Requirement(
         "secondary research",
