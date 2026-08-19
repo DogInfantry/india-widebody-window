@@ -177,14 +177,32 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 190 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
-delivery layer across seven routes. Working tree clean, NOT pushed.**
+**Done and green. 195 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
+delivery layer across seven routes. Working tree clean, everything pushed, `main` at
+`f1704fe`.**
 
-**Closed 2026-08-18, fourth block (`6cd5009`, `52aa12c`, local):** the whole of
-`memory/plan-company-case.md`, W1 through W5. The app is no longer thinner than the site it
-replaced and it now names its client. W6 is partly done: `CLAUDE.md` is swept here, and the
-two `docs/` edits it calls for are **deliberately not made**, because the instruction for this
-session was that `docs/` stays byte-unchanged. They are listed under Next steps.
+**THE ARTIFACT IS FINISHED.** Nothing in Next steps is required for it to stand up to a
+reader. Do not start new work on it without being asked; the failure mode from here is
+churn, not incompleteness.
+
+**Closed 2026-08-19 (`45830cc`, `b526c91`, `f1704fe`, pushed):** the three `docs/` corrections
+the previous block deferred, plus one bug found while checking what was left.
+- **Pivot 8** written up: the delivery-thinning audit, and the reversal it forced.
+- **A load-factor claim withdrawn.** `storyline.md` and the `load_factor_slope` step said load
+  factors had recovered past pre-pandemic across every major carrier. DGCA 2019 against 2025
+  says IndiGo went 87.8 to 86.1 and SpiceJet 92.7 to 86.2, both DOWN. The narrow claim, that
+  every carrier clears 80%, is true and carries the argument. Both surfaces corrected in place
+  inside `narrative-guard: ignore` markers so the retraction can quote the withdrawn wording.
+- **`methodology.md` paired margin fixed**, so the guard's `known_open` list is now empty.
+- **The pivot count was wrong in eight places**, published as six on seven surfaces and seven
+  in this file, including two OpenGraph descriptions that show in link previews. It had
+  drifted twice without failing anything. Only `web/app/methodology` was ever right, because
+  it computes `pivots.length`. Swept, and a narrative-guard claim now counts `## Pivot `
+  headings.
+
+**Closed 2026-08-18, fourth block (`6cd5009`, `52aa12c`, pushed):** the whole of
+`memory/plan-company-case.md`, W1 through W6. The app is no longer thinner than the site it
+replaced and it now names its client.
 
 **Closed 2026-08-18, third block (`434f186`, pushed):** the Vercel deploy and the brief PDF
 page break. Plus `docs/external_review_response.md`, which answers the external review item by
@@ -259,9 +277,14 @@ reached the handoff, which the methodology route caught by counting the file):
 
 ## Active task
 
-**None. `memory/plan-company-case.md` is executed, W1 through W5, and W6 is swept as far as
-this session's constraints allowed.** The plan file stays as the record of what was decided
-and why; do not re-run it.
+**None. `memory/plan-company-case.md` is executed in full, W1 through W6, and the three `docs/`
+corrections it deferred are made.** The plan file stays as the record of what was decided and
+why; do not re-run it.
+
+**A new session should not start work on this repo without an explicit ask.** The last two
+sessions each found real problems by *checking* rather than by building, and that is the
+higher-yield move here: run `python -m pytest -q`, read this file, and ask what the user
+wants. See `memory/handoff-2026-08-19.md` for the state at handoff.
 
 **What it fixed, in the same three numbers the audit used:**
 
