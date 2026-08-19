@@ -422,6 +422,13 @@ reported bilateral entitlement: each of those is a chance for something to disag
 disagreement is the only mechanism here that reliably surfaces a wrong answer.
 
 The corollary is uncomfortable and worth stating. **Only 5.6% of India's international traffic
-is cross-checked against a second agency.** The Gulf, which carries half of it, has no
-equivalent open source. Everything on this site about the Gulf rests on one agency's numbers,
-and the checks that caught these five pivots cannot be run there.
+is cross-checked against a second agency at route level.** No GCC authority publishes route
+statistics, so route-level cover is Europe only, and the checks that caught these five pivots
+cannot be run on Gulf routes.
+<!-- narrative-guard: ignore, this records what was believed before pivot 9 -->
+This passage used to end by saying the Gulf had no equivalent open source at all, and that
+everything here about the Gulf rested on one agency's numbers.
+<!-- /narrative-guard -->
+Pivot 9 changed that at country level. IATA's free `Aviation in India` agrees with DGCA to
+3.7% on how many passengers leave India and disagrees by 9.9 points on how many are going to
+the UAE, which is the connect gap measured rather than modelled.

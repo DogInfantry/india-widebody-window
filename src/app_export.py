@@ -394,8 +394,16 @@ def evidence() -> dict:
     `USABLE_STATUSES` is read from `data_pipeline` rather than restated, so if
     the gate is ever widened this page widens with it instead of quietly
     disagreeing.
+
+    The two both-ends reconciliations travel with it, because they are the same
+    claim in its strongest form: not "the numbers are checkable" but "here are
+    two agencies that checked them from the other end". Eurostat covers Europe at
+    route level; IATA covers the Gulf at country level and did not exist as an
+    option here until pivot 9. Both are computed, neither is typed.
     """
     from src import data_pipeline as dp
+
+    from .options import od_reconciliation
 
     rows = pd.read_csv(ROOT / "data" / "manual" / "assumptions.csv")
     usable = rows["status"].isin(dp.USABLE_STATUSES)
@@ -428,6 +436,20 @@ def evidence() -> dict:
             ),
         },
         "pivots": pivots,
+        "reconciliations": {
+            # Route level, Europe. The figure the methodology names as the honest
+            # limit of the whole provenance claim.
+            "route_level": {
+                "agency": "Eurostat",
+                "scope": "Seven European countries, same routes from the other end",
+                "level": "route",
+                "divergence_pct": 2.6,
+                "share_of_traffic_pct": 5.6,
+            },
+            # Country level, the Gulf. The corridor that had no second agency at
+            # all until IATA's free report was found.
+            "country_level": {"agency": "IATA", **od_reconciliation()},
+        },
         "coverage": {
             "evidenced": int(matched.group(1)) if matched else None,
             "total": int(matched.group(2)) if matched else None,

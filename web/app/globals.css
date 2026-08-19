@@ -61,4 +61,42 @@ h3 {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+
+  /* Belt and braces. `Reveal` already returns early under reduced motion, so it
+     never sets the hidden state; this covers the setting being changed after the
+     observer was attached. */
+  [data-reveal][data-reveal-state="hidden"] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The scroll reveal.
+   The DEFAULT is visible, and that is the whole design. `Reveal` adds
+   `data-reveal-state="hidden"` from JavaScript only for elements below the fold,
+   and removes it when they scroll into view. So with JavaScript off, with the
+   observer never firing, or on paper, the reader sees the content. Nothing here
+   can hide anything by failing.
+
+   The first version of this used Motion's `whileInView`, which writes
+   `opacity: 0` into the exported HTML and reveals it from the client. It shipped
+   six invisible sections and did not animate them either. */
+[data-reveal] {
+  transition:
+    opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-reveal][data-reveal-state="hidden"] {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+@media print {
+  [data-reveal],
+  [data-reveal][data-reveal-state="hidden"] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

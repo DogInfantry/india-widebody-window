@@ -9,10 +9,22 @@ export const metadata: Metadata = { title: "Methodology" };
 // docs/pivot_log.md, the coverage score from docs/coverage.md. If the gate is
 // widened or a row clears, this page moves on the next export.
 //
-// No charts. A provenance page that needs a chart to make its point does not
-// have a point.
+// No exhibits. A provenance page that needs a Recharts panel to make its point
+// does not have a point; the counted bars below are drawn from the numbers
+// themselves and stay that way.
+//
+// **The reconciliation panel was added 2026-08-19, and it replaced a false
+// sentence rather than an empty space.** This page told the reader that the Gulf
+// "has no equivalent open source" flatly, with no route-level qualifier. That was
+// true when written and stopped being true when IATA's free `Aviation in India`
+// was found (pivot 9): the Gulf has a second agency at country level now, and
+// only route-level cover is still Europe-only. The narrative
+// guard did not catch it, because the guard forbids specific withdrawn phrasings
+// and this was the same claim in different words. Worth remembering: a phrase
+// blacklist catches the sentence you wrote down, not the belief behind it.
 
-const { assumptions, pivots, coverage } = evidence;
+const { assumptions, pivots, coverage, reconciliations } = evidence;
+const { route_level: ROUTE, country_level: GULF } = reconciliations;
 
 const STATUS_NOTE: Record<string, string> = {
   VERIFIED: "checked against the primary source named in the row",
@@ -137,11 +149,69 @@ export default function Methodology() {
       <section className="mt-16">
         <h2 className="font-serif text-2xl font-semibold">Where the numbers are checked twice</h2>
         <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-ink/75">
-          Two agencies measuring the same routes from opposite ends agree to 2.6% across seven
-          countries, and DGCA reconciles with IndiGo&rsquo;s own published block hours to 0.31%.
-          That is the good news. The bad news is that only 5.6% of India&rsquo;s international
-          traffic has a second agency covering it at all, and the Gulf, which carries half the
-          traffic, has no equivalent open source.
+          Two independent agencies now cover this case from the other end, at two different
+          levels. Europe is checked route by route and agrees closely. The Gulf, which carries
+          half the traffic and all of the argument, is checked country by country, and the two
+          agencies <em>disagree</em> there in a way that is the finding rather than a problem.
+        </p>
+
+        <div className="mt-8 grid gap-px bg-light lg:grid-cols-2">
+          <div className="bg-paper p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+              Europe &middot; route level
+            </p>
+            <p className="tnum mt-3 font-serif text-[2.5rem] font-semibold leading-none">
+              {ROUTE.divergence_pct}%
+            </p>
+            <p className="mt-3 max-w-[38ch] text-[14.5px] leading-snug">
+              apart from {ROUTE.agency}, measuring the same routes from the other end
+            </p>
+            <p className="mt-3 max-w-[42ch] text-[12.5px] leading-relaxed text-grey">
+              {ROUTE.scope}. This covers {ROUTE.share_of_traffic_pct}% of India&rsquo;s
+              international traffic, and that figure has not moved: no Gulf authority publishes
+              route statistics, so route-level cover is still Europe only.
+            </p>
+          </div>
+
+          <div className="bg-paper p-6">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+              The Gulf &middot; country level &middot; {GULF.year}
+            </p>
+            <p className="mt-3 font-serif text-[2rem] font-semibold leading-none">
+              <span className="tnum">{GULF.total_divergence_pct}%</span>
+              <span className="text-[15px] font-medium text-grey"> apart on departures</span>
+            </p>
+            <p className="mt-2 font-serif text-[2rem] font-semibold leading-none text-red">
+              <span className="tnum">{GULF.uae_leak_pts}</span>
+              <span className="text-[15px] font-medium"> points apart on destination</span>
+            </p>
+            <p className="mt-3 max-w-[42ch] text-[13px] leading-relaxed text-ink/75">
+              DGCA and {GULF.agency} agree that{" "}
+              <span className="tnum">{GULF.dgca_departing_m}M</span> and{" "}
+              <span className="tnum">{GULF.iata_departing_od_m}M</span> passengers left India.
+              They disagree on how many were going to the UAE:{" "}
+              <span className="tnum">{GULF.uae_dgca_share_pct}%</span> of sectors against{" "}
+              <span className="tnum">{GULF.uae_iata_share_pct}%</span> of origin-destination
+              traffic, a gap of <span className="tnum">{GULF.uae_leak_m}M</span> people.
+            </p>
+            <p className="mt-3 max-w-[42ch] text-[12.5px] leading-relaxed text-grey">
+              They cannot both be right about the destination and they do not have to be. DGCA
+              records the sector flown, {GULF.agency} records where the journey ends, and the
+              difference is the passenger who lands in Dubai and boards another aeroplane. That
+              difference is the case.
+            </p>
+          </div>
+        </div>
+
+        <p className="mt-5 max-w-[68ch] border-l-2 border-red pl-5 text-[14px] leading-relaxed">
+          Against the Gulf six, {GULF.agency}&rsquo;s wider Middle East region gives a{" "}
+          <strong>lower bound</strong> of{" "}
+          <span className="tnum">{GULF.gulf_leak_m_lower_bound}M</span> connecting passengers one
+          way, so <span className="tnum">{(GULF.gulf_leak_m_lower_bound * 2).toFixed(2)}M</span>{" "}
+          both ways, against the <span className="tnum">8.49M</span> this case models. The
+          load-bearing modelled number is corroborated by measurement, and is slightly
+          conservative. It is not replaced: no source publishes a Gulf six origin-destination
+          share, so <code className="text-[13px]">gulf_od_share_pct</code> stays gated.
         </p>
 
         <div className="mt-6 overflow-x-auto">

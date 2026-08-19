@@ -150,7 +150,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
 | `docs/pivot_log.md` | Ten documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
 | `web/` | The client-facing delivery layer. Next.js **static export**, **seven routes**, Recharts. Canonical on Vercel |
-| `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 20 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
+| `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 26 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
 | `web/components/DriverTree.tsx` | The value-driver tree AS NAVIGATION. Every leaf links to the exhibit that proves it; a test asserts none dangle |
 | `web/lib/chart-theme.ts` | **NEW.** House-rule tokens in one place. They were copied into three chart files |
@@ -177,7 +177,7 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 198 tests pass. 19 Plotly charts on the mirror, 20 exhibits in the React
+**Done and green. 198 tests pass. 19 Plotly charts on the mirror, 26 exhibits in the React
 delivery layer across seven routes. Working tree clean, everything pushed, `main` at
 `f1704fe`.**
 
@@ -304,7 +304,7 @@ wants. See `memory/handoff-2026-08-19.md` for the state at handoff.
 
 | | `docs/index.html` | The app, before | The app, now |
 |---|---|---|---|
-| Exhibits | 18 | 11, four partial | **20** |
+| Exhibits | 18 | 11, four partial | **26** (this table said 20 until 2026-08-19; see gotcha 69) |
 | Narrative steps with action titles | 22 | 0 | **18 on `/story`, parsed from `index.html`** |
 | Client mentions | in `storyline.md` only | none | **`/`, `/company`, deck cover, all parsed** |
 
@@ -435,8 +435,11 @@ Every one of these cost real time or produced a wrong published number.
 22. **Never quote 66,504 seats/week as the India-UAE cap.** It is one emirate and one side.
     India-UAE runs roughly 255,000 one-way seats/week across three separate MoUs. An external
     review repeated this error in 2026-08-18; it was caught because this list exists.
-23. **Only 5.6% of India's international traffic is cross-checked** against a second agency.
-    The Gulf, which carries half the traffic, has **no equivalent open source**.
+23. **Only 5.6% of India's international traffic is cross-checked at ROUTE level** against a
+    second agency, and no GCC authority publishes route statistics, so route-level cover is
+    Europe only. **At country level the Gulf now has one**: IATA's free `Aviation in India`,
+    found on 2026-08-19 (pivot 9). Do not repeat the old flat claim that the Gulf has no
+    second source; `tests/test_narrative.py` fails the build if it appears unqualified.
 24. **`UNVERIFIED_NO_PRIMARY` is the status that matters.** It marks a plausible value that can
     *never* be checked. `assumption(key, allow_unverified=True)` is used in exactly **two**
     places: `dubai_entitlement_check()` and `options.connect_gap()`.
@@ -620,6 +623,24 @@ Every one of these cost real time or produced a wrong published number.
     `ScheduledDomestic`, `ScheduledInternational` and `NonScheduledInternational` rows behind
     `is_scheduled` and `is_international`. `load_dgca_intl_carrier` has NO `aircraft_hours`
     column at all.
+69. **The exhibit count drifted to 20 against an actual 26, and nothing caught it.** The
+    parity test asserts the static site's 18 `data-chart` ids are a SUBSET of the registry,
+    which 18 of 26 satisfies forever. A subset check is not a count. `CLAUDE.md` said 20 in
+    three places and the handoff said it too, from `f1704fe` onward. Pinned now the way the
+    pivot count is pinned. **Eight registered exhibits are still on no page at all**, which
+    is the useful half of the finding: `capital_scale`, `competitive_position`, `cost_stack`,
+    `entitlement_use`, `margin_ladder`, `operations`, `option_menu`, `unit_spread`.
+70. **Motion is allowed on page chrome and never on chart marks.** `web/lib/chart-theme.ts`
+    says "No animation on load" and every Recharts series sets `isAnimationActive={false}`.
+    That was convention until 2026-08-19 and is now a test. The `motion` package is loaded
+    through `LazyMotion` with `domAnimation`, which is 4.6kb rather than 34kb, and
+    `globals.css` already zeroes animation under `prefers-reduced-motion`.
+71. **The old rejection list does not govern `web/`.** `docs/external_review_response.md`
+    rejects Framer Motion, Recharts, Visx and the Next.js App Router in one breath. Three of
+    those are refusals of a `docs/` REBUILD, and two of them (App Router, Recharts) are what
+    `web/` is built on today. Read that list as scoped to the surface it was written about,
+    not as a standing ban. Visx stays out for a live reason: this app is Recharts and a
+    second charting library buys no analysis.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

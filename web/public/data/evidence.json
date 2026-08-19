@@ -108,5 +108,32 @@
    "n": "10",
    "title": "The register fired, and one impact grade was wrong"
   }
- ]
+ ],
+ "reconciliations": {
+  "country_level": {
+   "agency": "IATA",
+   "dgca_departing_m": 36.66,
+   "gulf_dgca_sector_m": 18.82,
+   "gulf_dgca_share_pct": 51.3,
+   "gulf_leak_m_lower_bound": 3.92,
+   "gulf_leak_pts_lower_bound": 12.1,
+   "iata_departing_od_m": 38.01,
+   "middle_east_iata_od_m": 14.9,
+   "total_divergence_pct": 3.7,
+   "uae_dgca_sector_m": 10.93,
+   "uae_dgca_share_pct": 29.8,
+   "uae_iata_od_m": 7.6,
+   "uae_iata_share_pct": 19.9,
+   "uae_leak_m": 3.33,
+   "uae_leak_pts": 9.9,
+   "year": 2024
+  },
+  "route_level": {
+   "agency": "Eurostat",
+   "divergence_pct": 2.6,
+   "level": "route",
+   "scope": "Seven European countries, same routes from the other end",
+   "share_of_traffic_pct": 5.6
+  }
+ }
 }

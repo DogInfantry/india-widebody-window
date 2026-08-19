@@ -465,6 +465,46 @@ def test_the_withdrawn_iata_claim_does_not_reappear():
     )
 
 
+def test_the_gulf_second_source_claim_is_always_qualified_by_route_level():
+    """"The Gulf has no equivalent open source" is only true at ROUTE level now.
+
+    The withdrawn-IATA guard forbids specific phrasings and that is not enough.
+    `web/app/methodology/page.tsx` carried the same belief in different words,
+    "the Gulf, which carries half the traffic, has no equivalent open source",
+    survived the whole 2026-08-19 correction pass, and was still published after
+    eight other surfaces had been fixed. A phrase blacklist catches the sentence
+    somebody wrote down, not the belief behind it.
+
+    So this one is shaped like the paired-margin guard instead: the claim may
+    appear, because at route level it is still true and load-bearing, but it must
+    appear NEAR the qualifier that makes it true. IATA covers the Gulf at country
+    level; no GCC authority publishes routes.
+    """
+    window = 400
+    claims = ("no equivalent open source", "has no second agency")
+    offenders = {}
+
+    targets = [ROOT / rel for rel in CORPUS_FILES]
+    targets += sorted((ROOT / "src").glob("*.py"))
+
+    for path in targets:
+        if not path.exists():
+            continue
+        text = _flatten(path)
+        for claim in claims:
+            for match in re.finditer(re.escape(claim), text):
+                near = text[max(0, match.start() - window) : match.end() + window]
+                if "route" not in near.lower():
+                    offenders[str(path.relative_to(ROOT)).replace("\\", "/")] = near[:220]
+                    break
+
+    assert not offenders, (
+        "A surface claims the Gulf has no second agency without qualifying it to "
+        "ROUTE level. IATA covers the Gulf at country level since pivot 9; only "
+        f"route-level cover is still Europe-only. Offenders: {offenders}"
+    )
+
+
 def test_the_guard_can_actually_fail(corpus):
     """A guard that cannot fail is not a guard.
 

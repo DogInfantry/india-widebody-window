@@ -254,3 +254,58 @@ def test_the_deck_has_a_five_minute_path_and_it_is_actually_short():
         f"{len(short)} slides in the five-minute path, which is not five minutes"
     )
     assert len(short) < len(entries), "the short path is the whole deck"
+
+
+def test_the_registry_count_is_pinned_not_typed(registry_ids):
+    """A subset check is not a count, and that is how 20 survived against 26.
+
+    `test_every_static_site_exhibit_has_an_app_counterpart` asserts the static
+    site's ids are a SUBSET of the registry. Eighteen of twenty-six satisfies
+    that forever, so the registry could grow or shrink by eight without a single
+    failure. `CLAUDE.md` said 20 in three places, and the handoff repeated it,
+    from `f1704fe` onward.
+
+    This is the pivot-count guard in a different costume: count the thing, never
+    type it, and make the prose agree with the count.
+    """
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    actual = len(registry_ids)
+
+    claude = root / "CLAUDE.md"
+    text = claude.read_text(encoding="utf-8")
+
+    stale = re.findall(r"(\d+) exhibits in the React", text)
+    assert stale == [str(actual)], (
+        f"CLAUDE.md states {stale} exhibits in the React delivery layer but the "
+        f"registry holds {actual}. Count it, do not type it."
+    )
+    assert f"{actual} exhibits keyed by the same" in text, (
+        f"the file map in CLAUDE.md no longer states the real registry count of {actual}"
+    )
+
+
+def test_no_chart_series_turns_animation_on():
+    """Motion is allowed on page chrome and never on chart marks.
+
+    `web/lib/chart-theme.ts` carries the rule as a comment, "No animation on
+    load", and every Recharts series in the app sets `isAnimationActive={false}`
+    to honour it. That was convention until the `motion` package was added for
+    scroll reveals and KPI count-up, at which point a convention protecting a
+    boundary is not enough. An animated bar re-orders the reader's attention on
+    every scroll and makes a static chart feel like a toy; the whole palette
+    discipline exists to stop exactly that.
+    """
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    offenders = {}
+    for path in sorted((root / "web" / "components").glob("*.tsx")):
+        text = path.read_text(encoding="utf-8")
+        if re.search(r"isAnimationActive=\{true\}|isAnimationActive(?!=\{false\})\s*[/>]", text):
+            offenders[path.name] = "isAnimationActive is on or defaulted"
+    assert not offenders, (
+        f"Recharts animation is enabled in {offenders}. Chart marks stay static; "
+        "motion belongs on page chrome only. See gotcha 70."
+    )
