@@ -196,7 +196,12 @@ export default function Dashboard() {
                   {...TOOLTIP}
                   formatter={(v, n) => `${Number(v).toFixed(1)}% of ${n === "share_pct" ? "passengers" : "revenue"}`}
                 />
-                <Bar dataKey="share_pct" isAnimationActive={false} onClick={(d) => toggle((d as unknown as { region: string }).region)}>
+                <Bar
+                  dataKey="share_pct"
+                  isAnimationActive={false}
+                  className="clickable-marks"
+                  onClick={(d) => toggle((d as unknown as { region: string }).region)}
+                >
                   {shown.map((c) => (
                     <Cell key={c.region} fill={fill(c.region)} cursor="pointer" />
                   ))}
@@ -231,6 +236,7 @@ export default function Dashboard() {
                 <Scatter
                   data={economicCorridors.filter((c) => isOn(c.region))}
                   isAnimationActive={false}
+                  className="clickable-marks"
                   onClick={(d) => toggle((d as unknown as { region: string }).region)}
                 >
                   {economicCorridors
@@ -285,7 +291,12 @@ export default function Dashboard() {
                 <XAxis dataKey="region" {...AXIS} interval={0} angle={-25} textAnchor="end" height={64} />
                 <YAxis {...AXIS} width={48} unit="kg" />
                 <Tooltip {...TOOLTIP} formatter={(v) => `${Number(v).toFixed(1)} kg per passenger`} />
-                <Bar dataKey="kg_per_pax" isAnimationActive={false} onClick={(d) => toggle((d as unknown as { region: string }).region)}>
+                <Bar
+                  dataKey="kg_per_pax"
+                  isAnimationActive={false}
+                  className="clickable-marks"
+                  onClick={(d) => toggle((d as unknown as { region: string }).region)}
+                >
                   {shown
                     .filter((c) => c.kg_per_pax !== null)
                     .map((c) => (

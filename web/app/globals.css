@@ -72,8 +72,24 @@ h3 {
 @layer base {
   button,
   summary,
+  label,
+  select,
+  input[type="range"],
+  input[type="checkbox"],
+  input[type="radio"],
   [role="tab"],
   [role="button"] {
+    cursor: pointer;
+  }
+
+  /* Recharts draws its marks as raw SVG, so a bar with an `onClick` inherits
+     nothing from the rules above. On the dashboard, clicking a bar filters every
+     other exhibit on the page, which is the most useful interaction in the whole
+     project and the least discoverable: 24 clickable bars reported a mix of
+     `pointer` and `default` because Recharts sets it inconsistently. The class
+     goes on the series and cascades to the shapes it renders. */
+  .clickable-marks,
+  .clickable-marks * {
     cursor: pointer;
   }
 

@@ -365,8 +365,39 @@ def test_interactive_elements_keep_a_pointer_cursor():
     css = (Path(__file__).resolve().parent.parent / "web" / "app" / "globals.css").read_text(
         encoding="utf-8"
     )
-    block = re.search(r"button,\s*summary,\s*\[role=\"tab\"\],\s*\[role=\"button\"\]\s*\{[^}]*\}", css)
+    block = re.search(r"button,\s*summary,[^{]*\{[^}]*\}", css)
     assert block and "cursor: pointer" in block.group(0), (
-        "globals.css no longer gives buttons, summaries and tabs a pointer cursor. "
+        "globals.css no longer gives interactive elements a pointer cursor. "
         "See gotcha 73."
+    )
+
+    # The first version of this rule covered buttons and tabs and missed the one
+    # control on the site that is a slider: the fuel and FX shock on the
+    # dashboard, which reported `cursor: default` while being the most
+    # interactive thing in the project. Every control type the app actually uses
+    # is named here so the next one added is a failing test rather than a dead
+    # -feeling widget nobody notices.
+    selector = block.group(0)
+    for control in ('input[type="range"]', "select", "label"):
+        assert control in selector, (
+            f"{control} is not covered by the interactive cursor rule. "
+            "A control that does not change the cursor reads as decoration."
+        )
+
+    # Recharts draws marks as raw SVG, so a series with an onClick inherits
+    # nothing from element selectors.
+    assert ".clickable-marks" in css, (
+        "the .clickable-marks rule is gone, so Recharts series with an onClick "
+        "handler no longer signal that they are clickable"
+    )
+
+    dashboard = (
+        Path(__file__).resolve().parent.parent / "web" / "app" / "dashboard" / "page.tsx"
+    ).read_text(encoding="utf-8")
+    series_with_click = dashboard.count("onClick={(d) =>")
+    marked = dashboard.count('className="clickable-marks"')
+    assert marked >= series_with_click, (
+        f"{series_with_click} chart series take a click but only {marked} are marked "
+        "`clickable-marks`. Clicking a bar filters every exhibit on the page, which "
+        "is worth nothing if the reader cannot tell it is clickable."
     )

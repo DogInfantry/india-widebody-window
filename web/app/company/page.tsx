@@ -63,9 +63,8 @@ export default function Company() {
           IndiGo is buying long-haul capacity from a position with no margin cushion
         </h1>
         <p className="mt-5 text-[17px] leading-relaxed text-ink/75">
-          {brief.decision} The rest of this case argues about where those aircraft should fly.
-          This page is about the business that has to carry them, and its central fact is that in{" "}
-          {spread.year} unit cost sat above unit revenue.
+          The rest of this case argues where the aircraft should fly. This page is the business
+          that has to carry them, and its central fact is one number.
         </p>
       </header>
 
@@ -85,21 +84,47 @@ export default function Company() {
         ))}
       </section>
 
-      {/* Scope, stated rather than left for a reader to discover by absence. */}
-      <section className="mt-12 border-l-2 border-ink bg-wash py-5 pl-5 pr-4">
+      {/* The hero exhibit, directly under the numbers it explains. It used to sit
+          below the scope box, which put the page's first visual 30% of the way
+          down: the same defect the answer page had, on the page a reader reaches
+          second. The scope note matters and is now BELOW the evidence rather than
+          in front of it. */}
+      <section aria-label="The spread" className="mt-14">
+        <h2 className="max-w-[34ch] font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+          Unit cost sat above unit revenue in {spread.year}
+        </h2>
+        <div className="mt-8">
+          <RegisteredExhibit id="unit_spread" />
+        </div>
+      </section>
+
+      {/* Scope, stated rather than left for a reader to discover by absence.
+          It was one 88-word paragraph and is now a list, because the point of it
+          is what is absent, and absence is read from a list far faster than from
+          a sentence. */}
+      <section className="mt-16 border-l-2 border-ink bg-wash py-5 pl-5 pr-4">
         <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
           What this page is, and is not
         </p>
-        <p className="mt-3 max-w-[74ch] text-[14.5px] leading-relaxed">
-          A profit and loss, unit economics and capital scale view, built entirely from figures
-          IndiGo has published and this project has verified against the primary document.{" "}
-          <strong>
-            There is no balance sheet, no return on invested capital, no cost of capital and no
-            financing plan.
-          </strong>{" "}
-          Not because they would be uninteresting, but because none of the inputs has cleared this
-          project&rsquo;s assumption gate, and a page that mixes verified figures with plausible
-          ones is worse than a page that stops. {brief.not_this}
+        <div className="mt-4 grid gap-x-10 gap-y-4 sm:grid-cols-2">
+          <div>
+            <p className="text-[13px] font-semibold">It is</p>
+            <p className="mt-1 text-[14px] leading-relaxed text-ink/75">
+              Profit and loss, unit economics and capital scale, every figure verified against
+              IndiGo&rsquo;s own primary filings.
+            </p>
+          </div>
+          <div>
+            <p className="text-[13px] font-semibold text-red">It is not</p>
+            <p className="mt-1 text-[14px] leading-relaxed text-ink/75">
+              A balance sheet, a return on invested capital, a cost of capital or a financing
+              plan. None of those inputs clears the assumption gate.
+            </p>
+          </div>
+        </div>
+        <p className="mt-4 max-w-[74ch] text-[13px] leading-relaxed text-grey">
+          A page that mixes verified figures with plausible ones is worse than a page that
+          stops. {brief.not_this}
         </p>
       </section>
 
@@ -109,12 +134,10 @@ export default function Company() {
             Can it earn?
           </h2>
           <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-ink/75">
-            The first branch of the driver tree, and the one that fails. Unit revenue minus unit
-            cost times capacity is the whole profit identity for an airline, and the first term is
-            negative.
+            The first branch of the driver tree, and the one that fails. The spread above is the
+            first term of the profit identity; these two say why it moved.
           </p>
           <div className="mt-10 space-y-16">
-            <RegisteredExhibit id="unit_spread" />
             <RegisteredExhibit id="margin_ladder" />
             <RegisteredExhibit id="cost_stack" />
           </div>

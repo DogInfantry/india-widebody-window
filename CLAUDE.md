@@ -678,6 +678,22 @@ Every one of these cost real time or produced a wrong published number.
     branches where failures outnumber passes is two. Neither is three. The rule that yields
     three is `fails > 0 && fails >= holds`, and it is now computed and rendered rather than
     typed, the way `web/app/methodology` renders `pivots.length`.
+77. **Two ways the "wall of text" audit measures itself wrong, and both were used here.**
+    First, `document.querySelectorAll('main p')` counts paragraphs inside exhibit TAB PANELS,
+    which are `hidden` and are exactly where this project intends detail to live. `/company`
+    measured 18 paragraphs over 40 words; filtering to visible, non-tabpanel prose it was
+    **one**. Filter with `getBoundingClientRect()` and `closest('[role="tabpanel"]')`.
+    Second, **"first visual as a percentage of page height" is not a reading experience**: it
+    falls when the page gets longer, which is the opposite of an improvement. Measure it in
+    SCREENS from the top, and measure at the viewport a reader actually uses. The same
+    `/company` figure read 30%, 21% and 19% across three viewports while the layout was
+    identical, and the honest number was 0.64 screens.
+78. **Recharts marks inherit no cursor from element selectors, because they are raw SVG.**
+    A `<Bar onClick=...>` is clickable and looks inert, and on the dashboard clicking a bar
+    filters every other exhibit, so it is the most useful and least discoverable interaction
+    in the project. `.clickable-marks` on the series cascades to the shapes; a test counts
+    `onClick` series against marked ones. Gotcha 73 covered `button` and missed both this and
+    `input[type="range"]`, which is the one slider on the site.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
