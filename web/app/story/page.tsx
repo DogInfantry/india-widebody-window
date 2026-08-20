@@ -59,6 +59,9 @@ const ACTS = [
 
 const BY_ID = Object.fromEntries(story.map((s) => [s.chart, s]));
 
+const STEP_COUNT = ACTS.reduce((n, a) => n + a.steps.length, 0);
+const PIVOT_COUNT = ACTS.flatMap((a) => a.steps).filter((id) => BY_ID[id]?.pivot).length;
+
 export default function Story() {
   return (
     <main className="mx-auto max-w-[1180px] px-8 py-14">
@@ -82,20 +85,80 @@ export default function Story() {
 
       {/* A contents list, because eighteen steps without one is a scroll and not
           a document. Every entry is the action title, not a section name. */}
-      <nav aria-label="Contents" className="mt-12 border-y border-light py-6">
-        <ol className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
-          {ACTS.flatMap((act) =>
-            act.steps.map((id) => (
-              <li key={id} className="text-small leading-snug">
-                <Link
-                  href={`#exhibit-${id}`}
-                  className="text-ink/70 underline decoration-light underline-offset-4 hover:text-red"
-                >
-                  {BY_ID[id]?.title ?? id}
-                </Link>
-              </li>
-            )),
-          )}
+      {/* The argument map, and it used to be eighteen faded links in two columns.
+          Four things were wrong with that and all four were fixable from data
+          this file already held:
+
+            `ACTS.flatMap(...)` threw the act structure away. Five acts, each with
+            a title and a lead, collapsed into one undifferentiated run, so the
+            only place all eighteen headings appear together said nothing about
+            the shape of the argument beneath it.
+
+            `text-ink/70` is literally the faded look, and a `decoration-light`
+            underline on white is close to invisible, so the rows did not read as
+            links at all.
+
+            The order is the argument and the order was invisible.
+
+            FIVE of the eighteen steps carry a `pivot`, the points where the
+            answer changed, and the index discarded them. That is the strongest
+            reason anyone would click into a step.
+
+          This project's own position is that the action titles ARE the argument.
+          This block should be the clearest thing on the page. Both counts below
+          are derived, never typed. */}
+      <nav aria-label="Contents" className="mt-14 border-t-2 border-ink pt-8">
+        <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
+          <h2 className="font-serif font-semibold">The argument, in five moves</h2>
+          <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
+            {STEP_COUNT} steps &middot;{" "}
+            <span className="text-red">{PIVOT_COUNT} changed the answer</span>
+          </p>
+        </div>
+
+        <ol className="mt-8 grid gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-5">
+          {ACTS.map((act, actIndex) => (
+            <li key={act.n}>
+              <p className="flex items-baseline gap-2 border-b border-light pb-2">
+                <span className="tnum font-serif text-h3 font-semibold text-red">{act.n}</span>
+                <span className="text-small font-semibold leading-snug">{act.title}</span>
+              </p>
+
+              <ol className="mt-1">
+                {act.steps.map((id, i) => {
+                  const step = BY_ID[id];
+                  // Numbered by position across every act, so the numeral is the
+                  // argument's own order and cannot drift from it.
+                  const ordinal =
+                    ACTS.slice(0, actIndex).reduce((n, a) => n + a.steps.length, 0) + i + 1;
+                  return (
+                    <li key={id}>
+                      <Link href={`#exhibit-${id}`} className="block-link group py-2.5 pl-3 pr-2">
+                        <span className="flex items-baseline gap-2">
+                          <span className="tnum text-micro font-semibold text-grey">
+                            {String(ordinal).padStart(2, "0")}
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block text-small leading-snug">
+                              {step?.title ?? id}{" "}
+                              <span aria-hidden className="go">
+                                &rarr;
+                              </span>
+                            </span>
+                            {step?.pivot && (
+                              <span className="mt-1 block text-micro font-semibold uppercase tracking-[0.1em] text-red">
+                                {step.pivot.label} &middot; the answer changed here
+                              </span>
+                            )}
+                          </span>
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ol>
+            </li>
+          ))}
         </ol>
       </nav>
 

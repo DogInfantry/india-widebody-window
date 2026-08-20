@@ -745,6 +745,14 @@ Every one of these cost real time or produced a wrong published number.
     it is the one thing that reliably causes horizontal scroll. Verified at 375px and 1440px
     on `/`, `/story` and `/frameworks`: `documentElement.scrollWidth` equals the viewport on
     all six. Check it every time one is added.
+86. **An index that flattens its own structure is worse than no index.** `/story`'s contents
+    list called `ACTS.flatMap(...)` and rendered eighteen steps as one undifferentiated run,
+    throwing away the five acts the same file defines. It was also `text-ink/70` with a
+    `decoration-light` underline, which is 70 per cent ink under a `#E6E6E6` line on white:
+    faded and not obviously clickable. **And it discarded the five `pivot` markers**, the
+    points where the answer changed, which are the strongest reason to click anything on that
+    page and were already sitting in `story.json`. Rebuilt as a five-column argument map with
+    derived ordinals; the step and pivot counts are computed, never typed.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
