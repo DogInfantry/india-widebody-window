@@ -69,14 +69,14 @@ export function ShareRing({
           </PieChart>
         </ResponsiveContainer>
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <span className="tnum font-serif text-[2.4rem] font-semibold leading-none">
+          <span className="tnum font-serif text-stat font-semibold leading-none">
             {pct.toFixed(1)}%
           </span>
         </div>
       </div>
       <figcaption className="max-w-[30ch]">
-        <p className="text-[16px] font-medium leading-snug">{caption}</p>
-        {sub && <p className="mt-2 text-[13px] leading-relaxed text-grey">{sub}</p>}
+        <p className="text-lead font-medium leading-snug">{caption}</p>
+        {sub && <p className="mt-2 text-small leading-relaxed text-grey">{sub}</p>}
       </figcaption>
     </figure>
   );
@@ -123,7 +123,7 @@ export function OrderBookPictogram() {
           ))}
         </svg>
       </div>
-      <figcaption className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-[13px]">
+      <figcaption className="mt-4 flex flex-wrap gap-x-8 gap-y-2 text-small">
         <span className="flex items-center gap-2">
           <span className="inline-block h-2.5 w-2.5" style={{ background: LIGHT }} />
           <span className="tnum">
@@ -181,17 +181,17 @@ export function SequenceRibbon() {
             className="bg-paper p-5"
             style={{ borderTop: `3px solid ${first ? RED : p.tone === "second" ? INK : GREY}` }}
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+            <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
               {p.tone === "hold" ? "Not a move" : `Move ${p.n}`}
             </p>
             <p
-              className={`mt-2 font-serif text-[1.35rem] font-semibold leading-snug ${
+              className={`mt-2 font-serif text-h3 font-semibold leading-snug ${
                 first ? "text-red" : "text-ink"
               }`}
             >
               {p.where}
             </p>
-            <p className="tnum mt-2 text-[13px] leading-relaxed text-grey">{p.why}</p>
+            <p className="tnum mt-2 text-small leading-relaxed text-grey">{p.why}</p>
           </li>
         );
       })}

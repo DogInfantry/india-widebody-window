@@ -29,10 +29,10 @@ export function SiteNav() {
         aria-label="Sections"
         className="mx-auto flex max-w-[1180px] flex-wrap items-baseline gap-x-6 gap-y-1 px-8 py-3"
       >
-        <Link href="/" className="font-serif text-[15px] font-semibold no-underline hover:text-red hover:underline">
+        <Link href="/" className="font-serif text-body font-semibold no-underline hover:text-red hover:underline">
           India&rsquo;s Wide-Body Window
         </Link>
-        <span className="ml-auto flex flex-wrap gap-x-5 gap-y-1 text-[13px]">
+        <span className="ml-auto flex flex-wrap gap-x-5 gap-y-1 text-small">
           {PAGES.map((p) => {
             const active = path === p.href;
             return (

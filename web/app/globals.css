@@ -21,6 +21,45 @@
     Helvetica, Arial, sans-serif;
 
   --spacing-gutter: 2rem;
+
+  /* ------------------------------------------------------------------ *
+     The type scale.
+
+     Before this existed, `h1, h2, h3` carried a font-family and a
+     line-height and NO SIZE, so every size on the site was an arbitrary
+     Tailwind value picked at the call site: 33 distinct sizes, 122 of the
+     uses crammed between 11px and 15px, and six of ten headings on the
+     answer page rendering at 17px, which is body size. A heading the same
+     size as a paragraph is not a heading, it is bold text.
+
+     The step that matters most is `display`. Editorial hierarchy is built
+     from size, weight and space rather than from effects, and its usual
+     move is scale dissonance: display type at roughly 7x body. This site
+     topped out at 40px against 15px, a ratio of 2.6x, which is most of why
+     it read as monotone despite a perfectly good palette.
+
+     Nine steps. Not 33.
+   * ------------------------------------------------------------------ */
+  --text-micro: 0.6875rem;              /* 11px, kickers and eyebrows */
+  --text-micro--line-height: 1.3;
+  --text-caption: 0.78125rem;           /* 12.5px, chart notes, sources */
+  --text-caption--line-height: 1.5;
+  --text-small: 0.84375rem;             /* 13.5px, secondary prose */
+  --text-small--line-height: 1.55;
+  --text-body: 0.9375rem;               /* 15px */
+  --text-body--line-height: 1.6;
+  --text-lead: 1.0625rem;               /* 17px, standfirst */
+  --text-lead--line-height: 1.55;
+  --text-h3: clamp(1.25rem, 2.2vw, 1.6rem);
+  --text-h3--line-height: 1.2;
+  --text-h2: clamp(1.75rem, 3.4vw, 2.6rem);
+  --text-h2--line-height: 1.15;
+  --text-h1: clamp(2.4rem, 5.6vw, 4rem);
+  --text-h1--line-height: 1.08;
+  --text-stat: clamp(2rem, 4vw, 2.75rem);   /* the number in a KPI cell */
+  --text-stat--line-height: 1;
+  --text-display: clamp(3.5rem, 9vw, 6.5rem); /* up to 104px against 15px body */
+  --text-display--line-height: 0.95;
 }
 
 :root {
@@ -39,11 +78,40 @@ body {
   line-height: 1.6;
 }
 
+/* Headings carry their own size now, so a heading outranks a paragraph without
+   anyone remembering to add a class. Overriding with a scale utility is still
+   fine; picking an arbitrary pixel value is what this stops. */
 h1,
 h2,
 h3 {
   font-family: var(--font-serif);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--text-h1);
+  line-height: 1.08;
+}
+
+h2 {
+  font-size: var(--text-h2);
+  line-height: 1.15;
+}
+
+h3 {
+  font-size: var(--text-h3);
   line-height: 1.2;
+}
+
+/* The display step is the one that makes a reader stop. It is deliberately
+   larger than anything the site had, and it is meant to be used once per page,
+   on the number or sentence that page exists for. */
+.display {
+  font-family: var(--font-serif);
+  font-size: var(--text-display);
+  line-height: 0.95;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   text-wrap: balance;
 }
 

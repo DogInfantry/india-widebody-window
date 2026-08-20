@@ -725,6 +725,26 @@ Every one of these cost real time or produced a wrong published number.
     often it flies. But "1.94x the growth needed" is a ratio nobody pictures. The same fact as
     140 aeroplanes with 68 of them idle is instantly legible. `market_sizing._ORDER_BOOK`
     already carried the counts by operator and variant; nothing needed deriving twice.
+82. **There was no type scale, and that is what "monotone" actually meant.** `globals.css`
+    gave `h1, h2, h3` a font-family and a line-height and NO SIZE, so every size was an
+    arbitrary Tailwind value chosen at the call site: **33 distinct sizes**, 122 uses crammed
+    between 11px and 15px, and six of ten headings on `/` rendering at 17px, which is body
+    size. A heading the same size as a paragraph is not a heading. Nine `--text-*` steps in
+    `@theme` now, `h1/h2/h3` carry sizes, and zero arbitrary sizes remain.
+83. **Measure alignment before concluding a page needs more colour.** `/` had **184 of 184
+    elements at `text-align: start`**. Not one centred or right-aligned element existed
+    anywhere on the site. A reader scrolling a wall of left-aligned text stops at a change of
+    AXIS long before a change of size, and it costs nothing.
+84. **Scale dissonance, not decoration, is what the infographics actually had.** Editorial
+    hierarchy is built from size, weight and space; the usual ratio is display type at 7x to
+    13x body. This site topped out at 40px against 15px, a ratio of **2.6x**, which is most of
+    why it read as bland despite a palette that was never the problem. `.display` is now
+    `clamp(3.5rem, 9vw, 6.5rem)`, which measures **104px against 15px, 6.9x**, at 1440px wide.
+    **The "no PowerPoint" rule was never the cause and relaxing it was never the fix.**
+85. **A full-bleed band inside a `max-w` page needs `left-1/2 w-screen -translate-x-1/2`**, and
+    it is the one thing that reliably causes horizontal scroll. Verified at 375px and 1440px
+    on `/`, `/story` and `/frameworks`: `documentElement.scrollWidth` equals the viewport on
+    all six. Check it every time one is added.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

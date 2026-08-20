@@ -113,7 +113,7 @@ const SLIDES: Slide[] = [
     short: true,
     body: (
       <div className="mt-10 max-w-[62ch]">
-        <p className="font-serif text-[clamp(1.15rem,2.2vw,1.6rem)] leading-snug text-ink/75">
+        <p className="font-serif text-h3 leading-snug text-ink/75">
           Where should Indian carriers deploy their next 100 long-haul aircraft, and can the
           India-Gulf corridor absorb them?
         </p>
@@ -125,10 +125,10 @@ const SLIDES: Slide[] = [
             ["Against", "Air India, 80 wide-bodies on firm order"],
           ].map(([term, value]) => (
             <div key={term}>
-              <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+              <dt className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
                 {term}
               </dt>
-              <dd className="mt-1 text-[14px] leading-snug">{value}</dd>
+              <dd className="mt-1 text-body leading-snug">{value}</dd>
             </div>
           ))}
         </dl>
@@ -148,7 +148,7 @@ const SLIDES: Slide[] = [
             <span className="tnum font-serif text-2xl font-semibold text-red">
               {String(i + 1).padStart(2, "0")}
             </span>
-            <span className="self-center text-[16px]">{item}</span>
+            <span className="self-center text-lead">{item}</span>
           </li>
         ))}
       </ol>
@@ -166,8 +166,8 @@ const SLIDES: Slide[] = [
       <div className="mt-8 grid w-full gap-px bg-light lg:grid-cols-4">
         {(["situation", "complication", "question", "answer"] as const).map((part) => (
           <div key={part} className="bg-paper p-5">
-            <p className="font-serif text-[15px] font-semibold capitalize text-red">{part}</p>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-ink/80">{brief.scqa[part][0]}</p>
+            <p className="font-serif text-body font-semibold capitalize text-red">{part}</p>
+            <p className="mt-2 text-small leading-relaxed text-ink/80">{brief.scqa[part][0]}</p>
           </div>
         ))}
       </div>
@@ -183,10 +183,10 @@ const SLIDES: Slide[] = [
       <div className="mt-8 grid w-full gap-px bg-light sm:grid-cols-2 lg:grid-cols-3">
         {kpis.map((k) => (
           <div key={k.label} className="bg-paper p-5">
-            <p className="tnum font-serif text-[2rem] font-semibold leading-none text-red">
+            <p className="tnum font-serif text-stat font-semibold leading-none text-red">
               {k.value}
             </p>
-            <p className="mt-2 text-[14px] font-medium leading-snug">{k.label}</p>
+            <p className="mt-2 text-body font-medium leading-snug">{k.label}</p>
           </div>
         ))}
       </div>
@@ -371,11 +371,11 @@ const SLIDES: Slide[] = [
       <ul className="mt-8 grid w-full gap-px bg-light sm:grid-cols-3">
         {narrative.risks.slice(0, 6).map((r) => (
           <li key={r.Risk} className="bg-paper p-4">
-            <p className="text-[14px] font-semibold leading-snug">{r.Risk}</p>
-            <p className="mt-1.5 text-[12px] uppercase tracking-wide text-grey">
+            <p className="text-body font-semibold leading-snug">{r.Risk}</p>
+            <p className="mt-1.5 text-caption uppercase tracking-wide text-grey">
               {r.Likelihood} likelihood &middot; {r.Impact} impact
             </p>
-            <p className="mt-2 text-[12.5px] leading-snug text-ink/70">{r["Leading indicator"]}</p>
+            <p className="mt-2 text-caption leading-snug text-ink/70">{r["Leading indicator"]}</p>
           </li>
         ))}
       </ul>
@@ -408,11 +408,11 @@ const SLIDES: Slide[] = [
           },
         ].map((p) => (
           <li key={p.phase} className="bg-paper p-5">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+            <p className="text-micro font-semibold uppercase tracking-[0.14em] text-red">
               {p.phase}
             </p>
             <p className="mt-2 font-serif text-lg font-semibold leading-snug">{p.what}</p>
-            <p className="mt-2 text-[13px] leading-relaxed text-ink/70">{p.why}</p>
+            <p className="mt-2 text-small leading-relaxed text-ink/70">{p.why}</p>
           </li>
         ))}
       </ol>
@@ -515,7 +515,7 @@ export default function Deck() {
 
   return (
     <>
-      <div className="fixed right-6 bottom-5 z-40 flex items-center gap-3 border border-light bg-paper/95 px-3 py-1.5 text-[13px] backdrop-blur print:hidden">
+      <div className="fixed right-6 bottom-5 z-40 flex items-center gap-3 border border-light bg-paper/95 px-3 py-1.5 text-small backdrop-blur print:hidden">
         <button
           type="button"
           onClick={() => {
@@ -592,7 +592,7 @@ export default function Deck() {
             >
               <div className="mx-auto flex w-full max-w-[1000px] flex-1 flex-col justify-center">
                 <p
-                  className={`text-[11px] font-semibold uppercase tracking-[0.14em] ${
+                  className={`text-micro font-semibold uppercase tracking-[0.14em] ${
                     divider ? "text-red" : "text-grey"
                   }`}
                 >
@@ -601,10 +601,10 @@ export default function Deck() {
                 <h2
                   className={`mt-4 font-serif font-semibold leading-[1.15] ${
                     cover
-                      ? "max-w-[18ch] text-[clamp(2.2rem,6vw,4rem)]"
+                      ? "max-w-[18ch] text-h1"
                       : divider
-                        ? "max-w-[20ch] text-[clamp(1.8rem,4.4vw,3rem)]"
-                        : "max-w-[24ch] text-[clamp(1.5rem,3.2vw,2.6rem)]"
+                        ? "max-w-[20ch] text-h1"
+                        : "max-w-[24ch] text-h2"
                   }`}
                 >
                   {s.title}
@@ -618,13 +618,13 @@ export default function Deck() {
                   checkable rather than merely confident. */}
               {!divider && (
                 <div className="mx-auto mt-8 flex w-full max-w-[1000px] items-end justify-between gap-8 border-t border-light pt-3">
-                  <p className="max-w-[80ch] text-[11.5px] leading-relaxed text-grey">
+                  <p className="max-w-[80ch] text-micro leading-relaxed text-grey">
                     {s.source ?? " "}
                   </p>
                   {/* A cover is not page one. Numbering starts at the agenda,
                       which is how a printed deck normally counts itself. */}
                   {!cover && (
-                    <span className="tnum shrink-0 text-[11.5px] text-grey">{page}</span>
+                    <span className="tnum shrink-0 text-micro text-grey">{page}</span>
                   )}
                 </div>
               )}
@@ -635,10 +635,10 @@ export default function Deck() {
                     showNotes ? "" : "hidden"
                   }`}
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+                  <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
                     Presenter note
                   </p>
-                  <p className="mt-1.5 max-w-[86ch] text-[13px] leading-relaxed text-ink/80">
+                  <p className="mt-1.5 max-w-[86ch] text-small leading-relaxed text-ink/80">
                     {s.notes}
                   </p>
                 </div>

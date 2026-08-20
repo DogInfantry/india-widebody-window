@@ -63,18 +63,18 @@ export default function Story() {
   return (
     <main className="mx-auto max-w-[1180px] px-8 py-14">
       <header className="max-w-[64ch]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           The argument, in order
         </p>
-        <h1 className="mt-4 font-serif text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.1]">
+        <h1 className="mt-4 font-serif text-h1 font-bold leading-[1.1]">
           Eighteen steps, each one a claim, in the order a partner would hear them
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-ink/75">
+        <p className="mt-5 text-lead leading-relaxed text-ink/75">
           Every heading below is the takeaway rather than the topic, so the page can be read by
           its headings alone and still carry the case. The client is {brief.client.replace(/\.$/, "")};
           the decision is where the first tranche of a firm wide-body order goes.
         </p>
-        <p className="mt-4 text-[13.5px] leading-relaxed text-grey">
+        <p className="mt-4 text-small leading-relaxed text-grey">
           Each exhibit opens on its chart. The tabs behind it hold the argument, how the number was
           computed, and what would falsify it. Same four tabs everywhere on this site.
         </p>
@@ -86,7 +86,7 @@ export default function Story() {
         <ol className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
           {ACTS.flatMap((act) =>
             act.steps.map((id) => (
-              <li key={id} className="text-[13.5px] leading-snug">
+              <li key={id} className="text-small leading-snug">
                 <Link
                   href={`#exhibit-${id}`}
                   className="text-ink/70 underline decoration-light underline-offset-4 hover:text-red"
@@ -102,15 +102,23 @@ export default function Story() {
       <div className="mt-16 space-y-24">
         {ACTS.map((act) => (
           <section key={act.n} aria-labelledby={`act-${act.n}`}>
-            <div className="flex flex-wrap items-baseline gap-x-5 border-t-2 border-ink pt-5">
-              <span className="tnum font-serif text-4xl font-semibold text-red">{act.n}</span>
-              <div>
-                <h2 id={`act-${act.n}`} className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
-                  {act.title}
-                </h2>
-                <p className="mt-1 max-w-[62ch] text-[14.5px] leading-relaxed text-grey">
-                  {act.lead}
-                </p>
+            {/* The act opener, full-bleed and loud.
+                Eighteen steps ran at one rhythm before this: sticky prose left,
+                exhibit right, eighteen times, with nothing to mark where an
+                argument ended and the next began. Five openers over twenty-four
+                screens is a cadence; a numeral at display scale against 15px body
+                is what makes a reader look up. */}
+            <div className="relative left-1/2 w-screen -translate-x-1/2 border-y border-light bg-wash">
+              <div className="mx-auto flex max-w-[1180px] flex-wrap items-baseline gap-x-8 gap-y-2 px-8 py-10">
+                <span className="tnum display leading-none text-red">{act.n}</span>
+                <div className="min-w-0 flex-1">
+                  <h2 id={`act-${act.n}`} className="font-serif font-semibold">
+                    {act.title}
+                  </h2>
+                  <p className="mt-2 max-w-[62ch] text-body leading-relaxed text-grey">
+                    {act.lead}
+                  </p>
+                </div>
               </div>
             </div>
 
@@ -124,24 +132,24 @@ export default function Story() {
                         still and the reader's eye moves to the chart, which is the
                         right way round when the chart is the taller element. */}
                     <div className="lg:sticky lg:top-24 lg:self-start">
-                      <h3 className="max-w-[26ch] font-serif text-[clamp(1.3rem,2.2vw,1.7rem)] font-semibold leading-snug">
+                      <h3 className="max-w-[26ch] font-serif text-h3 font-semibold leading-snug">
                         {step.title}
                       </h3>
                       {step.paragraphs
                         .filter((p) => p.kind !== "aside")
                         .slice(0, 1)
                         .map((p, i) => (
-                          <p key={i} className="mt-4 text-[15px] leading-relaxed text-ink/75">
+                          <p key={i} className="mt-4 text-body leading-relaxed text-ink/75">
                             {p.text}
                           </p>
                         ))}
                       {step.paragraphs.length > 1 && (
-                        <p className="mt-3 text-[12.5px] text-grey">
+                        <p className="mt-3 text-caption text-grey">
                           The rest of the argument is on the Evidence tab.
                         </p>
                       )}
                       {step.pivot && (
-                        <p className="mt-5 border-l-2 border-red pl-4 text-[13px] leading-relaxed text-ink/75">
+                        <p className="mt-5 border-l-2 border-red pl-4 text-small leading-relaxed text-ink/75">
                           <span className="font-semibold text-red">{step.pivot.label}. </span>
                           The answer changed here.
                         </p>
@@ -158,18 +166,18 @@ export default function Story() {
       </div>
 
       <section className="mt-24 border-t-2 border-red pt-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-red">
           Therefore
         </p>
-        <p className="mt-4 max-w-[30ch] font-serif text-[clamp(1.6rem,3.6vw,2.5rem)] font-semibold leading-[1.15]">
+        <p className="mt-4 max-w-[30ch] font-serif text-h1 font-semibold leading-[1.15]">
           Compete with the Gulf hubs. Do not fly more aircraft to them.
         </p>
-        <div className="mt-6 max-w-[64ch] space-y-4 text-[15px] leading-relaxed text-ink/75">
+        <div className="mt-6 max-w-[64ch] space-y-4 text-body leading-relaxed text-ink/75">
           {brief.recommendation.slice(0, 3).map((p, i) => (
             <p key={i}>{p}</p>
           ))}
         </div>
-        <p className="mt-6 text-[14px]">
+        <p className="mt-6 text-body">
           <Link
             href="/frameworks"
             className="underline decoration-light underline-offset-4 hover:text-red"
@@ -179,7 +187,7 @@ export default function Story() {
         </p>
       </section>
 
-      <footer className="mt-16 border-t border-light pt-6 text-[13px] leading-relaxed text-grey">
+      <footer className="mt-16 border-t border-light pt-6 text-small leading-relaxed text-grey">
         Every step above is parsed from the analysis site&rsquo;s own markup rather than rewritten,
         so the two surfaces cannot disagree. A portfolio simulation, not a client engagement.
       </footer>

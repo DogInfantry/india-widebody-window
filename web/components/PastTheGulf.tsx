@@ -135,11 +135,11 @@ export function PastTheGulf() {
           <line x1={40} y1={236} x2={0} y2={236} stroke={LIGHT} />
         </svg>
       </div>
-      <figcaption className="mt-3 text-[12.5px] leading-relaxed text-grey">
+      <figcaption className="mt-3 text-caption leading-relaxed text-grey">
         The corridor is the prize and the hub is not the destination. Connecting passengers
         and the contested revenue band are computed in{" "}
-        <code className="text-[12px]">options.value_at_stake()</code>; corridor headroom in{" "}
-        <code className="text-[12px]">options.corridor_economics()</code>.
+        <code className="text-caption">options.value_at_stake()</code>; corridor headroom in{" "}
+        <code className="text-caption">options.corridor_economics()</code>.
       </figcaption>
     </figure>
   );

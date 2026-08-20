@@ -171,7 +171,7 @@ function Chip({ verdict }: { verdict: Verdict }) {
   const c = CHIP[verdict];
   return (
     <span
-      className={`shrink-0 border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.1em] ${c.className}`}
+      className={`shrink-0 border px-1.5 py-0.5 text-micro font-semibold uppercase tracking-[0.1em] ${c.className}`}
     >
       {c.label}
     </span>
@@ -181,10 +181,10 @@ function Chip({ verdict }: { verdict: Verdict }) {
 export function DriverTree() {
   return (
     <div>
-      <p className="max-w-[62ch] font-serif text-[clamp(1.15rem,2vw,1.5rem)] leading-snug">
+      <p className="max-w-[62ch] font-serif text-h3 leading-snug">
         Does the wide-body order create value for IndiGo?
       </p>
-      <p className="mt-2 max-w-[70ch] text-[13.5px] leading-relaxed text-grey">
+      <p className="mt-2 max-w-[70ch] text-small leading-relaxed text-grey">
         Four branches of one identity, not four frameworks stacked. Every leaf carries the number
         that decides it and links to the exhibit that proves it.
       </p>
@@ -192,11 +192,11 @@ export function DriverTree() {
       {/* The finding, at the top, where a reader who reads nothing else still
           gets it. Counted from the leaves rather than typed. */}
       <p className="mt-5 flex flex-wrap items-baseline gap-x-3 border-l-2 border-red pl-4">
-        <span className="font-serif text-[clamp(1.1rem,2vw,1.4rem)] font-semibold">
+        <span className="font-serif text-h3 font-semibold">
           {(WORDS[FAILING] ?? String(FAILING)).replace(/^./, (m) => m.toUpperCase())} of{" "}
           {WORDS[BRANCHES.length] ?? BRANCHES.length} branches fail as things stand.
         </span>
-        <span className="text-[13.5px] text-grey">The recommendation is what is left.</span>
+        <span className="text-small text-grey">The recommendation is what is left.</span>
       </p>
 
       <ol className="mt-8 grid gap-px bg-light lg:grid-cols-2">
@@ -207,12 +207,12 @@ export function DriverTree() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <div className="flex items-baseline gap-3">
-                    <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+                    <span className="text-micro font-semibold uppercase tracking-[0.14em] text-red">
                       {b.branch}
                     </span>
                     <span className="font-serif text-lg font-semibold">{b.question}</span>
                   </div>
-                  <p className="tnum mt-1 text-[12.5px] text-grey">{b.identity}</p>
+                  <p className="tnum mt-1 text-caption text-grey">{b.identity}</p>
                 </div>
                 <Chip verdict={verdict} />
               </div>
@@ -223,11 +223,11 @@ export function DriverTree() {
                     <Link href={leaf.href} className="block-link group py-2.5 pl-3 pr-2">
                       <span className="flex items-start justify-between gap-3">
                         <span className="min-w-0">
-                          <span className="block text-[13px] leading-snug text-grey">
+                          <span className="block text-small leading-snug text-grey">
                             {leaf.metric}
                           </span>
                           <span
-                            className={`tnum mt-0.5 block text-[15px] font-medium leading-snug ${
+                            className={`tnum mt-0.5 block text-body font-medium leading-snug ${
                               leaf.verdict === "fails" ? "text-red" : "text-ink"
                             }`}
                           >

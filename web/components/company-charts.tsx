@@ -63,7 +63,7 @@ export function UnitSpread() {
 
       {/* The one annotation, and it is the whole exhibit: the gap is one paisa,
           and the currency movement in the same year was forty-one. */}
-      <p className="mt-3 max-w-[60ch] text-[13px] leading-relaxed">
+      <p className="mt-3 max-w-[60ch] text-small leading-relaxed">
         Cost sits <span className="tnum font-semibold text-red">
           {Math.abs(spread.spread).toFixed(2)}
         </span>{" "}
@@ -113,7 +113,7 @@ export function MarginLadder() {
           ))}
         </BarChart>
       </ResponsiveContainer>
-      <p className="mt-2 text-[12.5px] text-grey">
+      <p className="mt-2 text-caption text-grey">
         Red is what IndiGo reported. Grey is the same year excluding forex on dollar lease
         liabilities. Both are true and they tell opposite stories.
       </p>
@@ -157,7 +157,7 @@ export function CostStack() {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-      <p className="mt-2 max-w-[64ch] text-[12.5px] leading-relaxed text-grey">
+      <p className="mt-2 max-w-[64ch] text-caption leading-relaxed text-grey">
         Light is FY2025, solid is FY2026, and the label is the change. Strip fuel and cost rose
         0.52. Strip currency as well, in red, and genuine non-fuel inflation was 0.11. The other
         0.41 is the rupee.
@@ -196,7 +196,7 @@ export function CompetitivePosition() {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
-      <p className="mt-2 max-w-[66ch] text-[12.5px] leading-relaxed text-grey">
+      <p className="mt-2 max-w-[66ch] text-caption leading-relaxed text-grey">
         Air India is absent because it is unlisted and files nothing, which is a NOT_AVAILABLE
         row rather than a gap filled with a proxy. Do not read the whole difference as a connect
         premium: Emirates carries substantial premium cabins where IndiGo is all-economy, and
@@ -224,7 +224,7 @@ export function CapitalScale() {
     <div className="space-y-5">
       {rows.map((r) => (
         <div key={r.label}>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-[13.5px]">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-small">
             <span className={r.red ? "font-medium" : "text-ink/75"}>{r.label}</span>
             <span className="tnum text-grey">INR {n0(r.value)} crore</span>
           </div>
@@ -236,7 +236,7 @@ export function CapitalScale() {
           </div>
         </div>
       ))}
-      <p className="max-w-[66ch] text-[13px] leading-relaxed">
+      <p className="max-w-[66ch] text-small leading-relaxed">
         Flown at the owned-fleet utilisation basis of {cap.utilisation_hours_per_day.toFixed(2)}{" "}
         hours a day, the client&rsquo;s own sixty aircraft produce{" "}
         <span className="tnum font-semibold">{cap.ask_bn.toFixed(1)}bn</span> ASK, which at
@@ -270,7 +270,7 @@ export function BlockHourReconciliation() {
     <div className="space-y-4">
       {rows.map((r) => (
         <div key={r.label}>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-[13.5px]">
+          <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-small">
             <span className="text-ink/75">{r.label}</span>
             <span className="tnum font-medium">{n0(r.value)} hours</span>
           </div>
@@ -288,7 +288,7 @@ export function BlockHourReconciliation() {
           </div>
         </div>
       ))}
-      <p className="max-w-[66ch] text-[13px] leading-relaxed">
+      <p className="max-w-[66ch] text-small leading-relaxed">
         Two organisations counting the same fleet from opposite ends. On scheduled services they
         differ by{" "}
         <span className="tnum font-semibold text-red">{ops.reconciliation_pct.toFixed(2)}%</span>,

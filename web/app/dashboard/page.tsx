@@ -48,8 +48,8 @@ function Panel({
 }) {
   return (
     <section className="border border-light p-5">
-      <h2 className="max-w-[42ch] text-[15px] font-semibold leading-snug">{title}</h2>
-      {hint && <p className="mt-1 text-[12px] text-grey">{hint}</p>}
+      <h2 className="max-w-[42ch] text-body font-semibold leading-snug">{title}</h2>
+      {hint && <p className="mt-1 text-caption text-grey">{hint}</p>}
       <div className="mt-4">{children}</div>
     </section>
   );
@@ -96,13 +96,13 @@ export default function Dashboard() {
       {/* Tier 2: page-level controls, in the left panel where the method puts them. */}
       <aside className="lg:sticky lg:top-20 lg:self-start">
         <h1 className="font-serif text-2xl font-semibold">Dashboard</h1>
-        <p className="mt-2 text-[13px] leading-relaxed text-grey">
+        <p className="mt-2 text-small leading-relaxed text-grey">
           Click a corridor to filter every exhibit. Move the shock to see what fuel and the
           rupee do to the spread.
         </p>
 
         <fieldset className="mt-6">
-          <legend className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+          <legend className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
             Corridor
           </legend>
           <div className="mt-3 flex flex-wrap gap-1.5 lg:flex-col lg:items-start">
@@ -112,7 +112,7 @@ export default function Dashboard() {
                 type="button"
                 onClick={() => toggle(c.region)}
                 aria-pressed={selected.includes(c.region)}
-                className={`border px-2.5 py-1 text-[13px] transition-colors focus-visible:outline-2 focus-visible:outline-red ${
+                className={`border px-2.5 py-1 text-small transition-colors focus-visible:outline-2 focus-visible:outline-red ${
                   selected.includes(c.region)
                     ? "border-red bg-red text-paper"
                     : "border-light text-ink hover:border-grey"
@@ -125,7 +125,7 @@ export default function Dashboard() {
         </fieldset>
 
         <fieldset className="mt-8">
-          <legend className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+          <legend className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
             Fuel and currency shock
           </legend>
           <input
@@ -137,7 +137,7 @@ export default function Dashboard() {
             aria-label="Fuel and currency shock, per cent"
             className="mt-3 w-full accent-[#CC0000]"
           />
-          <p className="tnum mt-1 text-[13px]">
+          <p className="tnum mt-1 text-small">
             {move > 0 ? "+" : ""}
             {move}% move
           </p>
@@ -146,7 +146,7 @@ export default function Dashboard() {
 
       <main>
         {/* Filter state, always visible, one click to clear. */}
-        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-light pb-3 text-[13px]">
+        <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-b border-light pb-3 text-small">
           <span className="text-grey">Showing</span>
           <span className="font-medium">
             {selected.length === 0 ? "all nine corridors" : selected.join(", ")}
@@ -177,7 +177,7 @@ export default function Dashboard() {
           ].map((k) => (
             <div key={k.l} className="bg-paper px-4 py-4">
               <p className="tnum font-serif text-2xl font-semibold text-red">{k.v}</p>
-              <p className="mt-1 text-[12.5px] leading-snug text-ink/70">{k.l}</p>
+              <p className="mt-1 text-caption leading-snug text-ink/70">{k.l}</p>
             </div>
           ))}
         </section>
@@ -278,7 +278,7 @@ export default function Dashboard() {
                 <Line dataKey="fx_shock_spread" stroke={RED} strokeWidth={2} dot={false} isAnimationActive={false} />
               </LineChart>
             </ResponsiveContainer>
-            <p className="tnum mt-3 text-[13px] text-ink/70">
+            <p className="tnum mt-3 text-small text-ink/70">
               Fuel spread {shock.fuel_shock_spread.toFixed(2)} against currency{" "}
               {shock.fx_shock_spread.toFixed(2)} INR per ASK.
             </p>

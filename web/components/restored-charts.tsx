@@ -104,7 +104,7 @@ export function WhoCarriesIndia() {
             }}
           >
             <span
-              className="tnum text-[15px] font-semibold"
+              className="tnum text-body font-semibold"
               style={{ color: r.carrier_group === "Indian" ? "#fff" : INK }}
             >
               {r.share_pct.toFixed(1)}%
@@ -115,7 +115,7 @@ export function WhoCarriesIndia() {
 
       {/* Direct labelling under each segment, so nothing sends the reader to a
           legend and back. */}
-      <div className="mt-2 flex w-full text-[12.5px] leading-snug">
+      <div className="mt-2 flex w-full text-caption leading-snug">
         {rows.map((r) => (
           <div key={r.carrier_group} className="pr-3" style={{ width: `${r.share_pct}%` }}>
             <span className={r.carrier_group === "Indian" ? "font-medium text-ink" : "text-grey"}>
@@ -130,7 +130,7 @@ export function WhoCarriesIndia() {
           under. It is the whole reason this exhibit is in the deck. */}
       <div className="relative mt-4 h-6">
         <div className="absolute top-0 h-6 border-l border-dashed border-ink" style={{ left: "50%" }}>
-          <span className="ml-2 whitespace-nowrap text-[12px] text-ink">
+          <span className="ml-2 whitespace-nowrap text-caption text-ink">
             half the market. Indian carriers are still under it
           </span>
         </div>
@@ -283,7 +283,7 @@ export function ProfitPool() {
             >
               {roomy && (
                 <span
-                  className="tnum absolute left-1.5 top-1.5 text-[11.5px] font-medium"
+                  className="tnum absolute left-1.5 top-1.5 text-micro font-medium"
                   style={{ color: isGulf ? "#fff" : INK }}
                 >
                   {b.margin_pct!.toFixed(0)}%
@@ -300,7 +300,7 @@ export function ProfitPool() {
           .map((b) => (
             <div
               key="ann"
-              className={`absolute text-[12px] leading-snug text-ink ${
+              className={`absolute text-caption leading-snug text-ink ${
                 b.x + b.w > 60 ? "text-right" : ""
               }`}
               // Anchored from whichever side leaves room. The Gulf block is the
@@ -323,16 +323,16 @@ export function ProfitPool() {
         {blocks.map((b) => (
           <span
             key={b.region}
-            className="absolute top-1 origin-top-left -rotate-[38deg] whitespace-nowrap text-[11.5px]"
+            className="absolute top-1 origin-top-left -rotate-[38deg] whitespace-nowrap text-micro"
             style={{ left: `${b.x + b.w / 2}%`, color: b.region === "Gulf" ? INK : GREY }}
           >
             {b.region}
           </span>
         ))}
       </div>
-      <p className="mt-8 text-[12px] text-grey">
+      <p className="mt-8 text-caption text-grey">
         Width is revenue share, height is modelled margin, so area is profit.
-        <span className="ml-2 border border-light px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-red">
+        <span className="ml-2 border border-light px-1.5 py-0.5 text-micro font-semibold uppercase tracking-wide text-red">
           modelled
         </span>
       </p>
@@ -359,7 +359,7 @@ export function ValueAtStake() {
   return (
     <div className="space-y-7">
       <div>
-        <div className="flex items-baseline justify-between text-[13px]">
+        <div className="flex items-baseline justify-between text-small">
           <span className="font-medium">Contested connecting revenue</span>
           <span className="tnum text-grey">
             INR {n0(v.revenue_floor_inr_cr)} to {n0(v.revenue_ceiling_inr_cr)} crore
@@ -378,14 +378,14 @@ export function ValueAtStake() {
             style={{ left: w(v.revenue_floor_inr_cr) }}
           />
         </div>
-        <p className="mt-1.5 text-[12px] text-grey">
+        <p className="mt-1.5 text-caption text-grey">
           at IndiGo&rsquo;s realised yield, up to Emirates&rsquo;. {v.connecting_pax_m.toFixed(1)}M
           passengers a year
         </p>
       </div>
 
       <div>
-        <div className="flex items-baseline justify-between text-[13px]">
+        <div className="flex items-baseline justify-between text-small">
           <span className="font-medium">IndiGo FY2026 revenue, for scale</span>
           <span className="tnum text-grey">INR {n0(revenue)} crore</span>
         </div>
@@ -393,7 +393,7 @@ export function ValueAtStake() {
           <div className="h-9 bg-grey" style={{ width: w(revenue) }} />
         </div>
         {/* The one annotation. */}
-        <p className="mt-1.5 text-[12px] text-ink">
+        <p className="mt-1.5 text-caption text-ink">
           the contested pool is{" "}
           <span className="tnum font-medium text-red">
             {(v.revenue_floor_inr_cr / revenue).toFixed(2)}x to{" "}
@@ -593,13 +593,13 @@ export function LoadFactorSlope() {
               />
             </svg>
             <span
-              className="tnum absolute -translate-x-full -translate-y-1/2 pr-2 text-[12px]"
+              className="tnum absolute -translate-x-full -translate-y-1/2 pr-2 text-caption"
               style={{ left: "16%", top: y(r.load_factor_pct_start), color: GREY }}
             >
               {r.load_factor_pct_start.toFixed(1)}
             </span>
             <span
-              className="tnum absolute -translate-y-1/2 whitespace-nowrap pl-2 text-[12px]"
+              className="tnum absolute -translate-y-1/2 whitespace-nowrap pl-2 text-caption"
               style={{ left: "62%", top: y(r.load_factor_pct_end), color: colour }}
             >
               <span className={isClient ? "font-semibold" : ""}>
@@ -611,14 +611,14 @@ export function LoadFactorSlope() {
         );
       })}
 
-      <span className="absolute -top-1 left-[16%] -translate-x-1/2 text-[11px] font-semibold uppercase tracking-[0.1em] text-grey">
+      <span className="absolute -top-1 left-[16%] -translate-x-1/2 text-micro font-semibold uppercase tracking-[0.1em] text-grey">
         {startYear}
       </span>
-      <span className="absolute -top-1 left-[62%] -translate-x-1/2 text-[11px] font-semibold uppercase tracking-[0.1em] text-grey">
+      <span className="absolute -top-1 left-[62%] -translate-x-1/2 text-micro font-semibold uppercase tracking-[0.1em] text-grey">
         {endYear}
       </span>
       {/* The one annotation, and it argues against the obvious reading. */}
-      <p className="absolute bottom-0 left-0 max-w-[46ch] text-[12px] leading-snug text-ink">
+      <p className="absolute bottom-0 left-0 max-w-[46ch] text-caption leading-snug text-ink">
         Every carrier clears 80%, so the aircraft that exist are full. But the two
         largest are <span className="font-medium text-red">below</span> their {startYear} level,
         not above it.
@@ -767,9 +767,9 @@ export function EntitlementUse() {
         const binding = e.utilisation_pct > 85;
         return (
           <div key={e.foreign_point}>
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-[14px]">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 text-body">
               <span className="font-medium">{e.foreign_point}</span>
-              <span className="tnum text-[12.5px] text-grey">
+              <span className="tnum text-caption text-grey">
                 {n0(e.implied_seats_per_week)} of {n0(e.reported_entitlement_both_sides)} seats a
                 week
               </span>
@@ -787,14 +787,14 @@ export function EntitlementUse() {
                 style={{ left: "100%" }}
               />
             </div>
-            <p className="tnum mt-1 text-[12.5px]" style={{ color: binding ? RED : GREY }}>
+            <p className="tnum mt-1 text-caption" style={{ color: binding ? RED : GREY }}>
               {e.utilisation_pct.toFixed(1)}% used
               {binding && <span className="text-ink">, effectively no room left</span>}
             </p>
           </div>
         );
       })}
-      <p className="text-[12px] leading-relaxed text-grey">
+      <p className="text-caption leading-relaxed text-grey">
         The dashed line is the reported entitlement. Both figures carry
         UNVERIFIED_NO_PRIMARY: India publishes no entitlement table at all.
       </p>

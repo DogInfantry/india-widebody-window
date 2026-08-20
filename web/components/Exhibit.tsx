@@ -66,15 +66,20 @@ export function Exhibit({
   return (
     <figure id={anchor} className={`scroll-mt-24 border-t-2 border-ink pt-5 ${className}`}>
       <figcaption>
-        <h3 className="max-w-[52ch] text-[clamp(1.05rem,1.6vw,1.35rem)] font-semibold leading-snug">
+        <h3 className="max-w-[52ch] text-h3 font-semibold leading-snug">
           {title}
         </h3>
       </figcaption>
 
       {/* Only rendered when there is somewhere to go. A single-tab exhibit shows
           its chart with no chrome at all, which is the right amount of chrome. */}
+      {/* Controls, not captions. These were 13px grey prose against 17px serif
+          headings, far too close for the eye to sort "thing I read" from "thing I
+          click". They are now deliberately NON-editorial: micro, sans, uppercase,
+          tracked, with a resting surface. That is the same trick a caption uses to
+          stop looking like body copy, run in reverse. */}
       {tabs.length > 1 && (
-        <div role="tablist" aria-label="Exhibit detail" className="mt-4 flex flex-wrap gap-x-5 border-b border-light print:hidden">
+        <div role="tablist" aria-label="Exhibit detail" className="mt-4 flex flex-wrap gap-x-1 border-b border-light print:hidden">
           {tabs.map((t) => (
             <button
               key={t}
@@ -84,10 +89,10 @@ export function Exhibit({
               aria-selected={active === t}
               aria-controls={`${id}-panel-${t}`}
               onClick={() => setActive(t)}
-              className={`-mb-px border-b-2 pb-2 text-[13px] transition-colors focus-visible:outline-2 focus-visible:outline-red ${
+              className={`-mb-px border-b-2 px-2.5 pb-2 pt-1.5 text-micro font-semibold uppercase tracking-[0.1em] transition-colors focus-visible:outline-2 focus-visible:outline-red ${
                 active === t
-                  ? "border-red font-medium text-ink"
-                  : "border-transparent text-grey hover:text-red"
+                  ? "border-red bg-wash text-ink"
+                  : "border-transparent text-grey hover:bg-wash hover:text-red"
               }`}
             >
               {t}
@@ -108,7 +113,7 @@ export function Exhibit({
           className={active === t ? "mt-5" : "mt-5 hidden print:block"}
         >
           {t !== "Exhibit" && (
-            <p className="mb-2 hidden text-[11px] font-semibold uppercase tracking-[0.14em] text-grey print:block">
+            <p className="mb-2 hidden text-micro font-semibold uppercase tracking-[0.14em] text-grey print:block">
               {t}
             </p>
           )}
@@ -120,7 +125,7 @@ export function Exhibit({
                   // 375px screen; letting the page scroll instead would break
                   // every other exhibit on it.
                   "overflow-x-auto"
-                : "max-w-[68ch] space-y-3 text-[14px] leading-relaxed text-ink/75"
+                : "max-w-[68ch] space-y-3 text-body leading-relaxed text-ink/75"
             }
           >
             {panels[t]}
@@ -130,7 +135,7 @@ export function Exhibit({
 
       {/* The source line sits outside the tabs on purpose. Every exhibit carries
           one, and burying it inside a tab would make it conditional on a click. */}
-      <p className="mt-4 max-w-[80ch] border-t border-light pt-3 text-[12px] leading-relaxed text-grey">
+      <p className="mt-4 max-w-[80ch] border-t border-light pt-3 text-caption leading-relaxed text-grey">
         {source}
       </p>
     </figure>

@@ -194,12 +194,12 @@ export function CorridorMap() {
           </g>
         </svg>
       </div>
-      <figcaption className="mt-3 text-[12.5px] leading-relaxed text-grey">
+      <figcaption className="mt-3 text-caption leading-relaxed text-grey">
         Great circles from Delhi to each corridor&rsquo;s reference hub. Airport coordinates from
         OurAirports (CC0) via the committed extract; land outline Natural Earth 110m, public
         domain. Corridor passengers and yield headroom computed in{" "}
-        <code className="text-[12px]">benchmarking.corridor_scale()</code> and{" "}
-        <code className="text-[12px]">options.corridor_economics()</code>.
+        <code className="text-caption">benchmarking.corridor_scale()</code> and{" "}
+        <code className="text-caption">options.corridor_economics()</code>.
       </figcaption>
     </figure>
   );

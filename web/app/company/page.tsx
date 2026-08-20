@@ -56,13 +56,13 @@ export default function Company() {
   return (
     <main className="mx-auto max-w-[1180px] px-8 py-14">
       <header className="max-w-[68ch]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           The client
         </p>
-        <h1 className="mt-4 font-serif text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.1]">
+        <h1 className="mt-4 font-serif text-h1 font-bold leading-[1.1]">
           IndiGo is buying long-haul capacity from a position with no margin cushion
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-ink/75">
+        <p className="mt-5 text-lead leading-relaxed text-ink/75">
           The rest of this case argues where the aircraft should fly. This page is the business
           that has to carry them, and its central fact is one number.
         </p>
@@ -72,14 +72,14 @@ export default function Company() {
         {HEADLINE.map((k) => (
           <div key={k.label} className="bg-paper p-6">
             <p
-              className={`tnum font-serif text-[2.1rem] font-semibold leading-none ${
+              className={`tnum font-serif text-stat font-semibold leading-none ${
                 k.adverse ? "text-red" : "text-ink"
               }`}
             >
               {k.value}
             </p>
-            <p className="mt-3 text-[14.5px] font-medium leading-snug">{k.label}</p>
-            <p className="mt-2 text-[12.5px] leading-relaxed text-grey">{k.note}</p>
+            <p className="mt-3 text-body font-medium leading-snug">{k.label}</p>
+            <p className="mt-2 text-caption leading-relaxed text-grey">{k.note}</p>
           </div>
         ))}
       </section>
@@ -90,7 +90,7 @@ export default function Company() {
           second. The scope note matters and is now BELOW the evidence rather than
           in front of it. */}
       <section aria-label="The spread" className="mt-14">
-        <h2 className="max-w-[34ch] font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+        <h2 className="max-w-[34ch] font-serif text-h2 font-semibold">
           Unit cost sat above unit revenue in {spread.year}
         </h2>
         <div className="mt-8">
@@ -103,26 +103,26 @@ export default function Company() {
           is what is absent, and absence is read from a list far faster than from
           a sentence. */}
       <section className="mt-16 border-l-2 border-ink bg-wash py-5 pl-5 pr-4">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           What this page is, and is not
         </p>
         <div className="mt-4 grid gap-x-10 gap-y-4 sm:grid-cols-2">
           <div>
-            <p className="text-[13px] font-semibold">It is</p>
-            <p className="mt-1 text-[14px] leading-relaxed text-ink/75">
+            <p className="text-small font-semibold">It is</p>
+            <p className="mt-1 text-body leading-relaxed text-ink/75">
               Profit and loss, unit economics and capital scale, every figure verified against
               IndiGo&rsquo;s own primary filings.
             </p>
           </div>
           <div>
-            <p className="text-[13px] font-semibold text-red">It is not</p>
-            <p className="mt-1 text-[14px] leading-relaxed text-ink/75">
+            <p className="text-small font-semibold text-red">It is not</p>
+            <p className="mt-1 text-body leading-relaxed text-ink/75">
               A balance sheet, a return on invested capital, a cost of capital or a financing
               plan. None of those inputs clears the assumption gate.
             </p>
           </div>
         </div>
-        <p className="mt-4 max-w-[74ch] text-[13px] leading-relaxed text-grey">
+        <p className="mt-4 max-w-[74ch] text-small leading-relaxed text-grey">
           A page that mixes verified figures with plausible ones is worse than a page that
           stops. {brief.not_this}
         </p>
@@ -130,10 +130,10 @@ export default function Company() {
 
       <div className="mt-20 space-y-20">
         <section>
-          <h2 className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+          <h2 className="font-serif text-h2 font-semibold">
             Can it earn?
           </h2>
-          <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-ink/75">
+          <p className="mt-3 max-w-[68ch] text-body leading-relaxed text-ink/75">
             The first branch of the driver tree, and the one that fails. The spread above is the
             first term of the profit identity; these two say why it moved.
           </p>
@@ -144,10 +144,10 @@ export default function Company() {
         </section>
 
         <section>
-          <h2 className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+          <h2 className="font-serif text-h2 font-semibold">
             Can it win the passenger?
           </h2>
-          <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-ink/75">
+          <p className="mt-3 max-w-[68ch] text-body leading-relaxed text-ink/75">
             The competitive branch. The carrier IndiGo is trying to take the connecting passenger
             from earns roughly double per passenger kilometre, which is both the size of the prize
             and the measure of the climb.
@@ -158,10 +158,10 @@ export default function Company() {
         </section>
 
         <section>
-          <h2 className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+          <h2 className="font-serif text-h2 font-semibold">
             How large is the commitment, and can the operation carry it?
           </h2>
-          <p className="mt-3 max-w-[68ch] text-[15px] leading-relaxed text-ink/75">
+          <p className="mt-3 max-w-[68ch] text-body leading-relaxed text-ink/75">
             Scale without a price, because no aircraft price is verifiable here. Then the
             utilisation figure that converts an order book into capacity, and the cross-check that
             makes it trustworthy.
@@ -174,14 +174,14 @@ export default function Company() {
       </div>
 
       <section className="mt-20 border-t-2 border-red pt-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-red">
           So what
         </p>
-        <p className="mt-4 max-w-[62ch] font-serif text-[clamp(1.3rem,2.6vw,1.9rem)] font-semibold leading-snug">
+        <p className="mt-4 max-w-[62ch] font-serif text-h3 font-semibold leading-snug">
           A commitment worth a year of earnings, onto a cost base with no spread, in a market where
           the incumbent earns double per kilometre.
         </p>
-        <p className="mt-4 max-w-[64ch] text-[15px] leading-relaxed text-ink/75">
+        <p className="mt-4 max-w-[64ch] text-body leading-relaxed text-ink/75">
           That is not an argument against the order, which is already firm. It is the argument for
           being right about where the aircraft go. Every point of yield headroom matters more when
           the starting spread is{" "}
@@ -197,7 +197,7 @@ export default function Company() {
         </p>
       </section>
 
-      <footer className="mt-16 border-t border-light pt-6 text-[13px] leading-relaxed text-grey">
+      <footer className="mt-16 border-t border-light pt-6 text-small leading-relaxed text-grey">
         {company.source}. This is a portfolio simulation, not a client engagement: IndiGo has not
         commissioned, seen or endorsed any of it.
       </footer>

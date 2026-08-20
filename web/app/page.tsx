@@ -5,7 +5,7 @@ import { CorridorMap } from "@/components/CorridorMap";
 import { OrderBookPictogram, SequenceRibbon, ShareRing } from "@/components/scan-forms";
 import { CountUp, Reveal } from "@/components/motion-primitives";
 import { RegisteredExhibit } from "@/lib/exhibits";
-import { brief, company, corridors, kpis } from "@/lib/data";
+import { brief, company, corridors, economics, kpis } from "@/lib/data";
 
 // The executive answer, and nothing that is not evidence for it.
 //
@@ -42,6 +42,7 @@ import { brief, company, corridors, kpis } from "@/lib/data";
 
 const spread = company.spread;
 const gulfPax = corridors.find((c) => c.region === "Gulf")!.pax_total;
+const vas = economics.value_at_stake;
 
 const DOORS = [
   { href: "/story", label: "Read the argument", time: "The narrative, in order" },
@@ -60,13 +61,13 @@ export default function Home() {
   return (
   <main className="mx-auto max-w-[1180px] px-8 py-14 md:py-20">
     <header>
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+      <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
         Commercial aviation &middot; India and the Gulf &middot; Network and fleet strategy
       </p>
-      <h1 className="mt-5 text-[clamp(2.4rem,5.6vw,4rem)] font-bold">
+      <h1 className="mt-5 text-h1 font-bold">
         India&rsquo;s Wide-Body Window
       </h1>
-      <p className="mt-6 max-w-[38ch] font-serif text-[clamp(1.15rem,2vw,1.5rem)] leading-snug text-ink/75">
+      <p className="mt-6 max-w-[38ch] font-serif text-h3 leading-snug text-ink/75">
         Where should Indian carriers deploy their next 100 long-haul aircraft, and can the
         India-Gulf corridor absorb them?
       </p>
@@ -76,19 +77,19 @@ export default function Home() {
       <dl className="mt-10 grid gap-px border-y border-light bg-light sm:grid-cols-3">
         {FRAME.map((f) => (
           <div key={f.term} className="bg-paper py-5 pr-6">
-            <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+            <dt className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
               {f.term}
             </dt>
-            <dd className="mt-1.5 max-w-[34ch] text-[14.5px] leading-snug">{f.value}</dd>
+            <dd className="mt-1.5 max-w-[34ch] text-body leading-snug">{f.value}</dd>
           </div>
         ))}
       </dl>
 
       <div className="mt-12 border-t-2 border-red pt-6">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-red">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-red">
           The answer
         </p>
-        <p className="mt-4 max-w-[28ch] font-serif text-[clamp(1.75rem,4vw,2.75rem)] font-semibold leading-[1.15]">
+        <p className="display mt-5 max-w-[16ch]">
           Compete with the Gulf hubs. Do not fly more aircraft to them.
         </p>
 
@@ -100,7 +101,7 @@ export default function Home() {
             carries worst. */}
         <SequenceRibbon />
 
-        <p className="mt-8 max-w-[54ch] text-[13.5px] leading-relaxed text-grey">
+        <p className="mt-8 max-w-[54ch] text-small leading-relaxed text-grey">
           <span className="font-medium text-ink">What this deliberately is not.</span>{" "}
           {brief.not_this}
         </p>
@@ -110,10 +111,10 @@ export default function Home() {
     {/* The same claim, measured. This is the exhibit the argument turns on and
         it used to live three pages away on /story. */}
     <Reveal className="mt-20">
-      <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+      <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
         The prize is real, and it is mis-located
       </p>
-      <h2 className="mt-3 max-w-[30ch] font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+      <h2 className="mt-3 max-w-[30ch] font-serif text-h2 font-semibold">
         Every corridor India flies, and the two the wide-bodies should take
       </h2>
 
@@ -137,15 +138,42 @@ export default function Home() {
       </div>
     </Reveal>
 
-    <Reveal className="mt-20">
+    {/* Full-bleed and centred, which nothing on this site was. It deliberately
+        violates the 1180px column: a reader scrolling past a wall of left-aligned
+        text stops at a change of axis long before they stop at a change of size.
+        Both figures are read from the export. */}
+    <Reveal className="mt-24">
+      <section
+        aria-label="The contested pool"
+        className="relative left-1/2 w-screen -translate-x-1/2 border-y border-light bg-wash px-8 py-16 text-center"
+      >
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
+          The prize, and nobody currently competes for it
+        </p>
+        <p className="display mx-auto mt-6 max-w-[18ch] text-red">
+          INR {Math.round(vas.revenue_floor_inr_cr).toLocaleString()} to{" "}
+          {Math.round(vas.revenue_ceiling_inr_cr).toLocaleString()} crore
+        </p>
+        <p className="mx-auto mt-6 max-w-[52ch] text-body leading-relaxed text-ink/75">
+          carried by the{" "}
+          <span className="tnum font-semibold text-ink">
+            {vas.connecting_pax_m.toFixed(1)}M
+          </span>{" "}
+          passengers a year who fly through a Gulf hub rather than to it. A third to two thirds
+          of IndiGo&rsquo;s annual revenue, in a pool it does not compete for today.
+        </p>
+      </section>
+    </Reveal>
+
+    <Reveal className="mt-24">
       <section aria-label="Key figures" className="grid gap-px bg-light sm:grid-cols-2 lg:grid-cols-3">
         {kpis.map((k) => (
           <div key={k.label} className="bg-paper p-6">
-            <p className="tnum font-serif text-[2.5rem] font-semibold leading-none text-red">
+            <p className="tnum font-serif text-stat font-semibold leading-none text-red">
               <CountUp value={k.value} />
             </p>
-            <p className="mt-3 text-[15px] font-medium leading-snug">{k.label}</p>
-            {k.note && <p className="mt-2 text-[12.5px] leading-relaxed text-grey">{k.note}</p>}
+            <p className="mt-3 text-body font-medium leading-snug">{k.label}</p>
+            {k.note && <p className="mt-2 text-caption leading-relaxed text-grey">{k.note}</p>}
           </div>
         ))}
       </section>
@@ -155,14 +183,14 @@ export default function Home() {
         four-sentence version a partner hears first. */}
     <Reveal className="mt-20">
       <section aria-labelledby="scqa">
-        <h2 id="scqa" className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <h2 id="scqa" className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           The case in four moves
         </h2>
         <ol className="mt-6 grid gap-px bg-light md:grid-cols-2 xl:grid-cols-4">
           {(["situation", "complication", "question", "answer"] as const).map((part) => (
             <li key={part} className="bg-paper p-6">
               <p className="font-serif text-lg font-semibold capitalize text-red">{part}</p>
-              <p className="mt-3 text-[14px] leading-relaxed text-ink/80">
+              <p className="mt-3 text-body leading-relaxed text-ink/80">
                 {brief.scqa[part][0]}
               </p>
             </li>
@@ -175,7 +203,7 @@ export default function Home() {
         engagement, two of which are adverse and say so. */}
     <Reveal className="mt-20">
       <section aria-labelledby="metrics">
-        <h2 id="metrics" className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">
+        <h2 id="metrics" className="font-serif text-h2 font-semibold">
           How this decision will be judged, and where it stands today
         </h2>
 
@@ -189,10 +217,10 @@ export default function Home() {
                   <span className="tnum font-serif text-2xl font-semibold text-grey">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                  <p className="text-[14.5px] font-medium leading-snug">{m.Metric}</p>
+                  <p className="text-body font-medium leading-snug">{m.Metric}</p>
                 </div>
                 <p
-                  className={`tnum mt-3 pl-10 text-[16px] font-semibold leading-snug ${
+                  className={`tnum mt-3 pl-10 text-lead font-semibold leading-snug ${
                     adverse ? "text-red" : "text-ink"
                   }`}
                 >
@@ -204,7 +232,7 @@ export default function Home() {
         </ul>
 
         {/* The one figure that states the client's problem in a single line. */}
-        <p className="mt-8 max-w-[64ch] border-l-2 border-red pl-5 text-[15px] leading-relaxed">
+        <p className="mt-8 max-w-[64ch] border-l-2 border-red pl-5 text-body leading-relaxed">
           IndiGo did not cover its unit cost in {spread.year}: RASK{" "}
           <span className="tnum font-semibold">{spread.rask.toFixed(2)}</span> against CASK{" "}
           <span className="tnum font-semibold">{spread.cask.toFixed(2)}</span>, and the rupee
@@ -229,17 +257,17 @@ export default function Home() {
 
     <Reveal className="mt-20">
       <section className="space-y-16">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           Two more exhibits, and the answer follows
         </p>
         <RegisteredExhibit id="yield_headroom" />
 
         <div>
-          <h3 className="max-w-[36ch] font-serif text-[clamp(1.2rem,2.2vw,1.6rem)] font-semibold">
+          <h3 className="max-w-[36ch] font-serif text-h3 font-semibold">
             The firm order is 140 wide-bodies, and 68 of them have nothing to do at today&rsquo;s
             sector length
           </h3>
-          <p className="mt-3 max-w-[62ch] text-[14px] leading-relaxed text-grey">
+          <p className="mt-3 max-w-[62ch] text-body leading-relaxed text-grey">
             Everywhere else this project counts the order book in available seat kilometres,
             because a seat is not capacity until you say how far and how often it flies. That is
             right for the arithmetic and useless to a reader. Counted as aeroplanes, the surplus
@@ -251,7 +279,7 @@ export default function Home() {
         </div>
 
         <RegisteredExhibit id="absorption_frontier" />
-        <p className="max-w-[62ch] text-[15px] leading-relaxed text-ink/75">
+        <p className="max-w-[62ch] text-body leading-relaxed text-ink/75">
           <Link
             href="/story"
             className="underline decoration-light underline-offset-4 hover:text-red"
@@ -273,7 +301,7 @@ export default function Home() {
           href={d.href}
           className="block-link group bg-paper py-7 pl-5 pr-6"
         >
-          <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+          <span className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
             {d.time}
           </span>
           <span className="mt-2 block font-serif text-2xl font-semibold group-hover:text-red">
@@ -283,7 +311,7 @@ export default function Home() {
       ))}
     </nav>
 
-    <footer className="mt-16 border-t border-light pt-6 text-[13px] leading-relaxed text-grey">
+    <footer className="mt-16 border-t border-light pt-6 text-small leading-relaxed text-grey">
       A self-directed case in the style of Bain Capability Network Advanced Manufacturing
       &amp; Services work. <strong>Not a client engagement</strong>: IndiGo has not
       commissioned, seen or endorsed it. Every figure is computed in-repo from DGCA,

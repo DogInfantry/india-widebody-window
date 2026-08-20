@@ -98,21 +98,29 @@ function Section({
   therefore: string;
 }) {
   return (
-    <section className="border-t-2 border-ink pt-6">
-      <div className="flex flex-wrap items-baseline gap-x-4">
-        <span className="tnum font-serif text-4xl font-semibold text-red">{n}</span>
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
-            {framework}
-          </p>
-          <h2 className="font-serif text-[clamp(1.4rem,2.6vw,2rem)] font-semibold">{question}</h2>
+    <section>
+      {/* Eleven sections ran at exactly one rhythm before this: rule, small
+          numeral, question, exhibits, therefore, eleven times over. The opener is
+          now full-bleed with the numeral at display scale, so a reader can see
+          where one framework ends and the next starts without reading a word. */}
+      <div className="relative left-1/2 w-screen -translate-x-1/2 border-y border-light bg-wash">
+        <div className="mx-auto flex max-w-[1180px] flex-wrap items-baseline gap-x-8 gap-y-2 px-8 py-10">
+          <span className="tnum display leading-none text-red">{n}</span>
+          <div className="min-w-0 flex-1">
+            <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
+              {framework}
+            </p>
+            <h2 className="mt-1 font-serif font-semibold">{question}</h2>
+          </div>
         </div>
       </div>
 
       <div className="mt-8 space-y-12">{children}</div>
 
-      <p className="mt-10 border-l-2 border-red bg-wash py-4 pl-5 pr-4 text-[15px] leading-relaxed">
-        <span className="font-semibold">Therefore. </span>
+      <p className="mt-10 max-w-[62ch] border-l-2 border-red py-1 pl-6 font-serif text-h3 leading-snug">
+        <span className="text-micro font-sans font-semibold uppercase tracking-[0.14em] text-red">
+          Therefore{" "}
+        </span>
         {therefore}
       </p>
     </section>
@@ -123,13 +131,13 @@ export default function Frameworks() {
   return (
     <main className="mx-auto max-w-[1180px] px-8 py-14">
       <header className="max-w-[62ch]">
-        <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+        <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
           How the answer was reached
         </p>
-        <h1 className="mt-4 font-serif text-[clamp(2rem,5vw,3.25rem)] font-bold leading-[1.1]">
+        <h1 className="mt-4 font-serif text-h1 font-bold leading-[1.1]">
           Five frameworks, in a chain
         </h1>
-        <p className="mt-5 text-[17px] leading-relaxed text-ink/75">
+        <p className="mt-5 text-lead leading-relaxed text-ink/75">
           No framework appears without the question it answers, and each answer is what forces
           the next. A framework that could be removed without breaking the argument is not on
           this page, which is why there is no SWOT and no PESTEL wheel: the three regulatory
@@ -200,11 +208,11 @@ export default function Frameworks() {
             <ul className="grid gap-px bg-light sm:grid-cols-2 lg:grid-cols-3">
               {FORCES.map((f) => (
                 <li key={f.force} className="bg-paper p-5">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+                  <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
                     {f.force}
                   </p>
                   <p className="mt-1.5 font-serif text-xl font-semibold text-red">{f.verdict}</p>
-                  <p className="mt-2 text-[13.5px] leading-relaxed text-ink/75">{f.evidence}</p>
+                  <p className="mt-2 text-small leading-relaxed text-ink/75">{f.evidence}</p>
                 </li>
               ))}
             </ul>
@@ -261,11 +269,11 @@ export default function Frameworks() {
             <ol className="grid gap-px bg-light sm:grid-cols-3 lg:grid-cols-5">
               {VALUE_CHAIN.map((v) => (
                 <li key={v.stage} className="bg-paper p-4">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-grey">
+                  <p className="text-micro font-semibold uppercase tracking-[0.14em] text-grey">
                     {v.stage}
                   </p>
                   <p className="tnum mt-2 font-serif text-lg font-semibold">{v.metric}</p>
-                  <p className="mt-1.5 text-[12.5px] leading-snug text-ink/70">{v.note}</p>
+                  <p className="mt-1.5 text-caption leading-snug text-ink/70">{v.note}</p>
                 </li>
               ))}
             </ol>
@@ -338,16 +346,16 @@ export default function Frameworks() {
             }
           >
             <div className="overflow-x-auto">
-              <table className="w-full min-w-[560px] border-collapse text-[13px]">
+              <table className="w-full min-w-[560px] border-collapse text-small">
                 <thead>
                   <tr>
-                    <th className="w-24 border-b border-light p-2 text-left text-[11px] font-semibold uppercase tracking-[0.1em] text-grey">
+                    <th className="w-24 border-b border-light p-2 text-left text-micro font-semibold uppercase tracking-[0.1em] text-grey">
                       Likelihood
                     </th>
                     {LEVELS.map((impact) => (
                       <th
                         key={impact}
-                        className="border-b border-light p-2 text-left text-[11px] font-semibold uppercase tracking-[0.1em] text-grey"
+                        className="border-b border-light p-2 text-left text-micro font-semibold uppercase tracking-[0.1em] text-grey"
                       >
                         {impact} impact
                       </th>
@@ -389,7 +397,7 @@ export default function Frameworks() {
         </Section>
       </div>
 
-      <footer className="mt-20 border-t border-light pt-6 text-[13px] leading-relaxed text-grey">
+      <footer className="mt-20 border-t border-light pt-6 text-small leading-relaxed text-grey">
         Framework definitions are cited to{" "}
         <a
           className="underline decoration-light underline-offset-4 hover:text-red"
