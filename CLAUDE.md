@@ -182,13 +182,32 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 198 tests pass. 19 Plotly charts on the mirror, 26 exhibits in the React
-delivery layer across seven routes. Working tree clean, everything pushed, `main` at
-`f1704fe`.**
+**Done and green. 205 tests pass. 19 Plotly charts on the mirror, 26 exhibits in the React
+delivery layer across seven routes, plus five inline-SVG forms that are not Recharts at all.
+Working tree clean, everything pushed, `main` at `7b60691`.**
 
 **THE ARTIFACT IS FINISHED.** Nothing in Next steps is required for it to stand up to a
 reader. Do not start new work on it without being asked; the failure mode from here is
 churn, not incompleteness.
+
+**Closed 2026-08-20 (`8ab8ebd`, `18e9dad`, `6400061`, `b06d4dd`, `7b60691`, pushed):** a
+delivery pass, prompted by the answer page reading as a wall of text and by six AI-generated
+infographics of this case. **No analysis changed.**
+- **The answer page rebuilt.** It ran 1,722 words against three exhibits with the first chart
+  in the sixth of eight sections. `PastTheGulf` draws the governing thought, `CorridorMap`
+  draws it on real geography, and `gateway_flows` moved here from `/story`.
+- **A real map, with no map library.** `airports.parquet` had held 5,275 airports with lat/lon
+  since the first commit. Gotcha 75.
+- **The affordance layer.** Tailwind v4 stopped setting `cursor: pointer` on buttons, so every
+  tab on all 26 exhibits showed an arrow for the app's whole life. Links now default to
+  underlined and opt out explicitly. Gotchas 73, 74, 78.
+- **The driver tree rebuilt**, and its "three branches fail" claim is computed rather than
+  typed, because no rule in the data produced three. Gotcha 76.
+- **Four new forms**, after a form census found eleven of twenty charts were bar charts with no
+  part-to-whole, part-of-count or sequence visual anywhere. Gotchas 79 to 81.
+- **`option_menu` was the last registry exhibit rendering nowhere**, because `/frameworks` kept
+  a private inline copy. Gotcha 56 again.
+- **The published type-check command never type-checked anything.** Gotcha 72.
 
 **Closed 2026-08-19 (`45830cc`, `b526c91`, `f1704fe`, pushed):** the three `docs/` corrections
 the previous block deferred, plus one bug found while checking what was left.
@@ -293,17 +312,21 @@ IndiGo's primary earnings presentation. The six open rows are **terminal, not pe
 
 ## Active task
 
-**None. Tier A and Tier B of the Fable review response are done (2026-08-19, four commits,
-`3328539` through `9a79a8f`). `memory/plan-company-case.md` was executed in full before that.**
-Neither plan should be re-run.
+**None. Everything asked for on 2026-08-19 and 2026-08-20 is done, pushed and live on both
+hosts.** Three plans were executed and none should be re-run: `memory/plan-company-case.md`,
+the Fable review response (Tier A and B), and the delivery pass in
+`memory/handoff-2026-08-20.md`.
 
-**The FY2027 chapter is DEFERRED, not forgotten, and it is the one open decision.** See Next
-steps. It is the only remaining item that would change the analysis rather than the record.
+**The FY2027 chapter is DROPPED, by the user, on 2026-08-20.** It was deferred on 08-19 and is
+now closed. The risk register records that three of its rows fired and by how much, which is
+the part worth keeping. Do not re-propose modelling the consequences.
 
-**A new session should not start work on this repo without an explicit ask.** The last two
-sessions each found real problems by *checking* rather than by building, and that is the
-higher-yield move here: run `python -m pytest -q`, read this file, and ask what the user
-wants. See `memory/handoff-2026-08-19.md` for the state at handoff.
+**A new session should not start work on this repo without an explicit ask.** Four sessions
+running, the highest-yield activity here has been *checking* rather than building: the O-D
+gate, the exhibit-count drift, the button-cursor bug and the type-check command that never
+type-checked were all found by measuring something, not by adding to it. Run
+`python -m pytest -q`, read this file, and ask what the user wants. See
+`memory/handoff-2026-08-20.md` for the state at handoff.
 
 **What it fixed, in the same three numbers the audit used:**
 
