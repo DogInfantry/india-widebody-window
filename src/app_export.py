@@ -130,6 +130,52 @@ def corridor_spine() -> list[dict]:
     return _clean(out)
 
 
+
+def order_book_fleet() -> dict:
+    """The order book as AIRCRAFT, so it can be drawn as a count rather than a ratio.
+
+    Everything else in this project expresses the order book in ASK, and that is
+    right for the absorption arithmetic: a seat is not capacity until you say how
+    far and how often it flies. It is wrong for a reader. "1.94x the growth needed
+    to hold share" is a ratio nobody pictures, and 119.3 billion ASK is a number
+    nobody has an intuition for. One hundred and forty aeroplanes is a quantity
+    you can see.
+
+    `market_sizing._ORDER_BOOK` already carries the counts by operator and
+    variant, so nothing here is derived twice or typed. The split between the
+    aircraft the market actually needs and the surplus comes from
+    `fleet_gap.absorption_summary()`'s `book_vs_growth_ratio`, which is the same
+    1.94 the case quotes.
+    """
+    from .market_sizing import _ORDER_BOOK
+
+    by_variant: dict[str, int] = {}
+    by_operator: dict[str, int] = {}
+    for operator, variant, count, _seat_key, _assumed in _ORDER_BOOK:
+        by_variant[variant] = by_variant.get(variant, 0) + count
+        by_operator[operator] = by_operator.get(operator, 0) + count
+
+    total = sum(by_variant.values())
+    ratio = float(fg.absorption_summary()["book_vs_growth_ratio"])
+    # Aircraft the market needs if Indian carriers merely hold today's share.
+    needed = round(total / ratio)
+
+    return {
+        "total_aircraft": total,
+        "needed_to_hold_share": needed,
+        "surplus": total - needed,
+        "book_vs_growth_ratio": round(ratio, 3),
+        "by_variant": [
+            {"variant": v, "count": c}
+            for v, c in sorted(by_variant.items(), key=lambda kv: -kv[1])
+        ],
+        "by_operator": [
+            {"operator": o, "count": c}
+            for o, c in sorted(by_operator.items(), key=lambda kv: -kv[1])
+        ],
+    }
+
+
 def geo() -> dict:
     """Where the origin is, for the map that draws every corridor out of it.
 
@@ -502,6 +548,7 @@ DATASETS: dict[str, Any] = {
     "evidence": evidence,
     "corridors": corridor_spine,
     "geo": geo,
+    "order_book_fleet": order_book_fleet,
     "carriers": lambda: {
         "who_carries_india": _clean(bm.who_carries_india()),
         "share_trend": _clean(bm.carrier_share_trend()),

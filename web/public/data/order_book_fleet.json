@@ -1,0 +1,34 @@
+{
+ "book_vs_growth_ratio": 1.939,
+ "by_operator": [
+  {
+   "count": 80,
+   "operator": "Air India"
+  },
+  {
+   "count": 60,
+   "operator": "IndiGo"
+  }
+ ],
+ "by_variant": [
+  {
+   "count": 76,
+   "variant": "A350-900"
+  },
+  {
+   "count": 34,
+   "variant": "A350-1000"
+  },
+  {
+   "count": 20,
+   "variant": "787-9"
+  },
+  {
+   "count": 10,
+   "variant": "777-9"
+  }
+ ],
+ "needed_to_hold_share": 72,
+ "surplus": 68,
+ "total_aircraft": 140
+}

@@ -153,6 +153,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 26 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
 | `web/components/DriverTree.tsx` | The value-driver tree AS NAVIGATION. Every leaf links to the exhibit that proves it; a test asserts none dangle |
+| `web/components/scan-forms.tsx` | **NEW.** The four forms the site lacked: share ring, 140-aircraft pictogram, recommendation sequence, signed delta marker |
 | `web/components/CorridorMap.tsx` | **NEW.** The case on real geography. Inline SVG, no map library, no tiles, no key. Great circles from Delhi to all eight corridor hubs |
 | `web/components/PastTheGulf.tsx` | **NEW.** The governing thought as a schematic. The map is its evidence; they are not competing |
 | `web/components/motion-primitives.tsx` | **NEW.** `Reveal` (CSS + IntersectionObserver, visible by default) and `CountUp` (Motion). Nothing touches chart marks |
@@ -335,21 +336,10 @@ carried: Abu Dhabi's entitlement was found and published (70.1%), belly cargo ha
 module and a published exhibit, and the forwarding note was **declined by the user on
 2026-08-19**. Do not re-add it.
 
-0. **The FY2027 chapter. DEFERRED BY THE USER on 2026-08-19, and the only item here that
-   would change the analysis rather than the record.** Three of the risk register's rows have
-   fired and the register says so, but the consequences are not modelled. Specifically:
-   `scenario.fuel_fx_sensitivity()` sweeps `(-20, -10, 0, 10, 20)` and reality delivered
-   **+80.4%**, so the published chart's axis stops well short of the event. Its docstring
-   refuses to assume a fuel pass-through "this repo has not measured"; the pass-through is now
-   **observed**, at yield +21.3% and RASK +16.5% against fuel CASK +80.4%, and it was not
-   enough. **Invert that refusal rather than deleting it.** The remaining piece is the
-   adversarial one: foreign carriers took **58.4%** of India-origin international scheduled
-   *flights* Mar to May 2026 against 51.2 per cent a year earlier, as Air India cut international
-   flying **17.5%** concentrated in **Europe and North America**, the corridors this case
-   sequences first. That does not falsify the 45.9% premise reversal, which is passengers not
-   flights and 2025 not 2026, but it is a real challenge and belongs on the page as one. The
-   underlying OAG schedule data is paywalled, so any row for it grades `UNVERIFIED_NO_PRIMARY`
-   and it must not drive a published figure.
+**The FY2027 chapter is DROPPED**, by the user on 2026-08-20, having been deferred on
+2026-08-19. It is not carried here any more. The risk register records that three of its rows
+fired and by how much, which is the part worth keeping; modelling the consequences is not
+being done. Do not re-propose it.
 
 Everything remaining is either blocked by a paywall or is genuine new analysis.
 
@@ -694,6 +684,24 @@ Every one of these cost real time or produced a wrong published number.
     in the project. `.clickable-marks` on the series cascades to the shapes; a test counts
     `onClick` series against marked ones. Gotcha 73 covered `button` and missed both this and
     `input[type="range"]`, which is the one slider on the site.
+79. **AI-generated infographics of this case got six of its numbers wrong.** Six Gemini
+    infographics were compared against the app on 2026-08-20. Against the computed export they
+    said 98.8% where the Dubai entitlement figure is 88.8%, 33.7M and 35.7M where the Gulf
+    carries 39.7M, -6.3% and -4.2% where corridor headroom is -4.3%, +21.2% where Europe is
+    +21.3%, RASK 4.95 where it is 4.99, one panel labelling CASK as RASK, and a stage length of
+    2,645 km where it is 2,643. Plus "Golf" for Gulf and "FY3026". **Take the forms, never the
+    content.** The forms were worth taking and four of them now ship.
+80. **Form monotony is measurable and this site had it.** Eleven of twenty charts were
+    `BarChart`, with no part-to-whole, no part-of-count and no sequence visual anywhere. That,
+    not colour and not illustration, is why the infographics scanned faster. `ShareRing`,
+    `OrderBookPictogram` and `SequenceRibbon` in `web/components/scan-forms.tsx` close it, and
+    bars are now 11 of 26 forms. **Census the forms before concluding a page needs more
+    styling.**
+81. **The order book is in ASK everywhere and that is useless to a reader.** ASK is right for
+    the absorption arithmetic, because a seat is not capacity until you say how far and how
+    often it flies. But "1.94x the growth needed" is a ratio nobody pictures. The same fact as
+    140 aeroplanes with 68 of them idle is instantly legible. `market_sizing._ORDER_BOOK`
+    already carried the counts by operator and variant; nothing needed deriving twice.
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

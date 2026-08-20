@@ -4,7 +4,6 @@ import { RegisteredExhibit } from "@/lib/exhibits";
 import {
   CarrierCapability,
   CaskBridge,
-  OptionMatrix,
   PaxVsRevenue,
   ShareTrend,
   SizingBand,
@@ -321,27 +320,12 @@ export default function Frameworks() {
           question="So what should be done?"
           therefore="Compete with the Gulf hubs rather than flying more aircraft to them. Europe first, North America second, Gulf capacity roughly flat."
         >
-          <Exhibit
-            title="Only one option is both available this decade and value-creating, and it is not the one that follows the traffic"
-            source="Option menu from docs/recommendation.md, parsed rather than retyped. Axes are ordinal: time to capacity from the table's own wording, capital likewise."
-            evidence={
-              <>
-                <p>
-                  The axes are ordinal scales over the table&rsquo;s own words, stated here so
-                  every placement can be checked against it. The damp-lease bridge sits at low
-                  capital and immediate availability, and its economics are explicitly
-                  unquantified because transaction lease rates are paywalled.
-                </p>
-                <p>
-                  There is no net present value on this page. A discounted cash flow per option
-                  would need a discount rate, a capital cost, a residual value and a corridor
-                  yield, and not one of the four can be verified here.
-                </p>
-              </>
-            }
-          >
-            <OptionMatrix />
-          </Exhibit>
+          {/* Was an inline <Exhibit> wrapping <OptionMatrix /> while `option_menu`
+              sat in the registry rendering on no page at all: the last of the 26,
+              and gotcha 56 exactly, a private copy of a registered exhibit. The
+              registry entry is the one that renders now, so its Evidence tab
+              comes from the export like every other exhibit's. */}
+          <RegisteredExhibit id="option_menu" />
 
           <Exhibit
             title={`Nine risks, and the two that are high on both axes are the ones outside the airline's control`}

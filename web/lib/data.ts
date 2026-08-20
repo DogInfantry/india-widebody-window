@@ -21,6 +21,7 @@ import briefJson from "@/public/data/brief.json";
 import storyJson from "@/public/data/story.json";
 import companyJson from "@/public/data/company.json";
 import geoJson from "@/public/data/geo.json";
+import orderBookFleetJson from "@/public/data/order_book_fleet.json";
 
 export type Kpi = { value: string; label: string; note: string | null };
 
@@ -60,6 +61,11 @@ export const market = marketJson;
 /** Where Delhi is, plus the provenance line for the corridor map. Hub
  *  coordinates ride on `corridors`, because they are corridor attributes. */
 export const geo = geoJson;
+
+/** The order book as aircraft rather than ASK, so it can be drawn as a count.
+ *  Counts come from `market_sizing._ORDER_BOOK`; the needed/surplus split from
+ *  `fleet_gap.absorption_summary()`. Nothing here is derived in TypeScript. */
+export const orderBookFleet = orderBookFleetJson;
 
 /** The option menu and the nine-row risk register, parsed out of
  *  docs/recommendation.md by src/app_export.py rather than retyped, so the app

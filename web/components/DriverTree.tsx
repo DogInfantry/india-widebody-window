@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Delta } from "@/components/scan-forms";
 import { carriers, company, corridors, access, fleet } from "@/lib/data";
 
 // The value-driver tree, used as NAVIGATION rather than as decoration.
@@ -42,7 +43,17 @@ const emirates = company.competitive_position.find((c) => c.carrier === "Emirate
 const baseline = fleet.baseline;
 
 type Verdict = "fails" | "holds" | "mixed";
-type Leaf = { metric: string; value: string; verdict: Verdict; href: string };
+/** `value` is a string for most leaves and a signed percentage for the two that
+ *  are read as "does this clear its own cost". Those render through `Delta`,
+ *  because a leading minus sign in body text is the weakest possible way to say
+ *  no, and the sign is the entire content of the figure. */
+type Leaf = {
+  metric: string;
+  value: string;
+  delta?: number;
+  verdict: Verdict;
+  href: string;
+};
 
 const BRANCHES: {
   branch: string;
@@ -82,7 +93,8 @@ const BRANCHES: {
       },
       {
         metric: "Corridor with the most fare headroom",
-        value: `Europe, +${europe.yield_headroom_pct!.toFixed(1)}%`,
+        value: "Europe",
+        delta: europe.yield_headroom_pct!,
         verdict: "holds",
         href: "/#exhibit-yield_headroom",
       },
@@ -219,7 +231,13 @@ export function DriverTree() {
                               leaf.verdict === "fails" ? "text-red" : "text-ink"
                             }`}
                           >
-                            {leaf.value}{" "}
+                            {leaf.value}
+                            {leaf.delta != null && (
+                              <>
+                                {" "}
+                                <Delta pct={leaf.delta} />
+                              </>
+                            )}{" "}
                             <span aria-hidden className="go">
                               &rarr;
                             </span>

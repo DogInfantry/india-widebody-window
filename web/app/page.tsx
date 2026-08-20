@@ -2,9 +2,10 @@ import Link from "next/link";
 import { DriverTree } from "@/components/DriverTree";
 import { PastTheGulf } from "@/components/PastTheGulf";
 import { CorridorMap } from "@/components/CorridorMap";
+import { OrderBookPictogram, SequenceRibbon, ShareRing } from "@/components/scan-forms";
 import { CountUp, Reveal } from "@/components/motion-primitives";
 import { RegisteredExhibit } from "@/lib/exhibits";
-import { brief, company, kpis } from "@/lib/data";
+import { brief, company, corridors, kpis } from "@/lib/data";
 
 // The executive answer, and nothing that is not evidence for it.
 //
@@ -40,6 +41,7 @@ import { brief, company, kpis } from "@/lib/data";
 // everything else.
 
 const spread = company.spread;
+const gulfPax = corridors.find((c) => c.region === "Gulf")!.pax_total;
 
 const DOORS = [
   { href: "/story", label: "Read the argument", time: "The narrative, in order" },
@@ -93,6 +95,11 @@ export default function Home() {
         {/* The answer, drawn, before the answer is explained. */}
         <PastTheGulf />
 
+        {/* The answer is a SEQUENCE and it existed only as a sentence. Order is
+            the whole content of the recommendation and the one thing prose
+            carries worst. */}
+        <SequenceRibbon />
+
         <p className="mt-8 max-w-[54ch] text-[13.5px] leading-relaxed text-grey">
           <span className="font-medium text-ink">What this deliberately is not.</span>{" "}
           {brief.not_this}
@@ -115,7 +122,16 @@ export default function Home() {
           one it argues about. */}
       <CorridorMap />
 
-      <div className="mt-16 space-y-16">
+      {/* A share should look like a share. Nothing on this site showed one:
+          `corridor_scale` compares nine corridors, which is a different question
+          from how much of India's flying touches the Gulf at all. */}
+      <div className="mt-10">
+        <ShareRing
+          sub={`${(gulfPax / 1e6).toFixed(1)}M passengers a year, and roughly four times India's entire direct Europe market. The corridor is the prize. The hub is not the destination.`}
+        />
+      </div>
+
+      <div className="mt-14 space-y-16">
         <RegisteredExhibit id="corridor_scale" />
         <RegisteredExhibit id="gateway_flows" />
       </div>
@@ -217,6 +233,23 @@ export default function Home() {
           Two more exhibits, and the answer follows
         </p>
         <RegisteredExhibit id="yield_headroom" />
+
+        <div>
+          <h3 className="max-w-[36ch] font-serif text-[clamp(1.2rem,2.2vw,1.6rem)] font-semibold">
+            The firm order is 140 wide-bodies, and 68 of them have nothing to do at today&rsquo;s
+            sector length
+          </h3>
+          <p className="mt-3 max-w-[62ch] text-[14px] leading-relaxed text-grey">
+            Everywhere else this project counts the order book in available seat kilometres,
+            because a seat is not capacity until you say how far and how often it flies. That is
+            right for the arithmetic and useless to a reader. Counted as aeroplanes, the surplus
+            is visible.
+          </p>
+          <div className="mt-6">
+            <OrderBookPictogram />
+          </div>
+        </div>
+
         <RegisteredExhibit id="absorption_frontier" />
         <p className="max-w-[62ch] text-[15px] leading-relaxed text-ink/75">
           <Link
