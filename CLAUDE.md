@@ -184,15 +184,24 @@ this file. Do not recreate it.
 
 **Done and green. 205 tests pass. 19 Plotly charts on the mirror, 26 exhibits in the React
 delivery layer across seven routes, plus five inline-SVG forms that are not Recharts at all.
-Working tree clean, everything pushed, `main` at `7b60691`.**
+Working tree clean, everything pushed, `main` at `ec32eea`.**
 
 **THE ARTIFACT IS FINISHED.** Nothing in Next steps is required for it to stand up to a
 reader. Do not start new work on it without being asked; the failure mode from here is
 churn, not incompleteness.
 
-**Closed 2026-08-20 (`8ab8ebd`, `18e9dad`, `6400061`, `b06d4dd`, `7b60691`, pushed):** a
-delivery pass, prompted by the answer page reading as a wall of text and by six AI-generated
-infographics of this case. **No analysis changed.**
+**Closed 2026-08-20 (`8ab8ebd` through `ec32eea`, all pushed):** a delivery pass, prompted by
+the answer page reading as a wall of text, by six AI-generated infographics of this case, and
+by the app still reading as monotone afterwards. **No analysis changed in any of it.**
+- **A type scale, which is what "monotone" actually meant.** `globals.css` gave `h1, h2, h3` no
+  size at all, so every size was ad hoc: **33 distinct sizes**, 122 uses between 11px and 15px,
+  and six of ten headings rendering at body size. Nine `--text-*` steps now, zero ad-hoc sizes
+  left, and `.display` measures **104px against 15px, 6.9x**. Gotchas 82 to 85.
+- **The first centred and full-bleed elements the site has ever had.** 184 of 184 elements were
+  `text-align: start`. Gotcha 83.
+- **`/story` and `/frameworks` rhythm broken** with full-bleed display openers, and the story
+  contents list rebuilt as a five-column argument map that had been flattening its own act
+  structure and discarding five pivot markers. Gotcha 86.
 - **The answer page rebuilt.** It ran 1,722 words against three exhibits with the first chart
   in the sixth of eight sections. `PastTheGulf` draws the governing thought, `CorridorMap`
   draws it on real geography, and `gateway_flows` moved here from `/story`.
