@@ -3,21 +3,28 @@
 **Where should Indian carriers deploy their next 100 long-haul aircraft, and can the
 India-Gulf corridor absorb them?**
 
-[![Live site](https://img.shields.io/badge/live-india--widebody--window.vercel.app-CC0000?style=flat-square)](https://india-widebody-window.vercel.app)
-[![Monthly refresh](https://github.com/DogInfantry/india-widebody-window/actions/workflows/refresh.yml/badge.svg)](https://github.com/DogInfantry/india-widebody-window/actions/workflows/refresh.yml)
-[![Python 3.12](https://img.shields.io/badge/python-3.12-1A1A1A?style=flat-square)](requirements.txt)
-[![Seven dependencies](https://img.shields.io/badge/dependencies-7-999999?style=flat-square)](requirements.txt)
-[![No PowerPoint](https://img.shields.io/badge/PowerPoint-none-999999?style=flat-square)](#why-is-there-no-powerpoint-or-excel)
-[![Apache 2.0](https://img.shields.io/badge/licence-Apache--2.0-999999?style=flat-square)](LICENSE)
+[![Sources re-pulled and every figure rebuilt, monthly](https://github.com/DogInfantry/india-widebody-window/actions/workflows/refresh.yml/badge.svg)](https://github.com/DogInfantry/india-widebody-window/actions/workflows/refresh.yml)
 
 ![India's Wide-Body Window. Commercial aviation, India and the Gulf. The answer: compete with the Gulf hubs, do not fly more aircraft to them. 78M India international sector passengers in 2025, 51% of them touching a Gulf point, 46% flown by Indian carriers, and Air India's average international flight twice IndiGo's.](docs/assets/social-card.png)
+
+| The engagement | |
+|---|---|
+| **Client** | IndiGo, network and fleet strategy |
+| **The decision** | Where 60 A350-900s on firm order go first, and what to do with 40 unconverted purchase rights |
+| **Against** | Air India, 80 wide-bodies on firm order |
+| **Horizon** | Deployment through 2030 |
+| **Evidence** | DGCA, Eurostat, IATA and World Bank. Every figure computed in-repo, none typed by hand |
+
+**Read it** on [the site](https://india-widebody-window.vercel.app), as
+[a deck](https://doginfantry.github.io/india-widebody-window/deck.html), in
+[print](https://doginfantry.github.io/india-widebody-window/report.html), or as
+[a one-pager](https://doginfantry.github.io/india-widebody-window/brief.html).
+**Or jump to** [the answer](#the-answer), [the numbers](#the-numbers-this-case-turns-on), or
+[the ten times it changed](docs/pivot_log.md).
 
 A commercial aviation market entry case in the style of Bain Capability Network Advanced
 Manufacturing & Services work. Python analysis layer, a scrollytelling site and a Next.js
 delivery layer, no PowerPoint and no Excel anywhere in the pipeline.
-
-**Live: [india-widebody-window.vercel.app](https://india-widebody-window.vercel.app)**, mirrored
-on [GitHub Pages](https://doginfantry.github.io/india-widebody-window/).
 
 ---
 

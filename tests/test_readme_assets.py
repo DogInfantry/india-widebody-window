@@ -140,3 +140,34 @@ def test_no_committed_chart_is_orphaned():
         f"{orphans} are committed under .github/assets but the README never shows them. "
         "Show them or delete them."
     )
+
+
+def test_the_readme_engagement_card_matches_the_site_hero():
+    """The README is a hand-written surface, so it gets a parity check like the rest.
+
+    `docs/index.html` carries the engagement in a `<dl class="brief">`: client,
+    decision, opponent, horizon. The README now states the same four rows, and a
+    hand-written restatement of a fact held somewhere else is exactly the thing
+    that drifted eight times in this repository before anything counted it.
+
+    Extra rows in the README are allowed. Dropping one, or contradicting one, is
+    not. That is the same asymmetry the exhibit parity test uses: the delivery
+    surface may say more than the analysis surface, never less.
+    """
+    index = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    readme = README.read_text(encoding="utf-8")
+
+    pairs = re.findall(r"<dt>([^<]+)</dt><dd>([^<]+)</dd>", index)
+    assert len(pairs) == 4, f"docs/index.html hero brief has {len(pairs)} rows, expected 4"
+
+    flat = re.sub(r"\s+", " ", readme)
+    missing = [
+        f"{term}: {definition}"
+        for term, definition in pairs
+        if f"| **{term}** | {definition} |" not in flat
+    ]
+    assert not missing, (
+        "the README engagement card has drifted from the hero brief in "
+        "docs/index.html, which is where the engagement is actually stated:\n  "
+        + "\n  ".join(missing)
+    )
