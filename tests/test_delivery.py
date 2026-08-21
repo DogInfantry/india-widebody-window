@@ -401,3 +401,53 @@ def test_interactive_elements_keep_a_pointer_cursor():
         "`clickable-marks`. Clicking a bar filters every exhibit on the page, which "
         "is worth nothing if the reader cannot tell it is clickable."
     )
+
+
+def test_both_surfaces_publish_the_same_valid_structured_data():
+    """Invalid JSON-LD is worse than none, and it fails silently in both directions.
+
+    A malformed block is skipped by every crawler that reads it and by every
+    validator nobody runs, so the page keeps rendering and the metadata simply
+    does not exist. Two copies of it, one in `docs/index.html` and one in
+    `web/app/layout.tsx`, can also drift apart without anything noticing, which
+    is the same shape as the exhibit count this file was written for.
+
+    The canonical URL is the assertion that matters. The mirror on GitHub Pages
+    serves the same argument as the Vercel site, and if it declared itself
+    canonical the two hosts would compete for the same signal. The repo sidebar
+    made exactly that mistake by pointing `homepageUrl` at the mirror.
+    """
+    import json
+
+    index = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
+    layout = (ROOT / "web" / "app" / "layout.tsx").read_text(encoding="utf-8")
+
+    found = re.search(
+        r'<script type="application/ld\+json">\s*(.*?)\s*</script>', index, flags=re.S
+    )
+    assert found, "docs/index.html publishes no JSON-LD"
+    static = json.loads(found.group(1))
+
+    start = layout.index("const JSON_LD = ") + len("const JSON_LD = ")
+    app = json.loads(layout[start : layout.index("\n};", start) + 2])
+
+    assert static == app, (
+        "the JSON-LD in docs/index.html and web/app/layout.tsx have drifted apart"
+    )
+
+    canonical = "https://india-widebody-window.vercel.app"
+    urls = {node.get("url") for node in static["@graph"] if node.get("url")}
+    assert canonical in urls, "the structured data does not name the canonical site"
+    assert not any(u and "github.io" in u for u in urls), (
+        "the structured data points at the GitHub Pages mirror. The mirror must "
+        "declare the Vercel origin as canonical or the two hosts compete."
+    )
+
+    types = {node["@type"] for node in static["@graph"]}
+    assert {"Report", "Dataset", "WebSite"} <= types, f"structured data types are {types}"
+
+    dataset = next(n for n in static["@graph"] if n["@type"] == "Dataset")
+    assert len(dataset["isBasedOn"]) == 5, (
+        "the Dataset should name all five upstream sources, so a reader or a crawler "
+        "can see the provenance without opening the data dictionary"
+    )

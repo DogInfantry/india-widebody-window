@@ -23,6 +23,168 @@
 <meta name="twitter:title" content="India's Wide-Body Window"/>
 <meta name="twitter:description" content="Compete with the Gulf hubs, do not fly more aircraft to them. A commercial aviation case built on DGCA, Eurostat and World Bank data, with every figure computed in-repo and ten documented changes of mind."/>
 <meta name="twitter:image" content="https://india-widebody-window.vercel.app/assets/social-card.png"/>
+<!-- Structured data. Report plus Dataset, naming the five sources, the licence and
+     the author, with the CANONICAL url on both hosts so the mirror does not compete
+     with the site it mirrors. Deliberately carries no figures: the narrative guard
+     strips tags and reads this body as prose, so a number here would have to be swept
+     like any other, and metadata is the wrong place to publish one. -->
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@id": "https://india-widebody-window.vercel.app/#report",
+   "@type": "Report",
+   "about": [
+    {
+     "@type": "Thing",
+     "name": "Commercial aviation market entry"
+    },
+    {
+     "@type": "Thing",
+     "name": "Wide-body aircraft deployment"
+    },
+    {
+     "@type": "Thing",
+     "name": "India Gulf air corridor"
+    },
+    {
+     "@type": "Organization",
+     "name": "IndiGo"
+    },
+    {
+     "@type": "Organization",
+     "name": "Air India"
+    },
+    {
+     "@type": "Place",
+     "name": "India"
+    }
+   ],
+   "abstract": "Compete with the Gulf hubs, do not fly more aircraft to them. Europe first, North America second, Gulf capacity roughly flat. A commercial aviation market entry case in which every figure is computed from committed open data, conflicts between agencies are reported rather than resolved away, and every change of mind is published.",
+   "author": {
+    "@type": "Person",
+    "name": "Anklesh Rawat",
+    "url": "https://github.com/DogInfantry"
+   },
+   "creator": {
+    "@type": "Person",
+    "name": "Anklesh Rawat",
+    "url": "https://github.com/DogInfantry"
+   },
+   "datePublished": "2026-08-15",
+   "headline": "Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them?",
+   "inLanguage": "en",
+   "isAccessibleForFree": true,
+   "isBasedOn": {
+    "@id": "https://india-widebody-window.vercel.app/#dataset"
+   },
+   "license": "https://opensource.org/licenses/MIT",
+   "name": "India's Wide-Body Window",
+   "url": "https://india-widebody-window.vercel.app"
+  },
+  {
+   "@id": "https://india-widebody-window.vercel.app/#dataset",
+   "@type": "Dataset",
+   "codeRepository": "https://github.com/DogInfantry/india-widebody-window",
+   "creator": {
+    "@type": "Person",
+    "name": "Anklesh Rawat",
+    "url": "https://github.com/DogInfantry"
+   },
+   "description": "Indian international and domestic air traffic, carrier operating statistics, corridor economics, wide-body order book and market sizing, computed from DGCA, Eurostat, IATA, World Bank and OurAirports and committed as parquet. Modelled values are labelled as modelled and hand-entered values carry a verification status.",
+   "distribution": [
+    {
+     "@type": "DataDownload",
+     "contentUrl": "https://github.com/DogInfantry/india-widebody-window/tree/main/data/processed",
+     "encodingFormat": "application/vnd.apache.parquet",
+     "name": "Processed parquet corpus"
+    }
+   ],
+   "isAccessibleForFree": true,
+   "isBasedOn": [
+    {
+     "@type": "Dataset",
+     "description": "Indian domestic and international traffic, the spine of the analysis.",
+     "license": "https://opendatacommons.org/licenses/odbl/",
+     "name": "DGCA traffic statistics",
+     "url": "https://github.com/Vonter/india-aviation-traffic"
+    },
+    {
+     "@type": "Dataset",
+     "description": "The European end of India to Europe routes, used to check DGCA from the opposite direction.",
+     "license": "https://ec.europa.eu/info/legal-notice_en",
+     "name": "Eurostat avia_par",
+     "url": "https://ec.europa.eu/eurostat/web/transport/data/database"
+    },
+    {
+     "@type": "Dataset",
+     "description": "India's departing international origin to destination split, by region and by country.",
+     "license": "https://www.iata.org/en/about/terms-conditions/",
+     "name": "IATA, Aviation in India",
+     "url": "https://www.iata.org/"
+    },
+    {
+     "@type": "Dataset",
+     "description": "Income, population and air travel propensity across twelve peer countries.",
+     "license": "https://creativecommons.org/licenses/by/4.0/",
+     "name": "World Bank Open Data",
+     "url": "https://data.worldbank.org/"
+    },
+    {
+     "@type": "Dataset",
+     "description": "Airport reference data and coordinates.",
+     "license": "https://creativecommons.org/publicdomain/zero/1.0/",
+     "name": "OurAirports",
+     "url": "https://ourairports.com/data/"
+    }
+   ],
+   "keywords": [
+    "commercial aviation",
+    "India",
+    "DGCA",
+    "airline economics",
+    "market sizing",
+    "wide-body aircraft",
+    "India Gulf corridor",
+    "yield headroom",
+    "available seat kilometres",
+    "open data"
+   ],
+   "license": "https://opensource.org/licenses/MIT",
+   "name": "India's Wide-Body Window computed corpus",
+   "spatialCoverage": {
+    "@type": "Place",
+    "name": "India and its international corridors"
+   },
+   "temporalCoverage": "2015/2026",
+   "url": "https://github.com/DogInfantry/india-widebody-window",
+   "variableMeasured": [
+    "International sector passengers",
+    "Available seat kilometres",
+    "Average stage length",
+    "Load factor",
+    "Yield headroom by corridor",
+    "Seat entitlement utilisation",
+    "Unit cost per available seat kilometre"
+   ]
+  },
+  {
+   "@id": "https://india-widebody-window.vercel.app/#website",
+   "@type": "WebSite",
+   "inLanguage": "en",
+   "license": "https://opensource.org/licenses/MIT",
+   "name": "India's Wide-Body Window",
+   "publisher": {
+    "@type": "Person",
+    "name": "Anklesh Rawat",
+    "url": "https://github.com/DogInfantry"
+   },
+   "url": "https://india-widebody-window.vercel.app"
+  }
+ ]
+}
+</script>
 <link rel="stylesheet" href="assets/style.css"/>
 <script src="https://cdn.plot.ly/plotly-2.35.0.min.js" charset="utf-8"></script>
 <script src="https://unpkg.com/scrollama"></script>

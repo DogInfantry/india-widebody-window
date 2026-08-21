@@ -1,0 +1,95 @@
+# India's Wide-Body Window
+
+> Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them? A commercial aviation market entry case built on DGCA, Eurostat, IATA and World Bank data. The answer: compete with the Gulf hubs, do not fly more aircraft to them. Europe first, North America second, Gulf capacity roughly flat.
+
+Author: Anklesh Rawat. Licence: MIT. Published 2026.
+Canonical: https://india-widebody-window.vercel.app
+Mirror: https://doginfantry.github.io/india-widebody-window/
+Source and data: https://github.com/DogInfantry/india-widebody-window
+
+Every figure below is computed inside the repository from committed data, or carries a
+source URL and pull date in the data dictionary. Modelled figures are labelled as modelled
+on the chart face and a test fails the build if one is published without that label. Where
+two agencies disagree the conflict is reported rather than resolved away. The analysis
+changed direction ten times and each change is written up with the commit it happened in.
+
+## The answer
+
+Compete with the Gulf hubs. Do not fly more aircraft to them.
+
+The India-Gulf corridor carries 50.9% of India's international sector traffic, 39.7M
+passengers in 2025, and is 4.1 times the size of India's entire direct Europe market. It is
+still the wrong place to put a wide-body, for three separate reasons. About 8.5M of those
+passengers a year are not going to the Gulf at all, they are connecting through Dubai, Doha
+or Abu Dhabi to somewhere else. The treaty room left at the two Gulf points with a published
+entitlement would absorb about 4% of the aircraft on firm order. And Gulf sectors are short
+enough that unit cost stays high, so the Gulf is the only corridor that cannot cover its own
+cost at IndiGo's achieved yield. Indian carriers win that traffic by flying past the Gulf,
+not to it: Europe first, North America second, Gulf capacity roughly flat.
+
+## Key figures
+
+- India international sector passengers, both directions, all carriers, 2025: 78.0M. Computed from DGCA.
+- Share of that traffic touching a Gulf point, 2025: 50.9%, which is 39.7M passengers. Computed from DGCA.
+- Share flown by Indian carriers, 2025: 45.9%, against 26.2% for Gulf carriers. Computed from DGCA.
+- Indian carrier share in 2015: 37.0%, against 32.7% for Gulf carriers. The premise reversed: Indian carriers are gaining, not losing.
+- IndiGo international passengers, 2025: 16.7M, against Air India's 10.7M.
+- IndiGo average international stage length, 2025: 2,643 km, against Air India's 5,316 km.
+- Passengers a year connecting through a Gulf hub to somewhere else: 8.5M. Modelled, and bounded below at 7.84M by IATA measurement, so the modelled figure is slightly conservative.
+- Firm wide-body order book: 140 aircraft, 80 Air India and 60 IndiGo, which is +78% on Indian carriers' current international capacity measured in ASK, and 1.94 times the growth needed to hold share.
+- Share of that order book the remaining Gulf treaty room could absorb: about 4%.
+- Yield headroom by corridor, 2025: Gulf -4.3%, South Asia -1.9%, East Asia +8.9%, Southeast Asia +11.2%, Africa +16.9%, Europe +21.3%, Oceania +29.5%, North America +31.5%.
+- India international passengers in 2030: a band of 96M to 109M across three independent methods. Reported as a band and never as an average, because the spread is the useful output.
+- India-Dubai seat entitlement already used: 88.8%. Abu Dhabi: 70.1%. The Gulf is not uniformly capped.
+- Gulf share of corridor revenue: 31%, against 52% of passengers.
+- IndiGo FY2026 EBITDAR margin: 17.8% as reported, and 27.3% excluding foreign exchange. Both figures must be read together or neither means anything.
+- Coverage of the target job posting: 82%, not 100%, and the missing items are named rather than engineered away.
+
+## Definitions that change the answer
+
+- Sector traffic counts a passenger on each leg. Origin-destination counts where the passenger is actually going. The Gulf is 50.9% of sectors and roughly 40% of origin-destination, and the eleven point gap is the connecting passenger. That gap is the case, not a discrepancy.
+- Capacity is measured in ASK, available seat kilometres, never in seats or aircraft. A seat is not capacity until you say how far and how often it flies, and this case turns on how far.
+- DGCA sums both directions and reports on a fiscal year. IATA counts departures only and reports on a calendar year. Comparing the wrong pair doubles the connect gap.
+
+## Sources
+
+- DGCA traffic statistics, via the community mirror at github.com/Vonter/india-aviation-traffic, ODbL. Five datasets, fresh to May 2026, pulled 2026-08-15. The spine of the analysis.
+- Eurostat avia_par, EU reuse policy. The European end of India-Europe routes, used to check DGCA from the opposite direction. The two agree to 2.6% across seven countries.
+- IATA, Aviation in India, free publication. India's departing international origin-destination split by region and by country. Route level data is a separate paid product.
+- World Bank Open Data, CC BY 4.0. Income, population and air travel propensity across twelve peer countries.
+- OurAirports, CC0. Airport reference data and coordinates.
+
+## Written analysis
+
+- [Storyline](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/storyline.md): the client brief, the recommendation and the SCQA under it.
+- [Recommendation](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/recommendation.md): five costed options, a roadmap, a nine row risk register and leading indicators.
+- [Pivot log](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/pivot_log.md): ten documented changes of mind, each citing the commit it happened in.
+- [Hypothesis tree](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/hypothesis_tree.md): the decomposition, including the branches still open.
+- [Methodology](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/methodology.md): frameworks, limits, what the data cannot tell you, and a published claim that was retracted.
+- [Survey design](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/survey_design.md): a conjoint instrument for the softest number in the case. Designed, not fielded.
+- [Data dictionary](https://github.com/DogInfantry/india-widebody-window/blob/main/data/data_dictionary.md): every field with its source, pull date and reliability grade.
+- [Coverage](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/coverage.md): the job posting mapped to artifacts, gaps included.
+- [Alternative B](https://github.com/DogInfantry/india-widebody-window/blob/main/docs/alternative_b_datacenters.md): the case that lost, and why.
+- [Roadmap](https://github.com/DogInfantry/india-widebody-window/blob/main/ROADMAP.md): what is deliberately unfinished, separating paywalled from merely unbuilt.
+
+## Reading surfaces
+
+- [The site](https://india-widebody-window.vercel.app): the delivery layer, seven routes, 26 exhibits.
+- [The scrollytelling analysis](https://doginfantry.github.io/india-widebody-window/): eighteen charts, one scrolly step per claim.
+- [The deck](https://doginfantry.github.io/india-widebody-window/deck.html): one claim per screen.
+- [The print edition](https://doginfantry.github.io/india-widebody-window/report.html): the same analysis in reading order.
+
+## What would make this wrong
+
+The softest input is the Gulf six origin-destination share. No agency publishes it, so it is
+gated as unverifiable, corroborated at region level and bounded by measurement, and it is
+still the likeliest reason the recommendation fails. Wide-body lease rates are the largest
+unquantified cost and no free primary exists for them. Route level cross-checking against a
+second agency covers only 5.6% of India's international traffic, all of it Europe, because
+no Gulf authority publishes route statistics.
+
+## How to cite
+
+Rawat, A. (2026). India's Wide-Body Window: where should Indian carriers deploy their next
+100 long-haul aircraft, and can the India-Gulf corridor absorb them?
+https://india-widebody-window.vercel.app

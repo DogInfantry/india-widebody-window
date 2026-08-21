@@ -65,7 +65,10 @@ ROOT = Path(__file__).resolve().parent.parent
 # it documents provenance rather than making the argument, and it carries
 # historical values on purpose.
 CORPUS_FILES = (
-    ["README.md", "CLAUDE.md", "ROADMAP.md"]
+    # `llms.txt` is a figure-dense summary written for retrieval, served from
+    # both roots, and it inherits this guard on the way in rather than two
+    # sessions later the way `web/` did.
+    ["README.md", "CLAUDE.md", "ROADMAP.md", "docs/llms.txt", "web/public/llms.txt"]
     + [f"docs/{p.name}" for p in sorted((ROOT / "docs").glob("*.md"))]
     + [f"docs/{p.name}" for p in sorted((ROOT / "docs").glob("*.html"))]
     # The delivery layer carries prose too, and for the whole life of the app it
