@@ -44,8 +44,8 @@ the order book does not overshoot demand, and the two are worth reading together
 because they look opposed and are not. They divide by different denominators:
 
     4.2, the capacity sizing leg   book against the growth of the WHOLE India
-                                   international market, all carriers. 90.7M
-                                   against a trend case of 108M, so it does not
+                                   international market, all carriers. 96.5M
+                                   against a trend case of 109M, so it does not
                                    overshoot
     here                           book against the growth of INDIAN CARRIER
                                    capacity at constant share. Indian carriers

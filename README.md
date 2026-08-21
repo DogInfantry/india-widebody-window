@@ -13,7 +13,7 @@ India-Gulf corridor absorb them?**
 > America second.
 
 This was not the opening view. It was "reclaim the Gulf corridor first" until three separate
-lines of evidence said the aircraft cannot be deployed there. That change, and five others,
+lines of evidence said the aircraft cannot be deployed there. That change, and nine others,
 are documented in [the pivot log](docs/pivot_log.md) rather than presented as though the
 answer had always been obvious.
 
@@ -64,16 +64,17 @@ DGCA publishes no fares and Air India is unlisted, so yields must be hand-entere
 row carries a status and `dp.assumption()` raises rather than returning anything not
 `VERIFIED`. The capacity leg of the market sizing sat **blocked** for most of this project's
 life. It was unblocked by finding the sources, never by relaxing the rule, and note which way
-that moved the answer: the new leg came in at 90.7M, the **low** end, so verifying the gated
+that moved the answer: the new leg came in at 96.5M, the **low** end, so verifying the gated
 numbers widened the band downward and made the recommendation harder to argue.
 
 **4. It publishes the ten times it was wrong.**
-[The pivot log](docs/pivot_log.md) records every change of mind with the commit it happened
-in. A margin claim published on the site and withdrawn. A premise reversed. A bucket bug that
-misfiled 5.0M passengers a year **while all 72 tests passed**, because a wrong bucket is still
-a valid bucket. A widely quoted utilisation figure retired because it requires 100 of 441
-aircraft to be grounded. Four of the six were caught by cross-checking one source against
-another; none by the test suite.
+[The pivot log](docs/pivot_log.md) holds ten documented changes of mind, each citing the commit
+it happened in. A margin claim published on the site and withdrawn. A premise reversed. A
+bucket bug that misfiled 5.0M passengers a year **while all 72 tests passed**, because a wrong
+bucket is still a valid bucket. A widely quoted utilisation figure retired because it requires
+100 of 441 aircraft to be grounded. **Not one was caught by the test suite.** Every one came
+from measuring something: one agency against another, a figure against arithmetic, or a
+surface against the thing it was built to replace.
 
 **5. It reports its own gaps.**
 `python -m src.gap_analyzer` maps the real job posting to artifacts and checks each exists.
@@ -108,7 +109,7 @@ python -m pytest -q
 ```
 
 `scripts/refresh.py` is the single entry point and exactly what CI runs: it pulls every
-source, rebuilds all seventeen figures and recomputes the hero numbers from the parquet. No
+source, rebuilds all eighteen figures and recomputes the hero numbers from the parquet. No
 figure on the page is typed by hand. `--no-fetch` rebuilds from cached parquet without going
 to the network.
 

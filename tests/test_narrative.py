@@ -293,7 +293,26 @@ CLAIMS: tuple[Claim, ...] = (
             "the six times it was wrong",
             "the eight times evidence turned",
             "the eight times it was wrong",
+            # README phrased the count two more ways, and neither matched any
+            # pattern above, so it published "five others" and "four of the six"
+            # for two pivots while line 70 of the same file correctly said ten.
+            # A blacklist only finds the wordings somebody thought to write down.
+            "and five others",
+            "Four of the six were caught",
+            "four of the six were caught",
         ),
+    ),
+    Claim(
+        # The README told readers the verified capacity leg "came in at 90.7M".
+        # It came in at 96.5M. Nothing failed, because the sizing BAND was
+        # guarded and its individual legs were not, and this is the leg the
+        # prose actually argues from: it is the low end, so it is the one that
+        # made the recommendation harder to argue.
+        "capacity leg of the 2030 sizing",
+        lambda: ms.estimate_capacity().value_m,
+        "{:.1f}M",
+        must_appear=("96.5M",),
+        must_not_appear=("90.7M",),
     ),
     Claim(
         "IndiGo domestic load factor",
