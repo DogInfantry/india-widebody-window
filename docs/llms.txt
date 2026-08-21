@@ -2,7 +2,7 @@
 
 > Where should Indian carriers deploy their next 100 long-haul aircraft, and can the India-Gulf corridor absorb them? A commercial aviation market entry case built on DGCA, Eurostat, IATA and World Bank data. The answer: compete with the Gulf hubs, do not fly more aircraft to them. Europe first, North America second, Gulf capacity roughly flat.
 
-Author: Anklesh Rawat. Licence: MIT. Published 2026.
+Author: Anklesh Rawat. Licence: Apache-2.0. Published 2026.
 Canonical: https://india-widebody-window.vercel.app
 Mirror: https://doginfantry.github.io/india-widebody-window/
 Source and data: https://github.com/DogInfantry/india-widebody-window

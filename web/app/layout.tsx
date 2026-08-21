@@ -76,7 +76,7 @@ const JSON_LD = {
    "isBasedOn": {
     "@id": "https://india-widebody-window.vercel.app/#dataset"
    },
-   "license": "https://opensource.org/licenses/MIT",
+   "license": "https://www.apache.org/licenses/LICENSE-2.0",
    "name": "India's Wide-Body Window",
    "url": "https://india-widebody-window.vercel.app"
   },
@@ -148,7 +148,7 @@ const JSON_LD = {
     "available seat kilometres",
     "open data"
    ],
-   "license": "https://opensource.org/licenses/MIT",
+   "license": "https://www.apache.org/licenses/LICENSE-2.0",
    "name": "India's Wide-Body Window computed corpus",
    "spatialCoverage": {
     "@type": "Place",
@@ -170,7 +170,7 @@ const JSON_LD = {
    "@id": "https://india-widebody-window.vercel.app/#website",
    "@type": "WebSite",
    "inLanguage": "en",
-   "license": "https://opensource.org/licenses/MIT",
+   "license": "https://www.apache.org/licenses/LICENSE-2.0",
    "name": "India's Wide-Body Window",
    "publisher": {
     "@type": "Person",

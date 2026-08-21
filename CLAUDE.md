@@ -15,7 +15,7 @@ Gulf corridor first" until three lines of evidence said the aircraft cannot be d
 
 - **Live site:** https://india-widebody-window.vercel.app (canonical)
 - **Mirror:** https://doginfantry.github.io/india-widebody-window/ (still built, still works)
-- **Repo:** https://github.com/DogInfantry/india-widebody-window (public, MIT)
+- **Repo:** https://github.com/DogInfantry/india-widebody-window (public, Apache-2.0)
 - **Stack:** Python (pandas, numpy, pyarrow, plotly, requests, lxml, pytest). Static site,
   three CDN scripts (Plotly.js, scrollama.js, Perspective below the fold). No build step.
 - **The real job description is in `jd.txt`**, extracted from the posting PDF.

@@ -109,7 +109,7 @@ def build_card(out: Path) -> Path:
                 color=INK, va="top", linespacing=1.4)
 
     ax.text(72, 46, URL, fontfamily=SANS, fontsize=14, color=GREY, va="bottom")
-    ax.text(1128, 46, "Portfolio case study  ·  MIT licensed", fontfamily=SANS,
+    ax.text(1128, 46, "Portfolio case study  ·  Apache-2.0 licensed", fontfamily=SANS,
             fontsize=14, color=GREY, va="bottom", ha="right")
 
     out.parent.mkdir(parents=True, exist_ok=True)

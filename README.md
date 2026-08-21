@@ -8,7 +8,7 @@ India-Gulf corridor absorb them?**
 [![Python 3.12](https://img.shields.io/badge/python-3.12-1A1A1A?style=flat-square)](requirements.txt)
 [![Seven dependencies](https://img.shields.io/badge/dependencies-7-999999?style=flat-square)](requirements.txt)
 [![No PowerPoint](https://img.shields.io/badge/PowerPoint-none-999999?style=flat-square)](#why-is-there-no-powerpoint-or-excel)
-[![MIT](https://img.shields.io/badge/licence-MIT-999999?style=flat-square)](LICENSE)
+[![Apache 2.0](https://img.shields.io/badge/licence-Apache--2.0-999999?style=flat-square)](LICENSE)
 
 ![India's Wide-Body Window. Commercial aviation, India and the Gulf. The answer: compete with the Gulf hubs, do not fly more aircraft to them. 78M India international sector passengers in 2025, 51% of them touching a Gulf point, 46% flown by Indian carriers, and Air India's average international flight twice IndiGo's.](docs/assets/social-card.png)
 
@@ -346,6 +346,7 @@ web/                   the Next.js delivery layer, seven routes, 26 exhibits
 
 ## Licence and attribution
 
-MIT. The Mekko builder is adapted from [Vizro](https://github.com/mckinsey/vizro) under
-Apache-2.0, whose chart taxonomy derives from the FT Visual Vocabulary (MIT). The basemap is
-Natural Earth, public domain. Full attribution in [`NOTICE`](NOTICE).
+Apache-2.0. The Mekko builder is adapted from [Vizro](https://github.com/mckinsey/vizro),
+also Apache-2.0, whose chart taxonomy derives from the FT Visual Vocabulary (MIT). The
+basemap is Natural Earth, public domain. Full attribution in [`NOTICE`](NOTICE), which
+Apache-2.0 section 4(d) makes a requirement rather than the courtesy it was before.
