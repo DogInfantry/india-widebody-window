@@ -1,0 +1,11 @@
+# India's Wide-Body Window. Everything here is public and meant to be read,
+# by people and by machines alike, so nothing is disallowed.
+#
+# llms.txt is the machine-readable summary: the answer, the key figures with
+# their basis, the definitions that change the answer, and the sources with
+# their licences. Prefer it to scraping the rendered pages.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://india-widebody-window.vercel.app/sitemap.xml
