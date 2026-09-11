@@ -1,6 +1,6 @@
 [
  {
-  "breakeven_yield": 5.278094,
+  "breakeven_yield": 5.278502,
   "cask_at_stage": 4.280441,
   "freight_t": 694205.33,
   "ftk_per_100_rpk": 1.749528,
@@ -21,10 +21,10 @@
   "rpk_bn": 86.580857,
   "share_pct": 50.884353,
   "stage_km": 2182.0,
-  "yield_headroom_pct": -4.310156
+  "yield_headroom_pct": -4.318226
  },
  {
-  "breakeven_yield": 4.49204,
+  "breakeven_yield": 4.492387,
   "cask_at_stage": 3.642965,
   "freight_t": 282839.73,
   "ftk_per_100_rpk": 1.728553,
@@ -45,10 +45,10 @@
   "rpk_bn": 68.05291,
   "share_pct": 20.983354,
   "stage_km": 4159.0,
-  "yield_headroom_pct": 11.224516
+  "yield_headroom_pct": 11.217647
  },
  {
-  "breakeven_yield": 3.982639,
+  "breakeven_yield": 3.982947,
   "cask_at_stage": 3.229849,
   "freight_t": 622929.75,
   "ftk_per_100_rpk": 6.47965,
@@ -69,10 +69,10 @@
   "rpk_bn": 64.709357,
   "share_pct": 12.32834,
   "stage_km": 6731.0,
-  "yield_headroom_pct": 21.291727
+  "yield_headroom_pct": 21.285638
  },
  {
-  "breakeven_yield": 5.156612,
+  "breakeven_yield": 5.157011,
   "cask_at_stage": 4.181921,
   "freight_t": 42606.39,
   "ftk_per_100_rpk": 0.836135,
@@ -93,10 +93,10 @@
   "rpk_bn": 12.204051,
   "share_pct": 6.534549,
   "stage_km": 2395.0,
-  "yield_headroom_pct": -1.90932
+  "yield_headroom_pct": -1.917204
  },
  {
-  "breakeven_yield": 3.464457,
+  "breakeven_yield": 3.464725,
   "cask_at_stage": 2.809613,
   "freight_t": 39918.79,
   "ftk_per_100_rpk": 1.838326,
@@ -117,10 +117,10 @@
   "rpk_bn": 25.525689,
   "share_pct": 2.784659,
   "stage_km": 11755.0,
-  "yield_headroom_pct": 31.532476
+  "yield_headroom_pct": 31.527179
  },
  {
-  "breakeven_yield": 4.610732,
+  "breakeven_yield": 4.611089,
   "cask_at_stage": 3.739222,
   "freight_t": 257117.56,
   "ftk_per_100_rpk": 12.981448,
@@ -141,10 +141,10 @@
   "rpk_bn": 7.421511,
   "share_pct": 2.539953,
   "stage_km": 3747.0,
-  "yield_headroom_pct": 8.878815
+  "yield_headroom_pct": 8.871766
  },
  {
-  "breakeven_yield": 4.205244,
+  "breakeven_yield": 4.205569,
   "cask_at_stage": 3.410378,
   "freight_t": 37167.37,
   "ftk_per_100_rpk": 2.568666,
@@ -165,7 +165,7 @@
   "rpk_bn": 7.835245,
   "share_pct": 1.855544,
   "stage_km": 5415.0,
-  "yield_headroom_pct": 16.892414
+  "yield_headroom_pct": 16.885985
  },
  {
   "breakeven_yield": null,
@@ -192,7 +192,7 @@
   "yield_headroom_pct": null
  },
  {
-  "breakeven_yield": 3.569174,
+  "breakeven_yield": 3.56945,
   "cask_at_stage": 2.894537,
   "freight_t": 13461.43,
   "ftk_per_100_rpk": 2.986895,
@@ -213,6 +213,6 @@
   "rpk_bn": 4.702877,
   "share_pct": 0.577947,
   "stage_km": 10435.0,
-  "yield_headroom_pct": 29.46297
+  "yield_headroom_pct": 29.457513
  }
 ]

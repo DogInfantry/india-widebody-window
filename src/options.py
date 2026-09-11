@@ -111,7 +111,7 @@ class Reference:
 
     CASK is a system figure, so the sector length it corresponds to has to be the
     system one, not the international one. Anchoring the cost curve at IndiGo's
-    2,643 km international stage would price its domestic flying as though it
+    2,669 km international stage would price its domestic flying as though it
     were long-haul and shift every corridor's cost down with it.
     """
 

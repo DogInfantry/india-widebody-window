@@ -56,7 +56,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/processed data/raw/MANIFEST.md docs/assets/charts docs/coverage.md
+          git add data/processed data/raw/MANIFEST.md docs/assets/charts docs/coverage.md \n            .github/assets README.md web/public/data
           if git diff --staged --quiet; then
             echo "no change in the sources this month"
           else

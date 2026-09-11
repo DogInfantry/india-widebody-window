@@ -210,7 +210,12 @@ export default function Home() {
         <ul className="mt-8 grid gap-px bg-light sm:grid-cols-2">
           {brief.success_metrics.map((m, i) => {
             const standing = m["Where it stands today"];
-            const adverse = /inverted|against 5,316|31% of revenue/i.test(standing);
+            // Read from the written brief, never pattern-matched out of the prose.
+            // This used to be a regex over `standing` that matched a literal stage
+            // length. The September 2026 DGCA refresh moved that figure, the match
+            // went quietly false, and nothing failed: a styling decision keyed to a
+            // number fails silently the moment the number moves.
+            const adverse = m["Standing"] === "adverse";
             return (
               <li key={m.Metric} className="bg-paper p-6">
                 <div className="flex items-baseline gap-3">

@@ -706,8 +706,8 @@ def test_block_speed_is_computed_and_rises_with_stage_length():
     """Block speed comes from aircraft_km over aircraft_hours, never assumed.
 
     Taxi, climb and descent are a larger share of a short sector, so a long-haul
-    network must block faster than a short-haul one. Air India averages 5,316 km
-    and IndiGo 2,643 km, so Air India must come out faster. If this inverts, the
+    network must block faster than a short-haul one. Air India averages 5,389 km
+    and IndiGo 2,669 km, so Air India must come out faster. If this inverts, the
     two columns are not measuring what this module thinks they are.
     """
     ops = fg._international_operating(fg.LATEST_COMPLETE_YEAR).set_index("airline")
@@ -760,7 +760,7 @@ def test_the_sizing_leg_assumes_a_long_haul_sector_without_saying_so():
     """Surfaced by the reconciliation above, and worth pinning.
 
     7.5 block hours at the wide-body block speed is a sector of roughly 5,200 km,
-    which is Air India's network, not IndiGo's 2,643 km one. The capacity leg has
+    which is Air India's network, not IndiGo's 2,669 km one. The capacity leg has
     always assumed these aircraft fly long-haul. That is a defensible assumption
     and it is now an explicit one.
     """
@@ -902,7 +902,7 @@ def test_unit_cost_falls_with_sector_length():
 def test_the_cost_reference_is_the_system_network_not_the_international_one():
     """CASK is a system figure, so its sector length must be the system one.
 
-    Anchoring at IndiGo's 2,643 km international stage would price its domestic
+    Anchoring at IndiGo's 2,669 km international stage would price its domestic
     flying as long-haul and shift every corridor's cost down with it.
     """
     ref = opt.reference()

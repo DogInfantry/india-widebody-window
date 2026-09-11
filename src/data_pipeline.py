@@ -327,7 +327,7 @@ def _build_intl_country(*, force: bool = False) -> pd.DataFrame:
     )
     df["year"] = _norm_year(df["year"])
     df["country"] = df["country"].astype(str).str.strip().str.upper()
-    df["pax_total"] = df["pax_to_india"] + df["pax_from_india"]
+    df["pax_total"] = _both_directions(df["pax_to_india"], df["pax_from_india"])
     df["region"] = df["country"].map(COUNTRY_REGION).fillna("Other")
     df["is_gulf"] = df["country"].isin(GULF6)
     return _apply_country_anomalies(df)
@@ -355,6 +355,25 @@ def _apply_country_anomalies(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def _both_directions(to_flow: pd.Series, from_flow: pd.Series) -> pd.Series:
+    """Sum two directional flows, treating a blank direction as no traffic.
+
+    **DGCA leaves the empty direction blank on a one-way city pair, and it is not
+    consistent about it**: GUANGZHOU to KOLKATA 2020 Q3 carries an explicit 0 one
+    way and a blank the other, on the same row. Plain addition propagates the
+    blank, so 34 real rows came out NaN, MEDINA to RAS AL-KHAIMAH with 10,388
+    passengers among them, and `pax_total >= 0` then failed for the entire table
+    because NaN satisfies no comparison. That is the September 2026 refresh, and
+    the shape of it is the fourth DGCA formatting trap in this file.
+
+    A blank on ONE side means no traffic was reported that way, so the other
+    direction is the total. A blank on BOTH sides means the row says nothing at
+    all, and that stays NaN rather than becoming a confident zero.
+    """
+    both_blank = to_flow.isna() & from_flow.isna()
+    return (to_flow.fillna(0) + from_flow.fillna(0)).mask(both_blank)
+
+
 def _build_intl_city(*, force: bool = False) -> pd.DataFrame:
     """International city-pair traffic, quarterly.
 
@@ -377,7 +396,7 @@ def _build_intl_city(*, force: bool = False) -> pd.DataFrame:
     df["year"] = _norm_year(df["year"])
     for c in ("city1", "city2"):
         df[c] = df[c].astype(str).str.strip().str.upper()
-    df["pax_total"] = df["pax_to_city2"] + df["pax_from_city2"]
+    df["pax_total"] = _both_directions(df["pax_to_city2"], df["pax_from_city2"])
     return _apply_city_anomalies(df)
 
 
@@ -445,7 +464,7 @@ def _build_intl_carrier(*, force: bool = False) -> pd.DataFrame:
         frames.append(part)
 
     out = pd.concat(frames, ignore_index=True)
-    out["pax_total"] = out["pax_to_india"] + out["pax_from_india"]
+    out["pax_total"] = _both_directions(out["pax_to_india"], out["pax_from_india"])
     out["carrier_group"] = "Other foreign"
     out.loc[out["airline"].isin(INDIAN_CARRIERS), "carrier_group"] = "Indian"
     out.loc[out["airline"].isin(GULF_CARRIERS), "carrier_group"] = "Gulf"
@@ -535,7 +554,7 @@ def _build_dom_city(*, force: bool = False) -> pd.DataFrame:
     df["month"] = pd.to_numeric(df["month"], errors="coerce").astype("Int64")
     for c in ("city1", "city2"):
         df[c] = df[c].astype(str).str.strip().str.upper()
-    df["pax_total"] = df["pax_to_city2"] + df["pax_from_city2"]
+    df["pax_total"] = _both_directions(df["pax_to_city2"], df["pax_from_city2"])
     return df
 
 

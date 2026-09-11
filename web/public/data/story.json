@@ -239,7 +239,7 @@
    },
    {
     "kind": "aside",
-    "text": "Block speed and sector length here are computed from DGCA's own aircraft-kilometre and aircraft-hour columns, not assumed. Air India blocks at 698 km/h across a 5,316 km network and IndiGo at 656 km/h across 2,643 km, which is the physical relationship you would expect and a reason to trust the columns."
+    "text": "Block speed and sector length here are computed from DGCA's own aircraft-kilometre and aircraft-hour columns, not assumed. Air India blocks at 698 km/h across a 5,389 km network and IndiGo at 656 km/h across 2,669 km, which is the physical relationship you would expect and a reason to trust the columns."
    }
   ],
   "pivot": null,

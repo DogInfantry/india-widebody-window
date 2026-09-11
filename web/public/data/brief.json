@@ -27,7 +27,7 @@
    "But they are still the minority in their own market, at 45.9% against 54.1% for everyone else, and the deficit sits precisely where aircraft range binds. The share Indian carriers have taken back is short-haul: Gulf and Southeast Asia, flyable with narrow-bodies. The segment they have not taken back is the one that needs an aircraft they have only just ordered.",
    "The Gulf is where the volume is, by a distance. Gulf destinations carry 39.7M passengers to and from India, against 9.6M for all of Europe combined. The corridor is 4.1 times India's entire direct European market and larger than Europe, North America, East Asia, Africa and Oceania added together.",
    "And India cannot see past it. DGCA records the first foreign point and nothing beyond. A passenger flying Delhi to Dubai to London is counted as a passenger to the United Arab Emirates. That is why DGCA puts the Gulf at 50.9% of international traffic while IATA's true origin-destination figures put it near 40%. The eleven point gap is the connecting traffic: passengers whose real destination is Europe or North America, flying on a Gulf carrier, through a Gulf hub, contributing a Gulf hub's margin.",
-   "The fleet explains why. In 2025 IndiGo carried 16.7M international passengers to Air India's 10.7M, yet flew barely half the distance per passenger: an average stage length of 2,643 km against Air India's 5,316 km. IndiGo's international network is structurally the Gulf and Southeast Asia. It is not losing long-haul; it has never been able to fly it."
+   "The fleet explains why. In 2025 IndiGo carried 16.5M international passengers to Air India's 10.6M, yet flew barely half the distance per passenger: an average stage length of 2,669 km against Air India's 5,389 km. IndiGo's international network is structurally the Gulf and Southeast Asia. It is not losing long-haul; it has never been able to fly it."
   ],
   "question": [
    "Where should the incoming wide-body capacity go, and can the Gulf corridor absorb it?"
@@ -42,18 +42,22 @@
  "success_metrics": [
   {
    "Metric": "International stage length against Air India",
-   "Where it stands today": "2,643 km against 5,316 km, 2025"
+   "Standing": "adverse",
+   "Where it stands today": "2,669 km against 5,389 km, 2025"
   },
   {
    "Metric": "Share of India's international sector passengers, Indian carriers",
+   "Standing": "improving",
    "Where it stands today": "45.9%, up from 37.0% in 2015"
   },
   {
    "Metric": "Unit revenue against unit cost",
+   "Standing": "adverse",
    "Where it stands today": "RASK 4.99 against CASK 5.00, FY2026. Currently inverted"
   },
   {
    "Metric": "Share of corridor revenue, not just passengers",
+   "Standing": "adverse",
    "Where it stands today": "Gulf is 52% of passengers and 31% of revenue"
   }
  ],

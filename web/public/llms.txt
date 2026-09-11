@@ -33,8 +33,8 @@ not to it: Europe first, North America second, Gulf capacity roughly flat.
 - Share of that traffic touching a Gulf point, 2025: 50.9%, which is 39.7M passengers. Computed from DGCA.
 - Share flown by Indian carriers, 2025: 45.9%, against 26.2% for Gulf carriers. Computed from DGCA.
 - Indian carrier share in 2015: 37.0%, against 32.7% for Gulf carriers. The premise reversed: Indian carriers are gaining, not losing.
-- IndiGo international passengers, 2025: 16.7M, against Air India's 10.7M.
-- IndiGo average international stage length, 2025: 2,643 km, against Air India's 5,316 km.
+- IndiGo international passengers, 2025: 16.5M, against Air India's 10.6M.
+- IndiGo average international stage length, 2025: 2,669 km, against Air India's 5,389 km.
 - Passengers a year connecting through a Gulf hub to somewhere else: 8.5M. Modelled, and bounded below at 7.84M by IATA measurement, so the modelled figure is slightly conservative.
 - Firm wide-body order book: 140 aircraft, 80 Air India and 60 IndiGo, which is +78% on Indian carriers' current international capacity measured in ASK, and 1.94 times the growth needed to hold share.
 - Share of that order book the remaining Gulf treaty room could absorb: about 4%.

@@ -4,30 +4,30 @@
 <text x="22" y="75.8" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">traffic is the one with no room</text>
 <text x="22" y="114.2" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">left to earn its cost</text>
 <line x1="239.818" y1="156.6" x2="239.818" y2="484.6" stroke="#30363D" stroke-width="1"/>
-<rect x="239.818" y="162.6" width="212.128" height="22" fill="#30363D"/>
+<rect x="239.818" y="162.6" width="212.092" height="22" fill="#30363D"/>
 <text x="22" y="179.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">North America</text>
-<text x="461.946" y="179.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+31.5%</text>
-<rect x="239.818" y="202.6" width="198.205" height="22" fill="#30363D"/>
+<text x="461.91" y="179.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+31.5%</text>
+<rect x="239.818" y="202.6" width="198.169" height="22" fill="#30363D"/>
 <text x="22" y="219.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Oceania</text>
-<text x="448.024" y="219.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+29.5%</text>
-<rect x="239.818" y="242.6" width="143.235" height="22" fill="#30363D"/>
+<text x="447.987" y="219.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+29.5%</text>
+<rect x="239.818" y="242.6" width="143.194" height="22" fill="#30363D"/>
 <text x="22" y="259.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Europe</text>
-<text x="393.053" y="259.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+21.3%</text>
-<rect x="239.818" y="282.6" width="113.64" height="22" fill="#30363D"/>
+<text x="393.012" y="259.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+21.3%</text>
+<rect x="239.818" y="282.6" width="113.597" height="22" fill="#30363D"/>
 <text x="22" y="299.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Africa</text>
-<text x="363.458" y="299.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+16.9%</text>
-<rect x="239.818" y="322.6" width="75.5104" height="22" fill="#30363D"/>
+<text x="363.415" y="299.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+16.9%</text>
+<rect x="239.818" y="322.6" width="75.4642" height="22" fill="#30363D"/>
 <text x="22" y="339.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Southeast Asia</text>
-<text x="325.329" y="339.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+11.2%</text>
-<rect x="239.818" y="362.6" width="59.7302" height="22" fill="#30363D"/>
+<text x="325.282" y="339.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+11.2%</text>
+<rect x="239.818" y="362.6" width="59.6828" height="22" fill="#30363D"/>
 <text x="22" y="379.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">East Asia</text>
-<text x="309.548" y="379.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+8.9%</text>
-<rect x="226.974" y="402.6" width="12.8445" height="22" fill="#30363D"/>
+<text x="309.501" y="379.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+8.9%</text>
+<rect x="226.921" y="402.6" width="12.8976" height="22" fill="#30363D"/>
 <text x="22" y="419.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">South Asia</text>
-<text x="216.974" y="419.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="end">-1.9%</text>
-<rect x="210.823" y="442.6" width="28.9956" height="22" fill="#EE3224"/>
+<text x="216.921" y="419.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="end">-1.9%</text>
+<rect x="210.768" y="442.6" width="29.0499" height="22" fill="#EE3224"/>
 <text x="22" y="459.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">Gulf</text>
-<text x="200.823" y="459.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="end">-4.3%</text>
+<text x="200.768" y="459.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="end">-4.3%</text>
 <text x="22" y="502.6" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">The Gulf is 50.9% of the market on -4.3% of</text>
 <text x="22" y="531.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">headroom. North America and Europe are where</text>
 <text x="22" y="559.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">the aircraft cover their cost.</text>

@@ -22,8 +22,8 @@ neither enters as a judgement:
     IndiGo international 2025         656 km/h block speed, 207 seats/departure
 
 The difference between those two block speeds is not noise. Taxi, climb and
-descent are a larger share of a short sector, so a 2,643 km network genuinely
-blocks slower than a 5,316 km one. The data reproducing a known physical
+descent are a larger share of a short sector, so a 2,669 km network genuinely
+blocks slower than a 5,389 km one. The data reproducing a known physical
 relationship is a reason to trust the columns.
 
 **What is modelled, and it is one thing:** the delivery schedule. The Airbus

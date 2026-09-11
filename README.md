@@ -33,7 +33,7 @@ The six figures the case turns on, before any argument is made about them. Each 
 [print](https://doginfantry.github.io/india-widebody-window/report.html), or as
 [a one-pager](https://doginfantry.github.io/india-widebody-window/brief.html).
 **Or jump to** [the answer](#the-answer), [the numbers](#the-numbers-this-case-turns-on), or
-[the ten times it changed](docs/pivot_log.md).
+[the eleven times it changed](docs/pivot_log.md).
 
 Python analysis layer, a scrollytelling site and a Next.js delivery layer. No PowerPoint and
 no Excel anywhere in the pipeline.
@@ -92,7 +92,7 @@ said the aircraft cannot be deployed there. That change, and nine others, are wr
 
 | Term | What it means |
 |---|---|
-| **Stage length** | How far the average flight goes. The single most differentiating number in this case: IndiGo averages 2,643 km internationally, Air India 5,316 km. |
+| **Stage length** | How far the average flight goes. The single most differentiating number in this case: IndiGo averages 2,669 km internationally, Air India 5,389 km. |
 | **ASK** | Available seat kilometres. One seat flown one kilometre. Capacity is measured in ASK, never in seats or aircraft, because a seat is not capacity until you say how far and how often it flies. |
 | **RPK** | Revenue passenger kilometres. One paying passenger flown one kilometre. ASK is what you offered, RPK is what you sold. |
 | **Load factor** | RPK divided by ASK. How full the aeroplane was. |
@@ -108,12 +108,12 @@ said the aircraft cannot be deployed there. That change, and nine others, are wr
 
 ## The finding, in two numbers
 
-In 2025 **IndiGo carried more international passengers than Air India**, 16.7M against 10.7M,
+In 2025 **IndiGo carried more international passengers than Air India**, 16.5M against 10.6M,
 while flying **barely half the distance per passenger**.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset=".github/assets/stage_gap-dark.svg">
-  <img alt="IndiGo carried 16.7M international passengers in 2025 against Air India's 10.7M, at an average international stage length of 2,643 km against Air India's 5,316 km. Air India's average international flight is 2.0 times IndiGo's." src=".github/assets/stage_gap-light.svg">
+  <img alt="IndiGo carried 16.5M international passengers in 2025 against Air India's 10.6M, at an average international stage length of 2,669 km against Air India's 5,389 km. Air India's average international flight is 2.0 times IndiGo's." src=".github/assets/stage_gap-light.svg">
 </picture>
 
 Indian carriers' international operations, 2025. IndiGo is the highlighted subject in both panels because the finding is the pair, not either measure on its own.
@@ -133,7 +133,7 @@ Because there are not enough Gulf sectors to put them on, and the ones that exis
   <img alt="Pictogram of 140 wide-body aircraft on firm order, 80 Air India, 60 IndiGo. 72 of them are needed to hold Indian carriers' 45.9% share of the market at today's sector length. The remaining 68 are surplus to it, which is the reason this case exists." src=".github/assets/order_book-light.svg">
 </picture>
 
-One aeroplane, one glyph. 80 Air India, 60 IndiGo. The book converts to 1.94 times the capacity growth Indian carriers need to hold their 45.9% share, so the question is where the surplus flies, not whether it exists.
+One aeroplane, one glyph. 80 Air India, 60 IndiGo. The book converts to 1.95 times the capacity growth Indian carriers need to hold their 45.9% share, so the question is where the surplus flies, not whether it exists.
 
 *Source: Airbus and Boeing order books and airport planning manuals; the capacity need is computed from DGCA. Pulled 2026-08-15.*
 
@@ -175,7 +175,7 @@ otherwise. Nothing is quoted from a secondary source without a second agency beh
 | **50.9%** | Share of that traffic touching a Gulf point | 2025, computed, DGCA |
 | **39.7M** | Gulf corridor passengers, 4.1x India's entire direct Europe market | 2025, computed, DGCA |
 | **45.9%** against **26.2%** | Share flown by Indian carriers against Gulf carriers | 2025, computed, DGCA |
-| **2,643 km** against **5,316 km** | IndiGo's average international stage length against Air India's | 2025, computed, DGCA |
+| **2,669 km** against **5,389 km** | IndiGo's average international stage length against Air India's | 2025, computed, DGCA |
 | **8.5M** | Passengers a year connecting through a Gulf hub to somewhere else | 2024, modelled, bounded below at 7.84M by IATA |
 | **+78%** | What the firm order book adds to Indian carrier international capacity, in ASK | firm orders, computed |
 | **4%** | Share of that order book the remaining Gulf treaty room could absorb | 2025, computed |
@@ -233,9 +233,9 @@ verifying the gated numbers widened the band downward.
 </details>
 
 <details>
-<summary><b>4. It publishes the ten times it was wrong.</b> A margin claim withdrawn, a premise reversed, a bucket bug that misfiled 5.0M passengers a year while all 72 tests passed. Not one was caught by the test suite.</summary>
+<summary><b>4. It publishes the eleven times it was wrong.</b> A margin claim withdrawn, a premise reversed, a bucket bug that misfiled 5.0M passengers a year while all 72 tests passed. Not one was caught by the test suite.</summary>
 
-[The pivot log](docs/pivot_log.md) holds ten documented changes of mind, each citing the commit
+[The pivot log](docs/pivot_log.md) holds eleven documented changes of mind, each citing the commit
 it happened in. A widely quoted utilisation figure was retired because it requires 100 of 441
 aircraft to be grounded. A wrong bucket is still a valid bucket, which is why the tests stayed
 green. Every one came from measuring something: one agency against another, a figure against
@@ -422,7 +422,7 @@ web/                   the Next.js delivery layer, seven routes, 26 exhibits
 |---|---|
 | [Storyline](docs/storyline.md) | The client brief, the recommendation, and the SCQA under it |
 | [Recommendation](docs/recommendation.md) | Five costed options, roadmap, risk register, leading indicators |
-| [Pivot log](docs/pivot_log.md) | The ten times evidence turned the analysis, each citing its commit |
+| [Pivot log](docs/pivot_log.md) | The eleven times evidence turned the analysis, each citing its commit |
 | [Hypothesis tree](docs/hypothesis_tree.md) | The decomposition, including branches still open |
 | [Survey design](docs/survey_design.md) | A conjoint instrument for the softest number in the case. Designed, not fielded |
 | [Methodology](docs/methodology.md) | Frameworks, limits, what the data cannot tell you, and the retraction |

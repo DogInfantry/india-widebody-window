@@ -1,6 +1,6 @@
 # How this analysis changed
 
-Ten times, evidence turned the work against what it had been assuming. Once it changed the
+Eleven times, evidence turned the work against what it had been assuming. Once it changed the
 recommendation. Once it reversed the premise of the whole case. Once it forced a published
 claim to be withdrawn. Once it found a wrong answer that every test in the repo had passed.
 Twice the thing that was wrong was not a number at all but the delivery. Once, most recently,
@@ -219,8 +219,9 @@ that basis rather than leaving a reader to assume. The active-fleet row was clos
 count, so it reads as resolved rather than as outstanding work.
 
 The block-hour figure that replaced it was then cross-checked in its own right: DGCA
-independently reports 1,614,608 hours for the same carrier and year, **0.31%** apart. That is
-the second both-ends check in the repo, after DGCA against Eurostat.
+independently reports 1,619,570.6 hours for the same carrier and year across the same set of
+services, **0.64 hours in 1,619,570** apart. That is the second both-ends check in the repo,
+after DGCA against Eurostat.
 
 **Where it lives.** Assumption rows `aircraft_utilisation_hours_per_day` and
 `aircraft_utilisation_hours_per_day_active`.
@@ -432,3 +433,38 @@ everything here about the Gulf rested on one agency's numbers.
 Pivot 9 changed that at country level. IATA's free `Aviation in India` agrees with DGCA to
 3.7% on how many passengers leave India and disagrees by 9.9 points on how many are going to
 the UAE, which is the connect gap measured rather than modelled.
+
+## Pivot 11. The block-hour headline was measuring DGCA's filing convention
+
+*The September 2026 monthly refresh*
+
+<!-- narrative-guard: ignore, pivot 11 has to quote the headline it retires -->
+**What was believed.** DGCA and IndiGo's own published block hours agree to **0.31%**, taken
+on DGCA's scheduled services alone.
+<!-- /narrative-guard --> That figure was the published headline on six surfaces,
+and `CLAUDE.md` recorded the reason explicitly: the scheduled-only number stays the headline
+"so no other surface has to move". The like-for-like all-services figure was computed and
+reported beside it, but as the footnote rather than the claim.
+
+**What the evidence said.** The September 2026 refresh re-pulled DGCA and moved **4,381 block
+hours** from Scheduled International to Non-Scheduled International. Scheduled hours went
+1,614,608 to 1,610,227. Non-scheduled international went 4,962 to 9,343. **The all-services
+total did not move at all**: 1,619,570.6, against IndiGo's own published 1,619,570. The
+<!-- narrative-guard: ignore, pivot 11 has to quote the headline it retires -->
+scheduled-only reconciliation went from 0.31% to 0.58%, and not one aeroplane flew a different
+hour. Only the classification boundary moved.
+<!-- /narrative-guard -->
+
+**What changed.** The published headline is now the like-for-like figure, **0.64 hours in
+1,619,570**, and the scheduled-only number is reported beside it with its basis named. The
+test that pinned the old headline to two decimal places is replaced by a band wide enough to
+survive a reclassification, because pinning a number that depends on someone else's filing
+convention is a guard against the wrong thing.
+
+**Why this was foreseeable and was not foreseen.** The repo had already written down the
+answer. `CLAUDE.md` said of the residual: "It was never measurement error, it was a filter."
+That sentence identified the figure as an artefact of a classification boundary and then
+published it as the headline anyway. **A number known to depend on someone else's convention
+should never have been the one on the front of the case.** The filter moved, exactly as the
+sentence implied it could.
+

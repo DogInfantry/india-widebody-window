@@ -555,8 +555,8 @@ DATASETS: dict[str, Any] = {
         # NAMED, not defaulted. `carrier_operating_summary()` returns DOMESTIC
         # unless told otherwise, and a domestic stage length of 943 km read as
         # an international one would have made the capability exhibit claim the
-        # opposite of what it shows: IndiGo's INTERNATIONAL stage is 2,643 km
-        # against Air India's 5,316 km, and that gap is the whole point.
+        # opposite of what it shows: IndiGo's INTERNATIONAL stage is 2,669 km
+        # against Air India's 5,389 km, and that gap is the whole point.
         "domestic_summary": _clean(bm.carrier_operating_summary()),
         "international_summary": _clean(
             bm.carrier_operating_summary(bm.LATEST_COMPLETE_YEAR, international=True)

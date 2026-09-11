@@ -14,6 +14,8 @@ import argparse
 import sys
 from pathlib import Path
 
+ROOT = Path(__file__).resolve().parent.parent
+
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from src import (  # noqa: E402
@@ -40,6 +42,19 @@ def build_kpis() -> list[dict]:
     stale.
     """
     return app_export.kpi_band()[:4]
+
+
+
+def _load_readme_charts():
+    """`scripts/` is not a package, so load the sibling generator by path."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "make_readme_charts", Path(__file__).resolve().parent / "make_readme_charts.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def main() -> int:
@@ -83,6 +98,19 @@ def main() -> int:
     print("building kpis")
     for card in cards:
         print(f"  {card['value']:>6}  {card['label']}")
+
+    # The README charts read web/public/data/*.json, which app_export has just
+    # rewritten, so they have to be redrawn here or they age on the front page
+    # the moment a number moves. They were outside this entry point for one
+    # refresh cycle and CI went red with no way to fix itself.
+    print("drawing README charts")
+    readme_charts = _load_readme_charts()
+    for filename, markup in readme_charts.build().items():
+        (ROOT / ".github" / "assets" / filename).write_text(
+            markup, encoding="utf-8", newline="\n")
+    moved = readme_charts.sync_readme()
+    print(f"  {len(readme_charts.CHARTS)} charts, README blocks rewritten: "
+          f"{', '.join(moved) if moved else 'none'}")
 
     tri = market_sizing.triangulate()
     if tri.is_provisional:

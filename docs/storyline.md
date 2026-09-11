@@ -20,12 +20,12 @@ to and roughly the span over which the firm order is delivered.
 
 **Success metrics, all of them measurable in this repo rather than asserted.**
 
-| Metric | Where it stands today |
-|---|---|
-| International stage length against Air India | 2,643 km against 5,316 km, 2025 |
-| Share of India's international sector passengers, Indian carriers | 45.9%, up from 37.0% in 2015 |
-| Unit revenue against unit cost | RASK 4.99 against CASK 5.00, FY2026. Currently inverted |
-| Share of corridor revenue, not just passengers | Gulf is 52% of passengers and 31% of revenue |
+| Metric | Where it stands today | Standing |
+|---|---|---|
+| International stage length against Air India | 2,669 km against 5,389 km, 2025 | adverse |
+| Share of India's international sector passengers, Indian carriers | 45.9%, up from 37.0% in 2015 | improving |
+| Unit revenue against unit cost | RASK 4.99 against CASK 5.00, FY2026. Currently inverted | adverse |
+| Share of corridor revenue, not just passengers | Gulf is 52% of passengers and 31% of revenue | adverse |
 
 **What this deliberately is not.** A financing case. Whether to fund the aircraft through
 sale-leaseback, JOLCO or operating lease changes who owns the metal, not where it should fly,
@@ -116,9 +116,9 @@ true origin-destination figures put it near 40%. The eleven point gap is the con
 traffic: passengers whose real destination is Europe or North America, flying on a Gulf
 carrier, through a Gulf hub, contributing a Gulf hub's margin.
 
-**The fleet explains why.** In 2025 IndiGo carried **16.7M** international passengers to Air
-India's **10.7M**, yet flew barely half the distance per passenger: an average stage length
-of **2,643 km** against Air India's **5,316 km**. IndiGo's international network is
+**The fleet explains why.** In 2025 IndiGo carried **16.5M** international passengers to Air
+India's **10.6M**, yet flew barely half the distance per passenger: an average stage length
+of **2,669 km** against Air India's **5,389 km**. IndiGo's international network is
 structurally the Gulf and Southeast Asia. It is not losing long-haul; it has never been able
 to fly it.
 

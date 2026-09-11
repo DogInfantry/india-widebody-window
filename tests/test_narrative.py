@@ -159,7 +159,39 @@ def _gulf(field_name: str):
     )
 
 
+def _intl_stage(airline: str):
+    """The INTERNATIONAL table. It returns domestic unless told otherwise, gotcha 50."""
+    return lambda: float(
+        bm.carrier_operating_summary(international=True)
+        .set_index("airline")
+        .loc[airline, "stage_length_km"]
+    )
+
+
 CLAIMS: tuple[Claim, ...] = (
+    Claim(
+        # The differentiating metric of the whole case, published on fourteen
+        # surfaces, and guarded by nothing until the September 2026 refresh moved
+        # it. DGCA revised the 2025 international file and IndiGo went 2,643 to
+        # 2,669 while Air India went 5,316 to 5,389. The README chart redrew
+        # itself because it is generated; the prose beside it did not, and for
+        # one commit the front page contradicted its own chart.
+        "IndiGo international stage length",
+        _intl_stage("IndiGo"),
+        "{:,.0f} km",
+        must_appear=("2,669 km", "2,669"),
+        # NOT "2,645 km": that is the figure an AI infographic got wrong in
+        # gotcha 79, quoted on purpose as someone else's error. This project
+        # never published it.
+        must_not_appear=("2,643 km", "2,643"),
+    ),
+    Claim(
+        "Air India international stage length",
+        _intl_stage("Air India"),
+        "{:,.0f} km",
+        must_appear=("5,389 km", "5,389"),
+        must_not_appear=("5,316 km", "5,316"),
+    ),
     Claim(
         "India international sector passengers",
         lambda: bm.load_dgca_intl_country().pipe(
@@ -294,7 +326,7 @@ CLAIMS: tuple[Claim, ...] = (
             for ln in (ROOT / "docs" / "pivot_log.md").read_text(encoding="utf-8").splitlines()
         ),
         "{:.0f}",
-        must_appear=("Ten documented changes of mind", "ten documented changes of mind"),
+        must_appear=("Eleven documented changes of mind", "eleven documented changes of mind"),
         must_not_appear=(
             "six documented changes of mind",
             "Six documented changes of mind",
@@ -354,6 +386,11 @@ CLAIMS: tuple[Claim, ...] = (
         lambda: dp.assumption("indigo_ebitdar_margin_fy2026_reported_pct"),
         "{:.1f}%",
         must_appear=("17.8%", "17.8 per cent"),
+        # Retired in pivot 11. It was the scheduled-only basis, and it moved when
+        # DGCA reclassified rather than when anything flew differently. The four
+        # passages that quote it as history opt out visibly in the source.
+        must_not_appear=("agree to 0.31%", "agree to **0.31%**", "0.31% apart",
+                         "**0.31 percent apart**"),
     ),
     Claim(
         "Gulf passenger against revenue share",

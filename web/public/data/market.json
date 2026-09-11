@@ -6,7 +6,7 @@
    "assumed_block_hours": 7.5,
    "indigo_a350_on_order": 60.0,
    "mean_seats_per_widebody": 332.5,
-   "observed_intl_load_factor": 0.811,
+   "observed_intl_load_factor": 0.8109,
    "utilisation_basis": "owned fleet",
    "variants_assumed": [
     "10x A350-900 (Air India)",
@@ -22,21 +22,21 @@
   },
   "blocked_reason": null,
   "method": "Capacity",
-  "value_m": 96.460844
+  "value_m": 96.459415
  },
  "propensity": {
   "assumptions": {
    "gdp_pc_2030_usd": 3530,
    "income_elasticity": 1.07,
    "india_gdp_pc_cagr": 0.0549,
-   "indian_carrier_share_of_india_intl": 0.4592,
-   "intl_share_of_indian_carrier_traffic": 0.1789,
+   "indian_carrier_share_of_india_intl": 0.459,
+   "intl_share_of_indian_carrier_traffic": 0.1764,
    "peer_observations": 276,
    "trips_per_capita_2030": 0.175
   },
   "blocked_reason": null,
   "method": "Propensity",
-  "value_m": 104.555821
+  "value_m": 103.16422
  },
  "trend": {
   "assumptions": {
@@ -68,14 +68,14 @@
      "gdp_pc_2030_usd": 3530,
      "income_elasticity": 1.07,
      "india_gdp_pc_cagr": 0.0549,
-     "indian_carrier_share_of_india_intl": 0.4592,
-     "intl_share_of_indian_carrier_traffic": 0.1789,
+     "indian_carrier_share_of_india_intl": 0.459,
+     "intl_share_of_indian_carrier_traffic": 0.1764,
      "peer_observations": 276,
      "trips_per_capita_2030": 0.175
     },
     "blocked_reason": null,
     "method": "Propensity",
-    "value_m": 104.555821
+    "value_m": 103.16422
    },
    {
     "assumptions": {
@@ -84,7 +84,7 @@
      "assumed_block_hours": 7.5,
      "indigo_a350_on_order": 60.0,
      "mean_seats_per_widebody": 332.5,
-     "observed_intl_load_factor": 0.811,
+     "observed_intl_load_factor": 0.8109,
      "utilisation_basis": "owned fleet",
      "variants_assumed": [
       "10x A350-900 (Air India)",
@@ -100,7 +100,7 @@
     },
     "blocked_reason": null,
     "method": "Capacity",
-    "value_m": 96.460844
+    "value_m": 96.459415
    }
   ]
  }

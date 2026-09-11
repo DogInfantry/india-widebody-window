@@ -32,7 +32,7 @@ Compete with the Gulf hubs, do not fly more aircraft to them
 │
 ├── 3. Is equipment the binding constraint?                            ANSWERED: yes
 │   ├── 3.1 Do Indian carriers fly short-haul internationally?
-│   │       IndiGo average stage 2,643 km vs Air India 5,316 km, 2025
+│   │       IndiGo average stage 2,669 km vs Air India 5,389 km, 2025
 │   ├── 3.2 Is that a network choice or a fleet limit?
 │   │       Fleet. IndiGo's international fleet is narrow-body; the A350 order
 │   │       is the first equipment capable of the missing distance

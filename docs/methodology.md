@@ -17,7 +17,7 @@ What was done, what it rests on, and what it cannot tell you.
 | **Breakeven analysis** | `src/options.py`. How far yield can fall before a corridor stops covering its cost, in place of an NPV whose inputs cannot be verified |
 | **Option evaluation** | `docs/recommendation.md`. Five options, each with what would have to be true, and the recommendation falling out of the breakeven table |
 | **Hypothesis invalidation** | `docs/storyline.md` and `docs/recommendation.md`. A recommendation that cannot be falsified is not analysis |
-| **Decision audit trail** | `docs/pivot_log.md`. Ten documented changes of mind, each citing the commit it happened in |
+| **Decision audit trail** | `docs/pivot_log.md`. Eleven documented changes of mind, each citing the commit it happened in |
 
 Framework structure draws on
 [DogInfantry/claude-skill-management-consultant-B1](https://github.com/DogInfantry/claude-skill-management-consultant-B1),
@@ -281,9 +281,18 @@ the reader, because the two possible bases differ by enough to move the leg by a
 
 **The figure has an independent cross-check, which is rare here.** IndiGo's FY26 annual report
 gives 1,619,570 block hours (1,220,966 domestic plus 398,604 international) across 441 aircraft
-at period end. DGCA's `aircraft_hours` gives 1,614,608 for the same carrier and the same year.
-Two agencies, opposite ends, **0.31% apart**. That is the second both-ends check in this
-project after DGCA against Eurostat.
+at period end. DGCA's `aircraft_hours`, summed across every service IndiGo's own total
+includes, gives 1,619,570.6 for the same carrier and the same year. Two agencies, opposite
+ends, **0.64 hours in 1,619,570 apart**. That is the second both-ends check in this project
+after DGCA against Eurostat.
+
+The scheduled-only basis is the fragile one and is reported beside it rather than as the
+<!-- narrative-guard: ignore, pivot 11 has to quote the headline it retires -->
+headline. It read 0.31% until the September 2026 refresh, when DGCA moved 4,381 hours from
+Scheduled International to Non-Scheduled International and it became 0.58%.
+<!-- /narrative-guard --> The quantity did
+not change. The classification did, which is precisely why the like-for-like figure is the one
+published.
 
 **A number carried in the project notes did not survive.** Working notes recorded a "reported
 ~13 hours/day" against the DGCA-derived figure, and explained the gap as grounded aircraft.
@@ -377,8 +386,8 @@ departure:
 
 | Carrier, international 2025 | Block speed | Sector | Seats per departure |
 |---|---|---|---|
-| Air India | 698 km/h | 5,316 km | 254 |
-| IndiGo | 656 km/h | 2,643 km | 207 |
+| Air India | 698 km/h | 5,389 km | 254 |
+| IndiGo | 656 km/h | 2,669 km | 207 |
 
 Short sectors block slower, because taxi, climb and descent are a larger share of them. The
 data reproducing a known physical relationship is a reason to trust the columns, and a test

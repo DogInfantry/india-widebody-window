@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="588" height="569" viewBox="0 0 588 569" role="img" aria-label="IndiGo carried 16.7M international passengers in 2025 against Air India's 10.7M, at an average international stage length of 2,643 km against Air India's 5,316 km. Air India's average international flight is 2.0 times IndiGo's.">
+<svg xmlns="http://www.w3.org/2000/svg" width="588" height="569" viewBox="0 0 588 569" role="img" aria-label="IndiGo carried 16.5M international passengers in 2025 against Air India's 10.6M, at an average international stage length of 2,669 km against Air India's 5,389 km. Air India's average international flight is 2.0 times IndiGo's.">
 <desc>Source: DGCA traffic statistics, pulled 2026-08-15. Computed in-repo, not quoted.</desc>
 <text x="22" y="37.4" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">IndiGo flies more international</text>
 <text x="22" y="75.8" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">passengers than Air India, over</text>
@@ -7,18 +7,18 @@
 <line x1="22" y1="190.6" x2="566" y2="190.6" stroke="#30363D" stroke-width="1"/>
 <text x="22" y="226.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">IndiGo</text>
 <rect x="150" y="204.6" width="284" height="30" fill="#EE3224"/>
-<text x="444" y="226.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">16.7M</text>
+<text x="444" y="226.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">16.5M</text>
 <text x="22" y="268.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Air India</text>
-<rect x="150" y="246.6" width="182.62" height="30" fill="#30363D"/>
-<text x="342.62" y="268.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">10.7M</text>
+<rect x="150" y="246.6" width="182.269" height="30" fill="#30363D"/>
+<text x="342.269" y="268.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">10.6M</text>
 <text x="22" y="320.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#8B949E" text-anchor="start">AVERAGE STAGE LENGTH</text>
 <line x1="22" y1="330.6" x2="566" y2="330.6" stroke="#30363D" stroke-width="1"/>
 <text x="22" y="366.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">IndiGo</text>
-<rect x="150" y="344.6" width="141.178" height="30" fill="#EE3224"/>
-<text x="301.178" y="366.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">2,643 km</text>
+<rect x="150" y="344.6" width="140.654" height="30" fill="#EE3224"/>
+<text x="300.654" y="366.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">2,669 km</text>
 <text x="22" y="408.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Air India</text>
 <rect x="150" y="386.6" width="284" height="30" fill="#30363D"/>
-<text x="444" y="408.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">5,316 km</text>
+<text x="444" y="408.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#E6EDF3" text-anchor="start">5,389 km</text>
 <text x="22" y="442.6" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">Air India's average international flight is</text>
 <text x="22" y="471.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">2.0 times IndiGo's. IndiGo is not losing</text>
 <text x="22" y="499.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">long-haul, it has never had the aircraft to</text>

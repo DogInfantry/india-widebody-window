@@ -63,6 +63,7 @@ invisible.
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -909,6 +910,48 @@ def build_picture_blocks() -> dict[str, str]:
     return blocks
 
 
+def sync_readme() -> list[str]:
+    """Rewrite the README's `<picture>` blocks and captions in place.
+
+    **Why this exists.** The monthly refresh re-pulls DGCA and rewrites
+    `web/public/data/*.json`, which is what these charts are drawn from. Without
+    this the committed SVGs and the generated captions go stale the moment a
+    number moves, `test_the_committed_charts_are_what_the_current_data_draws`
+    fails, and **CI cannot fix it**, because `scripts/` is not in `refresh.py` and
+    the workflow never staged `.github/assets`. That is exactly what happened on
+    the first refresh after these charts landed: four SVGs and two captions went
+    stale and the run went red with no way to self-heal.
+
+    Only generated regions are touched. Hand-written prose is not, so a headline
+    that moves in the prose still fails the narrative guard loudly, which is the
+    part that SHOULD need a human.
+
+    Returns the names of the blocks that changed.
+    """
+    readme = ROOT / "README.md"
+    text = readme.read_text(encoding="utf-8")
+    changed: list[str] = []
+    for name, block in build_picture_blocks().items():
+        pattern = re.compile(
+            r"<picture>\s*<source[^>]*?" + re.escape(name) + r"-dark\.svg\">"
+            r".*?" + re.escape(name) + r"-light\.svg\">\s*</picture>\n\n"
+            r".*?\n\n\*.*?\*",
+            re.S,
+        )
+        found = pattern.search(text)
+        if not found:
+            raise SystemExit(
+                f"README.md has no <picture> block for {name!r}. Blocks are generated, "
+                "so add it with the markup build_picture_blocks() returns."
+            )
+        if found.group(0) != block:
+            changed.append(name)
+            text = text[: found.start()] + block + text[found.end():]
+    if changed:
+        readme.write_text(text, encoding="utf-8", newline="\n")
+    return changed
+
+
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
     drawn = build()
@@ -919,6 +962,8 @@ def main() -> int:
     for filename, markup in drawn.items():
         (OUT / filename).write_text(markup, encoding="utf-8", newline="\n")
         print(f"  wrote .github/assets/{filename}  ({len(markup):,} bytes)")
+    moved = sync_readme()
+    print(f"  README blocks rewritten: {', '.join(moved) if moved else 'none, already current'}")
     return 0
 
 

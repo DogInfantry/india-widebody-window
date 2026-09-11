@@ -12,15 +12,15 @@
 <text x="62" y="281.813" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="end">40%</text>
 <line x1="68" y1="201" x2="356" y2="201" stroke="#30363D" stroke-width="1"/>
 <text x="62" y="208.48" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="end">50%</text>
-<polyline points="80.00,345.74 107.60,342.95 135.20,336.19 162.80,330.34 190.40,321.78" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="273.20,386.35 300.80,361.75 328.40,364.12 356.00,362.91" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="368" y="370.391" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Other foreign 27.9%</text>
-<polyline points="80.00,327.55 107.60,331.06 135.20,349.13 162.80,364.44 190.40,359.90" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="273.20,341.26 300.80,366.37 328.40,369.97 356.00,375.82" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="368" y="400.311" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Gulf 26.2%</text>
-<polyline points="80.00,296.38 107.60,295.66 135.20,284.34 162.80,274.89 190.40,287.98" fill="none" stroke="#EE3224" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<polyline points="273.20,242.06 300.80,241.55 328.40,235.58 356.00,230.94" fill="none" stroke="#EE3224" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-<text x="368" y="238.419" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="start">Indian 45.9%</text>
+<polyline points="80.00,345.74 107.60,342.95 135.20,336.19 162.80,330.34 190.40,319.21" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="273.20,385.61 300.80,361.55 328.40,364.47 356.00,362.73" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="368" y="370.214" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Other foreign 27.9%</text>
+<polyline points="80.00,327.55 107.60,331.06 135.20,349.13 162.80,364.44 190.40,359.40" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="273.20,341.56 300.80,366.33 328.40,370.96 356.00,375.88" fill="none" stroke="#8B949E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="368" y="400.134" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Gulf 26.2%</text>
+<polyline points="80.00,296.38 107.60,295.66 135.20,284.34 162.80,274.89 190.40,291.05" fill="none" stroke="#EE3224" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="273.20,242.49 300.80,241.79 328.40,234.24 356.00,231.05" fill="none" stroke="#EE3224" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="368" y="238.532" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="start">Indian 45.9%</text>
 <text x="80" y="467.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="middle">2015</text>
 <text x="356" y="467.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="middle">2025</text>
 <text x="22" y="501.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">This reversed the case's opening premise.</text>

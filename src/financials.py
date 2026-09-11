@@ -398,11 +398,11 @@ def operations(fy_end: int = FISCAL_YEAR_END) -> dict:
     the same fleet from opposite ends. **Two bases are reported, and the
     difference between them is itself the finding.**
 
-    On DGCA's *scheduled* services alone the two agree to 0.31%, which is the
+    On DGCA's *scheduled* services alone the two agree to 0.58%, which is NOT the
     figure published throughout this project. Add DGCA's non-scheduled
     international rows, which is the like-for-like comparison because IndiGo's
     published total includes them, and the gap closes to under a thousandth of a
-    per cent. The residual 0.31% was never measurement error: it was
+    per cent. The residual on that basis was never measurement error: it was
     non-scheduled flying sitting outside the filter.
 
     Both are returned. The scheduled figure stays the headline so no other

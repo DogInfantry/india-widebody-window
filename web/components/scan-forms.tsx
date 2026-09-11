@@ -23,7 +23,7 @@ import { corridors, orderBookFleet } from "@/lib/data";
 // six numbers wrong about this case. 98.8% where the entitlement figure is 88.8%,
 // 33.7M and 35.7M where the Gulf carries 39.7M, -6.3% and -4.2% where headroom is
 // -4.3%, RASK 4.95 where it is 4.99, one pane labelling CASK as RASK, and a stage
-// length of 2,645 km where it is 2,643. Every number below is read from the
+// length of 2,645 km where it is 2,669. Every number below is read from the
 // export, which is the whole point of the export.
 
 const gulf = corridors.find((c) => c.region === "Gulf")!;

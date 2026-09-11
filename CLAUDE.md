@@ -148,7 +148,7 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `docs/assets/{style.css,scrolly.js}` | Sticky-graphic scrollytelling, mobile stacks, `@media print` block |
 | `docs/recommendation.md` | **NEW.** Option menu, roadmap, WWHTBT, 9-row risk register, leading indicators |
 | `docs/survey_design.md` | **NEW.** Conjoint instrument, sampling frame and analysis plan for `gulf_od_share_pct`. Designed, NOT fielded. Coverage deliberately still reports survey analysis as a gap |
-| `docs/pivot_log.md` | Ten documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
+| `docs/pivot_log.md` | Eleven documented changes of mind, each citing its commit. **The count is published in six other files and drifted twice; `tests/test_narrative.py` now guards it** |
 | `web/` | The client-facing delivery layer. Next.js **static export**, **seven routes**, Recharts. Canonical on Vercel |
 | `web/lib/exhibits.tsx` | **NEW. The registry, and the thing that makes parity countable.** 26 exhibits keyed by the same `data-chart` ids `docs/index.html` uses. Evidence tab is READ from the narrative export, never written here |
 | `web/components/Exhibit.tsx` | The one grammar: four tabs, fixed vocabulary, shown only when they have content |
@@ -254,8 +254,8 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
 **The findings, all computed from DGCA unless noted:**
 - India international sector pax 2025: **78.0M**, Gulf six **50.9%**, 39.7M passengers
 - The Gulf corridor is **4.1x** India's entire direct Europe market (39.7M vs 9.6M)
-- IndiGo carried 16.7M international pax in 2025 to Air India's 10.7M, at **2,643 km**
-  average stage length against **5,316 km**
+- IndiGo carried 16.5M international pax in 2025 to Air India's 10.6M, at **2,669 km**
+  average stage length against **5,389 km**
 - **Premise reversed:** Indian carriers went 37.0% (2015) to **45.9%** (2025); Gulf 32.7% to 26.2%
 - DGCA and Eurostat agree to **2.6%** across seven countries measured from opposite ends
 - **DGCA and IATA, the Gulf's first ever second agency, and the shape is the finding.**
@@ -268,11 +268,14 @@ publish complete, and is labelled as such on the page. See `docs/methodology.md`
   both ways against the **8.49M** this case models. **The load-bearing modelled number is
   corroborated by measurement and is slightly conservative.** Route-level Gulf cross-checking
   is still paywalled, so the **5.6%** route-level figure is unchanged and must not be inflated
-- DGCA and IndiGo's own block hours agree to **0.31%** (1,614,608 vs 1,619,570, FY2026).
-  **That 0.31% is the SCHEDULED-only basis.** `financials.operations()` also computes the
-  like-for-like all-services figure, which is 1,619,570.6 against 1,619,570, a gap of **0.64
-  hours in 1.6 million**. The residual was never measurement error, it was a filter. The 0.31%
-  stays the published headline so no other surface has to move
+- DGCA and IndiGo's own block hours agree to **0.64 hours in 1,619,570**, FY2026, on the
+  like-for-like all-services basis that IndiGo's own total covers. **That is the published
+  headline, changed in pivot 11.** The scheduled-only basis is reported beside it and is
+<!-- narrative-guard: ignore, pivot 11 has to quote the headline it retires -->
+  **0.58%**; it read 0.31% until the September 2026 refresh moved 4,381 hours from Scheduled
+  International to Non-Scheduled International, with no change in the quantity at all. **Never
+  headline a figure that depends on someone else's classification boundary**
+<!-- /narrative-guard -->
 - 2030 sizing band **96M to 109M** across three methods (capacity is the low leg at 96.5M)
 - Scenarios **104 / 109 / 131M**
 - **Profit pool:** the Gulf is **52% of passengers but 31% of revenue**
@@ -555,7 +558,7 @@ Every one of these cost real time or produced a wrong published number.
     failure.
 50. **`benchmarking.carrier_operating_summary()` returns DOMESTIC unless told otherwise.** The
     capability exhibit plotted a 943 km domestic stage length while claiming to compare
-    international networks, where the real figures are 2,643 km against 5,316 km. The export
+    international networks, where the real figures are 2,669 km against 5,389 km. The export
     names both tables rather than defaulting to one. **Read the signature before trusting a
     default.**
 51. **Recharts 3 widened the Tooltip `formatter` signature.** A parameter typed `number` is
@@ -597,10 +600,16 @@ Every one of these cost real time or produced a wrong published number.
     non-fuel cost. The year-on-year forex CONTRIBUTION is **0.41**, because 0.11 of the rise is
     genuine inflation. Eleven paise apart; the first version computed one and its own docstring
     quoted the other. Read `scenario.cask_bridge()`.
-59. **The published 0.31% block-hour reconciliation is SCHEDULED-only.** On the like-for-like
-    all-services basis, which is what IndiGo's own total includes, DGCA agrees to 0.64 hours in
-    1.6 million. Both are reported. Also: run it on the FINANCIAL year, April to March, or you
-    are comparing two different twelve-month windows.
+59. **The block-hour reconciliation is published on the ALL-SERVICES basis, and that is the
+<!-- narrative-guard: ignore, pivot 11 has to quote the headline it retires -->
+    whole lesson.** The scheduled-only figure was the headline at 0.31% for months, and the
+    September 2026 refresh moved 4,381 hours across DGCA's scheduled boundary and made it
+    0.58%.
+<!-- /narrative-guard --> Not one aeroplane flew a different hour. The all-services figure did not move,
+    because it does not depend on the boundary. This file had already written down the reason
+    ("the residual was never measurement error, it was a filter") and published the fragile
+    number anyway. Also: run it on the FINANCIAL year, April to March, or you are comparing
+    two different twelve-month windows.
 60. **A percentage that rounds to `0.000%` reads as a formatting bug, not as agreement.** The
     operations exhibit shipped with that title for one edit. When a residual is that small,
     state it in the underlying unit.
@@ -725,7 +734,7 @@ Every one of these cost real time or produced a wrong published number.
     said 98.8% where the Dubai entitlement figure is 88.8%, 33.7M and 35.7M where the Gulf
     carries 39.7M, -6.3% and -4.2% where corridor headroom is -4.3%, +21.2% where Europe is
     +21.3%, RASK 4.95 where it is 4.99, one panel labelling CASK as RASK, and a stage length of
-    2,645 km where it is 2,643. Plus "Golf" for Gulf and "FY3026". **Take the forms, never the
+    2,645 km where it is 2,669. Plus "Golf" for Gulf and "FY3026". **Take the forms, never the
     content.** The forms were worth taking and four of them now ship.
 80. **Form monotony is measurable and this site had it.** Eleven of twenty charts were
     `BarChart`, with no part-to-whole, no part-of-count and no sequence visual anywhere. That,
@@ -796,6 +805,27 @@ Every one of these cost real time or produced a wrong published number.
     source lines lived on the canvas, where the narrative guard could not read them, they could
     not reflow on a phone, and no retrieval model could lift them. They are Markdown captions
     now. **When you move prose into an image, you move it out of every guard.**
+92. **DGCA leaves the empty direction BLANK on a one-way city pair, and is not consistent
+    about it.** GUANGZHOU to KOLKATA 2020 Q3 carries an explicit 0 one way and a blank the
+    other, on the same row. `pax_to + pax_from` propagates the blank, so the September 2026
+    refresh produced **34 NaN rows** including MEDINA to RAS AL-KHAIMAH at 10,388 passengers,
+    and `pax_total >= 0` then failed for the whole table because **NaN satisfies no
+    comparison**. `_both_directions()` in `data_pipeline.py` handles it in one place for all
+    four call sites: one blank means the other direction is the total, both blank stays NaN.
+    Fifth DGCA formatting trap.
+93. **A generated asset that is not in `scripts/refresh.py` cannot be fixed by CI.** The README
+    SVGs read `web/public/data/*.json`, which the monthly refresh rewrites. `make_readme_charts.py`
+    was outside the entry point and the workflow staged only `data/processed`, `docs/assets/charts`
+    and `docs/coverage.md`, so the first refresh after the charts landed went red with **no way
+    to self-heal**. `refresh.py` now draws them and `sync_readme()` rewrites the generated
+    `<picture>` blocks in place; the workflow stages `.github/assets`, `README.md` and
+    `web/public/data`. **Hand-written prose is deliberately still not auto-fixed**, so a moved
+    headline still fails loudly, which is the part that should need a human.
+94. **A styling decision keyed to a figure fails silently when the figure moves.**
+    `web/app/page.tsx` decided which metrics render red with a regex matching a literal stage
+    length in the prose. The refresh moved that figure, the match went quietly false,
+    and nothing failed. The brief now carries a `Standing` column and the page reads it.
+    **Match on a flag, never on a number.**
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.

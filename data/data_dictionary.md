@@ -162,7 +162,8 @@ figure: Boeing publishes the 787-9 at 290 two-class and 406 all-economy, a 40 pe
 
 `aircraft_utilisation_hours_per_day` is the one manual row with an independent cross-check.
 IndiGo's FY26 annual report gives 1,619,570 block hours over 441 aircraft; DGCA's
-`aircraft_hours` gives 1,614,608 for the same carrier and year, **0.31 percent apart**. That
+`aircraft_hours`, across the same set of services, gives 1,619,570.6 for the same carrier and
+year, **0.64 hours in 1,619,570 apart**. That
 is the second both-ends check in this repo after DGCA against Eurostat, and it is the reason
 the row is graded `H`. The row is on an **owned-fleet** basis, which is not the ~13 hours that
 circulates: that figure is active-fleet and implies roughly 100 grounded aircraft.

@@ -307,7 +307,7 @@ def estimate_capacity(target_year: int = TARGET_YEAR) -> Estimate:
 
     Utilisation enters on an **owned-fleet** basis (10.06 hours/aircraft/day,
     IndiGo block hours over aircraft at period end, cross-checked against DGCA to
-    0.31 percent). An active-fleet basis would be roughly 13 and would lift this
+    0.64 hours in 1.6 million). An active-fleet basis would be roughly 13 and would lift this
     leg by about a third, which is why the basis is named here and on the chart
     rather than left to the reader.
     """

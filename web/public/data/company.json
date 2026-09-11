@@ -1,15 +1,15 @@
 {
  "capital_scale": {
   "aircraft": 60,
-  "ask": 48441318929.50789,
-  "ask_bn": 48.441319,
-  "block_speed_kmh": 698.012677,
+  "ask": 48528587681.948555,
+  "ask_bn": 48.528588,
+  "block_speed_kmh": 699.270171,
   "fy2026_ebitdar_exforex_inr_cr": 23189.0,
   "fy2026_revenue_inr_cr": 84962.0,
-  "multiple_of_fy2026_ebitdar": 1.0424,
-  "pct_of_fy2026_revenue": 28.450623,
+  "multiple_of_fy2026_ebitdar": 1.044278,
+  "pct_of_fy2026_revenue": 28.501878,
   "purchase_rights_not_converted": 40,
-  "revenue_potential_inr_cr": 24172.218146,
+  "revenue_potential_inr_cr": 24215.765253,
   "seats": 18900.0,
   "utilisation_hours_per_day": 10.06
  },
@@ -18,27 +18,27 @@
   {
    "carrier": "IndiGo",
    "group": "Indian carriers",
-   "group_share_pct": 45.917398,
-   "intl_pax_m": 16.673953,
-   "load_factor_pct": 81.980776,
-   "stage_length_km": 2642.784168,
+   "group_share_pct": 45.902042,
+   "intl_pax_m": 16.460748,
+   "load_factor_pct": 81.972492,
+   "stage_length_km": 2668.722102,
    "yield_inr_per_rpk": 5.06,
    "yield_vs_indigo": 1.0
   },
   {
    "carrier": "Air India",
    "group": "Indian carriers",
-   "group_share_pct": 45.917398,
-   "intl_pax_m": 10.721836,
-   "load_factor_pct": 81.394846,
-   "stage_length_km": 5316.338717,
+   "group_share_pct": 45.902042,
+   "intl_pax_m": 10.564362,
+   "load_factor_pct": 81.397687,
+   "stage_length_km": 5388.509256,
    "yield_inr_per_rpk": null,
    "yield_vs_indigo": null
   },
   {
    "carrier": "Emirates",
    "group": "Gulf carriers",
-   "group_share_pct": 26.161341,
+   "group_share_pct": 26.152593,
    "intl_pax_m": null,
    "load_factor_pct": null,
    "stage_length_km": null,
@@ -100,13 +100,13 @@
  ],
  "operations": {
   "dgca_all_services_hours": 1619570.642,
-  "dgca_scheduled_hours": 1614608.324,
+  "dgca_scheduled_hours": 1610227.524,
   "fiscal_year_end": 2026,
   "implied_aircraft": 441.07138,
-  "non_scheduled_intl_hours": 4962.318,
+  "non_scheduled_intl_hours": 9343.118,
   "published_block_hours": 1619570.0,
   "reconciliation_all_services_pct": 4e-05,
-  "reconciliation_pct": 0.306358,
+  "reconciliation_pct": 0.576849,
   "utilisation_basis": "owned fleet, block hours over aircraft at period end",
   "utilisation_hours_per_day": 10.06
  },
@@ -130,7 +130,7 @@
    "step": "FY2026 revenue"
   },
   {
-   "inr_cr": 24172.218146,
+   "inr_cr": 24215.765253,
    "kind": "memo",
    "measure": "relative",
    "step": "60 A350s at FY2026 RASK"
