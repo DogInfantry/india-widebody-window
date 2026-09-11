@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="588" height="634.8" viewBox="0 0 588 634.8" role="img" aria-label="Of 46 hand-entered numbers, 40 are usable and 6 remain open: 31 verified against a primary source, 9 corrected, then verified, 3 plausible, but no primary source exists, 2 not published by anyone, 1 modelled, and labelled as modelled. Coverage of the target job posting is 82%, 14 of 17 requirements evidenced, and the missing ones are named.">
+<desc>Source: data/manual/assumptions.csv and src/gap_analyzer.py, both committed. Coverage is measured against the real job posting in jd.txt.</desc>
+<text x="22" y="37.4" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">40 of 46 hand-entered numbers are</text>
+<text x="22" y="75.8" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">verified, and the 6 that are not</text>
+<text x="22" y="114.2" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">are named</text>
+<rect x="22" y="162.6" width="473.043" height="34" fill="#30363D"/>
+<rect x="495.043" y="162.6" width="70.9565" height="34" fill="#EE3224"/>
+<text x="22" y="220.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">40 usable</text>
+<text x="566" y="220.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="end">6 open</text>
+<text x="22" y="264.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">31   verified against a primary source</text>
+<text x="22" y="293.68" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">9   corrected, then verified</text>
+<text x="22" y="323.16" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">3   plausible, but no primary source exists</text>
+<text x="22" y="352.64" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">2   not published by anyone</text>
+<text x="22" y="382.12" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">1   modelled, and labelled as modelled</text>
+<text x="22" y="433.6" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">Job posting coverage, 14 of 17 requirements</text>
+<rect x="22" y="454" width="544" height="20.4" fill="#30363D"/>
+<rect x="22" y="454" width="446.08" height="20.4" fill="#30363D"/>
+<text x="34" y="469.3" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">82%</text>
+<text x="22" y="508.4" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">The remaining rows are terminal rather than</text>
+<text x="22" y="537" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">pending. Air India is unlisted and files</text>
+<text x="22" y="565.6" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">nothing, and no agency publishes a Gulf six</text>
+<text x="22" y="594.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">origin-destination share.</text>
+</svg>

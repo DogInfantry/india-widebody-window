@@ -100,8 +100,22 @@ def _flatten(path: Path) -> str:
         text,
         flags=re.S,
     )
-    text = re.sub(r"<[^>]+>", " ", text)
+    text = _strip_tags(text)
     return re.sub(r"\s+", " ", text)
+
+
+# `alt` and `aria-label` are prose. They carry figures, they are the only version
+# of a chart a screen reader or a retrieval model ever sees, and for this guard's
+# whole life they were thrown away with the angle brackets. Two README figures,
+# the 72 aircraft needed to hold share and the 68 surplus, lived in alt text and
+# nowhere else, so nothing in this repository guarded them.
+_ATTR_PROSE = re.compile(r'(?:alt|aria-label)="([^"]{20,})"')
+
+
+def _strip_tags(text: str) -> str:
+    """Drop the tags, keep what they SAY."""
+    carried = " ".join(_ATTR_PROSE.findall(text))
+    return re.sub(r"<[^>]+>", " ", text) + " " + carried
 
 
 @pytest.fixture(scope="module")
@@ -124,7 +138,7 @@ def corpus() -> str:
             text,
             flags=re.S,
         )
-        text = re.sub(r"<[^>]+>", " ", text)  # strip HTML tags
+        text = _strip_tags(text)  # tags out, alt and aria-label prose kept
         parts.append(text)
     return re.sub(r"\s+", " ", " ".join(parts))
 

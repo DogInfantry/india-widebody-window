@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="588" height="498.6" viewBox="0 0 588 498.6" role="img" aria-label="The Gulf carries 51.7% of India's international corridor passengers but earns 31.3% of corridor revenue, a gap of 20.4 points and the widest of any corridor. Every other corridor combined carries 48.3% of passengers and earns 68.7% of revenue. Europe runs the other way, at 12.5% of passengers and 23.4% of revenue.">
+<desc>Source: DGCA traffic statistics for passengers; corridor revenue is computed in src/profit_pools.py at published unit economics. The margin axis of that module is modelled and every seam in it is labelled.</desc>
+<text x="22" y="37.4" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#1A1A1A" text-anchor="start">The Gulf is 52% of the passengers</text>
+<text x="22" y="75.8" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#1A1A1A" text-anchor="start">and 31% of the revenue</text>
+<text x="22" y="141.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#1A1A1A" text-anchor="start">The Gulf</text>
+<rect x="22" y="154.2" width="324.342" height="32" fill="#CC0000"/>
+<text x="34" y="177.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" text-anchor="start">passengers</text>
+<text x="356.342" y="177.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#1A1A1A" text-anchor="start">51.7%</text>
+<rect x="22" y="192.2" width="196.199" height="32" fill="#CC0000"/>
+<text x="34" y="215.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#FFFFFF" text-anchor="start">revenue</text>
+<text x="228.199" y="215.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#1A1A1A" text-anchor="start">31.3%</text>
+<text x="22" y="265.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#1A1A1A" text-anchor="start">Every other corridor</text>
+<rect x="22" y="278.2" width="303.435" height="32" fill="#E6E6E6"/>
+<text x="34" y="301.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#6B6B6B" text-anchor="start">passengers</text>
+<text x="335.435" y="301.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#1A1A1A" text-anchor="start">48.3%</text>
+<rect x="22" y="316.2" width="431.579" height="32" fill="#E6E6E6"/>
+<text x="34" y="339.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#6B6B6B" text-anchor="start">revenue</text>
+<text x="463.579" y="339.24" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="24" font-weight="600" fill="#1A1A1A" text-anchor="start">68.7%</text>
+<text x="22" y="372.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#1A1A1A" text-anchor="start">Europe runs the other way, 12.5% of</text>
+<text x="22" y="400.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#1A1A1A" text-anchor="start">passengers against 23.4% of revenue. That is</text>
+<text x="22" y="429.4" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#1A1A1A" text-anchor="start">the whole argument for flying past the Gulf</text>
+<text x="22" y="458" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#1A1A1A" text-anchor="start">rather than to it.</text>
+</svg>

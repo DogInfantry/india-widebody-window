@@ -1,4 +1,4 @@
-"""Draw the four charts the README shows, from the data the site already reads.
+"""Draw the charts the README shows, from the data the site already reads.
 
 **Run once, commit the output, never run in CI.** Same arrangement as
 `scripts/make_basemap.py` and `scripts/make_social_card.py`: a static asset
@@ -14,9 +14,7 @@ typed: every figure is read from `web/public/data/*.json`, which
 `src/app_export.py` writes by calling the same functions the Plotly figures call.
 
 **Unlike the other two committed-asset scripts, this one is guarded.**
-`make_social_card.py` says "re-run it only if the hero numbers change", which is a
-manual step nothing checks, and this repo has found that shape of failure four
-times. `tests/test_readme_assets.py` rebuilds every SVG in memory and asserts byte
+`tests/test_readme_assets.py` rebuilds every SVG in memory and asserts byte
 equality against what is committed, so a moved number fails the build instead of
 ageing on the front page.
 
@@ -24,22 +22,42 @@ ageing on the front page.
 `<img>` resolves `prefers-color-scheme` against the operating system, not against
 GitHub's own theme toggle, so a single file with a media query inside it
 mismatches for any reader whose two settings disagree. `<picture>` with a dark
-`<source>` is what GitHub documents, so that is what the README uses. Backgrounds
-are transparent, which is why the pair is needed and also why neither variant
-shows a hard-edged white box against the page.
+`<source>` is what GitHub documents, so that is what the README uses.
+
+**The canvas is 588 wide because of arithmetic, not taste.** GitHub clamps the
+README column to 838px on a desktop and to 294px on a 375px phone. An SVG in an
+`<img>` renders at `min(W, column)`, so at W=880 a phone showed a 0.334 scale and
+the old 13px body text landed at 4.6px. Unreadable, and that was every README
+chart for the life of the file. At **W=588 the phone scale is exactly 0.5**, so
+every size halves and the floor is one a reader can check in their head:
+`MIN_FONT` 22 on the canvas is 11px on the phone.
+`tests/test_readme_assets.py::test_every_readme_svg_is_legible_on_a_phone`
+asserts it for every glyph in every committed file.
+
+**The subtitle and the source line are NOT on the canvas.** They were the two
+smallest sizes on it, they are the first things to go illegible, and inside an SVG
+they are invisible to a retrieval model. They live in the Markdown caption
+instead, where they reflow on a phone and read as text. The source also goes into
+the SVG's own `<desc>`, so a file opened on its own still carries its provenance.
+
+**`build_picture_blocks()` generates the README markup, including the alt text.**
+The narrative guard strips HTML tags before matching, so a figure typed into an
+`alt` attribute is invisible to `must_not_appear` and can drift silently. Alt text
+is also, as `tests/test_readme_assets.py` already notes, the only version of these
+charts a screen reader or a retrieval model ever sees. Generating it from the same
+JSON the chart is drawn from closes both holes at once.
 
 **House rules from `src/charts.py` are carried over on purpose**, because they are
 the project's identity rather than a styling preference: one red subject per
 chart, everything else grey, minimal rules, and titles that state the takeaway
-rather than the topic. Every number in a title or a subtitle is formatted from the
-data rather than typed, which is gotcha 76.
+rather than the topic.
 
 **Red is `#CC0000` on light and `#EE3224` on dark.** Both are house colours, the
 primary and the accent. Primary red on a dark canvas reads as brown.
 
 **`#E6E6E6` is a bar fill and never a line or a small mark**, which is gotcha 53.
-The two grey series on the slope chart are drawn in the muted ink, not the fill,
-because a 2px `#E6E6E6` stroke on white is invisible.
+Line series use the muted ink, because a 2px `#E6E6E6` stroke on white is
+invisible.
 """
 
 from __future__ import annotations
@@ -51,28 +69,43 @@ ROOT = Path(__file__).resolve().parent.parent
 DATA = ROOT / "web" / "public" / "data"
 OUT = ROOT / ".github" / "assets"
 
-W = 880
-PAD = 32
+# The README column on a 375px phone. Every legibility number below divides by it.
+PHONE_COL = 294
+MIN_PHONE_PX = 11
+
+W = 588
+PAD = 22
+MIN_FONT = 22  # == MIN_PHONE_PX * W / PHONE_COL, exactly
+
+T_TITLE = 30
+T_HERO = 40
+T_LABEL = 24
+T_SMALL = 22
 
 SERIF = "'IBM Plex Serif', Georgia, 'Times New Roman', serif"
 SANS = "'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
 
 THEMES = {
     "light": {"ink": "#1A1A1A", "muted": "#6B6B6B", "rule": "#E6E6E6",
-              "fill": "#E6E6E6", "red": "#CC0000"},
+              "fill": "#E6E6E6", "red": "#CC0000", "on_red": "#FFFFFF"},
     "dark": {"ink": "#E6EDF3", "muted": "#8B949E", "rule": "#30363D",
-             "fill": "#30363D", "red": "#EE3224"},
+             "fill": "#30363D", "red": "#EE3224", "on_red": "#FFFFFF"},
 }
 
 SOURCE_DGCA = "Source: DGCA traffic statistics, pulled 2026-08-15. Computed in-repo, not quoted."
 
 
 # ---------------------------------------------------------------------------
-# SVG primitives. Deliberately tiny: four charts do not justify a chart layer.
+# SVG primitives. Deliberately tiny: ten charts do not justify a chart layer.
 # ---------------------------------------------------------------------------
 
 def esc(s: str) -> str:
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+
+
+def chars(avail_px: float, size: float, ratio: float = 0.55) -> int:
+    """Rough glyph count that fits. IBM Plex averages about 0.55em at these sizes."""
+    return max(8, int(avail_px / (size * ratio)))
 
 
 def wrap(text_in: str, width: int) -> list[str]:
@@ -99,8 +132,10 @@ def text(x: float, y: float, s: str, *, size: float, fill: str, family: str = SA
     )
 
 
-def rect(x: float, y: float, w: float, h: float, fill: str) -> str:
-    return f'<rect x="{x:g}" y="{y:g}" width="{max(w, 0.0):g}" height="{h:g}" fill="{fill}"/>'
+def rect(x: float, y: float, w: float, h: float, fill: str, rx: float = 0) -> str:
+    r = f' rx="{rx:g}"' if rx else ""
+    return (f'<rect x="{x:g}" y="{y:g}" width="{max(w, 0.0):g}" '
+            f'height="{h:g}"{r} fill="{fill}"/>')
 
 
 def line(x1: float, y1: float, x2: float, y2: float, stroke: str, width: float = 1) -> str:
@@ -118,28 +153,58 @@ def polyline(points: list[tuple[float, float]], stroke: str, width: float) -> st
     )
 
 
-def head(t: dict, title: str, subtitle: str) -> tuple[list[str], float]:
-    """Takeaway title, then a subtitle carrying the unit, the year and the basis."""
+def down_arrow(cx: float, y: float, h: float, stroke: str) -> str:
+    """Connector between stacked boxes in the two diagram charts."""
+    return (
+        line(cx, y, cx, y + h - 7, stroke, 2)
+        + f'\n<path d="M{cx - 6:g} {y + h - 8:g} L{cx:g} {y + h:g} L{cx + 6:g} {y + h - 8:g} Z" '
+          f'fill="{stroke}"/>'
+    )
+
+
+def flow_box(t: dict, y: float, body_text: str, *, highlight: bool = False,
+             size: float = T_LABEL) -> tuple[list[str], float]:
+    """One rounded box of wrapped text. Used by the two diagram charts."""
+    inner = W - 2 * PAD - 32
+    lines = wrap(body_text, chars(inner, size))
+    line_h = size * 1.3
+    box_h = len(lines) * line_h + 26
+    fill = t["red"] if highlight else t["fill"]
+    ink = t["on_red"] if highlight else t["ink"]
+    parts = [rect(PAD, y, W - 2 * PAD, box_h, fill, rx=6)]
+    ty = y + 18 + size * 0.72
+    for ln in lines:
+        parts.append(text(PAD + 16, ty, ln, size=size, fill=ink,
+                          weight="600" if highlight else "400"))
+        ty += line_h
+    return parts, box_h
+
+
+def head(t: dict, title: str) -> tuple[list[str], float]:
+    """Takeaway title only. The subtitle lives in the Markdown caption."""
     parts: list[str] = []
-    y = 34.0
-    for ln in wrap(title, 74):
-        parts.append(text(PAD, y, ln, size=20, fill=t["ink"], family=SERIF, weight="600"))
-        y += 26
-    y += 2
-    for ln in wrap(subtitle, 112):
-        parts.append(text(PAD, y, ln, size=13, fill=t["muted"]))
-        y += 18
-    return parts, y + 16
+    y = 14.0 + T_TITLE * 0.78
+    for ln in wrap(title, chars(W - 2 * PAD, T_TITLE, 0.52)):
+        parts.append(text(PAD, y, ln, size=T_TITLE, fill=t["ink"], family=SERIF, weight="600"))
+        y += T_TITLE * 1.28
+    return parts, y + 10
 
 
-def foot(t: dict, y: float, source: str) -> list[str]:
-    return [text(PAD, y, source, size=11, fill=t["muted"])]
+def note(t: dict, y: float, s: str, *, size: float = T_SMALL,
+         fill_key: str = "muted") -> tuple[list[str], float]:
+    """A closing line that reads the chart for the reader."""
+    parts = []
+    for ln in wrap(s, chars(W - 2 * PAD, size)):
+        parts.append(text(PAD, y, ln, size=size, fill=t[fill_key]))
+        y += size * 1.3
+    return parts, y
 
 
-def svg(height: float, body: list[str], alt: str) -> str:
+def svg(height: float, body: list[str], alt: str, source: str) -> str:
     return (
         f'<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{height:g}" '
         f'viewBox="0 0 {W} {height:g}" role="img" aria-label="{esc(alt)}">\n'
+        f'<desc>{esc(source)}</desc>\n'
         + "\n".join(body)
         + "\n</svg>\n"
     )
@@ -149,104 +214,507 @@ def _load(name: str):
     return json.loads((DATA / f"{name}.json").read_text(encoding="utf-8"))
 
 
+def _declutter(points: list[tuple[float, object]], gap: float) -> list[float]:
+    """Push overlapping end-of-line labels apart, preserving order.
+
+    Gulf and Other foreign finish 1.7 points apart on the share chart, which is
+    12px at this scale against the 29px a 22px label needs. Without this they
+    overprint and the chart looks broken rather than crowded.
+    """
+    order = sorted(range(len(points)), key=lambda i: points[i][0])
+    ys = [points[i][0] for i in order]
+    for n in range(1, len(ys)):
+        if ys[n] - ys[n - 1] < gap:
+            ys[n] = ys[n - 1] + gap
+    out = [0.0] * len(points)
+    for slot, i in enumerate(order):
+        out[i] = ys[slot]
+    return out
+
+
 # ---------------------------------------------------------------------------
-# 1. The answer. Yield headroom by corridor, against the traffic each carries.
+# 1. The hero strip. The six figures, before any prose at all.
 # ---------------------------------------------------------------------------
 
-def chart_answer_headroom(t: dict) -> str:
+def spec_kpi_strip() -> dict:
+    cards = _load("kpis")
+    alt = "Six headline figures. " + " ".join(
+        f"{c['value']}, {c['label']}." for c in cards
+    )
+    return {
+        "cards": cards,
+        "title": (f"{cards[1]['value']} of India's {cards[0]['value']} international "
+                  f"passengers touch a Gulf point"),
+        "subtitle": ("The six figures the case turns on, before any argument is made about "
+                     "them. Each one is computed in this repository from the committed data."),
+        "source": SOURCE_DGCA,
+        "alt": alt,
+    }
+
+
+def draw_kpi_strip(t: dict, s: dict) -> str:
+    cards = s["cards"]
+    body, top = head(t, s["title"])
+
+    # One column, not two. At 294px a two-column strip gives each label a 131px
+    # measure, which is twelve characters a line. The value sits in its own gutter
+    # so the label keeps the full remaining width at every size.
+    label_x = PAD + 150.0
+    label_chars = chars(W - PAD - label_x, T_SMALL)
+
+    y = top
+    for i, card in enumerate(cards):
+        lines = wrap(card["label"], label_chars)
+        # One red subject per chart: the Gulf share is the case, so it is the only
+        # card that is not ink.
+        colour = t["red"] if i == 1 else t["ink"]
+        body.append(text(PAD, y + T_HERO * 0.78, card["value"], size=T_HERO,
+                         fill=colour, family=SERIF, weight="600"))
+        ly = y + T_SMALL * 1.05
+        for ln in lines:
+            body.append(text(label_x, ly, ln, size=T_SMALL, fill=t["muted"]))
+            ly += T_SMALL * 1.3
+        y += max(T_HERO * 1.12, T_SMALL * 1.3 * len(lines) + 8) + 16
+
+    return svg(y + 4, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 2. The connect gap. Where the passenger the statistics lose actually goes.
+# ---------------------------------------------------------------------------
+
+def spec_connect_gap() -> dict:
+    cg = _load("economics")["connect_gap"]
+    rec = _load("evidence")["reconciliations"]["country_level"]
+    rows = [
+        # Gotcha 67: IATA's "Middle East" is wider than the Gulf six, so the Gulf
+        # figure is a bound and only the UAE figure is a measurement. Labelling
+        # them the other way round is the error this chart exists to avoid.
+        ("All Gulf points", cg["sector_share_pct"], cg["od_share_pct"],
+         f"{cg['connecting_pax_m']:.2f}M a year", "modelled, bounded below by IATA"),
+        ("United Arab Emirates only", rec["uae_dgca_share_pct"], rec["uae_iata_share_pct"],
+         f"{rec['uae_leak_m']:.2f}M a year", f"measured, DGCA against {rec['agency']} {rec['year']}"),
+    ]
+    return {
+        "rows": rows,
+        "cg": cg,
+        "rec": rec,
+        "title": (f"{cg['connecting_pax_m']:.2f}M Gulf passengers a year are only changing "
+                  f"planes there"),
+        "subtitle": (f"Share of India's international traffic bound for the Gulf, counted two "
+                     f"ways. A sector counts a passenger on each leg; origin-destination counts "
+                     f"where the passenger is actually going. The red tail is the difference, "
+                     f"and reconciling it is the case rather than a discrepancy to argue away."),
+        "source": (f"Sources: DGCA traffic statistics and IATA, Aviation in India, both {rec['year']}. "
+                   f"The two agencies agree to {rec['total_divergence_pct']:.1f}% on how many "
+                   f"passengers leave India and disagree by {rec['uae_leak_pts']:.1f} points on "
+                   f"where they are going."),
+        "alt": (f"Of India's international traffic, {cg['sector_share_pct']:.1f}% of sectors touch "
+                f"a Gulf point but about {cg['od_share_pct']:.0f}% is actually bound for the Gulf, "
+                f"a gap of {cg['gap_pts']:.1f} points or {cg['connecting_pax_m']:.2f}M passengers a "
+                f"year connecting onward. Measured for the UAE alone, DGCA reports "
+                f"{rec['uae_dgca_share_pct']:.1f}% of sectors against IATA's "
+                f"{rec['uae_iata_share_pct']:.1f}% of origin-destination, a gap of "
+                f"{rec['uae_leak_m']:.2f}M."),
+    }
+
+
+def draw_connect_gap(t: dict, s: dict) -> str:
+    body, top = head(t, s["title"])
+
+    plot_l, plot_r = float(PAD), float(W - PAD - 96)
+    hi = 55.0
+    bar_h = 28.0
+
+    def px(v: float) -> float:
+        return plot_l + v / hi * (plot_r - plot_l)
+
+    y = top
+    for label, sector, od, leak, basis in s["rows"]:
+        body.append(text(PAD, y + T_SMALL * 0.8, label, size=T_SMALL, fill=t["ink"], weight="600"))
+        by = y + T_SMALL + 8
+        body.append(rect(plot_l, by, px(od) - plot_l, bar_h, t["fill"]))
+        body.append(rect(px(od), by, px(sector) - px(od), bar_h, t["red"]))
+        body.append(text(px(sector) + 10, by + bar_h * 0.74, f"{sector:.1f}%", size=T_LABEL,
+                         fill=t["ink"], weight="600"))
+        y = by + bar_h + 8 + T_SMALL * 0.8
+        for ln in wrap(f"{od:.1f}% going there, {leak} connecting on. {basis}.",
+                       chars(W - 2 * PAD, T_SMALL)):
+            body.append(text(PAD, y, ln, size=T_SMALL, fill=t["muted"]))
+            y += T_SMALL * 1.3
+        y += 22
+
+    lines, y = note(t, y + 6, (
+        "The grey bar is the passenger whose journey ends in the Gulf. The red tail is the "
+        "passenger who lands there and boards another aeroplane, and who Indian carriers "
+        "could fly the whole way."
+    ), fill_key="ink")
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 3. Half the passengers, a third of the money.
+# ---------------------------------------------------------------------------
+
+def spec_pax_vs_revenue() -> dict:
+    rows = [r for r in _load("corridors") if r.get("pax_share_pct") is not None]
+    gulf = next(r for r in rows if r["region"] == "Gulf")
+    europe = next(r for r in rows if r["region"] == "Europe")
+    # The complement, computed rather than listed, so the two bars are exhaustive.
+    other_pax = sum(r["pax_share_pct"] for r in rows if r["region"] != "Gulf")
+    other_rev = sum(r["revenue_share_pct"] for r in rows if r["region"] != "Gulf")
+    widest = max(rows, key=lambda r: r["pax_share_pct"] - r["revenue_share_pct"])
+    gap = gulf["pax_share_pct"] - gulf["revenue_share_pct"]
+    return {
+        "groups": [
+            ("The Gulf", gulf["pax_share_pct"], gulf["revenue_share_pct"], True),
+            ("Every other corridor", other_pax, other_rev, False),
+        ],
+        "gulf": gulf, "europe": europe, "gap": gap, "widest": widest,
+        "title": (f"The Gulf is {gulf['pax_share_pct']:.0f}% of the passengers and "
+                  f"{gulf['revenue_share_pct']:.0f}% of the revenue"),
+        "subtitle": (f"Share of India's international corridor passengers against share of "
+                     f"corridor revenue, 2025. The {gap:.1f} point gap is the widest of any "
+                     f"corridor, and it is what a short sector does to a wide-body. These "
+                     f"shares are of the eight corridors that carry a modelled revenue pool, "
+                     f"which is why the Gulf reads {gulf['pax_share_pct']:.1f}% here and "
+                     f"{gulf['share_pct']:.1f}% of all international sectors elsewhere on this "
+                     f"page. The denominator differs, the traffic does not."),
+        "source": ("Source: DGCA traffic statistics for passengers; corridor revenue is computed "
+                   "in src/profit_pools.py at published unit economics. The margin axis of that "
+                   "module is modelled and every seam in it is labelled."),
+        "alt": (f"The Gulf carries {gulf['pax_share_pct']:.1f}% of India's international corridor "
+                f"passengers but earns {gulf['revenue_share_pct']:.1f}% of corridor revenue, a gap "
+                f"of {gap:.1f} points and the widest of any corridor. Every other corridor "
+                f"combined carries {other_pax:.1f}% of passengers and earns {other_rev:.1f}% of "
+                f"revenue. Europe runs the other way, at {europe['pax_share_pct']:.1f}% of "
+                f"passengers and {europe['revenue_share_pct']:.1f}% of revenue."),
+    }
+
+
+def draw_pax_vs_revenue(t: dict, s: dict) -> str:
+    body, top = head(t, s["title"])
+
+    plot_l, plot_r = float(PAD), float(W - PAD - 92)
+    hi = 72.0
+    bar_h = 32.0
+
+    def px(v: float) -> float:
+        return plot_l + v / hi * (plot_r - plot_l)
+
+    y = top
+    for label, pax, rev, is_gulf in s["groups"]:
+        body.append(text(PAD, y + T_SMALL * 0.8, label, size=T_SMALL, fill=t["ink"], weight="600"))
+        y += T_SMALL + 8
+        for word, value in (("passengers", pax), ("revenue", rev)):
+            fill = t["red"] if is_gulf else t["fill"]
+            body.append(rect(plot_l, y, px(value) - plot_l, bar_h, fill))
+            body.append(text(plot_l + 12, y + bar_h * 0.72, word, size=T_SMALL,
+                             fill=t["on_red"] if is_gulf else t["muted"]))
+            body.append(text(px(value) + 10, y + bar_h * 0.72, f"{value:.1f}%", size=T_LABEL,
+                             fill=t["ink"], weight="600"))
+            y += bar_h + 6
+        y += 18
+
+    europe = s["europe"]
+    lines, y = note(t, y, (
+        f"Europe runs the other way, {europe['pax_share_pct']:.1f}% of passengers against "
+        f"{europe['revenue_share_pct']:.1f}% of revenue. That is the whole argument for flying "
+        f"past the Gulf rather than to it."
+    ), fill_key="ink")
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 4. The argument, as a chain. Replaces a mermaid block GitHub clamped to 180px.
+# ---------------------------------------------------------------------------
+
+def spec_argument_chain() -> dict:
+    cg = _load("economics")["connect_gap"]
+    corridors = [r for r in _load("corridors") if r.get("yield_headroom_pct") is not None]
+    gulf = next(r for r in corridors if r["region"] == "Gulf")
+    europe = next(r for r in corridors if r["region"] == "Europe")
+    absorbed = _load("fleet")["gulf_headroom"]["pct_of_order_book_absorbed"]
+    links = [
+        f"The Gulf is {cg['sector_share_pct']:.1f}% of India's international traffic",
+        f"But {cg['connecting_pax_m']:.2f}M passengers a year are only connecting through it",
+        f"And the treaty room left absorbs about {absorbed:.0f}% of the order book",
+        (f"And Gulf yield headroom is {gulf['yield_headroom_pct']:+.1f}% against Europe at "
+         f"{europe['yield_headroom_pct']:+.1f}%"),
+        "So fly past the Gulf, not to it. Europe first, North America second.",
+    ]
+    return {
+        "links": links,
+        "title": "Four findings, one conclusion, and none of the four is in dispute",
+        "subtitle": ("The governing thought. Each link is a separate module in src/ with its own "
+                     "tests, and each number below is read from the committed data rather than "
+                     "written into this diagram."),
+        "source": SOURCE_DGCA,
+        "alt": "The argument in five steps. " + " ".join(f"{n}. {l}." for n, l in enumerate(links, 1)),
+    }
+
+
+def draw_argument_chain(t: dict, s: dict) -> str:
+    body, top = head(t, s["title"])
+    y = top
+    gap = 24.0
+    for i, link in enumerate(s["links"]):
+        last = i == len(s["links"]) - 1
+        parts, box_h = flow_box(t, y, link, highlight=last)
+        body += parts
+        y += box_h
+        if not last:
+            body.append(down_arrow(W / 2, y + 3, gap - 6, t["muted"]))
+            y += gap
+    return svg(y + 14, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 5. How a number gets made. Replaces the second clamped mermaid block.
+# ---------------------------------------------------------------------------
+
+def spec_pipeline() -> dict:
+    stages = [
+        "Sources: DGCA, Eurostat, IATA, World Bank, OurAirports",
+        "data/raw, gitignored and regenerable",
+        "data/processed/*.parquet, committed, and what the tests read",
+        "src/*.py, the only place in this repository a number is computed",
+        "The site, the deck, the print edition, the app, and this page",
+    ]
+    return {
+        "stages": stages,
+        "title": "Data flows one way, and no surface computes a number of its own",
+        "subtitle": ("scripts/refresh.py is the single entry point and exactly what CI runs. "
+                     "docs/index.html holds the prose and every other surface re-lays it out, so "
+                     "a sentence cannot say one thing on the site and another in the deck."),
+        "source": ("Source: the repository itself. scripts/refresh.py, src/app_export.py and "
+                   "tests/test_delivery.py enforce the direction of this arrow."),
+        "alt": "How a number is made, in five stages. " + " ".join(f"{x}." for x in stages),
+    }
+
+
+def draw_pipeline(t: dict, s: dict) -> str:
+    body, top = head(t, s["title"])
+    y = top
+    gap = 24.0
+    for i, stage in enumerate(s["stages"]):
+        # The red subject is the claim worth making: one place computes, everything
+        # else re-presents.
+        parts, box_h = flow_box(t, y, stage, highlight=stage.startswith("src/"))
+        body += parts
+        y += box_h
+        if i != len(s["stages"]) - 1:
+            body.append(down_arrow(W / 2, y + 3, gap - 6, t["muted"]))
+            y += gap
+    return svg(y + 14, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 6. The evidence ledger. What is verified, and what is admitted instead.
+# ---------------------------------------------------------------------------
+
+STATUS_WORDS = {
+    "VERIFIED": "verified against a primary source",
+    "CORRECTED_VERIFIED": "corrected, then verified",
+    "UNVERIFIED_NO_PRIMARY": "plausible, but no primary source exists",
+    "NOT_AVAILABLE": "not published by anyone",
+    "MODELED": "modelled, and labelled as modelled",
+}
+
+
+def spec_evidence_ledger() -> dict:
+    ev = _load("evidence")
+    a, cov = ev["assumptions"], ev["coverage"]
+    breakdown = [(r["count"], STATUS_WORDS[r["status"]]) for r in a["by_status"]]
+    return {
+        "a": a, "cov": cov, "breakdown": breakdown,
+        "title": (f"{a['usable']} of {a['total']} hand-entered numbers are verified, and the "
+                  f"{a['open']} that are not are named"),
+        "subtitle": ("Every number that cannot be computed from the sources is entered by hand, "
+                     "given a status, and gated. dp.assumption() raises rather than return a row "
+                     "that is not verified, so an unchecked figure stops the build instead of "
+                     "reaching the page."),
+        "source": ("Source: data/manual/assumptions.csv and src/gap_analyzer.py, both committed. "
+                   "Coverage is measured against the real job posting in jd.txt."),
+        "alt": (f"Of {a['total']} hand-entered numbers, {a['usable']} are usable and {a['open']} "
+                f"remain open: " + ", ".join(f"{n} {w}" for n, w in breakdown) + f". Coverage of "
+                f"the target job posting is {cov['pct']}%, {cov['evidenced']} of {cov['total']} "
+                f"requirements evidenced, and the missing ones are named."),
+    }
+
+
+def draw_evidence_ledger(t: dict, s: dict) -> str:
+    a, cov = s["a"], s["cov"]
+    body, top = head(t, s["title"])
+
+    plot_l, plot_r = float(PAD), float(W - PAD)
+    bar_h = 34.0
+    y = top
+
+    usable_w = (plot_r - plot_l) * a["usable"] / a["total"]
+    body.append(rect(plot_l, y, usable_w, bar_h, t["fill"]))
+    body.append(rect(plot_l + usable_w, y, plot_r - plot_l - usable_w, bar_h, t["red"]))
+    y += bar_h + 6
+    body.append(text(plot_l, y + T_SMALL * 0.8, f"{a['usable']} usable", size=T_SMALL,
+                     fill=t["ink"], weight="600"))
+    body.append(text(plot_r, y + T_SMALL * 0.8, f"{a['open']} open", size=T_SMALL,
+                     fill=t["red"], weight="600", anchor="end"))
+    y += T_SMALL + 22
+
+    for count, word in s["breakdown"]:
+        body.append(text(PAD, y + T_SMALL * 0.8, f"{count}   {word}", size=T_SMALL, fill=t["muted"]))
+        y += T_SMALL * 1.34
+    y += 22
+
+    body.append(text(PAD, y + T_SMALL * 0.8,
+                     f"Job posting coverage, {cov['evidenced']} of {cov['total']} requirements",
+                     size=T_SMALL, fill=t["ink"], weight="600"))
+    y += T_SMALL + 16
+    body.append(rect(plot_l, y, plot_r - plot_l, bar_h * 0.6, t["rule"]))
+    body.append(rect(plot_l, y, (plot_r - plot_l) * cov["pct"] / 100.0, bar_h * 0.6, t["fill"]))
+    body.append(text(plot_l + 12, y + bar_h * 0.45, f"{cov['pct']}%", size=T_SMALL,
+                     fill=t["ink"], weight="600"))
+    y += bar_h * 0.6 + 34
+
+    lines, y = note(t, y, (
+        "The remaining rows are terminal rather than pending. Air India is unlisted and files "
+        "nothing, and no agency publishes a Gulf six origin-destination share."
+    ))
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
+
+
+# ---------------------------------------------------------------------------
+# 7. The answer. Yield headroom by corridor.
+# ---------------------------------------------------------------------------
+
+def spec_answer_headroom() -> dict:
     rows = [r for r in _load("corridors") if r.get("yield_headroom_pct") is not None]
     rows.sort(key=lambda r: -r["yield_headroom_pct"])
     gulf = next(r for r in rows if r["region"] == "Gulf")
+    best = rows[0]
+    return {
+        "rows": rows, "gulf": gulf, "best": best,
+        "title": ("The corridor carrying half the traffic is the one with no room left to "
+                  "earn its cost"),
+        "subtitle": (f"Yield headroom by corridor, per cent, against IndiGo's achieved 5.06 INR "
+                     f"per RPK at the 81% load factor Indian carriers fly internationally. "
+                     f"Positive means the corridor clears its unit cost with room to spare. The "
+                     f"Gulf carries {gulf['share_pct']:.1f}% of the traffic."),
+        "source": SOURCE_DGCA,
+        "alt": ("Yield headroom by corridor, 2025. "
+                + ", ".join(f"{r['region']} {r['yield_headroom_pct']:+.1f}%" for r in rows)
+                + f". The Gulf carries {gulf['share_pct']:.1f}% of India's international traffic "
+                  f"and is the only corridor with negative headroom against IndiGo's achieved "
+                  f"5.06 INR per RPK."),
+    }
 
-    title = ("The corridor carrying half of India's international traffic is the one with "
-             "no room left to earn its cost")
-    subtitle = ("Yield headroom by corridor, per cent, against IndiGo's achieved 5.06 INR per "
-                "RPK at the 81% load factor Indian carriers fly internationally. Positive "
-                "means the corridor clears its unit cost with room to spare.")
-    body, top = head(t, title, subtitle)
 
-    x0, x1 = 214.0, 656.0
-    row_h, bar_h = 34.0, 17.0
+def draw_answer_headroom(t: dict, s: dict) -> str:
+    rows = s["rows"]
+    body, top = head(t, s["title"])
+
+    plot_l, plot_r = 186.0, float(W - PAD - 84)
     lo, hi = -8.0, 36.0
+    row_h, bar_h = 40.0, 22.0
 
     def px(v: float) -> float:
-        return x0 + (v - lo) / (hi - lo) * (x1 - x0)
+        return plot_l + (v - lo) / (hi - lo) * (plot_r - plot_l)
 
     zero = px(0.0)
-    body.append(line(zero, top - 8, zero, top + len(rows) * row_h + 2, t["rule"]))
+    body.append(line(zero, top - 6, zero, top + len(rows) * row_h + 2, t["rule"]))
 
     for i, r in enumerate(rows):
         cy = top + i * row_h
         v = r["yield_headroom_pct"]
         is_gulf = r["region"] == "Gulf"
         end = px(v)
-        body.append(rect(min(zero, end), cy, abs(end - zero), bar_h, t["red"] if is_gulf else t["fill"]))
-        body.append(text(PAD, cy + 13, r["region"], size=13,
+        body.append(rect(min(zero, end), cy, abs(end - zero), bar_h,
+                         t["red"] if is_gulf else t["fill"]))
+        body.append(text(PAD, cy + bar_h * 0.78, r["region"], size=T_SMALL,
                          fill=t["ink"] if is_gulf else t["muted"],
                          weight="600" if is_gulf else "400"))
-        body.append(text(end + (8 if v >= 0 else -8), cy + 13, f"{v:+.1f}%", size=13,
-                         fill=t["red"] if is_gulf else t["ink"],
+        body.append(text(end + (10 if v >= 0 else -10), cy + bar_h * 0.78, f"{v:+.1f}%",
+                         size=T_SMALL, fill=t["red"] if is_gulf else t["ink"],
                          weight="600" if is_gulf else "400",
                          anchor="start" if v >= 0 else "end"))
-        body.append(text(W - PAD, cy + 13, f"{r['share_pct']:.1f}% of traffic",
-                         size=12, fill=t["muted"], anchor="end"))
 
-    y = top + len(rows) * row_h + 34
-    body.append(text(PAD, y, (
-        f"The Gulf is {gulf['share_pct']:.1f}% of the market on {gulf['yield_headroom_pct']:+.1f}% "
-        f"of headroom. Europe and North America are where the aircraft cover their cost."
-    ), size=13, fill=t["ink"], weight="600"))
-    body += foot(t, y + 30, SOURCE_DGCA)
-    return svg(y + 48, body, title)
+    y = top + len(rows) * row_h + 20
+    lines, y = note(t, y, (
+        f"The Gulf is {s['gulf']['share_pct']:.1f}% of the market on "
+        f"{s['gulf']['yield_headroom_pct']:+.1f}% of headroom. {s['best']['region']} and Europe "
+        f"are where the aircraft cover their cost."
+    ), fill_key="ink")
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
 
 
 # ---------------------------------------------------------------------------
-# 2. The finding in two numbers. More passengers, half the distance.
+# 8. The finding in two numbers. More passengers, half the distance.
 # ---------------------------------------------------------------------------
 
-def chart_stage_gap(t: dict) -> str:
+def spec_stage_gap() -> dict:
     intl = {r["airline"]: r for r in _load("carriers")["international_summary"]}
     indigo, air_india = intl["IndiGo"], intl["Air India"]
     ratio = air_india["stage_length_km"] / indigo["stage_length_km"]
+    return {
+        "indigo": indigo, "air_india": air_india, "ratio": ratio,
+        "title": "IndiGo flies more international passengers than Air India, over half the distance",
+        "subtitle": ("Indian carriers' international operations, 2025. IndiGo is the highlighted "
+                     "subject in both panels because the finding is the pair, not either measure "
+                     "on its own."),
+        "source": SOURCE_DGCA,
+        "alt": (f"IndiGo carried {indigo['pax'] / 1e6:.1f}M international passengers in 2025 "
+                f"against Air India's {air_india['pax'] / 1e6:.1f}M, at an average international "
+                f"stage length of {indigo['stage_length_km']:,.0f} km against Air India's "
+                f"{air_india['stage_length_km']:,.0f} km. Air India's average international "
+                f"flight is {ratio:.1f} times IndiGo's."),
+    }
 
-    title = "IndiGo flies more international passengers than Air India, over half the distance"
-    subtitle = ("Indian carriers' international operations, 2025. IndiGo is the highlighted "
-                "subject in both panels because the finding is the pair, not either measure "
-                "on its own.")
-    body, top = head(t, title, subtitle)
+
+def draw_stage_gap(t: dict, s: dict) -> str:
+    indigo, air_india = s["indigo"], s["air_india"]
+    body, top = head(t, s["title"])
+
+    label_w = 128.0
+    plot_l, plot_r = PAD + label_w, float(W - PAD - 132)
+    bar_h, gap = 30.0, 42.0
+    y = top
 
     panels = (
-        ("INTERNATIONAL PASSENGERS", "pax", 1e6, "{:.1f}M", PAD, 404.0),
-        ("AVERAGE STAGE LENGTH", "stage_length_km", 1.0, "{:,.0f} km", 476.0, float(W - PAD)),
+        ("INTERNATIONAL PASSENGERS", "pax", 1e6, "{:.1f}M"),
+        ("AVERAGE STAGE LENGTH", "stage_length_km", 1.0, "{:,.0f} km"),
     )
-    bar_h, gap = 30.0, 48.0
-
-    for label, key, divisor, fmt, px0, px1 in panels:
-        body.append(text(px0, top, label, size=11, fill=t["muted"], weight="600"))
-        body.append(line(px0, top + 11, px1, top + 11, t["rule"]))
+    for label, key, divisor, fmt in panels:
+        body.append(text(PAD, y + T_SMALL * 0.8, label, size=T_SMALL, fill=t["muted"], weight="600"))
+        y += T_SMALL + 6
+        body.append(line(PAD, y, float(W - PAD), y, t["rule"]))
+        y += 14
         biggest = max(indigo[key], air_india[key])
-        avail = px1 - px0 - 78 - 88
-        for j, (name, row) in enumerate((("IndiGo", indigo), ("Air India", air_india))):
-            cy = top + 36 + j * gap
-            width = row[key] / biggest * avail
-            body.append(text(px0, cy + 20, name, size=13,
-                             fill=t["ink"] if name == "IndiGo" else t["muted"],
-                             weight="600" if name == "IndiGo" else "400"))
-            body.append(rect(px0 + 78, cy, width, bar_h, t["red"] if name == "IndiGo" else t["fill"]))
-            body.append(text(px0 + 78 + width + 9, cy + 20, fmt.format(row[key] / divisor),
-                             size=13, fill=t["ink"], weight="600"))
+        for name, row in (("IndiGo", indigo), ("Air India", air_india)):
+            is_subject = name == "IndiGo"
+            width = row[key] / biggest * (plot_r - plot_l)
+            body.append(text(PAD, y + bar_h * 0.72, name, size=T_SMALL,
+                             fill=t["ink"] if is_subject else t["muted"],
+                             weight="600" if is_subject else "400"))
+            body.append(rect(plot_l, y, width, bar_h, t["red"] if is_subject else t["fill"]))
+            body.append(text(plot_l + width + 10, y + bar_h * 0.72, fmt.format(row[key] / divisor),
+                             size=T_LABEL, fill=t["ink"], weight="600"))
+            y += gap
+        y += 14
 
-    y = top + 36 + 2 * gap + 26
-    body.append(text(PAD, y, (
-        f"Air India's average international flight is {ratio:.1f} times IndiGo's. IndiGo is not "
-        f"losing long-haul, it has never had the aircraft to fly it."
-    ), size=13, fill=t["ink"], weight="600"))
-    body += foot(t, y + 30, SOURCE_DGCA)
-    return svg(y + 48, body, title)
+    lines, y = note(t, y, (
+        f"Air India's average international flight is {s['ratio']:.1f} times IndiGo's. IndiGo is "
+        f"not losing long-haul, it has never had the aircraft to fly it."
+    ), fill_key="ink")
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
 
 
 # ---------------------------------------------------------------------------
-# 3. The order book as aircraft rather than as ASK.
+# 9. The order book as aircraft rather than as ASK.
 # ---------------------------------------------------------------------------
 
 PLANE = ("M12 1.6 L13.3 8.2 L22.4 14.1 L22.4 16.2 L13.3 13.5 L13.3 19.2 L16.2 21.7 "
@@ -254,26 +722,38 @@ PLANE = ("M12 1.6 L13.3 8.2 L22.4 14.1 L22.4 16.2 L13.3 13.5 L13.3 19.2 L16.2 21
          "L1.6 14.1 L10.7 8.2 Z")
 
 
-def chart_order_book(t: dict) -> str:
+def spec_order_book() -> dict:
     fleet = _load("order_book_fleet")
-    total = fleet["total_aircraft"]
-    needed = fleet["needed_to_hold_share"]
-    surplus = fleet["surplus"]
-    ratio = fleet["book_vs_growth_ratio"]
     operators = ", ".join(f"{o['count']} {o['operator']}" for o in fleet["by_operator"])
     indian_share = next(
         r["share_pct"] for r in _load("carriers")["who_carries_india"]
         if r["carrier_group"] == "Indian"
     )
+    return {
+        "fleet": fleet, "operators": operators, "indian_share": indian_share,
+        "title": (f"{fleet['total_aircraft']} wide-bodies are on firm order and "
+                  f"{fleet['surplus']} of them have nowhere to go at today's stage lengths"),
+        "subtitle": (f"One aeroplane, one glyph. {operators}. The book converts to "
+                     f"{fleet['book_vs_growth_ratio']:.2f} times the capacity growth Indian "
+                     f"carriers need to hold their {indian_share:.1f}% share, so the question is "
+                     f"where the surplus flies, not whether it exists."),
+        "source": ("Source: Airbus and Boeing order books and airport planning manuals; the "
+                   "capacity need is computed from DGCA. Pulled 2026-08-15."),
+        "alt": (f"Pictogram of {fleet['total_aircraft']} wide-body aircraft on firm order, "
+                f"{operators}. {fleet['needed_to_hold_share']} of them are needed to hold Indian "
+                f"carriers' {indian_share:.1f}% share of the market at today's sector length. The "
+                f"remaining {fleet['surplus']} are surplus to it, which is the reason this case "
+                f"exists."),
+    }
 
-    title = (f"{total} wide-bodies are on firm order and {surplus} of them have nowhere to go "
-             f"at today's stage lengths")
-    subtitle = (f"One aeroplane, one glyph. {operators}. The book converts to {ratio:.2f} times "
-                f"the capacity growth Indian carriers need to hold their {indian_share:.1f}% "
-                f"share, so the question is where the surplus flies, not whether it exists.")
-    body, top = head(t, title, subtitle)
 
-    cols, col_w, row_h, scale = 20, 42.0, 44.0, 1.15
+def draw_order_book(t: dict, s: dict) -> str:
+    fleet = s["fleet"]
+    total, needed, surplus = fleet["total_aircraft"], fleet["needed_to_hold_share"], fleet["surplus"]
+    body, top = head(t, s["title"])
+
+    cols, row_h, scale = 14, 40.0, 1.35
+    col_w = (W - 2 * PAD) / cols
     for i in range(total):
         gx = PAD + (i % cols) * col_w
         gy = top + (i // cols) * row_h
@@ -282,42 +762,54 @@ def chart_order_book(t: dict) -> str:
             f'transform="translate({gx:g} {gy:g}) scale({scale:g})"/>'
         )
 
-    y = top + (-(-total // cols)) * row_h + 22
+    y = top + (-(-total // cols)) * row_h + 12
     legend = (
         (needed, "needed to hold share at today's sector length", t["fill"], False),
         (surplus, "surplus to it, and the reason this case exists", t["red"], True),
     )
     for count, label, colour, emphasis in legend:
-        body.append(rect(PAD, y - 11, 13, 13, colour))
-        body.append(text(PAD + 22, y, f"{count}   {label}", size=13,
-                         fill=t["ink"] if emphasis else t["muted"],
-                         weight="600" if emphasis else "400"))
-        y += 25
-
-    body += foot(t, y + 12, "Source: Airbus and Boeing order books and airport planning manuals; "
-                            "the capacity need is computed from DGCA. Pulled 2026-08-15.")
-    return svg(y + 30, body, title)
+        body.append(rect(PAD, y, 20, 20, colour))
+        for n, ln in enumerate(wrap(f"{count}   {label}", chars(W - 2 * PAD - 32, T_SMALL))):
+            body.append(text(PAD + 32, y + 16 + n * T_SMALL * 1.3, ln, size=T_SMALL,
+                             fill=t["ink"] if emphasis else t["muted"],
+                             weight="600" if emphasis else "400"))
+            y += 0 if n == 0 else T_SMALL * 1.3
+        y += 34
+    return svg(y + 4, body, s["alt"], s["source"])
 
 
 # ---------------------------------------------------------------------------
-# 4. The premise this project reversed.
+# 10. The premise this project reversed.
 # ---------------------------------------------------------------------------
 
-def chart_share_reversal(t: dict) -> str:
+def spec_share_reversal() -> dict:
     trend = [r for r in _load("carriers")["share_trend"] if r["year"] not in (2020, 2021)]
     first, last = trend[0], trend[-1]
     gained = last["Indian"] - first["Indian"]
     lost = first["Gulf"] - last["Gulf"]
+    return {
+        "trend": trend, "first": first, "last": last, "gained": gained, "lost": lost,
+        "title": (f"Indian carriers took {gained:.1f} points of their own international market "
+                  f"back while Gulf carriers gave up {lost:.1f}"),
+        "subtitle": (f"Share of India international sector passengers by carrier home region, per "
+                     f"cent, {first['year']} to {last['year']}. 2020 and 2021 are omitted: "
+                     f"repatriation flying distorts them beyond use."),
+        "source": SOURCE_DGCA,
+        "alt": (f"Share of India's international sector passengers by carrier home region, "
+                f"{first['year']} to {last['year']}, with 2020 and 2021 omitted because "
+                f"repatriation flying distorts them. Indian carriers rose from "
+                f"{first['Indian']:.1f}% to {last['Indian']:.1f}%, a gain of {gained:.1f} points, "
+                f"while Gulf carriers fell from {first['Gulf']:.1f}% to {last['Gulf']:.1f}%, "
+                f"giving up {lost:.1f} points."),
+    }
 
-    title = (f"Indian carriers took {gained:.1f} points of their own international market back "
-             f"while Gulf carriers gave up {lost:.1f}")
-    subtitle = (f"Share of India international sector passengers by carrier home region, per "
-                f"cent, {first['year']} to {last['year']}. 2020 and 2021 are omitted: "
-                f"repatriation flying distorts them beyond use.")
-    body, top = head(t, title, subtitle)
 
-    x0, x1 = PAD + 40, 664.0
-    plot_h, lo, hi = 236.0, 20.0, 50.0
+def draw_share_reversal(t: dict, s: dict) -> str:
+    trend, first, last = s["trend"], s["first"], s["last"]
+    body, top = head(t, s["title"])
+
+    x0, x1 = 80.0, float(W - PAD - 210)
+    plot_h, lo, hi = 220.0, 20.0, 50.0
 
     def px(year: int) -> float:
         return x0 + (year - first["year"]) / (last["year"] - first["year"]) * (x1 - x0)
@@ -327,9 +819,13 @@ def chart_share_reversal(t: dict) -> str:
 
     for tick in (20, 30, 40, 50):
         body.append(line(x0 - 12, py(tick), x1, py(tick), t["rule"]))
-        body.append(text(x0 - 18, py(tick) + 4, f"{tick}%", size=11, fill=t["muted"], anchor="end"))
+        body.append(text(x0 - 18, py(tick) + T_SMALL * 0.34, f"{tick}%", size=T_SMALL,
+                         fill=t["muted"], anchor="end"))
 
-    for name in ("Other foreign", "Gulf", "Indian"):
+    names = ("Other foreign", "Gulf", "Indian")
+    label_ys = _declutter([(py(last[n]) + T_SMALL * 0.34, n) for n in names], T_SMALL * 1.36)
+
+    for idx, name in enumerate(names):
         highlight = name == "Indian"
         # The muted ink, never the bar fill: a 2px #E6E6E6 stroke on white is
         # invisible, which is gotcha 53 in its line-mark form.
@@ -339,44 +835,88 @@ def chart_share_reversal(t: dict) -> str:
         for lo_y, hi_y in ((2015, 2019), (2022, 2025)):
             body.append(polyline(
                 [(px(r["year"]), py(r[name])) for r in trend if lo_y <= r["year"] <= hi_y],
-                colour, 3.0 if highlight else 2.0,
+                colour, 4.0 if highlight else 2.5,
             ))
-        body.append(text(x1 + 12, py(last[name]) + 4, f"{name} {last[name]:.1f}%", size=12,
+        body.append(text(x1 + 12, label_ys[idx], f"{name} {last[name]:.1f}%", size=T_SMALL,
                          fill=colour, weight="600" if highlight else "400"))
 
     for year in (first["year"], last["year"]):
-        body.append(text(px(year), top + plot_h + 24, str(year), size=12,
+        body.append(text(px(year), top + plot_h + T_SMALL * 2.1, str(year), size=T_SMALL,
                          fill=t["muted"], anchor="middle"))
 
-    y = top + plot_h + 56
-    body.append(text(PAD, y, (
-        "This reversed the case's opening premise. The share taken back is short-haul, which "
-        "is exactly where the aircraft already reach."
-    ), size=13, fill=t["ink"], weight="600"))
-    body += foot(t, y + 30, SOURCE_DGCA)
-    return svg(y + 48, body, title)
+    y = top + plot_h + T_SMALL * 2.1 + 34
+    lines, y = note(t, y, (
+        "This reversed the case's opening premise. The share taken back is short-haul, which is "
+        "exactly where the aircraft already reach."
+    ), fill_key="ink")
+    body += lines
+    return svg(y + 12, body, s["alt"], s["source"])
 
+
+# ---------------------------------------------------------------------------
+# The registry. Order here is the order the README shows them in.
+# ---------------------------------------------------------------------------
 
 CHARTS = {
-    "answer_headroom": chart_answer_headroom,
-    "stage_gap": chart_stage_gap,
-    "order_book": chart_order_book,
-    "share_reversal": chart_share_reversal,
+    "kpi_strip": (spec_kpi_strip, draw_kpi_strip),
+    "pax_vs_revenue": (spec_pax_vs_revenue, draw_pax_vs_revenue),
+    "connect_gap": (spec_connect_gap, draw_connect_gap),
+    "answer_headroom": (spec_answer_headroom, draw_answer_headroom),
+    "stage_gap": (spec_stage_gap, draw_stage_gap),
+    "order_book": (spec_order_book, draw_order_book),
+    "share_reversal": (spec_share_reversal, draw_share_reversal),
+    "evidence_ledger": (spec_evidence_ledger, draw_evidence_ledger),
+    "argument_chain": (spec_argument_chain, draw_argument_chain),
+    "pipeline": (spec_pipeline, draw_pipeline),
 }
 
 
 def build() -> dict[str, str]:
     """Every SVG, keyed by filename. `tests/test_readme_assets.py` compares bytes."""
     out: dict[str, str] = {}
-    for name, fn in CHARTS.items():
+    for name, (spec_fn, draw_fn) in CHARTS.items():
+        spec = spec_fn()
         for variant, theme in THEMES.items():
-            out[f"{name}-{variant}.svg"] = fn(theme)
+            out[f"{name}-{variant}.svg"] = draw_fn(theme, spec)
     return out
+
+
+def build_picture_blocks() -> dict[str, str]:
+    """The README markup for each chart, alt text and caption included.
+
+    Generated rather than hand-written because the narrative guard strips HTML
+    tags before matching, so a figure typed into an `alt` attribute is invisible
+    to `must_not_appear` and drifts in silence. Here the alt text is composed from
+    the same JSON the chart is drawn from, and
+    `tests/test_readme_assets.py::test_the_readme_shows_the_alt_text_the_data_generates`
+    asserts the README carries each block verbatim.
+    """
+    blocks: dict[str, str] = {}
+    for name, (spec_fn, _) in CHARTS.items():
+        s = spec_fn()
+        alt = s["alt"].replace('"', "&quot;")
+        blocks[name] = (
+            f"<picture>\n"
+            f'  <source media="(prefers-color-scheme: dark)" '
+            f'srcset=".github/assets/{name}-dark.svg">\n'
+            f'  <img alt="{alt}" src=".github/assets/{name}-light.svg">\n'
+            f"</picture>\n"
+            f"\n"
+            f"{s['subtitle']}\n"
+            f"\n"
+            f"*{s['source']}*"
+        )
+    return blocks
 
 
 def main() -> int:
     OUT.mkdir(parents=True, exist_ok=True)
-    for filename, markup in build().items():
+    drawn = build()
+    for stale in sorted(OUT.glob("*.svg")):
+        if stale.name not in drawn:
+            stale.unlink()
+            print(f"  removed .github/assets/{stale.name}  (no longer drawn)")
+    for filename, markup in drawn.items():
         (OUT / filename).write_text(markup, encoding="utf-8", newline="\n")
         print(f"  wrote .github/assets/{filename}  ({len(markup):,} bytes)")
     return 0
@@ -384,3 +924,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+

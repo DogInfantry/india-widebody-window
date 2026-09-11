@@ -1,41 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="880" height="494" viewBox="0 0 880 494" role="img" aria-label="The corridor carrying half of India's international traffic is the one with no room left to earn its cost">
-<text x="32" y="34" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="20" font-weight="600" fill="#E6EDF3" text-anchor="start">The corridor carrying half of India's international traffic is the one</text>
-<text x="32" y="60" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="20" font-weight="600" fill="#E6EDF3" text-anchor="start">with no room left to earn its cost</text>
-<text x="32" y="88" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">Yield headroom by corridor, per cent, against IndiGo's achieved 5.06 INR per RPK at the 81% load factor Indian</text>
-<text x="32" y="106" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">carriers fly internationally. Positive means the corridor clears its unit cost with room to spare.</text>
-<line x1="294.364" y1="132" x2="294.364" y2="414" stroke="#30363D" stroke-width="1"/>
-<rect x="294.364" y="140" width="316.758" height="17" fill="#30363D"/>
-<text x="32" y="153" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">North America</text>
-<text x="619.122" y="153" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+31.5%</text>
-<text x="848" y="153" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">2.8% of traffic</text>
-<rect x="294.364" y="174" width="295.969" height="17" fill="#30363D"/>
-<text x="32" y="187" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">Oceania</text>
-<text x="598.333" y="187" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+29.5%</text>
-<text x="848" y="187" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">0.6% of traffic</text>
-<rect x="294.364" y="208" width="213.885" height="17" fill="#30363D"/>
-<text x="32" y="221" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">Europe</text>
-<text x="516.249" y="221" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+21.3%</text>
-<text x="848" y="221" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">12.3% of traffic</text>
-<rect x="294.364" y="242" width="169.692" height="17" fill="#30363D"/>
-<text x="32" y="255" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">Africa</text>
-<text x="472.056" y="255" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+16.9%</text>
-<text x="848" y="255" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">1.9% of traffic</text>
-<rect x="294.364" y="276" width="112.755" height="17" fill="#30363D"/>
-<text x="32" y="289" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">Southeast Asia</text>
-<text x="415.119" y="289" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+11.2%</text>
-<text x="848" y="289" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">21.0% of traffic</text>
-<rect x="294.364" y="310" width="89.1917" height="17" fill="#30363D"/>
-<text x="32" y="323" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">East Asia</text>
-<text x="391.555" y="323" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="start">+8.9%</text>
-<text x="848" y="323" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">2.5% of traffic</text>
-<rect x="275.184" y="344" width="19.18" height="17" fill="#30363D"/>
-<text x="32" y="357" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#8B949E" text-anchor="start">South Asia</text>
-<text x="267.184" y="357" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="400" fill="#E6EDF3" text-anchor="end">-1.9%</text>
-<text x="848" y="357" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">6.5% of traffic</text>
-<rect x="251.066" y="378" width="43.2975" height="17" fill="#EE3224"/>
-<text x="32" y="391" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">Gulf</text>
-<text x="243.066" y="391" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#EE3224" text-anchor="end">-4.3%</text>
-<text x="848" y="391" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="12" font-weight="400" fill="#8B949E" text-anchor="end">50.9% of traffic</text>
-<text x="32" y="446" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="600" fill="#E6EDF3" text-anchor="start">The Gulf is 50.9% of the market on -4.3% of headroom. Europe and North America are where the aircraft cover their cost.</text>
-<text x="32" y="476" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="11" font-weight="400" fill="#8B949E" text-anchor="start">Source: DGCA traffic statistics, pulled 2026-08-15. Computed in-repo, not quoted.</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="588" height="600.4" viewBox="0 0 588 600.4" role="img" aria-label="Yield headroom by corridor, 2025. North America +31.5%, Oceania +29.5%, Europe +21.3%, Africa +16.9%, Southeast Asia +11.2%, East Asia +8.9%, South Asia -1.9%, Gulf -4.3%. The Gulf carries 50.9% of India's international traffic and is the only corridor with negative headroom against IndiGo's achieved 5.06 INR per RPK.">
+<desc>Source: DGCA traffic statistics, pulled 2026-08-15. Computed in-repo, not quoted.</desc>
+<text x="22" y="37.4" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">The corridor carrying half the</text>
+<text x="22" y="75.8" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">traffic is the one with no room</text>
+<text x="22" y="114.2" font-family="'IBM Plex Serif', Georgia, 'Times New Roman', serif" font-size="30" font-weight="600" fill="#E6EDF3" text-anchor="start">left to earn its cost</text>
+<line x1="239.818" y1="156.6" x2="239.818" y2="484.6" stroke="#30363D" stroke-width="1"/>
+<rect x="239.818" y="162.6" width="212.128" height="22" fill="#30363D"/>
+<text x="22" y="179.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">North America</text>
+<text x="461.946" y="179.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+31.5%</text>
+<rect x="239.818" y="202.6" width="198.205" height="22" fill="#30363D"/>
+<text x="22" y="219.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Oceania</text>
+<text x="448.024" y="219.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+29.5%</text>
+<rect x="239.818" y="242.6" width="143.235" height="22" fill="#30363D"/>
+<text x="22" y="259.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Europe</text>
+<text x="393.053" y="259.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+21.3%</text>
+<rect x="239.818" y="282.6" width="113.64" height="22" fill="#30363D"/>
+<text x="22" y="299.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Africa</text>
+<text x="363.458" y="299.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+16.9%</text>
+<rect x="239.818" y="322.6" width="75.5104" height="22" fill="#30363D"/>
+<text x="22" y="339.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">Southeast Asia</text>
+<text x="325.329" y="339.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+11.2%</text>
+<rect x="239.818" y="362.6" width="59.7302" height="22" fill="#30363D"/>
+<text x="22" y="379.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">East Asia</text>
+<text x="309.548" y="379.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">+8.9%</text>
+<rect x="226.974" y="402.6" width="12.8445" height="22" fill="#30363D"/>
+<text x="22" y="419.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#8B949E" text-anchor="start">South Asia</text>
+<text x="216.974" y="419.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="end">-1.9%</text>
+<rect x="210.823" y="442.6" width="28.9956" height="22" fill="#EE3224"/>
+<text x="22" y="459.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#E6EDF3" text-anchor="start">Gulf</text>
+<text x="200.823" y="459.76" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="600" fill="#EE3224" text-anchor="end">-4.3%</text>
+<text x="22" y="502.6" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">The Gulf is 50.9% of the market on -4.3% of</text>
+<text x="22" y="531.2" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">headroom. North America and Europe are where</text>
+<text x="22" y="559.8" font-family="'IBM Plex Sans', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="400" fill="#E6EDF3" text-anchor="start">the aircraft cover their cost.</text>
 </svg>
