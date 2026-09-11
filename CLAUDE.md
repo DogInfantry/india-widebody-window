@@ -167,7 +167,10 @@ Third party attribution in `NOTICE`; `charts.py::mekko()` is adapted from Vizro 
 | `data/data_dictionary.md` | Provenance contract. Every field, source, pull date, grade |
 | `data/manual/assumptions.csv` | Hand-entered numbers, 11-state status vocabulary. 31 rows |
 | `tests/test_pipeline.py` | Loaders, units, anomalies, provenance, data-dictionary drift guards |
-| `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift |
+| `tests/test_narrative.py` | **NEW.** The prose must agree with the code. `must_not_appear` is the half that catches drift. `_strip_tags()` keeps `alt` and `aria-label` prose |
+| `tests/test_discoverability.py` | **NEW.** robots, both sitemaps, and the llms.txt parity nothing checked |
+| `scripts/make_readme_charts.py` | **Ten** committed SVG charts for the README, light and dark, stdlib only. `W=588` is load-bearing: see gotcha 87 |
+| `web/public/{robots.txt,sitemap.xml}`, `docs/sitemap.xml` | **NEW.** Vercel gets both, the Pages mirror gets a sitemap only |
 | `tests/test_analysis.py` | Findings, chart house rules, sizing, scenarios, pools, bilaterals, fleet gap, options |
 | `vercel.json` | Static Vercel config: `docs/`, `framework: null`, no build step. **`framework: null` is load-bearing**: `requirements.txt` at root makes Vercel detect a Python app and fail with "No Flask entrypoint found" |
 | `.vercelignore` | **NEW.** Nothing outside `docs/` is served, so nothing else is uploaded |
@@ -182,8 +185,9 @@ this file. Do not recreate it.
 
 ## Current state
 
-**Done and green. 205 tests pass. 19 Plotly charts on the mirror, 26 exhibits in the React
-delivery layer across seven routes, plus five inline-SVG forms that are not Recharts at all.
+**Done and green. 222 tests pass. 18 Plotly figures on the mirror, 26 exhibits in the React
+delivery layer across seven routes, ten committed SVG charts on the README, plus five
+inline-SVG forms that are not Recharts at all.
 Working tree clean, everything pushed, `main` at `ec32eea`.**
 
 **THE ARTIFACT IS FINISHED.** Nothing in Next steps is required for it to stand up to a
@@ -762,6 +766,36 @@ Every one of these cost real time or produced a wrong published number.
     points where the answer changed, which are the strongest reason to click anything on that
     page and were already sitting in `story.json`. Rebuilt as a five-column argument map with
     derived ordinals; the step and pivot counts are computed, never typed.
+87. **An SVG in a README renders at `min(W, column)`, and GitHub's column is 294px on a
+    375px phone.** Measured on the live page: 838px at both 1440 and 1920, 294px at 375. So a
+    glyph of size `s` on a canvas of width `W` renders on a phone at `s * 294 / W`. The README
+    charts shipped at `W=880`, a **0.334 scale**, so their 13px body labels rendered at
+    **4.6px** and their 11px source lines at **3.9px**, for the entire life of the file. Every
+    other guard in this repo reads the number rather than the pixel, so nothing said so.
+    `W=588` makes the phone scale exactly 0.5 and the floor checkable in your head: 22px is
+    11px. `tests/test_readme_assets.py::test_every_readme_svg_is_legible_on_a_phone` enforces
+    it. **Unreadable is arithmetic, not taste, and it is worth measuring rather than eyeballing.**
+88. **GitHub renders a ```mermaid block into an iframe clamped to 180px, and nowhere but
+    github.com.** Both README diagrams were clipped, measured after scrolling into view and
+    waiting 2.5 seconds. They render as a fenced code block of graph syntax on npm, in any raw
+    view, and to most crawlers. A diagram that carries computed figures also sits outside the
+    byte-equality guard while it is mermaid. Both are committed SVGs now.
+89. **The narrative guard threw away what the tags SAY, not just the tags.** `re.sub(r"<[^>]+>", " ", text)`
+    discards attribute values, so every figure inside `alt` and `aria-label` was invisible to
+    `must_not_appear`. Two README figures, the 72 aircraft needed to hold share and the 68
+    surplus, lived in alt text and **nowhere else**, so nothing in this repository guarded them.
+    `_strip_tags()` harvests `alt` and `aria-label` prose before stripping. This is gotcha 65
+    in a fourth costume: count the surfaces that carry words, and remember an attribute is one.
+90. **`docs/robots.txt` would never be fetched, so it is deliberately absent.** A crawler reads
+    `robots.txt` only from the origin root. The mirror is a GitHub **project** page under
+    `/india-widebody-window/`, and the origin root belongs to whichever repository publishes the
+    user page. `tests/test_discoverability.py::test_there_is_no_mirror_robots_txt` records the
+    reason so nobody adds it back. `docs/sitemap.xml` is different and does exist. A control
+    that cannot be fetched is gotcha 72 again: it looks like verification and is not.
+91. **Text inside an SVG is in no corpus this repo owns.** The README chart subtitles and
+    source lines lived on the canvas, where the narrative guard could not read them, they could
+    not reflow on a phone, and no retrieval model could lift them. They are Markdown captions
+    now. **When you move prose into an image, you move it out of every guard.**
 40. **The `.recon` table class sets `white-space: nowrap` on mobile.** Any new table reusing it
     for prose cells explodes horizontally: the option tables hit 1300px on a 335px screen. The
     `.options` class overrides it.
@@ -783,6 +817,7 @@ python -m src.scenario                           # demand paths, unit economics 
 python -m src.gap_analyzer --write               # regenerate docs/coverage.md
 python -m src.financials                         # the client's P&L, unit economics, capital scale
 python -m src.app_export                         # rewrite web/public/data/ ONLY
+python scripts/make_readme_charts.py             # the ten README SVGs. NOT in refresh.py, NOT in CI
 ```
 
 The delivery layer:
